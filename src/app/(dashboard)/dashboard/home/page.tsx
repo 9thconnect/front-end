@@ -43,7 +43,7 @@ const page = () => {
       </Suspense>
       <Suspense fallback={<p>Chart Data</p>}>
         <div className="grid lg:grid-cols-5 mt-4 gap-3">
-          <div className="col-span-3 border rounded-lg p-3">
+          <div className="col-span-3 border rounded-lg p-3 overflow-hidden">
             <p>Sales Chart</p>
             <RevenueChart />
           </div>
