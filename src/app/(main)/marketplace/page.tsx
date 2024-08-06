@@ -1,0 +1,57 @@
+import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
+import SectionContainer from "@/components/cards/common/sectionContainer";
+import { MainCarousel } from "@/components/carousel/mainCarousel";
+import BrandsSection from "@/sections/common/brandsSection";
+import CategoryProductListSection from "@/sections/common/categoryProductListSection";
+import FeaturedProductSection from "@/sections/common/featuredProductSection";
+import MainHeroSection from "@/sections/hero/mainHeroSection";
+import OfferSection from "@/sections/home/offerSection";
+import Link from "next/link";
+import React from "react";
+
+function page() {
+  return (
+    <div className="pt-8">
+      <div className="h-80">
+        <MainHeroSection />
+      </div>
+
+      <SectionContainer>
+        <OfferSection />
+        <div className="mt-5">
+          <SectionCardHeader
+            title="Featured Products"
+            linkUrl={"/marketplace/home"}
+            linkText="See more"
+          />
+
+          <div className="border-b-2 w-full mb-8"></div>
+          <FeaturedProductSection />
+          <div className="mt-2">
+            <BrandsSection />
+          </div>
+        </div>
+      </SectionContainer>
+      <div className="h-64 mt-5">
+        <MainHeroSection />
+      </div>
+      <CategoryProductListSection
+        title="electrical"
+        api="/api/products/electrical"
+        pageUrl={`/marketplace/home?category=electrical`}
+      />
+      <CategoryProductListSection
+        title="Plumbing"
+        api="/api/products/plumbing"
+        pageUrl={`/marketplace/home?category=plumbing`}
+      />
+      <CategoryProductListSection
+        title="Roofing"
+        api="/api/products/roofing"
+        pageUrl={`/marketplace/home?category=roofing`}
+      />
+    </div>
+  );
+}
+
+export default page;
