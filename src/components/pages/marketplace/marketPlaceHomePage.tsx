@@ -8,6 +8,15 @@ import FilterSection from "@/components/common/filterSection";
 import FilterSelect from "@/components/common/filterSelect";
 import ItemList from "@/components/common/itemList";
 import { productDummyList } from "@/data/dummy/productDummyData";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AlignJustify } from "lucide-react";
 
 const states = [
   { name: "Abuja", value: "201" },
@@ -59,7 +68,7 @@ const MarketplaceHomePage = () => {
   return (
     <div className="mt-5">
       <div className="grid grid-cols-8 gap-4">
-        <aside className="self-start sticky col-span-2 top-56">
+        <aside className="hidden md:block self-start sticky col-span-2 top-56">
           <SectionContainer className="sticky self-start">
             <FilterSection
               title="Brand"
@@ -88,7 +97,7 @@ const MarketplaceHomePage = () => {
           </SectionContainer>
         </aside>
 
-        <SectionContainer className="col-span-6">
+        <SectionContainer className="col-span-8 md:col-span-6">
           <div className="flex justify-between items-center mb-6">
             <div>
               {catName && (
@@ -96,7 +105,43 @@ const MarketplaceHomePage = () => {
               )}
               1-40 of 300
             </div>
-            <div className="flex space-x-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <AlignJustify size={30} className="md:hidden" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Filter</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <FilterSelect
+                    label="Relevance"
+                    options={[
+                      { name: "Most Relevant", value: "most-relevant" },
+                      { name: "Less Relevant", value: "less-relevant" },
+                    ]}
+                    placeholder="Select Relevance"
+                  />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <FilterSelect
+                    label="Price"
+                    options={rates}
+                    placeholder="Select Price"
+                  />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <FilterSelect
+                    label="Rating"
+                    options={starts.map((start) => ({
+                      name: `${start.value} star`,
+                      value: start.value.toString(),
+                    }))}
+                    placeholder="Select Rating"
+                  />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="hidden md:flex space-x-2 flex-wrap">
               <FilterSelect
                 label="Relevance"
                 options={[
