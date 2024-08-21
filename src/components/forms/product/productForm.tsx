@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import { useAddProduct, useProductFormContext } from "./useProductForm";
 import {
   Form,
@@ -31,7 +31,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import cn from "@/utils/class-names";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
 import { Textarea } from "@/components/ui/textarea";
@@ -91,6 +91,12 @@ const ProductForm = ({ product }: { product?: Product }) => {
   const onSubmit = (data: z.infer<typeof productValidationSchema>) => {
     console.log(data);
 
+    if (data.images.length < 1) {
+      toast.error("Please upload at least on image");
+
+      return;
+    }
+
     if (product) {
       mutationEdit.mutate(data);
     } else {
@@ -108,18 +114,44 @@ const ProductForm = ({ product }: { product?: Product }) => {
     queryFn: () => fetchProductCategories(),
   });
 
+  // const handleRemoveImage = ()
+
+  const handleRemoveImage = (img: string) => {
+    const updatedImages = form
+      .getValues("images")
+      .filter((image) => image !== img);
+    if (updatedImages.length > 1) {
+      form.setValue("images", updatedImages);
+    } else if (updatedImages.length === 1) {
+      form.setValue("images", []);
+    }
+  };
+
+  const images = form.watch("images");
+
+  console.log(images);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-5">
         <div className="col-span-2">
           <div className="grid grid-cols-4  gap-4 mb-5">
-            {form.getValues("images").map((img: string, index) => {
+            {images.map((img: string, index) => {
               return (
                 <div
                   key={`${img}-${index}`}
-                  className="bg-cover bg-center h-32 col-span-1 w-full rounded-lg"
+                  className="bg-cover bg-center h-32 col-span-1 w-full rounded-lg relative"
                   style={{ backgroundImage: `url(${img})` }}
-                ></div>
+                >
+                  <Button
+                    className="bg-gray-100 h-7 w-7 p-1 rounded-full absolute top-1 right-1"
+                    variant="ghost"
+                    type="button"
+                    onClick={() => handleRemoveImage(img)}
+                  >
+                    <X size={15} />
+                  </Button>
+                </div>
               );
             })}
           </div>
@@ -242,7 +274,7 @@ const ProductForm = ({ product }: { product?: Product }) => {
           />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-8 hidden">
           <FormField
             control={form.control}
             name="images"
@@ -252,6 +284,7 @@ const ProductForm = ({ product }: { product?: Product }) => {
                 <FormControl>
                   <Input
                     placeholder="Image URLs (comma-separated)"
+                    className=""
                     {...field}
                   />
                 </FormControl>

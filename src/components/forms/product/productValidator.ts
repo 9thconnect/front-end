@@ -16,7 +16,9 @@ export const productValidationSchema = z.object({
   productCategory: z.string().min(1, {
     message: "Category is required.",
   }),
-  images: z.string().array().nonempty({
-    message: "At least one image URL is required.",
-  }),
+  // images: z.string().array().nonempty({
+  //   message: "At least one image URL is required.",
+  // }),
+
+  images: z.string().array(),
 });
