@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site.config";
 import StoreProvider from "./StoreProvider";
 import { makeStore } from "@/lib/redux/store";
+import { ReactQueryClientProvider } from "./ClientProvider";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -24,7 +25,9 @@ export default function RootLayout({
           suppressHydrationWarning
           className={cn(sora.variable, "font-inter")}
         >
-          <div>{children}</div>
+          <div>
+            <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+          </div>
           <Toaster closeButton />
         </body>
       </html>

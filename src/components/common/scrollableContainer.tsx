@@ -61,7 +61,13 @@ const ScrollableContainer: React.FC<ScrollableContainerProps> = ({
   }, [isDragging, startX, scrollLeft]);
 
   return (
-    <div className="w-full overflow-x-auto pb-10" ref={containerRef}>
+    <div
+      className="w-full overflow-x-auto pb-10"
+      style={{
+        scrollbarWidth: "none",
+      }}
+      ref={containerRef}
+    >
       <div className="flex space-x-4 cursor-pointer">{children}</div>
     </div>
   );

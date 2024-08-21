@@ -16,6 +16,11 @@ import ShippingBoxIcon from "@/icons/shippingBoxIcon";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/lib/redux/hooks";
 import { addItem } from "@/lib/redux/features/cart/cartSlice";
+import { Product } from "@/type/common";
+
+interface ProductCardProps {
+  product: Product;
+}
 
 export interface IProduct {
   category: string;
@@ -32,14 +37,10 @@ export interface IProduct {
   sizes?: string[];
 }
 
-interface ProductCardProps {
-  product: IProduct;
-}
-
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
 
-  const handleAddToWishlist = (product: IProduct) => {
+  const handleAddToWishlist = (product: Product) => {
     toast(`Product added to whish list`, {
       description: `${product.name} added to whish list`,
       action: {
@@ -55,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = (
     e: React.MouseEvent<HTMLElement>,
-    product: IProduct
+    product: Product
   ) => {
     e.preventDefault();
 
@@ -66,18 +67,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link
-      href={`/marketplace/${product.id}`}
+      href={`/marketplace/${product._id}`}
       className="block w-full h-full unselectable"
     >
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300 flex flex-col">
         {product.discount && (
           <div className="absolute z-10 top-5 left-2 bg-red-500 bg-opacity-75 text-white text-xs px-2 py-1 rounded">
-            {product.discount}
+            {product.discount.amount}
           </div>
         )}
         <CardHeader className="p-0 relative">
           <img
-            src={product.imageUrl}
+            src={product.images[0]}
             alt={product.name}
             className="w-full h-48 object-cover rounded-t-lg unselectable"
           />
@@ -92,7 +93,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </button>
         </CardHeader>
         <CardContent className="">
-          <p className="text-xs my-3 text-gray-500">{product.category}</p>
+          <p className="text-xs my-3 text-gray-500">
+            {product.productCategory.title}
+          </p>
           <CardTitle className="text-sm font-medium">{product.name}</CardTitle>
           <p className="text-lg font-light mt-3 text-black">
             ₦ {product.price.toLocaleString()}
@@ -100,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </CardContent>
         <CardFooter className="w-full flex justify-between mt-auto self-baseline relative">
           <CardDescription className="text-sm text-primary">
-            {product.vendor}
+            {product.seller.fullName}
           </CardDescription>
           <Button
             onClick={(e) => handleAddToCart(e, product)}

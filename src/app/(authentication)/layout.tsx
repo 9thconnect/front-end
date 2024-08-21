@@ -6,9 +6,11 @@ export default function AuthenticationLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section>
-      <AuthHeader />
-      {children}
-    </section>
+    <div className="px-2 lg:px-14 m-auto lg:py-8">
+      <section>
+        <AuthHeader />
+        {children}
+      </section>
+    </div>
   );
 }

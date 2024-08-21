@@ -1,18 +1,12 @@
 import { z } from "zod";
 
 export const profileValidationSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "first name must be at least 2 characters.",
+  fullName: z.string().min(2, {
+    message: "full name must be at least 2 characters.",
   }),
-  lastName: z.string().min(2, {
-    message: "last name must be at least 2 characters.",
+  gender: z.string({
+    required_error: "Please select a gender",
   }),
-  email: z
-    .string()
-    .min(2, {
-      message: "email must be at least 2 characters.",
-    })
-    .email(),
   phone: z.string().min(2, {
     message: "phone must be at least 2 characters.",
   }),

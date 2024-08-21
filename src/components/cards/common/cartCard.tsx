@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { IProduct } from "../productCard";
 import { Trash, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Counter from "@/components/common/countComponent";
@@ -10,9 +9,10 @@ import {
   removeItem,
   updateQuantity,
 } from "@/lib/redux/features/cart/cartSlice";
+import { Product } from "@/type/common";
 
 export type CartCardProp = {
-  product: IProduct;
+  product: Product;
   quantity: number;
 };
 const CartCard = ({ product, quantity }: CartCardProp) => {
@@ -26,9 +26,9 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
 
   const handleQuantityChange = (quantity: number) => {
     if (quantity === 0) {
-      handleRemove(product.id);
+      handleRemove(product._id);
     } else {
-      dispatch(updateQuantity({ id: product.id, quantity }));
+      dispatch(updateQuantity({ id: product._id, quantity }));
     }
   };
 
@@ -39,13 +39,13 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
           <div
             className={`rounded-lg w-40 h-20`}
             style={{
-              backgroundImage: `url(${product.imageUrl})`,
+              backgroundImage: `url(${product.images[0]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           />
           <div className="ml-2">
-            <p className="text-primary">{product.vendor}</p>
+            <p className="text-primary">{product.seller.fullName}</p>
             <h3>{product.name}</h3>
           </div>
         </div>
@@ -57,7 +57,7 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
         <Button
           variant={"ghost"}
           className=" w-8 h-8 p-1 bg-gray-100 rounded-full "
-          onClick={() => handleRemove(product.id)}
+          onClick={() => handleRemove(product._id)}
         >
           <Trash2 size={15} color="red" />
         </Button>

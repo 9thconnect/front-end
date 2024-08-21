@@ -3,17 +3,20 @@
 import DashboardNavBar from "@/components/header/dashboardHeader";
 import DashboardSideBar from "@/components/sidebar/dasboard/dashboardSideBar";
 import { Separator } from "@/components/ui/separator";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { toggleAdminSideBar } from "@/lib/redux/features/layout/layoutSlice";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const dispatch = useAppDispatch();
   return (
-    <div>
+    <div className="text-[#878C95]">
       <DashboardSideBar />
-      <div className=" sm:ml-64">
-        <nav className="fixed top-0 z-50 w-full sm:w-[calc(100%-256px)]  bg-white border-b border-gray-200 ">
+      <div className="lg:ml-64">
+        <nav className="fixed top-0 z-40 w-full lg:w-[calc(100%-256px)]  bg-white border-b border-gray-200 ">
           <div className="px-3 py-3 lg:px-5 lg:pl-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center justify-start rtl:justify-end">
@@ -22,7 +25,8 @@ export default function DashboardLayout({
                   data-drawer-toggle="logo-sidebar"
                   aria-controls="logo-sidebar"
                   type="button"
-                  className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                  className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                  onClick={() => dispatch(toggleAdminSideBar())}
                 >
                   <span className="sr-only">Open sidebar</span>
                   <svg

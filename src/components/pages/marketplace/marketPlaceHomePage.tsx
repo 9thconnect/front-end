@@ -2,7 +2,7 @@
 
 import SectionContainer from "@/components/cards/common/sectionContainer";
 import ProductCard from "@/components/cards/productCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import FilterSection from "@/components/common/filterSection";
 import FilterSelect from "@/components/common/filterSelect";
@@ -17,6 +17,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AlignJustify } from "lucide-react";
+import { useGetProductList } from "@/lib/requests/user/product";
+import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 
 const states = [
   { name: "Abuja", value: "201" },
@@ -32,11 +36,11 @@ const states = [
 ];
 
 const rates = [
-  { name: "Under N5,000", value: "5000" },
-  { name: "N6,000 - N15,0000", value: "202" },
-  { name: "N15,000 - N35,000", value: "203" },
-  { name: "N35,000 - N100,000", value: "204" },
-  { name: "Above N100,000", value: "205" },
+  { name: "Under N5,000", value: "0 - 5000" },
+  { name: "N6,000 - N15,000", value: "6000 - 15000" },
+  { name: "N15,000 - N35,000", value: "15000 - 35000" },
+  { name: "N35,000 - N100,000", value: "35000 - 100000" },
+  { name: "Above N100,000", value: "100000 - 50000000" },
 ];
 
 const starts = [
@@ -59,11 +63,83 @@ const MarketplaceHomePage = () => {
   const [isRateOpen, setIsRateOpen] = useState(true);
   const [isRatingOpen, setIsRatingOpen] = useState(true);
   const [isBrandOpen, setIsBrandOpen] = useState(true);
+
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
+  const [selectedPrice, setSelectedPrice] = useState<string | undefined>();
+  const [selectedRating, setSelectedRating] = useState<string | undefined>();
+
+  const [selectedBrand, setSelectedBrand] = useState<string | undefined>();
+  const [selectedLocation, setSelectedLocation] = useState<
+    string | undefined
+  >();
+  const [selectedRate, setSelectedRate] = useState<string | undefined>();
+  const [selectedRatingSide, setSelectedRatingSide] = useState<
+    number | undefined
+  >();
+
+  const handleClearFilters = () => {
+    setSelectedPrice(undefined);
+    setSelectedCategory(undefined);
+    setSelectedRating(undefined);
+    setSelectedBrand(undefined);
+    setSelectedLocation(undefined);
+    setSelectedRatingSide(undefined);
+  };
+
   const params = useSearchParams();
+  const catId = params.get("category");
 
-  const catName = params.get("category");
+  useEffect(() => {
+    if (catId) {
+      setSelectedCategory(catId);
+    }
+  }, [catId]);
 
-  console.log(catName);
+  const priceRange = (price?: string) => {
+    if (!price) {
+      return {
+        startPrice: undefined,
+        endPrice: undefined,
+      };
+    }
+
+    const [startPrice, endPrice] = price
+      .split("-")
+      .map((value) => Number(value.trim()));
+
+    return {
+      startPrice,
+      endPrice,
+    };
+  };
+
+  const {
+    data: productList,
+    isLoading,
+    isError,
+    error,
+  } = useGetProductList(
+    "",
+    1,
+    selectedCategory,
+    priceRange(selectedPrice).startPrice,
+    priceRange(selectedPrice).endPrice
+  );
+
+  const { data: categories, isLoading: isLoadingCat } = useQuery({
+    queryKey: ["product-category"],
+    queryFn: () => fetchProductCategories(),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {(error as Error).message}</div>;
+  }
 
   return (
     <div className="mt-5">
@@ -75,24 +151,32 @@ const MarketplaceHomePage = () => {
               items={brands}
               isOpen={isBrandOpen}
               onToggle={() => setIsBrandOpen(!isBrandOpen)}
+              selectedValue={selectedBrand}
+              onSelect={(value) => setSelectedBrand(value as string)}
             />
             <FilterSection
               title="Location"
               items={states}
               isOpen={isLocationOpen}
               onToggle={() => setIsLocationOpen(!isLocationOpen)}
+              selectedValue={selectedLocation}
+              onSelect={(value) => setSelectedLocation(value as string)}
             />
             <FilterSection
               title="Rate"
               items={rates}
               isOpen={isRateOpen}
               onToggle={() => setIsRateOpen(!isRateOpen)}
+              selectedValue={selectedPrice}
+              onSelect={(value) => setSelectedPrice(value as string)}
             />
             <FilterSection
               title="Rating"
               items={starts}
               isOpen={isRatingOpen}
               onToggle={() => setIsRatingOpen(!isRatingOpen)}
+              selectedValue={selectedRatingSide?.toString()}
+              onSelect={(value) => setSelectedRatingSide(Number(value))}
             />
           </SectionContainer>
         </aside>
@@ -100,10 +184,8 @@ const MarketplaceHomePage = () => {
         <SectionContainer className="col-span-8 md:col-span-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              {catName && (
-                <h2 className="text-black text-2xl capitalize">{catName}</h2>
-              )}
-              1-40 of 300
+              {`1 - ${productList?.data?.data.products.length} of ${productList?.data?.data.count}`}
+              {/* 1-40 of 300 */}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -113,20 +195,26 @@ const MarketplaceHomePage = () => {
                 <DropdownMenuLabel>Filter</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <FilterSelect
-                    label="Relevance"
-                    options={[
-                      { name: "Most Relevant", value: "most-relevant" },
-                      { name: "Less Relevant", value: "less-relevant" },
-                    ]}
-                    placeholder="Select Relevance"
-                  />
+                  {categories?.data?.data && (
+                    <FilterSelect
+                      label="Category"
+                      options={categories?.data?.data?.categories.map(
+                        (cat) => ({
+                          name: cat.title as string,
+                          value: cat._id as string,
+                        })
+                      )}
+                      placeholder="Category"
+                      state={[selectedCategory, setSelectedCategory]}
+                    />
+                  )}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <FilterSelect
                     label="Price"
                     options={rates}
                     placeholder="Select Price"
+                    state={[selectedPrice, setSelectedPrice]}
                   />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
@@ -137,23 +225,28 @@ const MarketplaceHomePage = () => {
                       value: start.value.toString(),
                     }))}
                     placeholder="Select Rating"
+                    state={[selectedRating, setSelectedRating]}
                   />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="hidden md:flex space-x-2 flex-wrap">
-              <FilterSelect
-                label="Relevance"
-                options={[
-                  { name: "Most Relevant", value: "most-relevant" },
-                  { name: "Less Relevant", value: "less-relevant" },
-                ]}
-                placeholder="Select Relevance"
-              />
+            <div className="hidden md:flex space-x-2">
+              {categories?.data?.data && (
+                <FilterSelect
+                  label="Category"
+                  options={categories?.data?.data?.categories.map((cat) => ({
+                    name: cat.title as string,
+                    value: cat._id as string,
+                  }))}
+                  placeholder="Category"
+                  state={[selectedCategory, setSelectedCategory]}
+                />
+              )}
               <FilterSelect
                 label="Price"
                 options={rates}
                 placeholder="Select Price"
+                state={[selectedPrice, setSelectedPrice]}
               />
               <FilterSelect
                 label="Rating"
@@ -162,13 +255,26 @@ const MarketplaceHomePage = () => {
                   value: start.value.toString(),
                 }))}
                 placeholder="Select Rating"
+                state={[selectedRating, setSelectedRating]}
               />
+
+              {(selectedPrice !== undefined ||
+                selectedRating !== undefined ||
+                selectedBrand !== undefined ||
+                selectedLocation !== undefined ||
+                selectedRate !== undefined ||
+                selectedRatingSide !== undefined ||
+                selectedCategory !== undefined) && (
+                <Button onClick={handleClearFilters}>Clear</Button>
+              )}
             </div>
           </div>
-          <ItemList
-            items={productDummyList}
-            renderItem={(item) => <ProductCard product={item} />}
-          />
+          {productList?.data?.data.products && (
+            <ItemList
+              items={productList.data.data.products}
+              renderItem={(item) => <ProductCard product={item} />}
+            />
+          )}
         </SectionContainer>
       </div>
     </div>

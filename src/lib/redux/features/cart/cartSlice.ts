@@ -1,9 +1,9 @@
-import { IProduct } from "@/components/cards/productCard";
+import { Product } from "@/type/common";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
 interface CartState {
-  items: { product: IProduct; quantity: number }[];
+  items: { product: Product; quantity: number }[];
 }
 
 const initialState: CartState = {
@@ -16,10 +16,10 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (
       state,
-      action: PayloadAction<{ product: IProduct; quantity: number }>
+      action: PayloadAction<{ product: Product; quantity: number }>
     ) => {
       const existingItem = state.items.find(
-        (item) => item.product.id === action.payload.product.id
+        (item) => item.product._id === action.payload.product._id
       );
       if (existingItem) {
         existingItem.quantity += action.payload.quantity;
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
     },
     removeItem: (state, action: PayloadAction<string>) => {
       const index = state.items.findIndex(
-        (item) => item.product.id === action.payload
+        (item) => item.product._id === action.payload
       );
       if (index !== -1) {
         const removedItem = state.items.splice(index, 1)[0];
@@ -62,7 +62,7 @@ const cartSlice = createSlice({
       action: PayloadAction<{ id: string; quantity: number }>
     ) => {
       const index = state.items.findIndex(
-        (item) => item.product.id === action.payload.id
+        (item) => item.product._id === action.payload.id
       );
       if (index !== -1) {
         state.items[index].quantity = action.payload.quantity;

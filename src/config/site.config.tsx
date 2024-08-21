@@ -8,7 +8,7 @@ export const siteConfig = {
   description: `MCDONALD Web Application`,
   logo: logoImg,
   icon: logoIconImg,
-  // TODO: favicon
+  apiURL: process.env.NEXT_PUBLIC_API_URL,
 };
 
 export const metaObject = (

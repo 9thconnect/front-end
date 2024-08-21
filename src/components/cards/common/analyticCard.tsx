@@ -13,9 +13,9 @@ const AnalyticCard = ({ title, subTitle, Icon }: AnalyticCardProp) => {
   return (
     <div className="w-full rounded-lg bg-white border p-3">
       <div className="bg-primary/20 rounded-full p-2 inline-flex items-center justify-center">
-        <Icon color="red" />
+        <Icon size={15} color="red" />
       </div>
-      <p className="my-2">{subTitle}</p>
+      <p className="my-2 text-sm">{subTitle}</p>
       <p className="text-2xl text-offBlack">{title}</p>
     </div>
   );

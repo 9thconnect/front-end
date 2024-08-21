@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import SectionContainer from "@/components/cards/common/sectionContainer";
 import Image from "next/image";
-import { IProduct } from "@/components/cards/productCard";
 import CustomGallery from "@/components/gallery/customGallery";
 import {
   BriefcaseBusiness,
@@ -24,8 +23,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
 import FeaturedProductSection from "@/sections/common/featuredProductSection";
+import { Product } from "@/type/common";
+import requests from "@/utils/requests";
 
-const SingleProductPage = async ({ product }: { product: IProduct }) => {
+const SingleProductPage = async ({ id }: { id: string }) => {
+  const { data } = await requests.get<{ data: Product }>(
+    `product/customer/single-product/${id}`
+  );
   const images = [
     {
       original:
@@ -78,7 +82,7 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-primary capitalize">
-              {product?.name ?? "All"}
+              {data?.data?.name ?? "All"}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -87,19 +91,19 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomGallery images={images} />
           <div className="px-8 flex flex-col">
-            <p>{product?.category}</p>
+            <p>{data?.data?.productCategory.title}</p>
             <h2 className="font-bold text-gray-950 text-2xl my-3">
-              {product?.name}
+              {data?.data?.name}
             </h2>
 
             <div className="flex space-x-4 flex-wrap text-gray-950">
               <div className="flex items-center">
                 <BriefcaseBusiness size={20} color="red" />
-                <span className="ml-2">{product?.vendor}</span>
+                <span className="ml-2">{data?.data?.seller.fullName}</span>
               </div>
               <div className="flex">
                 <MapPin size={20} color="red" />
-                <span className="ml-2">{product?.location}</span>
+                <span className="ml-2">Dummy Location</span>
               </div>
               <div className="flex">
                 <Star size={20} color="red" />
@@ -107,11 +111,11 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
               </div>
               <div className="flex">
                 <Separator orientation="vertical" />
-                <span className="ml-2">{product?.reviews} reviews</span>
+                <span className="ml-2">23 reviews</span>
               </div>
             </div>
 
-            <h3 className="text-gray-950 text-4xl mt-7">{product?.price}</h3>
+            <h3 className="text-gray-950 text-4xl mt-7">{data?.data?.price}</h3>
 
             <div className="flex mt-5 self-start text-xl  space-x-5 border rounded-md">
               <button className="px-3 py-1">-</button>
@@ -120,7 +124,7 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
             </div>
             <div className="flex items-center mt-2">
               <ShoppingBasket size={20} color="red" />
-              <p className="ml-3">{product?.unitsLeft}</p>
+              <p className="ml-3">{data?.data?.stockQuantity}</p>
               <p>Units left</p>
             </div>
 
@@ -128,8 +132,8 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
               <span>Size</span>
               <p>25KG</p>
             </div>
-            <div className="flex gap-2 my-2">
-              {product?.sizes?.map((size, index) => (
+            {/* <div className="flex gap-2 my-2">
+              {data?.data?.sizes?.map((size, index) => (
                 <button
                   key={index}
                   className={`px-4 text-xl py-2 rounded-lg ${
@@ -139,7 +143,7 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
                   {size}
                 </button>
               ))}
-            </div>
+            </div> */}
             <div className="w-full flex mt-5  items-end md:mt-auto space-x-4">
               <Button
                 className="bg-black hover:bg-black/70 text-white flex-grow"
@@ -197,9 +201,9 @@ const SingleProductPage = async ({ product }: { product: IProduct }) => {
           linkUrl={"/marketplace/home"}
           linkText="See more"
         />
-        <div className="mt-5">
+        {/* <div className="mt-5">
           <FeaturedProductSection />
-        </div>
+        </div> */}
       </SectionContainer>
     </div>
   );

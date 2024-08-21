@@ -15,15 +15,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { useVendorSignupProfileForm } from "./useVendorSignupProfileForm";
 import { Button } from "@/components/ui/button";
 import { vendorSignupProfileValidationSchema } from "./vendorSignupProfileValidator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
 
 type VendorSignupProfileFormProps = {
   onSubmit: (data: z.infer<typeof vendorSignupProfileValidationSchema>) => void;
+  formStateData: VendorSignUpRequest;
 };
 
 const VendorSignupProfileForm = ({
   onSubmit,
+  formStateData,
 }: VendorSignupProfileFormProps) => {
-  const form = useVendorSignupProfileForm();
+  const form = useVendorSignupProfileForm(formStateData);
   return (
     <Form {...form}>
       <form
@@ -33,28 +37,12 @@ const VendorSignupProfileForm = ({
         <div className="col-span-2">
           <FormField
             control={form.control}
-            name="firstName"
+            name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
                   <Input placeholder="first name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="col-span-2">
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="last name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

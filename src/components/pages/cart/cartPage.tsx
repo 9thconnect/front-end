@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import { useAppSelector } from "@/lib/redux/hooks";
+import { useGetProductList } from "@/lib/requests/user/product";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -27,6 +28,13 @@ const CartPage = () => {
   const deliveryFee = 500; // Example delivery fee
   const subtotal = calculateSubtotal();
   const total = subtotal + deliveryFee;
+
+  const {
+    data: productList,
+    isLoading,
+    isError,
+    error,
+  } = useGetProductList("", 1);
 
   const router = useRouter();
 
@@ -48,7 +56,7 @@ const CartPage = () => {
               ) : (
                 cartItems.map((item) => (
                   <CartCard
-                    key={item.product.id}
+                    key={item.product._id}
                     product={item.product}
                     quantity={item.quantity}
                   />
@@ -91,7 +99,7 @@ const CartPage = () => {
         />
         <ScrollableContainer>
           <div className="flex mt-4 space-x-4 cursor-pointer">
-            {productDummyList.map((product, index) => (
+            {productList?.data?.data.products.map((product, index) => (
               <div className="w-80 flex-none self-stretch" key={index}>
                 <ProductCard product={product} />
               </div>

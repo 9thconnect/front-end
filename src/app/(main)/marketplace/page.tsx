@@ -5,6 +5,7 @@ import BrandsSection from "@/sections/common/brandsSection";
 import CategoryProductListSection from "@/sections/common/categoryProductListSection";
 import FeaturedProductSection from "@/sections/common/featuredProductSection";
 import MainHeroSection from "@/sections/hero/mainHeroSection";
+import CategoryProductListHomeSection from "@/sections/home/categoryProductListHomeSection";
 import OfferSection from "@/sections/home/offerSection";
 import Link from "next/link";
 import React from "react";
@@ -20,7 +21,7 @@ function page() {
         <OfferSection />
         <div className="mt-5">
           <SectionCardHeader
-            title="Featured Products"
+            title="New Arrival"
             linkUrl={"/marketplace/home"}
             linkText="See more"
           />
@@ -35,21 +36,7 @@ function page() {
       <div className="h-64 mt-5">
         <MainHeroSection />
       </div>
-      <CategoryProductListSection
-        title="electrical"
-        api="/api/products/electrical"
-        pageUrl={`/marketplace/home?category=electrical`}
-      />
-      <CategoryProductListSection
-        title="Plumbing"
-        api="/api/products/plumbing"
-        pageUrl={`/marketplace/home?category=plumbing`}
-      />
-      <CategoryProductListSection
-        title="Roofing"
-        api="/api/products/roofing"
-        pageUrl={`/marketplace/home?category=roofing`}
-      />
+      <CategoryProductListHomeSection />
     </div>
   );
 }

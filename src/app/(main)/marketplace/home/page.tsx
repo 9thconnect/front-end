@@ -39,7 +39,7 @@ const page = ({ searchParams }: any) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="bg-[url('https://s3-alpha-sig.figma.com/img/6a6d/c7d4/696a5b5f167757391ac16bf51e0b316e?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WMFqJZMEyCShsg8tbtAgGl8PKr5OLE8krbeJ9uDtwWS5oQHK1AZZcCPYSRA4aVX01TL%7E4-6VZkS6KibV-Tm6ejUhPUpr3yJgfBt1JmeDSoK8gomdOT8wHcAvry4FcI9Czz7I-eR4EbE1z-fJ5WKWaXx2CY4ZdeTT8TArMaL0rZt5u2TdtPtBU0jImvBZnKOMMfaEbJCG3MBnQchdew7vjEdkrdxEff-3PWOEiLxpvEnZKTvPJ-W4IbmA1FQOvGIS4QY3a64Ly86uz0DCTC8xuGhVOY%7Ev8XIgsFcTKXRxmZYMr-Oj9b82YKbgclTtfQZqWGH0IfHyeDDPJmZEQOvNCg__')] bg-cover h-56 bg-no-repeat rounded-2xl mt-5 "></div>
+      <div className="bg-[url('https://s3-alpha-sig.figma.com/img/6a6d/c7d4/696a5b5f167757391ac16bf51e0b316e?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JLgR8emoFmZ4TD0xESWKVNCGiHNwiHVCPWMEswowMK3wMdcAwC8c-VqbNUF1nH9HGwF1F3BY6KPk7wQHna2COjf6be-qGf6gDj1Vnn0zvyqJxyTa5quuu9ryVFh1C75XbG2ponJySer0k-FM7fKn2zj08xioSil4JxY9CRWD22oOTEKjgMPnUV14pjQqQW2ciOhI-2qRthMbXODeNMxAzD893EPV~XYPyVBPv8huYNuhmE1eUN5cl0YbYMu95FUCReet45iWf3GfEzZSs5sYniCfU9faVX69ci8X9C1FHBiW37~vDLtkG00ABgKvL8JSKpSk79z4~Oq5gFpG6pMpjA__')] bg-cover h-56 bg-no-repeat rounded-2xl mt-5 "></div>
       <MarketplaceHomePage />
     </div>
   );

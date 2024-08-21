@@ -22,10 +22,14 @@ import BellIcon from "@/icons/bellIcon";
 import CertIcon from "@/icons/certIcon";
 import { MainDrawer } from "../drawer/drawer";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
 
 const MainHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
   const router = useRouter();
+
+  const auth = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +58,11 @@ const MainHeader = () => {
       label: "Real Estate",
       path: "/real-estate",
     },
+    {
+      IconComponent: FlashIconComponent,
+      label: "Logistics",
+      path: "/logistics",
+    },
   ];
 
   return (
@@ -73,7 +82,10 @@ const MainHeader = () => {
             Track Order
           </Link>
         </div>
-        <Link href={"/register"}>Become A Vendor</Link>
+
+        {auth && auth.type !== UserType.VENDOR && (
+          <Link href={"/vendor/register"}>Become A Vendor</Link>
+        )}
       </div>
       <div className="mt-6 flex justify-between items-center">
         <div className="flex w-full md:w-auto">

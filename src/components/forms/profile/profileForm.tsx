@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import { useProfileFormContext } from "./useProfile";
 import {
   Form,
@@ -15,12 +15,49 @@ import { profileValidationSchema } from "./profileValidator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { IVendor } from "@/type/users";
+import { toast } from "sonner";
+import axios from "axios";
+import { updateProfile } from "@/lib/requests/vendor/profile";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ProfileForm = forwardRef<HTMLFormElement>((props) => {
-  const form = useProfileFormContext();
+  const vendor = useAppSelector((state) => state.auth.data) as IVendor;
+  const type = useAppSelector((state) => state.auth.type);
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useProfileFormContext(vendor);
 
-  const onSubmit = (data: z.infer<typeof profileValidationSchema>) => {
-    alert("submit");
+  const onSubmit = async (data: z.infer<typeof profileValidationSchema>) => {
+    try {
+      setIsLoading(true);
+      const resp = await updateProfile(
+        {
+          fullName: data.fullName,
+          phoneNumber: data.phone,
+          gender: data.gender,
+        },
+        type
+      );
+
+      toast.success(resp.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred try again");
+        // Just a stock error
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -29,15 +66,15 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full grid grid-cols-2 gap-5 py-5"
       >
-        <div className="col-span-1">
+        <div className="col-span-2">
           <FormField
             control={form.control}
-            name="firstName"
+            name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="first name" {...field} />
+                  <Input placeholder="full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -48,29 +85,25 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
         <div className="col-span-1">
           <FormField
             control={form.control}
-            name="lastName"
+            name="gender"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="last name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                <FormLabel>Gender</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
 
-        <div className="col-span-1">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="Email" {...field} />
-                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -139,8 +172,8 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
           />
         </div>
 
-        <Button className="col-span-2" type="submit">
-          Submit
+        <Button disabled={isLoading} className="col-span-2" type="submit">
+          {isLoading ? "loading.." : "Submit"}
         </Button>
       </form>
     </Form>

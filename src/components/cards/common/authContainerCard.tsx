@@ -1,5 +1,7 @@
 "use client";
 
+import { Separator } from "@/components/ui/separator";
+import { ArrowLeft } from "lucide-react";
 import React from "react";
 
 type AuthContainerCardProp = {
@@ -10,8 +12,21 @@ type AuthContainerCardProp = {
   body: string;
 };
 
-const AuthContainerCard = ({ children, image }: AuthContainerCardProp) => {
-  const containerHeight = `calc(100vh - 135px)`;
+const AuthContainerCard = ({
+  children,
+  image,
+  title,
+  backUrl,
+  body,
+}: AuthContainerCardProp) => {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  let containerHeight;
+  if (isMobile) {
+    containerHeight = `100%`;
+  } else {
+    containerHeight = `calc(100vh - 135px)`;
+  }
+
   return (
     <div
       className="grid grid-cols-2 p-3 gap-2 bg-white rounded-xl"
@@ -28,6 +43,12 @@ const AuthContainerCard = ({ children, image }: AuthContainerCardProp) => {
         ></div>
       </div>
       <div className="col-span-2 md:col-span-1 overflow-y-auto p-1 md:p-4">
+        <div className="text-offBlack">
+          <ArrowLeft />
+          <h2 className="my-2 text-xl">{title}</h2>
+          <p className="mb-4">{body}</p>
+          <Separator />
+        </div>
         {children}
       </div>
     </div>

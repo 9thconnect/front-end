@@ -1,12 +1,10 @@
 import { z } from "zod";
 
 export const vendorSignupProfileValidationSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "first name must be at least 2 characters.",
+  fullName: z.string().min(2, {
+    message: "full name must be at least 2 characters.",
   }),
-  lastName: z.string().min(2, {
-    message: "last name must be at least 2 characters.",
-  }),
+
   email: z
     .string()
     .min(2, {

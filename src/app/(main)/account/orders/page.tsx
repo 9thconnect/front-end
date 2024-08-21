@@ -1,18 +1,62 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
+
+const orders = [
+  {
+    id: "3WS4DRTFYG",
+    date: "Jan 20, 2024",
+    totalAmount: "₦ 50,700.00",
+    status: "Pending",
+    href: "/orders/jfjfj",
+  },
+  {
+    id: "7HJ9KLQWOP",
+    date: "Feb 15, 2024",
+    totalAmount: "₦ 120,000.00",
+    status: "Shipped",
+  },
+  {
+    id: "2MNBVCXZ12",
+    date: "Mar 5, 2024",
+    totalAmount: "₦ 75,250.00",
+    status: "Delivered",
+  },
+  {
+    id: "9POIUYTREW",
+    date: "Apr 10, 2024",
+    totalAmount: "₦ 32,000.00",
+    status: "Cancelled",
+  },
+  {
+    id: "6LKJHGFDSA",
+    date: "May 25, 2024",
+    totalAmount: "₦ 89,450.00",
+    status: "Processing",
+  },
+];
 
 const page = () => {
   return (
     <div>
-      <div className="flex justify-between items-center border-b pb-2">
-        <h3 className="text-xl text-offBlack">Orders</h3>
-        <div className="flex space-x-2 items-center">
-          <p>Status</p>
-          <Button variant="outline" disabled>
-            Delivered
-          </Button>
-          <Button variant="outline">Track Order</Button>
-        </div>
+      <div className="pb-2">
+        <h3 className="text-xl text-offBlack my-2">Order History</h3>
+        {orders.map((order) => (
+          <Link
+            key={order.id}
+            href={`orders/${order.id}`}
+            className="flex mb-4 cursor-pointer border rounded-xl p-2 justify-between"
+          >
+            <div>
+              <p className="mb-2">Order ID: {order.id}</p>
+              <p>Date: {order.date}</p>
+            </div>
+            <div>
+              <p className="mb-2">Total Amount: {order.totalAmount}</p>
+              <p>Status: {order.status}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

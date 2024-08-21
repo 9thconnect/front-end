@@ -65,7 +65,7 @@ const chartConfig = {
 const RevenueChart = () => {
   return (
     <div className="overflow-hidden">
-      <ChartContainer config={chartConfig} className="h-[350px] w-full">
+      <ChartContainer config={chartConfig} className=" w-full">
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis

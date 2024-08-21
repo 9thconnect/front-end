@@ -1,4 +1,7 @@
 import SingleProductPage from "@/components/pages/marketplace/singleProductPage";
+import { siteConfig } from "@/config/site.config";
+import { Product } from "@/type/common";
+import requests from "@/utils/requests";
 
 import type { Metadata, ResolvingMetadata } from "next";
 import { Suspense } from "react";
@@ -16,26 +19,25 @@ export async function generateMetadata(
   const id = params.id;
 
   // fetch data
+
   const product = await fetch(
-    `http://localhost:3000/marketplace/${id}/api`
+    `${siteConfig.apiURL}/product/customer/single-product/${params.id}`
   ).then((res) => res.json());
 
-  console.log("prod", product.id);
-
   return {
-    title: product.name,
+    title: product.data?.data.name,
   };
 }
 
 export default async function Page({ params }: Props) {
-  const product = await fetch(
-    `http://localhost:3000/marketplace/${params.id}/api`
-  ).then((res) => res.json());
+  // const product = await fetch(
+  //   `${siteConfig.apiURL}/product/customer/single-product/${params.id}`
+  // ).then((res) => res.json());
 
   return (
     <div>
       <Suspense fallback={<p>Loading...</p>}>
-        <SingleProductPage product={product} />
+        <SingleProductPage id={params.id} />
       </Suspense>
     </div>
   );

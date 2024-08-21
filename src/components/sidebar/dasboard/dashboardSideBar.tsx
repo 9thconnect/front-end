@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import DashboardSideBarItem from "./sideBarItem";
 import { Separator } from "@/components/ui/separator";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
-import { toggleAdminSideBar } from "@/lib/redux/features/layoutSlice/layoutSlice";
+import { toggleAdminSideBar } from "@/lib/redux/features/layout/layoutSlice";
 
 const routes = [
   {
@@ -22,15 +22,11 @@ const routes = [
     icon: CertIcon,
   },
   {
-    name: "Orders",
-    route: "/dashboard/orders",
+    name: "Categories",
+    route: "/dashboard/categories",
     icon: CertIcon,
   },
-  {
-    name: "Admin Users",
-    route: "/dashboard/admins",
-    icon: CertIcon,
-  },
+
   {
     name: "Professionals",
     route: "/dashboard/professionals",
@@ -39,21 +35,6 @@ const routes = [
   {
     name: "Vendors",
     route: "/dashboard/vendors",
-    icon: CertIcon,
-  },
-  {
-    name: "Real Estate",
-    route: "/dashboard/estate",
-    icon: CertIcon,
-  },
-  {
-    name: "Dispatchers",
-    route: "/dashboard/dispatchers",
-    icon: CertIcon,
-  },
-  {
-    name: "Categories",
-    route: "/dashboard/categories",
     icon: CertIcon,
   },
   {
@@ -79,7 +60,9 @@ const DashboardSideBar = () => {
   return (
     <aside
       id="logo-sidebar"
-      className="fixed top-0 left-0 z-40 w-64 h-screen pt-6 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+      className={`fixed  top-0 left-0 z-50 w-64 h-screen pt-6 transition-transform -translate-x-full bg-white border-r border-gray-200 ${
+        isSideBarOpened ? "translate-x-1" : "lg:translate-x-0"
+      }  dark:bg-gray-800 dark:border-gray-700`}
       aria-label="Sidebar"
     >
       <div className="px-3 h-full  pb-4 overflow-y-auto bg-white">
@@ -91,11 +74,12 @@ const DashboardSideBar = () => {
                 alt="site logo"
                 src={siteConfig.logo}
               />
-              <PanelRight />
+
+              <PanelRight onClick={() => dispatch(toggleAdminSideBar())} />
             </div>
             <h3 className="mb-3">Overview</h3>
             <div>
-              {routes.slice(0, 4).map((route) => (
+              {routes.slice(0, 3).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -105,9 +89,9 @@ const DashboardSideBar = () => {
               ))}
             </div>
 
-            <h3 className="mb-3">Marketplace Management</h3>
+            <h3 className="mb-7">Marketplace Management</h3>
             <div>
-              {routes.slice(4, 8).map((route) => (
+              {routes.slice(3, 5).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -118,20 +102,10 @@ const DashboardSideBar = () => {
             </div>
 
             <Separator />
-            <div className="mt-2.5">
-              {routes.slice(8, 9).map((route) => (
-                <DashboardSideBarItem
-                  IconComponent={route.icon}
-                  label={route.name}
-                  path={route.route}
-                  key={`account-route-${route.name}`}
-                />
-              ))}
-            </div>
           </div>
 
           <div className="pl-2 mt-auto">
-            {routes.slice(9, 11).map((route) => (
+            {routes.slice(5, 8).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}

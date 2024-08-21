@@ -2,36 +2,46 @@ import CertIcon from "@/icons/certIcon";
 import React from "react";
 import SideBarItem from "./sideBarItem";
 import SectionCardHeader from "../cards/common/sectionCardHeader";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 const routes = [
   {
     name: "My Account",
     route: "/account/profile",
     icon: CertIcon,
+    access: ["customer", "vendor"],
   },
   {
     name: "Orders",
     route: "/account/orders",
     icon: CertIcon,
+    access: ["customer"],
   },
   {
     name: "Wishlist",
     route: "/account/wishlist",
     icon: CertIcon,
+    access: ["customer"],
   },
   {
     name: "My Shop",
     route: "/account/shop",
     icon: CertIcon,
+    access: ["vendor"],
   },
   {
     name: "Change Password",
     route: "/account/password",
     icon: CertIcon,
+    access: ["customer", "vendor"],
   },
 ];
 
 const AccountPageSideBar = () => {
+  const auth = useAppSelector((state) => state.auth);
+  const type = auth.type;
+
+  const filteredRoutes = routes.filter((route) => route.access.includes(type));
   return (
     <div>
       <div className={`section-card-header`}>
@@ -44,13 +54,13 @@ const AccountPageSideBar = () => {
           {/* <img className="h-" src="/images/Ads.png" alt="" /> */}
           <div className=" flex flex-col justify-between">
             <p className="text-xs">UID-EDYTFUY</p>
-            <p className="text-lg text-offBlack">Sharafadeen Mubarak</p>
-            <p>Date Joined: 18 July, 2024</p>
+            <p className="text-lg text-offBlack">{auth.data?.fullName}</p>
+            <p>{auth.data?.createdAt}</p>
           </div>
         </div>
       </div>
       <ul className="p-2 mt-5">
-        {routes.map((route) => (
+        {filteredRoutes.map((route) => (
           <SideBarItem
             IconComponent={route.icon}
             label={route.name}

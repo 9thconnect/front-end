@@ -19,7 +19,7 @@ const talents: ITalent[] = [
     location: "Abuja, NG",
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -29,7 +29,7 @@ const talents: ITalent[] = [
     location: "Abuja, NG",
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -40,7 +40,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
   {
@@ -51,7 +51,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -62,7 +62,7 @@ const talents: ITalent[] = [
 
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -73,7 +73,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
   {
@@ -84,7 +84,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -95,7 +95,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -106,7 +106,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
   {
@@ -117,7 +117,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -128,7 +128,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -139,7 +139,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
   {
@@ -150,7 +150,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -161,7 +161,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -172,7 +172,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
   {
@@ -183,7 +183,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "engineering",
   },
   {
@@ -194,7 +194,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "management",
   },
   {
@@ -205,7 +205,7 @@ const talents: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__",
+      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ev-npqsA3hTpSLMXODdvcRcj4cGJ9wBONdqvzD53zHYT1oiuMTxyiQI0xYHabJHICt7VQy6HIZao-Um7rJE3kGJXfKKq8lVz4oYCk4jARZc10FkOT6CCCjfwII1WEfpQ9Lg7iHWzZ-C5hE9FiSHJOXBDuU1sGmAHDgJGV9-3VWAGAjKsEu5UFjqRHjNmhQY1BgGryaPm0BDDH5B7lyeAGMYiCfOLGWulf~TjDcTK~JGNCa3~XYm9y3rX11XEUrNMeorHoKfgjjwohqmI2xFk69vmIZCm6UjVfWWzE5IBhQ7L4ZCBaLfAr6A7S0Qkp4AEPa2D51Wn8rGZdk982SeBkQ__",
     category: "architecture",
   },
 ];
