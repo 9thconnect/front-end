@@ -1,3 +1,4 @@
+// import React from "react";
 // import {
 //   Select,
 //   SelectContent,
@@ -12,15 +13,23 @@
 //   label: string;
 //   options: { name: string; value: string | number }[];
 //   placeholder: string;
+//   state?: [
+//     string | number | undefined,
+//     React.Dispatch<React.SetStateAction<string | any | undefined>>
+//   ];
 // }
 
 // const FilterSelect: React.FC<FilterSelectProps> = ({
 //   label,
 //   options,
 //   placeholder,
+//   state,
 // }) => {
+//   const [selectedValue, setSelectedValue] =
+//     state ?? React.useState<string | number | undefined>(undefined);
+
 //   return (
-//     <Select>
+//     <Select value={selectedValue?.toString()} onValueChange={setSelectedValue}>
 //       <SelectTrigger className="w-full">
 //         <SelectValue placeholder={placeholder} />
 //       </SelectTrigger>
@@ -67,8 +76,14 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   placeholder,
   state,
 }) => {
-  const [selectedValue, setSelectedValue] =
-    state ?? React.useState<string | number | undefined>(undefined);
+  const [localValue, setLocalValue] = React.useState<
+    string | number | undefined
+  >(undefined);
+
+  const [selectedValue, setSelectedValue] = state ?? [
+    localValue,
+    setLocalValue,
+  ];
 
   return (
     <Select value={selectedValue?.toString()} onValueChange={setSelectedValue}>

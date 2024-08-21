@@ -25,11 +25,31 @@ import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
 import FeaturedProductSection from "@/sections/common/featuredProductSection";
 import { Product } from "@/type/common";
 import requests from "@/utils/requests";
+import { toast } from "sonner";
 
-const SingleProductPage = async ({ id }: { id: string }) => {
-  const { data } = await requests.get<{ data: Product }>(
-    `product/customer/single-product/${id}`
-  );
+const SingleProductPage = ({ id }: { id: string }) => {
+  const [product, setProduct] = useState<Product>();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const getProduct = async () => {
+      setLoading(true);
+
+      try {
+        const { data } = await requests.get<{ data: Product }>(
+          `product/customer/single-product/${id}`
+        );
+
+        setProduct(data?.data);
+      } catch (error) {
+        toast.error("Error getting product");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProduct();
+  }, [id]);
+
   const images = [
     {
       original:
@@ -82,7 +102,7 @@ const SingleProductPage = async ({ id }: { id: string }) => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-primary capitalize">
-              {data?.data?.name ?? "All"}
+              {product?.name ?? "All"}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -91,15 +111,15 @@ const SingleProductPage = async ({ id }: { id: string }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomGallery images={images} />
           <div className="px-8 flex flex-col">
-            <p>{data?.data?.productCategory.title}</p>
+            <p>{product?.productCategory.title}</p>
             <h2 className="font-bold text-gray-950 text-2xl my-3">
-              {data?.data?.name}
+              {product?.name}
             </h2>
 
             <div className="flex space-x-4 flex-wrap text-gray-950">
               <div className="flex items-center">
                 <BriefcaseBusiness size={20} color="red" />
-                <span className="ml-2">{data?.data?.seller.fullName}</span>
+                <span className="ml-2">{product?.seller.fullName}</span>
               </div>
               <div className="flex">
                 <MapPin size={20} color="red" />
@@ -115,7 +135,7 @@ const SingleProductPage = async ({ id }: { id: string }) => {
               </div>
             </div>
 
-            <h3 className="text-gray-950 text-4xl mt-7">{data?.data?.price}</h3>
+            <h3 className="text-gray-950 text-4xl mt-7">{product?.price}</h3>
 
             <div className="flex mt-5 self-start text-xl  space-x-5 border rounded-md">
               <button className="px-3 py-1">-</button>
@@ -124,7 +144,7 @@ const SingleProductPage = async ({ id }: { id: string }) => {
             </div>
             <div className="flex items-center mt-2">
               <ShoppingBasket size={20} color="red" />
-              <p className="ml-3">{data?.data?.stockQuantity}</p>
+              <p className="ml-3">{product?.stockQuantity}</p>
               <p>Units left</p>
             </div>
 
@@ -133,7 +153,7 @@ const SingleProductPage = async ({ id }: { id: string }) => {
               <p>25KG</p>
             </div>
             {/* <div className="flex gap-2 my-2">
-              {data?.data?.sizes?.map((size, index) => (
+              {product?.sizes?.map((size, index) => (
                 <button
                   key={index}
                   className={`px-4 text-xl py-2 rounded-lg ${

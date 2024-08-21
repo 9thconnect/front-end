@@ -52,7 +52,7 @@ const CategorySectionComp = ({
       </div>
       <div className="rounded-2xl overflow-hidden mt-3">
         {categories.map((item) => {
-          return <CategoryItem category={item} type={title} />;
+          return <CategoryItem key={item._id} category={item} type={title} />;
         })}
       </div>
     </div>

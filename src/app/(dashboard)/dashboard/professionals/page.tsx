@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { UsersRoundIcon } from "lucide-react";
 import React from "react";
 
-export async function getDataProfessionals(): Promise<ProfessionalData[]> {
+async function getDataProfessionals(): Promise<ProfessionalData[]> {
   return Array.from({ length: 10 }, (_, i) => ({
     id: `728ed52f-${i}`,
     date: new Date(),

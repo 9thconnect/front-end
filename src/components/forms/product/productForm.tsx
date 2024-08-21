@@ -113,9 +113,10 @@ const ProductForm = ({ product }: { product?: Product }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-5">
         <div className="col-span-2">
           <div className="grid grid-cols-4  gap-4 mb-5">
-            {form.getValues("images").map((img: string) => {
+            {form.getValues("images").map((img: string, index) => {
               return (
                 <div
+                  key={`${img}-${index}`}
                   className="bg-cover bg-center h-32 col-span-1 w-full rounded-lg"
                   style={{ backgroundImage: `url(${img})` }}
                 ></div>
