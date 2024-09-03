@@ -16,22 +16,22 @@ const CategoryProductListHomeSection = () => {
       {!isLoading && !isError && (
         <div>
           <CategoryProductListSection
-            title={data?.data?.data?.categories[0].title as string}
+            title={data?.data?.data?.categories[0]?.title as string}
             api="/api/products/electrical"
-            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[0]._id}`}
-            category={data?.data?.data?.categories[0]._id as string}
+            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[0]?._id}`}
+            category={data?.data?.data?.categories[0]?._id as string}
           />
           <CategoryProductListSection
-            title={data?.data?.data?.categories[1].title as string}
+            title={data?.data?.data?.categories[1]?.title as string}
             api="/api/products/plumbing"
-            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[1]._id}`}
-            category={data?.data?.data?.categories[1]._id as string}
+            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[1]?._id}`}
+            category={data?.data?.data?.categories[1]?._id as string}
           />
           <CategoryProductListSection
-            title={data?.data?.data?.categories[2].title as string}
+            title={data?.data?.data?.categories[2]?.title as string}
             api="/api/products/roofing"
-            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[2]._id}`}
-            category={data?.data?.data?.categories[2]._id as string}
+            pageUrl={`/marketplace/home?category=${data?.data?.data?.categories[2]?._id}`}
+            category={data?.data?.data?.categories[2]?._id as string}
           />
         </div>
       )}

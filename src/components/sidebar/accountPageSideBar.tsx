@@ -12,6 +12,12 @@ const routes = [
     access: ["customer", "vendor"],
   },
   {
+    name: "Wallet",
+    route: "/account/wallet",
+    icon: CertIcon,
+    access: ["vendor"],
+  },
+  {
     name: "Orders",
     route: "/account/orders",
     icon: CertIcon,
@@ -26,6 +32,12 @@ const routes = [
   {
     name: "My Shop",
     route: "/account/shop",
+    icon: CertIcon,
+    access: ["vendor"],
+  },
+  {
+    name: "Workers",
+    route: "/account/workers",
     icon: CertIcon,
     access: ["vendor"],
   },

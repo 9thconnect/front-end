@@ -18,6 +18,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import SendProposalModal from "@/components/modals/sendProposalModal";
 
 const SingleTalentPage = ({ id }: { id: string }) => {
   return (
@@ -43,7 +45,7 @@ const SingleTalentPage = ({ id }: { id: string }) => {
         <div className="block md:grid md:grid-cols-8 md:gap-8">
           <aside className="md:self-start md:sticky md:col-span-3 md:top-56 text-[#05141B]">
             <img
-              src="https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__"
+              src="https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VM0cTDRJ~Srpn27yJabUwg49v95Fnvj3eCJ8wW1Tfp~IbhOzt64tG2Zv4q8DOuMYrwnPyMqUldfwV~4kmCGc0qEXazXSd4YPvKuHm0tutdzE2U9fw0SrIu7Cu2A~ObsVBEjQ9~8unhRmokb4NF~-5Dc5qJe57wUDSUy6F662ndCCYYqFxlT-X~RQsce2RjspmSTJpBrwTN-fOmqLvz5OX7ZF1QMn2JsU8NGzjgUTI0gTVx7TK70Grc~M8P~F0VEsH-Qa70T1zOn07IDIBAEOMYLIUgk6Sbk6YsHaHhCelK58JyfP-rZa2-06KGipYLWDERW1wB03nLqxbO4iu6HvFw__"
               alt=""
               className="rounded-lg"
             />
@@ -210,6 +212,10 @@ const SingleTalentPage = ({ id }: { id: string }) => {
                   className="w-full h-40 object-cover rounded-lg"
                 />
               </div>
+            </div>
+
+            <div className="mt-7 w-full">
+              <SendProposalModal />
             </div>
           </div>
         </div>

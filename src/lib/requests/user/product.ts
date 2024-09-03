@@ -1,4 +1,9 @@
-import { Product, ProductsResponse } from "@/type/common";
+import {
+  CartItem,
+  Product,
+  ProductsResponse,
+  SimilarProductResponse,
+} from "@/type/common";
 import requests from "@/utils/requests";
 import { useQuery } from "@tanstack/react-query";
 
@@ -57,4 +62,63 @@ export const useGetNewArrival = () => {
 
     queryFn: () => requests.get<ProductsResponse>(`/product/new-arrival`),
   });
+};
+
+export const useGetTopRated = () => {
+  return useQuery({
+    queryKey: ["productTopRated"],
+
+    queryFn: () => requests.get<ProductsResponse>(`/product/top-rated`),
+  });
+};
+
+export const useGetFeaturedProducts = (type: "new-arrival" | "top-rated") => {
+  return useQuery({
+    queryKey: [type],
+
+    queryFn: () => requests.get<ProductsResponse>(`/product/${type}`),
+  });
+};
+
+export const useGetSimilarProducts = (id: string) => {
+  return useQuery({
+    queryKey: ["get-similar", id],
+
+    queryFn: () =>
+      requests.get<SimilarProductResponse>(
+        `/product/customer/related-products/${id}`
+      ),
+  });
+};
+
+export const addToCart = (id: string) => {
+  return requests.patch<CartItem>(`/customer/add-to-cart/${id}`, {});
+};
+
+export const removeFromCart = (id: string) => {
+  return requests.patch<CartItem>(`/customer/decrement-cart/${id}`, {});
+};
+
+export const useGetMyCert = (id: string) => {
+  return useQuery({
+    queryKey: ["get-cert", id],
+
+    queryFn: () => requests.get<CartItem[]>(`/customer/myCart?userID=${id}`),
+  });
+};
+
+interface ShippingAddress {
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+interface Body {
+  shippingAddress: ShippingAddress;
+}
+
+export const orderProduct = (body: Body) => {
+  return requests.post<CartItem>(`/order/customer/create-order`, body);
 };

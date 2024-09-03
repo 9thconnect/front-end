@@ -8,7 +8,7 @@ export const signUp = (data: VendorSignUpRequest, type: UserType) => {
   let cleanedData = removeEmptyKeys(data);
 
   if (type == UserType.CUSTOMER) {
-    const { vendorType, gender, ...rest } = cleanedData;
+    const { vendorType, ...rest } = cleanedData;
     cleanedData = rest;
   }
 

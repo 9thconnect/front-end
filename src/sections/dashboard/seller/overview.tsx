@@ -130,11 +130,11 @@ const SellerOverview = ({ id }: { id: string }) => {
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Type:</p>
-              <p className="text-offBlack">{data?.businessType.business} </p>
+              <p className="text-offBlack">{data?.businessType.title} </p>
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Category:</p>
-              <p className="text-offBlack">{data?.businessType.business}</p>
+              <p className="text-offBlack">{data?.businessType.title}</p>
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Address:</p>

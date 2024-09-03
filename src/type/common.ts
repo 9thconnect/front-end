@@ -2,7 +2,7 @@ import { Category } from "./category";
 
 export interface BaseResponse<T> {
   message: string;
-  status: boolean;
+  status: "success" | "error";
   data: T | null;
 }
 
@@ -24,6 +24,7 @@ export interface Product {
   price: number;
   seller: Seller;
   productCategory: Category;
+  subCategory: Category;
   images: string[];
   available: boolean;
   views: number;
@@ -34,6 +35,9 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   stockQuantity: number;
+  variations: any[];
+  rating: number;
+  numReviews: number;
   __v: number;
 }
 
@@ -44,4 +48,21 @@ export interface ProductsResponse {
     count: number;
     products: Product[];
   };
+}
+
+export interface SimilarProductResponse {
+  data: Product[];
+}
+
+export interface CartItem {
+  name: string;
+  quantity: number;
+  image: string;
+  price: number;
+  date: string;
+  productId: string;
+  product: Product;
+  seller: string;
+  _id: string;
+  total: number;
 }

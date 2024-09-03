@@ -13,7 +13,7 @@ import React from "react";
 function page() {
   return (
     <div className="pt-8">
-      <div className="h-80">
+      <div className="h-60 md:h-[600px]">
         <MainHeroSection />
       </div>
 
@@ -32,8 +32,21 @@ function page() {
             <BrandsSection />
           </div>
         </div>
+        <div className="mt-5">
+          <SectionCardHeader
+            title="Top Rated"
+            linkUrl={"/marketplace/home"}
+            linkText="See more"
+          />
+
+          <div className="border-b-2 w-full mb-8"></div>
+          <FeaturedProductSection type="top-rated" />
+          <div className="mt-2">
+            <BrandsSection />
+          </div>
+        </div>
       </SectionContainer>
-      <div className="h-64 mt-5">
+      <div className="h-60 md:h-[500px] mt-5">
         <MainHeroSection />
       </div>
       <CategoryProductListHomeSection />

@@ -45,12 +45,12 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
           <div className="col-span-1">
             <FormField
               control={form.control}
-              name="firstName"
+              name="country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <Input placeholder="first name" {...field} />
+                    <Input placeholder="Country" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -61,10 +61,10 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
           <div className="col-span-1">
             <FormField
               control={form.control}
-              name="lastName"
+              name="state"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>State</FormLabel>
                   <FormControl>
                     <Input placeholder="last name" {...field} />
                   </FormControl>
@@ -74,36 +74,6 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             />
           </div>
 
-          <div className="col-span-1">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <FormControl>
-                    <Input type="tel" placeholder="Phone" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <div className="col-span-2">
             <FormField
               control={form.control}

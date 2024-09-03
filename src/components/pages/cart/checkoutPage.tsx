@@ -12,14 +12,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import { useAppSelector } from "@/lib/redux/hooks";
-import { useGetNewArrival } from "@/lib/requests/user/product";
+import { orderProduct, useGetNewArrival } from "@/lib/requests/user/product";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const CheckoutPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handlePaymentClick = () => {
     console.log(formRef.current);
@@ -33,8 +36,28 @@ const CheckoutPage = () => {
     }
   };
 
-  const onSubmit = (data: z.infer<typeof checkoutValidationSchema>) => {
-    alert("submit");
+  const onSubmit = async (data: z.infer<typeof checkoutValidationSchema>) => {
+    try {
+      setLoading(true);
+      const response = await orderProduct({
+        shippingAddress: {
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          postalCode: data.posterCode,
+          country: data.country,
+        },
+      });
+      toast.success(response.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred try again");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const calculateSubtotal = () => {
@@ -86,11 +109,13 @@ const CheckoutPage = () => {
               </div>
             </div>
             <Button
-              disabled={subtotal < 1}
+              disabled={subtotal < 1 || loading}
               onClick={handlePaymentClick}
               className="w-full mt-5 rounded-lg"
             >
-              Make payment ₦ {total.toLocaleString()}
+              {loading
+                ? "loading.."
+                : `Make payment ₦ ${total.toLocaleString()}`}
             </Button>
           </div>
         </div>

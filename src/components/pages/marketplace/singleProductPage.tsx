@@ -26,10 +26,19 @@ import FeaturedProductSection from "@/sections/common/featuredProductSection";
 import { Product } from "@/type/common";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
+import ScrollableContainer from "@/components/common/scrollableContainer";
+import { useGetSimilarProducts } from "@/lib/requests/user/product";
+import ProductCard from "@/components/cards/productCard";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { addItem } from "@/lib/redux/features/cart/cartSlice";
+import Counter from "@/components/common/countComponent";
 
 const SingleProductPage = ({ id }: { id: string }) => {
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const getProduct = async () => {
       setLoading(true);
@@ -50,43 +59,22 @@ const SingleProductPage = ({ id }: { id: string }) => {
     getProduct();
   }, [id]);
 
-  const images = [
-    {
-      original:
-        "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80",
-      thumbnail:
-        "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80",
-      alt: "Photo of seashore",
-    },
-    {
-      original:
-        "https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80",
-      thumbnail:
-        "https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80",
-      alt: "Gallery image 2",
-    },
-    {
-      original:
-        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2940&amp;q=80",
-      thumbnail:
-        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2940&amp;q=80",
-      alt: "Gallery image 3",
-    },
-    {
-      original:
-        "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2762&amp;q=80",
-      thumbnail:
-        "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2762&amp;q=80",
-      alt: "Gallery image 4",
-    },
-    {
-      original:
-        "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2832&amp;q=80",
-      thumbnail:
-        "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2832&amp;q=80",
-      alt: "Gallery image 5",
-    },
-  ];
+  const {
+    data: productList,
+    isLoading,
+    isError,
+    error,
+  } = useGetSimilarProducts(id);
+
+  if (loading) {
+    return <p>Loading</p>;
+  }
+
+  const images = product?.images.map((url) => ({
+    original: url,
+    thumbnail: url,
+    alt: "Image description", // Adjust or customize the description as needed
+  }));
 
   return (
     <div>
@@ -102,81 +90,98 @@ const SingleProductPage = ({ id }: { id: string }) => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-primary capitalize">
-              {product?.name ?? "All"}
+              {product?.name ?? ""}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <SectionContainer className="mt-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <CustomGallery images={images} />
-          <div className="px-8 flex flex-col">
-            <p>{product?.productCategory.title}</p>
-            <h2 className="font-bold text-gray-950 text-2xl my-3">
-              {product?.name}
-            </h2>
+          {images && <CustomGallery images={images} />}
 
-            <div className="flex space-x-4 flex-wrap text-gray-950">
-              <div className="flex items-center">
-                <BriefcaseBusiness size={20} color="red" />
-                <span className="ml-2">{product?.seller.fullName}</span>
-              </div>
-              <div className="flex">
-                <MapPin size={20} color="red" />
-                <span className="ml-2">Dummy Location</span>
-              </div>
-              <div className="flex">
-                <Star size={20} color="red" />
-                <span className="ml-2">4.5</span>
-              </div>
-              <div className="flex">
-                <Separator orientation="vertical" />
-                <span className="ml-2">23 reviews</span>
-              </div>
-            </div>
+          {product && (
+            <div className="px-8 flex flex-col">
+              {/* <p>{product?.productCategory.title}</p> */}
+              <h2 className="font-bold text-gray-950 text-2xl my-3">
+                {product?.name}
+              </h2>
 
-            <h3 className="text-gray-950 text-4xl mt-7">{product?.price}</h3>
+              <div className="flex space-x-4 flex-wrap text-gray-950">
+                <div className="flex items-center">
+                  <BriefcaseBusiness size={20} color="red" />
+                  <span className="ml-2">{product?.seller.fullName}</span>
+                </div>
+                <div className="flex">
+                  <MapPin size={20} color="red" />
+                  <span className="ml-2">Dummy Location</span>
+                </div>
+                <div className="flex">
+                  <Star size={20} color="red" />
+                  <span className="ml-2">{product?.rating}</span>
+                </div>
+                <div className="flex">
+                  <Separator orientation="vertical" />
+                  <span className="ml-2">{product?.numReviews} reviews</span>
+                </div>
+              </div>
 
-            <div className="flex mt-5 self-start text-xl  space-x-5 border rounded-md">
-              <button className="px-3 py-1">-</button>
-              <input size={1} className="w-5" type="text" value={2} />
-              <button className="px-3 py-1">+</button>
-            </div>
-            <div className="flex items-center mt-2">
-              <ShoppingBasket size={20} color="red" />
-              <p className="ml-3">{product?.stockQuantity}</p>
-              <p>Units left</p>
-            </div>
+              <h3 className="text-gray-950 text-4xl mt-7">{product?.price}</h3>
 
-            <div className="flex mt-7">
-              <span>Size</span>
-              <p>25KG</p>
-            </div>
-            {/* <div className="flex gap-2 my-2">
-              {product?.sizes?.map((size, index) => (
-                <button
-                  key={index}
-                  className={`px-4 text-xl py-2 rounded-lg ${
-                    size === "25KG" ? "bg-red-500 text-white" : "border"
-                  }`}
+              <div className="my-2 w-fit">
+                <Counter
+                  disable={count >= product?.stockQuantity}
+                  count={count}
+                  setCount={setCount}
+                />
+              </div>
+
+              <div className="flex items-center mt-2">
+                <ShoppingBasket size={20} color="red" />
+                <p className="mx-3">{product?.stockQuantity}</p>
+
+                <p>Units left</p>
+              </div>
+
+              <div className="flex mt-7">
+                <span>Size</span>
+                <p className="ml-3"> 25KG</p>
+              </div>
+              <div className="flex gap-2 my-2">
+                {product?.variations?.map((size, index) => (
+                  <button
+                    key={index}
+                    className={`px-4 text-xl py-2 rounded-lg ${
+                      size === "25KG" ? "bg-red-500 text-white" : "border"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+              <div className="w-full flex mt-5  items-end md:mt-auto space-x-4">
+                <Button
+                  className="bg-black hover:bg-black/70 text-white flex-grow"
+                  variant={"secondary"}
                 >
-                  {size}
-                </button>
-              ))}
-            </div> */}
-            <div className="w-full flex mt-5  items-end md:mt-auto space-x-4">
-              <Button
-                className="bg-black hover:bg-black/70 text-white flex-grow"
-                variant={"secondary"}
-              >
-                Buy Now
-              </Button>
-              <Button variant={"outline"}>Add to Cert</Button>
-              <Button className="rounded-full p-3" variant={"ghost"}>
-                <Heart />
-              </Button>
+                  Buy Now
+                </Button>
+                {product && (
+                  <Button
+                    onClick={() =>
+                      dispatch(addItem({ product, quantity: count }))
+                    }
+                    variant={"outline"}
+                  >
+                    Add to Cert
+                  </Button>
+                )}
+
+                <Button className="rounded-full p-3" variant={"ghost"}>
+                  <Heart />
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </SectionContainer>
 
@@ -221,9 +226,15 @@ const SingleProductPage = ({ id }: { id: string }) => {
           linkUrl={"/marketplace/home"}
           linkText="See more"
         />
-        {/* <div className="mt-5">
-          <FeaturedProductSection />
-        </div> */}
+        <ScrollableContainer>
+          <div className="flex space-x-4 cursor-pointer mt-5">
+            {productList?.data?.data.map((product, index) => (
+              <div className="w-80 flex-none self-stretch" key={index}>
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        </ScrollableContainer>
       </SectionContainer>
     </div>
   );

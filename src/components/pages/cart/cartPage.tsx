@@ -9,13 +9,28 @@ import ScrollableContainer from "@/components/common/scrollableContainer";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { productDummyList } from "@/data/dummy/productDummyData";
-import { useAppSelector } from "@/lib/redux/hooks";
-import { useGetProductList } from "@/lib/requests/user/product";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
+import { fetchCartFromServer } from "@/lib/redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { useGetMyCert, useGetProductList } from "@/lib/requests/user/product";
+import { CartItem } from "@/type/common";
+import requests from "@/utils/requests";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const CartPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
+
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchCartFromServer());
+    }
+  }, [isLoggedIn, dispatch]);
 
   const calculateSubtotal = () => {
     return cartItems.reduce((sum, item) => {
@@ -82,11 +97,20 @@ const CartPage = () => {
               </div>
             </div>
             <Button
-              onClick={() => router.push("/marketplace/cart/checkout")}
+              onClick={() =>
+                router.push(
+                  `${
+                    isLoggedIn
+                      ? "/marketplace/cart/checkout"
+                      : "/customer/login"
+                  } `
+                )
+              }
               disabled={subtotal < 1}
               className="w-full mt-5 rounded-lg"
             >
-              Checkout ₦ {total.toLocaleString()}
+              {!isLoggedIn ? "Login to checkout " : "Checkout "}₦{" "}
+              {total.toLocaleString()}
             </Button>
           </div>
         </div>

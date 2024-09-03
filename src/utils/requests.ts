@@ -1,7 +1,7 @@
 "use client";
 
 import { siteConfig } from "@/config/site.config";
-import { AuthState } from "@/lib/redux/features/auth/authSlice";
+import { AuthState, logoutUser } from "@/lib/redux/features/auth/authSlice";
 import { makeStore } from "@/lib/redux/store";
 import { BaseResponse } from "@/type/common";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -39,6 +39,14 @@ axiosInstance.interceptors.response.use(
       // alert(error.response.data.message || "Unauthorized");
 
       toast.error(error.response.data.message || "Unauthorized");
+
+      localStorage.getItem("persist:root");
+
+      const { store } = makeStore();
+
+      store.dispatch(logoutUser());
+
+      window.location.href = "/customer/login";
 
       // You might want to redirect to login page or clear the auth state here
       // For example:

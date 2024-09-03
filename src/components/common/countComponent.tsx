@@ -35,9 +35,10 @@ import React from "react";
 interface CounterProps {
   count: number;
   setCount: (count: number) => void;
+  disable?: boolean;
 }
 
-const Counter: React.FC<CounterProps> = ({ count, setCount }) => {
+const Counter: React.FC<CounterProps> = ({ count, setCount, disable }) => {
   const increment = () => setCount(count + 1);
   const decrement = () => setCount(count - 1);
 
@@ -55,6 +56,7 @@ const Counter: React.FC<CounterProps> = ({ count, setCount }) => {
         type="number"
         value={count}
         onChange={(val) => setCount(Number(val.target.value))}
+        disabled={disable}
       />
       <button className="px-3 py-1" onClick={increment}>
         +

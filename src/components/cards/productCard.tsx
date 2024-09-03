@@ -14,8 +14,8 @@ import { Button } from "../ui/button";
 import { HeartIcon } from "lucide-react";
 import ShippingBoxIcon from "@/icons/shippingBoxIcon";
 import { toast } from "sonner";
-import { useAppDispatch } from "@/lib/redux/hooks";
-import { addItem } from "@/lib/redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { addItem, addItemToServer } from "@/lib/redux/features/cart/cartSlice";
 import { Product } from "@/type/common";
 
 interface ProductCardProps {
@@ -54,6 +54,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     });
   };
 
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+
   const handleAddToCart = (
     e: React.MouseEvent<HTMLElement>,
     product: Product
@@ -62,7 +64,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     console.log("wdw");
 
-    dispatch(addItem({ product, quantity: 1 }));
+    if (isLoggedIn) {
+      dispatch(addItemToServer({ product, quantity: 1 }));
+    } else {
+      dispatch(addItem({ product, quantity: 1 }));
+    }
   };
 
   return (
@@ -94,7 +100,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </CardHeader>
         <CardContent className="">
           <p className="text-xs my-3 text-gray-500">
-            {product.productCategory.title}
+            {product.subCategory.title}
+            {/* {product.productCategory.title} TODO:change back */}
           </p>
           <CardTitle className="text-sm font-medium">{product.name}</CardTitle>
           <p className="text-lg font-light mt-3 text-black">

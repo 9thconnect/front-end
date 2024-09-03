@@ -3,6 +3,7 @@
 import CategoryItem from "@/components/common/categoryItem";
 import { Button } from "@/components/ui/button";
 import {
+  fetchBrandCategories,
   fetchBusinessCategories,
   fetchProductCategories,
   fetchProfessionalsCategories,
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import AddCategoryForm from "@/components/forms/admin/category/AddCategoryForm";
 import { X } from "lucide-react";
+import AnalyticCard from "@/components/cards/common/analyticCard";
 
 const CategorySectionComp = ({
   title,
@@ -35,7 +37,11 @@ const CategorySectionComp = ({
 }) => (
   <div className="border rounded-2xl overflow-hidden p-2.5">
     <div className="flex justify-between items-center flex-wrap">
-      <p className="text-lg text-offBlack">{title}</p>
+      <p className="text-lg text-offBlack">
+        {title
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase())}
+      </p>
       <div className="sm:flex flex-wrap sm:flex-nowrap">
         <Button
           onClick={() => openModel(title)}
@@ -72,12 +78,16 @@ const CategorySection = () => {
     queryKey: ["product-category"],
     queryFn: () => fetchProductCategories(),
   });
+  const { data: brandData } = useQuery({
+    queryKey: ["brand"],
+    queryFn: () => fetchBrandCategories(),
+  });
 
   const [open, setOpen] = useState<{
     type: CategoryType;
     open: boolean;
   }>({
-    type: "product",
+    type: "product-category",
     open: false,
   });
 
@@ -90,7 +100,7 @@ const CategorySection = () => {
 
   const closeModel = () => {
     setOpen({
-      type: "product",
+      type: "product-category",
       open: false,
     });
   };
@@ -113,32 +123,67 @@ const CategorySection = () => {
               </AlertDialogCancel>
               <AlertDialogTitle>
                 Add New Category to{" "}
-                <span className="capitalize">{open.type}</span>
+                <span className="capitalize">
+                  {open.type
+                    .replace(/-/g, " ")
+                    .replace(/\b\w/g, (char) => char.toUpperCase())}
+                </span>
               </AlertDialogTitle>
             </div>
           </AlertDialogHeader>
           <AddCategoryForm type={open.type} closeModel={closeModel} />
         </AlertDialogContent>
       </AlertDialog>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-3">
+        <div className="w-full rounded-lg bg-black border p-3">
+          <div className="bg-white/20 rounded-full p-2 inline-flex items-center justify-center">
+            <img src="/icons/analytics.svg" alt="" />
+          </div>
+          <p className="my-2 text-sm">Modules</p>
+          <p className="text-2xl text-white">4</p>
+        </div>
+        <div className="w-full rounded-lg bg-white border p-3">
+          <div className="bg-black/20 rounded-full p-2 inline-flex items-center justify-center">
+            <img src="/icons/sort-circle.svg" alt="" />
+          </div>
+          <p className="my-2 text-sm uppercase">TOTAL Categories</p>
+          <p className="text-2xl text-black">4</p>
+        </div>
+        <div className="w-full rounded-lg bg-white border p-3">
+          <div className="bg-black/20 rounded-full p-2 inline-flex items-center justify-center">
+            <img src="/icons/sort-circle.svg" alt="" />
+          </div>
+          <p className="my-2 text-sm uppercase">sub Categories</p>
+          <p className="text-2xl text-black">420</p>
+        </div>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-5 mt-6">
         {businessData && businessData.data?.data?.categories && (
           <CategorySectionComp
-            title="business"
+            title="business-category"
             categories={businessData.data?.data?.categories}
             openModel={openModel}
           />
         )}
         {professionalsData && professionalsData.data?.data?.categories && (
           <CategorySectionComp
-            title="profession"
+            title="profession-category"
             categories={professionalsData.data?.data?.categories}
             openModel={openModel}
           />
         )}
         {productData && productData.data?.data?.categories && (
           <CategorySectionComp
-            title="product"
+            title="product-category"
             categories={productData.data?.data?.categories}
+            openModel={openModel}
+          />
+        )}
+        {brandData && brandData.data?.data?.categories && (
+          <CategorySectionComp
+            title="brand"
+            categories={brandData.data?.data?.categories}
             openModel={openModel}
           />
         )}

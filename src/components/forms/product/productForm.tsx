@@ -33,7 +33,10 @@ import {
 import cn from "@/utils/class-names";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
+import {
+  fetchProductCategories,
+  fetchSubCategories,
+} from "@/lib/requests/admin/categories/admin-category-request";
 import { Textarea } from "@/components/ui/textarea";
 
 import {
@@ -56,7 +59,11 @@ const ProductForm = ({ product }: { product?: Product }) => {
   const mutation = useMutation({
     mutationKey: ["addProduct"],
     mutationFn: (data: z.infer<typeof productValidationSchema>) => {
-      return requests.post(`/product/vendor/add-product`, data);
+      const { productCategory, ...dataWithOutProductCategory } = data;
+      return requests.post(
+        `/product/vendor/add-product`,
+        dataWithOutProductCategory
+      );
     },
     onSuccess: (data) => {
       toast.success(data.message);
@@ -72,9 +79,10 @@ const ProductForm = ({ product }: { product?: Product }) => {
   const mutationEdit = useMutation({
     mutationKey: ["editProduct"],
     mutationFn: (data: z.infer<typeof productValidationSchema>) => {
+      const { productCategory, ...dataWithOutProductCategory } = data;
       return requests.patch(
         `/product/vendor/edit/edit-product/${product?._id}`,
-        data
+        dataWithOutProductCategory
       );
     },
     onSuccess: (data) => {
@@ -128,6 +136,20 @@ const ProductForm = ({ product }: { product?: Product }) => {
   };
 
   const images = form.watch("images");
+
+  const category = form.watch("productCategory");
+
+  const {
+    isLoading,
+    isError,
+    data: subCates,
+    error,
+    refetch,
+    isFetching,
+  } = useQuery({
+    queryKey: ["product-sub-category", { category: category, page: 1 }],
+    queryFn: fetchSubCategories,
+  });
 
   console.log(images);
 
@@ -255,7 +277,7 @@ const ProductForm = ({ product }: { product?: Product }) => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -265,6 +287,45 @@ const ProductForm = ({ product }: { product?: Product }) => {
                           {cat.title}
                         </SelectItem>
                       ))}
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="mb-8">
+          <FormField
+            control={form.control}
+            name="subCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sub category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a sub category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {isError ? (
+                      <div>
+                        Error: An error occurred while fetching categories.
+                      </div>
+                    ) : subCates?.data?.data?.categories &&
+                      subCates.data.data.categories.length > 0 ? (
+                      subCates.data.data.categories.map((cat) => (
+                        <SelectItem key={cat._id} value={cat._id}>
+                          {cat.title}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <div>No categories found.</div>
+                    )}
                   </SelectContent>
                 </Select>
 

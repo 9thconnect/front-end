@@ -65,6 +65,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
   const [dialogStatus, setDialogStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("loading");
+
   const [dialogMessage, setDialogMessage] = useState<string>("");
   const router = useRouter();
 
@@ -94,6 +95,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     professionCity: "",
     professionDesc: "",
   });
+
   const handleSubmitStageOne = (
     formData: z.infer<typeof vendorSignupProfileValidationSchema>
   ) => {
@@ -209,7 +211,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     const updatedData = { ...data, password: formData.password };
 
-    const { accountName, ...dataWithoutAccountName } = updatedData;
+    const { accountName, gender, ...dataWithoutAccountName } = updatedData;
 
     console.log("form data", updatedData);
 

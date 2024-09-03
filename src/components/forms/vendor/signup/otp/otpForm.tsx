@@ -59,7 +59,7 @@ export function InputOTPForm({
       const res = await verifyAccount(email, data.pin, type);
 
       toast.success(res.message);
-      router.push("/login");
+      router.push(`/${type}/login`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message);

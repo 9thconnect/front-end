@@ -48,7 +48,7 @@ export default function AccountPagesLayout({
           </aside>
 
           <div className="col-span-5">
-            <div className="rounded-md border p-2">{children}</div>
+            <div className="rounded-md  p-2">{children}</div>
           </div>
         </div>
       </SectionContainer>

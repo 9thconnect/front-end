@@ -24,6 +24,7 @@ export interface ITalent {
   verified: boolean;
   imageUrl: string;
   category: string;
+  type: "professional" | "artisan";
 }
 
 interface TalentCardProps {
@@ -47,7 +48,7 @@ const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
 
   return (
     <Link
-      href={`/hire/${talent.id}`}
+      href={`/hire/${talent.type}s/${talent.id}`}
       className="block h-full w-full unselectable"
     >
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300">

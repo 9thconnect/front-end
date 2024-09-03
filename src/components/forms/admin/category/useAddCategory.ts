@@ -9,30 +9,40 @@ import { AxiosError } from "axios";
 
 type AddCategoryData = z.infer<typeof addCategoryValidationSchema>;
 
-export function useAddCategory(type: CategoryType, closeModel: () => void) {
+export function useAddCategory(
+  type: CategoryType,
+  closeModel: () => void,
+  category?: string
+) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["addCategory"],
     mutationFn: (data: AddCategoryData) => {
       let body = {
-        [type]: data.name,
+        categoryType: type,
         description: data.description,
+        title: data.name,
       };
 
-      if (type == "product") {
+      if (category) {
         body = {
-          title: data.name,
+          categoryType: type.replace(/-/g, "-sub-") as CategoryType,
           description: data.description,
+          title: data.name,
+          [type.replace(/-./g, (match) => match[1].toUpperCase())]: category,
         };
       }
 
-      return requests.post(`/category/${type}/add`, body);
+      return requests.post(`/category/add`, body);
     },
     onSuccess: (data) => {
       toast.success(data.message);
 
-      queryClient.invalidateQueries({ queryKey: [`${type}-category`] });
+      queryClient.invalidateQueries({ queryKey: [`${type}`] });
+      queryClient.invalidateQueries({
+        queryKey: [`${type}`, { category: category, page: 1 }],
+      });
 
       closeModel();
     },
@@ -52,23 +62,17 @@ export function useEditCategory(type: CategoryType, id: string) {
     mutationKey: ["editCategory"],
     mutationFn: (data: AddCategoryData) => {
       let body = {
-        [type]: data.name,
+        title: data.name,
         description: data.description,
+        categoryType: type,
       };
 
-      if (type == "product") {
-        body = {
-          title: data.name,
-          description: data.description,
-        };
-      }
-
-      return requests.patch(`/category/${type}/edit/${id}`, body);
+      return requests.patch(`/category/edit/${id}`, body);
     },
     onSuccess: (data) => {
       toast.success(data.message);
 
-      queryClient.invalidateQueries({ queryKey: [`${type}-category`] });
+      queryClient.invalidateQueries({ queryKey: [`${type}`] });
     },
 
     onError: (error) => {
@@ -87,13 +91,13 @@ export function useDeleteCategory(
   return useMutation({
     mutationKey: ["deleteCategory"],
     mutationFn: () => {
-      return requests.delete(`/category/${type}/delete/${id}`);
+      return requests.delete(`/category/delete/${id}`);
     },
     onSuccess: (data) => {
       toast.success(data.message);
       setOpenEdit(false);
 
-      queryClient.invalidateQueries({ queryKey: [`${type}-category`] });
+      queryClient.invalidateQueries({ queryKey: [`${type}`] });
     },
 
     onError: (error) => {

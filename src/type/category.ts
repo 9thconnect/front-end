@@ -2,10 +2,8 @@ import { BaseResponse } from "./common";
 
 export interface Category {
   _id: string;
-  business?: string;
-  product?: string;
-  profession?: string;
-  title?: string;
+  categoryType: CategoryType;
+  title: string;
   description: string;
   createdAt: string;
   updatedAt: string;
@@ -22,4 +20,9 @@ export interface CategoryResponseData {
 export interface FetchCategoryResponse
   extends BaseResponse<CategoryResponseData> {}
 
-export type CategoryType = "business" | "profession" | "product";
+export type CategoryType =
+  | "business-category"
+  | "profession-category"
+  | "product-category"
+  | "brand"
+  | "product-sub-category";

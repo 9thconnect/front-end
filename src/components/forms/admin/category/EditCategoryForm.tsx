@@ -16,7 +16,7 @@ import { useEditCategory } from "./useAddCategory";
 import { addCategoryValidationSchema } from "./addCategoryValidator";
 import { z } from "zod";
 import { Category, CategoryType } from "@/type/category";
-import { useEditCategoryFormContext } from "./useEditCategoryFormContext copy";
+import { useEditCategoryFormContext } from "./useEditCategoryFormContext";
 
 const EditCategoryForm = ({
   type,
@@ -46,7 +46,11 @@ const EditCategoryForm = ({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize">{type}</FormLabel>
+                <FormLabel className="capitalize">
+                  {type
+                    .replace(/-/g, " ")
+                    .replace(/\b\w/g, (char) => char.toUpperCase())}
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Name" {...field} />
                 </FormControl>

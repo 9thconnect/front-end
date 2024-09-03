@@ -22,11 +22,13 @@ import { CategoryType } from "@/type/category";
 const AddCategoryForm = ({
   type,
   closeModel,
+  category,
 }: {
   type: CategoryType;
+  category?: string;
   closeModel: () => void;
 }) => {
-  const mutation = useAddCategory(type, closeModel);
+  const mutation = useAddCategory(type, closeModel, category);
 
   const onSubmit = (data: z.infer<typeof addCategoryValidationSchema>) => {
     console.log(type);
@@ -47,9 +49,9 @@ const AddCategoryForm = ({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize">{type}</FormLabel>
+                <FormLabel className="capitalize">Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Business" {...field} />
+                  <Input placeholder="Title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,7 +74,8 @@ const AddCategoryForm = ({
           />
         </div>
         <Button disabled={mutation.isPending} className="w-full" type="submit">
-          {mutation.isPending ? "Adding" : "Add"} Category
+          {mutation.isPending ? "Adding" : "Add"}
+          {category ? " Sub Category" : "Category"}
         </Button>
       </form>
     </Form>

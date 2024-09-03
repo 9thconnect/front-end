@@ -27,6 +27,9 @@ import {
 import { siteConfig } from "@/config/site.config";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
 import { Textarea } from "@/components/ui/textarea";
+import { fetchBusinessCategories } from "@/lib/requests/admin/categories/admin-category-request";
+import { Category } from "@/type/category";
+import { useQuery } from "@tanstack/react-query";
 
 export const businessDetailsValidationSchema = z.object({
   businessType: z.string().min(1, "Business type is required"),
@@ -69,27 +72,17 @@ const BusinessDetailsForm = ({
 
   const form = useBusinessDetailsForm();
 
-  const [businessTypes, setBusinessTypes] = useState<
-    { business: string; _id: string }[]
-  >([]);
   const [bankCodes, setBankCodes] = useState<
     { bank_name: string; code: string }[]
   >([]);
 
-  useEffect(() => {
-    const fetchBusinessTypes = async () => {
-      try {
-        const response = await axios.get(
-          `${siteConfig.apiURL}/category/business/all`
-        ); // Replace with your actual API endpoint
-        setBusinessTypes(response.data.data.data.categories);
-      } catch (error) {
-        console.error("Failed to fetch business types:", error);
-      }
-    };
+  const [getBusinessTypes, setGetBusinessTypes] = useState(false);
 
-    fetchBusinessTypes();
-  }, []);
+  const { data: businessData, isFetching } = useQuery({
+    queryKey: ["business-category"],
+    queryFn: () => fetchBusinessCategories(),
+    enabled: !!getBusinessTypes,
+  });
 
   const handleUploadSuccess = (url: string) => {
     form.setValue("businessLogo", url); // Set the hidden image field with the uploaded image URL
@@ -109,16 +102,20 @@ const BusinessDetailsForm = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  onOpenChange={() => setGetBusinessTypes(true)}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a business type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {businessTypes.map((type) => (
-                      <SelectItem key={type._id} value={type._id}>
-                        {type.business}
-                      </SelectItem>
-                    ))}
+                    {isFetching
+                      ? "Loading.."
+                      : businessData?.data?.data?.categories &&
+                        businessData?.data?.data.categories.map((type) => (
+                          <SelectItem key={type._id} value={type._id}>
+                            {type.title}
+                          </SelectItem>
+                        ))}
                   </SelectContent>
                 </Select>
               </FormControl>

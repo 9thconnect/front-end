@@ -65,6 +65,8 @@ const MainHeader = () => {
     },
   ];
 
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+
   return (
     <header
       className={`bg-white rounded-xl px-3 pb-2 pt-3 ${
@@ -118,13 +120,24 @@ const MainHeader = () => {
         </div>
         <div className="hidden md:flex items-center text-sm">
           <div className="[&>*]:mr-10 flex">
-            <Link
-              className="text-nowrap flex items-center"
-              href={"/account/profile"}
-            >
-              <Image alt="user icon" src={userIcon} />
-              <span className="ml-2">Account</span>
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                className="text-nowrap flex items-center"
+                href={"/account/profile"}
+              >
+                <Image alt="user icon" src={userIcon} />
+                <span className="ml-2">Account</span>
+              </Link>
+            ) : (
+              <Link
+                className="text-nowrap flex items-center"
+                href={"/customer/login"}
+              >
+                <Image alt="user icon" src={userIcon} />
+                <span className="ml-2">Login</span>
+              </Link>
+            )}
+
             <Link
               className="text-nowrap flex items-center"
               href={"/marketplace/cart"}

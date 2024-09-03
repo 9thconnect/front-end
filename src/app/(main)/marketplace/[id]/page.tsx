@@ -22,10 +22,16 @@ export async function generateMetadata(
 
   const product = await fetch(
     `${siteConfig.apiURL}/product/customer/single-product/${params.id}`
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log(err);
+    });
+
+  console.log(product.data.data.name);
 
   return {
-    title: product.data?.data.name,
+    title: product.data.data.name,
   };
 }
 

@@ -9,13 +9,12 @@ export function useEditCategoryFormContext(
   category: Category,
   type: CategoryType
 ) {
-  const name = type === "product" ? category.title : (category[type] as string);
-
+  console.log(category);
   return useForm<z.infer<typeof addCategoryValidationSchema>>({
     resolver: zodResolver(addCategoryValidationSchema),
 
     defaultValues: {
-      name: name,
+      name: category.title,
       description: category.description,
     },
   });

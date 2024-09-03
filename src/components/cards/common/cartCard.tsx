@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Trash, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Counter from "@/components/common/countComponent";
-import { useAppDispatch } from "@/lib/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import {
+  addItemToServer,
   removeItem,
+  removeItemFromServer,
   updateQuantity,
 } from "@/lib/redux/features/cart/cartSlice";
 import { Product } from "@/type/common";
@@ -18,17 +20,39 @@ export type CartCardProp = {
 const CartCard = ({ product, quantity }: CartCardProp) => {
   const [count, setCount] = useState<number>(0);
 
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+
   const handleRemove = (id: string) => {
-    dispatch(removeItem(id));
+    console.log(quantity);
+
+    if (isLoggedIn) {
+      dispatch(removeItemFromServer({ id: id, quantity: quantity }));
+    } else {
+      dispatch(removeItem(id));
+    }
   };
 
   const dispatch = useAppDispatch();
 
-  const handleQuantityChange = (quantity: number) => {
-    if (quantity === 0) {
+  const handleQuantityChange = (quantityTwo: number) => {
+    console.log("isLoggedIn", isLoggedIn);
+    if (quantityTwo === 0) {
       handleRemove(product._id);
     } else {
-      dispatch(updateQuantity({ id: product._id, quantity }));
+      if (isLoggedIn) {
+        if (quantity < quantityTwo) {
+          console.log("increase");
+
+          dispatch(addItemToServer({ product, quantity: 1 }));
+        } else {
+          console.log("decrease");
+          dispatch(
+            removeItemFromServer({ id: product._id, quantity: quantityTwo })
+          );
+        }
+      } else {
+        dispatch(updateQuantity({ id: product._id, quantity: quantityTwo }));
+      }
     }
   };
 
@@ -61,7 +85,7 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
         >
           <Trash2 size={15} color="red" />
         </Button>
-        <Counter count={quantity} setCount={handleQuantityChange} />
+        <Counter disable count={quantity} setCount={handleQuantityChange} />
       </div>
     </div>
   );

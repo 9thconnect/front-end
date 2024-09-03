@@ -2,10 +2,22 @@
 import ProductCard, { IProduct } from "@/components/cards/productCard";
 import ScrollableContainer from "@/components/common/scrollableContainer";
 import { productDummyList } from "@/data/dummy/productDummyData";
-import { useGetNewArrival } from "@/lib/requests/user/product";
+import {
+  useGetFeaturedProducts,
+  useGetNewArrival,
+} from "@/lib/requests/user/product";
 
-const FeaturedProductSection: React.FC = () => {
-  const { data: productList, isLoading, isError, error } = useGetNewArrival();
+const FeaturedProductSection = ({
+  type = "new-arrival",
+}: {
+  type?: "new-arrival" | "top-rated";
+}) => {
+  const {
+    data: productList,
+    isLoading,
+    isError,
+    error,
+  } = useGetFeaturedProducts(type);
   return (
     <ScrollableContainer>
       <div className="flex space-x-4 cursor-pointer">
