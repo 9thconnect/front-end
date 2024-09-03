@@ -74,7 +74,7 @@ const RateProForm = ({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="rate"
           render={({ field }) => (
@@ -91,7 +91,7 @@ const RateProForm = ({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <div className="grid grid-cols-5 gap-3">
           <Button disabled={isLoading} className="col-span-3" type="submit">
