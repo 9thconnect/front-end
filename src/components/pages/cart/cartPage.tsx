@@ -27,6 +27,8 @@ const CartPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log(isLoggedIn);
+
     if (isLoggedIn) {
       dispatch(fetchCartFromServer());
     }

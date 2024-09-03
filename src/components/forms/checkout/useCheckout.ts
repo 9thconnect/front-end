@@ -9,12 +9,10 @@ export function useCheckoutFormContext() {
   return useForm<z.infer<typeof checkoutValidationSchema>>({
     resolver: zodResolver(checkoutValidationSchema),
     defaultValues: {
-      email: "",
-      phone: "",
       address: "",
       city: "",
-      firstName: "",
-      lastName: "",
+      state: "",
+      country: "",
       posterCode: "",
     },
   });

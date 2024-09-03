@@ -1,4 +1,4 @@
-import { Product } from "@/type/common";
+import { CartItem, Product } from "@/type/common";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import { RootState } from "../../store";
@@ -9,6 +9,7 @@ import {
 } from "@/lib/requests/user/product";
 import { useAppSelector } from "../../hooks";
 import { UserType } from "../auth/authSlice";
+import requests from "@/utils/requests";
 
 interface CartState {
   items: { product: Product; quantity: number }[];
@@ -65,10 +66,14 @@ export const fetchCartFromServer = createAsyncThunk(
     const state = getState() as RootState;
 
     if (state.auth.data) {
-      const rest = useGetMyCert(state.auth.data._id);
+      const rest = await requests.get<CartItem[]>(
+        `/customer/myCart?userID=${state.auth.data._id}`
+      );
 
-      if (rest.data?.data) {
-        const certData = rest.data.data.map((e) => {
+      console.log("rest", rest);
+
+      if (rest.data) {
+        const certData = rest.data.map((e) => {
           const p: { product: Product; quantity: number } = {
             quantity: e.quantity,
             product: e.product,
