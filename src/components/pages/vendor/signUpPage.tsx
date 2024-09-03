@@ -211,14 +211,19 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     const updatedData = { ...data, password: formData.password };
 
-    const { accountName, gender, ...dataWithoutAccountName } = updatedData;
+    const { accountName, ...dataWithoutAccountName } = updatedData;
+
+    const { gender, ...dataWithoutGender } = dataWithoutAccountName;
 
     console.log("form data", updatedData);
+
+    const finalData =
+      type == UserType.CUSTOMER ? dataWithoutGender : dataWithoutAccountName;
 
     try {
       setDialogStatus("loading"); // Show loading dialog
       setIsLoading(true);
-      const res = await signUp(dataWithoutAccountName, type);
+      const res = await signUp(finalData, type);
       toast.success("Account creation successful, check email for OTP");
       router.push(`/${type}/verify?email=${data.email}`);
 
