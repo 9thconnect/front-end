@@ -60,8 +60,7 @@ export interface CartItem {
   image: string;
   price: number;
   date: string;
-  productId: string;
-  product: Product;
+  productId: Product;
   seller: string;
   _id: string;
   total: number;

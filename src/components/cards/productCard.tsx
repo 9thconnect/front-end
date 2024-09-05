@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     console.log("wdw");
 
     if (isLoggedIn) {
-      dispatch(addItemToServer({ product, quantity: 1 }));
+      dispatch(addItemToServer({ product, quantity: 1, type: "productCard" }));
     } else {
       dispatch(addItem({ product, quantity: 1 }));
     }

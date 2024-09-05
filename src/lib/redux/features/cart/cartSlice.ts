@@ -21,22 +21,46 @@ const initialState: CartState = {
   isLoggedIn: false,
 };
 
+// export const syncCartWithServer = createAsyncThunk(
+//   "cart/syncCartWithServer",
+//   async (items: { product: Product; quantity: number }[], { getState }) => {
+//     const state = getState() as RootState;
+//     if (state.auth.data && state.auth.type == UserType.CUSTOMER) {
+//       // Replace with your API call
+
+//       state.cart.items.forEach(element => {
+//         addToCart(element.product._id, element.quantity)
+//       });
+
+//       // if (!response.ok) {
+//       //   throw new Error("Failed to sync cart with server");
+//       // }
+//     }
+//   }
+// );
+
 export const syncCartWithServer = createAsyncThunk(
   "cart/syncCartWithServer",
-  async (items: { product: Product; quantity: number }[], { getState }) => {
+  async (_, { getState }) => {
     const state = getState() as RootState;
-    if (state.cart.isLoggedIn) {
-      // Replace with your API call
-      const response = await fetch("/api/cart/sync", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to sync cart with server");
-      }
+    if (state.auth.data && state.auth.type == UserType.CUSTOMER) {
+      // Collect all promises in an array
+      const cartPromises = state.cart.items.map((element) =>
+        addToCart(element.product._id, element.quantity)
+      );
+
+      // Wait for all promises to resolve
+      const resp = await Promise.all(cartPromises);
+
+      console.log(resp);
+
+      // You can handle the results or catch errors if needed
+      // Example: handling results if `addToCart` returns something
+      // const results = await Promise.all(cartPromises);
+      // Handle the `results` if necessary
+
+      // If any of the promises fail, an error will be thrown
+      // Catch block can be used at the calling function level if needed
     }
   }
 );
@@ -44,12 +68,40 @@ export const syncCartWithServer = createAsyncThunk(
 export const addItemToServer = createAsyncThunk(
   "cart/addItemToServer",
   async (
-    { product, quantity }: { product: Product; quantity: number },
+    {
+      product,
+      quantity,
+      type,
+    }: {
+      product: Product;
+      quantity: number;
+      type?: "productCard" | "cartCard";
+    },
     { getState }
   ) => {
     const state = getState() as RootState;
 
-    const response = await addToCart(product._id);
+    if (type == "productCard") {
+      const existingItem = state.cart.items.find(
+        (item) => item.product._id === product._id
+      );
+
+      if (existingItem) {
+        quantity = existingItem?.quantity + 1;
+      }
+    }
+
+    // let qty = quantity;
+
+    // const existingItem = state.cart.items.find(
+    //   (item) => item.product._id === product._id
+    // );
+
+    // if (existingItem) {
+    //   qty = existingItem.quantity + quantity;
+    // }
+
+    const response = await addToCart(product._id, quantity);
     console.log(response);
 
     if (response.status !== "success") {
@@ -66,21 +118,23 @@ export const fetchCartFromServer = createAsyncThunk(
     const state = getState() as RootState;
 
     if (state.auth.data) {
-      const rest = await requests.get<CartItem[]>(
-        `/customer/myCart?userID=${state.auth.data._id}`
+      const rest = await requests.get<{ cart: CartItem[] }>(
+        `/customer/my-cart`
       );
 
       console.log("rest", rest);
 
       if (rest.data) {
-        const certData = rest.data.map((e) => {
+        const certData = rest.data.cart.map((e) => {
           const p: { product: Product; quantity: number } = {
             quantity: e.quantity,
-            product: e.product,
+            product: e.productId,
           };
 
           return p;
         });
+
+        console.log("certData", certData);
 
         return certData;
       }
@@ -184,7 +238,7 @@ const cartSlice = createSlice({
         (item) => item.product._id === action.payload.product._id
       );
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
+        existingItem.quantity = action.payload.quantity;
       } else {
         state.items.push(action.payload);
       }
@@ -236,7 +290,11 @@ const cartSlice = createSlice({
     });
 
     builder.addCase(fetchCartFromServer.fulfilled, (state, action) => {
-      state.items = action.payload || []; // Initialize state with fetched data
+      if (action.payload) state.items = action.payload;
+
+      console.log("action.payload", state.items);
+
+      // Initialize state with fetched data
     });
     builder.addCase(fetchCartFromServer.rejected, (state, action) => {
       console.error("Failed to fetch cart from server:", action.error.message);

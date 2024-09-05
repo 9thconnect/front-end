@@ -43,7 +43,9 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
         if (quantity < quantityTwo) {
           console.log("increase");
 
-          dispatch(addItemToServer({ product, quantity: 1 }));
+          console.log("quantity", quantity, quantityTwo);
+
+          dispatch(addItemToServer({ product, quantity: quantityTwo }));
         } else {
           console.log("decrease");
           dispatch(
@@ -63,25 +65,25 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
           <div
             className={`rounded-lg w-40 h-20`}
             style={{
-              backgroundImage: `url(${product.images[0]})`,
+              backgroundImage: `url(${product?.images[0]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           />
           <div className="ml-2">
-            <p className="text-primary">{product.seller.fullName}</p>
-            <h3>{product.name}</h3>
+            <p className="text-primary">{product?.seller?.fullName}</p>
+            <h3>{product?.name}</h3>
           </div>
         </div>
         <h3 className="text-2xl  text-offBlack">
-          ₦ {product.price.toLocaleString()}
+          ₦ {product?.price.toLocaleString()}
         </h3>
       </div>
       <div className="flex justify-between items-center mt-3">
         <Button
           variant={"ghost"}
           className=" w-8 h-8 p-1 bg-gray-100 rounded-full "
-          onClick={() => handleRemove(product._id)}
+          onClick={() => handleRemove(product?._id)}
         >
           <Trash2 size={15} color="red" />
         </Button>

@@ -6,11 +6,14 @@ import { makeStore } from "@/lib/redux/store";
 import { BaseResponse } from "@/type/common";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "sonner";
+import https from "https";
 
 const axiosInstance = axios.create({
   baseURL: `${siteConfig.apiURL}`,
   timeout: 500000,
-  withCredentials: true,
+  // withCredentials: true,
+  // httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+
   headers: {
     Accept: "application/json, text/plain, */*",
     "Access-Control-Allow-Origin": "*",
@@ -46,7 +49,7 @@ axiosInstance.interceptors.response.use(
 
       store.dispatch(logoutUser());
 
-      window.location.href = "/customer/login";
+      // window.location.href = "/customer/login";
 
       // You might want to redirect to login page or clear the auth state here
       // For example:

@@ -49,6 +49,10 @@ const CheckoutPage = () => {
         },
       });
       toast.success(response.message);
+
+      if (response?.data?.checkout) {
+        window.location.href = response.data?.checkout;
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message);

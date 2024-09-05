@@ -25,6 +25,8 @@ import {
   storeAuthenticatedUser,
   UserType,
 } from "@/lib/redux/features/auth/authSlice";
+import { syncCartWithServer } from "@/lib/redux/features/cart/cartSlice";
+import { REHYDRATE } from "redux-persist";
 
 const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -66,6 +68,12 @@ export function LoginForm({ type }: { type: UserType }) {
             token: res.data.token,
           })
         );
+
+        dispatch({ type: REHYDRATE });
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        dispatch(syncCartWithServer());
       }
 
       console.log(UserType.ADMIN, type, type == UserType.ADMIN);

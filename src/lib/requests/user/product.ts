@@ -91,8 +91,8 @@ export const useGetSimilarProducts = (id: string) => {
   });
 };
 
-export const addToCart = (id: string) => {
-  return requests.patch<CartItem>(`/customer/add-to-cart/${id}`, {});
+export const addToCart = (id: string, qty: number) => {
+  return requests.patch<CartItem>(`/customer/add-to-cart/${id}/${qty}`, {});
 };
 
 export const removeFromCart = (id: string) => {
@@ -120,5 +120,8 @@ interface Body {
 }
 
 export const orderProduct = (body: Body) => {
-  return requests.post<CartItem>(`/order/customer/create-order`, body);
+  return requests.post<{ checkout: string }>(
+    `/order/customer/create-order`,
+    body
+  );
 };

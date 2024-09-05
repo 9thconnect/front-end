@@ -20,26 +20,44 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const CartPage = () => {
-  const cartItems = useAppSelector((state) => state.cart.items);
-
-  const isLoggedIn = useAppSelector((state) => state.auth.data);
-
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const isUser =
+    useAppSelector((state) => state.auth.type) == UserType.CUSTOMER;
+
+  const cartItems = useAppSelector((state) => state.cart?.items ?? []);
+
+  console.log("cartItems", cartItems);
 
   useEffect(() => {
     console.log(isLoggedIn);
 
-    if (isLoggedIn) {
+    if (isLoggedIn && isUser) {
       dispatch(fetchCartFromServer());
     }
-  }, [isLoggedIn, dispatch]);
+  }, [isLoggedIn, isUser]);
+
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      // Logic to handle updated cart items
+      console.log("Cart items updated:", cartItems);
+    }
+  }, [cartItems]);
 
   const calculateSubtotal = () => {
-    return cartItems.reduce((sum, item) => {
-      const itemPrice = item.product.price;
+    if (cartItems?.length > 0) {
+      return cartItems?.reduce((sum, item) => {
+        if (item.product) {
+          const itemPrice = item.product.price;
 
-      return sum + itemPrice * item.quantity;
-    }, 0);
+          return sum + itemPrice * item.quantity;
+        }
+
+        return 0;
+      }, 0);
+    }
+
+    return 0;
   };
 
   const deliveryFee = 500; // Example delivery fee
@@ -68,17 +86,18 @@ const CartPage = () => {
             </div>
 
             <div className="mt-3">
-              {cartItems.length === 0 ? (
-                <Empty size={150} text="Cart Empty" />
-              ) : (
-                cartItems.map((item) => (
-                  <CartCard
-                    key={item.product._id}
-                    product={item.product}
-                    quantity={item.quantity}
-                  />
-                ))
-              )}
+              {cartItems &&
+                (cartItems.length === 0 ? (
+                  <Empty size={150} text="Cart Empty" />
+                ) : (
+                  cartItems.map((item, index) => (
+                    <CartCard
+                      key={`${item.product._id}-${index}`}
+                      product={item.product}
+                      quantity={item.quantity}
+                    />
+                  ))
+                ))}
             </div>
           </div>
           <div className="md:self-start md:sticky md:col-span-3 md:top-56">
