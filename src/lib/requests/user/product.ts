@@ -99,6 +99,10 @@ export const removeFromCart = (id: string) => {
   return requests.patch<CartItem>(`/customer/decrement-cart/${id}`, {});
 };
 
+export const clearCartFromServer = () => {
+  return requests.patch<{ cart: [] }>(`/customer/clear-cart`, {});
+};
+
 export const useGetMyCert = (id: string) => {
   return useQuery({
     queryKey: ["get-cert", id],

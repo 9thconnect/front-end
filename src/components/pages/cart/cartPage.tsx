@@ -10,7 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
-import { fetchCartFromServer } from "@/lib/redux/features/cart/cartSlice";
+import {
+  clearCart,
+  clearCertFromServer,
+  fetchCartFromServer,
+} from "@/lib/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { useGetMyCert, useGetProductList } from "@/lib/requests/user/product";
 import { CartItem } from "@/type/common";
@@ -73,6 +77,14 @@ const CartPage = () => {
 
   const router = useRouter();
 
+  const onClearCart = () => {
+    if (isLoggedIn) {
+      dispatch(clearCertFromServer());
+    } else {
+      dispatch(clearCart());
+    }
+  };
+
   return (
     <div>
       <SectionContainer className="mt-5">
@@ -81,6 +93,7 @@ const CartPage = () => {
             <div className={`section-card-header `}>
               <div className="flex justify-between items-center mb-5">
                 <h3 className="text-2xl  text-offBlack">Cart</h3>
+                <Button onClick={onClearCart}>Clear Cert</Button>
               </div>
               <div className="border-b-2 w-full"></div>
             </div>

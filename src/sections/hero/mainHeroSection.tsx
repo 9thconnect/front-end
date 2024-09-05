@@ -5,12 +5,12 @@ import React from "react";
 
 const MainHeroSection: React.FC = () => {
   const images = [
-    "/images/1-banner.png",
-    "/images/2-banner.png",
-    "/images/3-banner.png",
-    "/images/4-banner.png",
-    "/images/5-banner.png",
-    "/images/6-banner.png",
+    "/images/1-banner.jpg",
+    "/images/2-banner.jpg",
+    "/images/3-banner.jpg",
+    "/images/4-banner.jpg",
+    "/images/5-banner.jpg",
+    "/images/6-banner.jpg",
   ];
 
   return (

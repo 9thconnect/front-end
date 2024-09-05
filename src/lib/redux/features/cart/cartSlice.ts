@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { RootState } from "../../store";
 import {
   addToCart,
+  clearCartFromServer,
   removeFromCart,
   useGetMyCert,
 } from "@/lib/requests/user/product";
@@ -157,6 +158,20 @@ export const removeItemFromServer = createAsyncThunk(
   }
 );
 
+export const clearCertFromServer = createAsyncThunk(
+  "cart/clearCertFromServer",
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+
+    const response = await clearCartFromServer();
+    if (response.status !== "success") {
+      throw new Error("Failed to remove item from server cart");
+    }
+
+    return [];
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -208,6 +223,21 @@ const cartSlice = createSlice({
           },
         });
       }
+    },
+    clearCart: (state) => {
+      state.items = [];
+
+      toast(`Cart cleared`, {
+        description: `Cart cleared`,
+        action: {
+          label: "Cart",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
     },
     updateQuantity: (
       state,
@@ -299,9 +329,29 @@ const cartSlice = createSlice({
     builder.addCase(fetchCartFromServer.rejected, (state, action) => {
       console.error("Failed to fetch cart from server:", action.error.message);
     });
+
+    builder.addCase(clearCertFromServer.fulfilled, (state, action) => {
+      if (action.payload) state.items = action.payload;
+
+      toast(`Cart cleared`, {
+        description: `Cart cleared`,
+        action: {
+          label: "Cart",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+    });
+    builder.addCase(clearCertFromServer.rejected, (state, action) => {
+      console.error("Failed to fetch cart from server:", action.error.message);
+    });
   },
 });
 
-export const { addItem, removeItem, updateQuantity } = cartSlice.actions;
+export const { addItem, removeItem, updateQuantity, clearCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
