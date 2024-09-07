@@ -14,7 +14,7 @@ const page = ({ params }: Props) => {
       backUrl="/"
       image="/images/Ads.png"
       title="Login To Your Account"
-      body={"Welcome back to McDonald"}
+      body={"Welcome back to 9th"}
     >
       <LoginForm type={params.type} />
     </AuthContainerCard>

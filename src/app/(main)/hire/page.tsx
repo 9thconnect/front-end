@@ -20,7 +20,7 @@ const page = async () => {
           <div className="flex flex-col px-5 py-10">
             <h2 className="text-xl font-semibold">Hire a Professional</h2>
             <p className="mt-4 text-lg">
-              Looking for a platform to see our unique creations? McDonalds
+              Looking for a platform to see our unique creations? 9th
               Marketplace is the perfect place to showcase your craftsmanship.
             </p>
 
@@ -37,7 +37,7 @@ const page = async () => {
           <div className="flex flex-col px-5 py-10">
             <h2 className="text-xl font-semibold">Find an Artisan</h2>
             <p className="mt-4 text-lg">
-              Looking for a platform to see our unique creations? McDonalds
+              Looking for a platform to see our unique creations? 9th
               Marketplace is the perfect place to showcase your craftsmanship.
             </p>
             <Link

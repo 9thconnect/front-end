@@ -134,7 +134,7 @@ const MainHeader = () => {
                 href={"/customer/login"}
               >
                 <Image alt="user icon" src={userIcon} />
-                <span className="ml-2">Login</span>
+                <span className="ml-2">Login/SignUp</span>
               </Link>
             )}
 

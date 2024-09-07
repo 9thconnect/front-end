@@ -4,8 +4,8 @@ import logoIconImg from "@public/logo.svg";
 import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 
 export const siteConfig = {
-  title: "MCDONALD",
-  description: `MCDONALD Web Application`,
+  title: "9th",
+  description: `9th Web Application`,
   logo: logoImg,
   icon: logoIconImg,
   apiURL: process.env.NEXT_PUBLIC_API_URL,
@@ -17,13 +17,13 @@ export const metaObject = (
   description: string = siteConfig.description
 ): Metadata => {
   return {
-    title: title ? `${title} - MCDONALD` : siteConfig.title,
+    title: title ? `${title} - 9th` : siteConfig.title,
     description,
     openGraph: openGraph ?? {
-      title: title ? `${title} - MCDONALD` : title,
+      title: title ? `${title} - 9th` : title,
       description,
       url: "https://isomorphic-furyroad.vercel.app",
-      siteName: "MCDONALD", // https://developers.google.com/search/docs/appearance/site-names
+      siteName: "9th", // https://developers.google.com/search/docs/appearance/site-names
       images: {
         url: "https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/itemdep/isobanner.png",
         width: 1200,

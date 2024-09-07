@@ -139,7 +139,7 @@ const MainFooter = () => {
         </div>
       </div>
       <div className="bg-[#313133] text-white rounded-b-lg text-center py-6">
-        <p>© McDonalds Technologies 2024. All Rights Reserved.</p>
+        <p>© 9TH TECH 2024. All Rights Reserved.</p>
       </div>
     </SectionContainer>
   );

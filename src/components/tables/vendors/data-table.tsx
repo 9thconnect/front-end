@@ -29,10 +29,6 @@ import { Business } from "@/type/professional";
 
 const VendorDataTable = () => {
   const router = useRouter();
-  const handleRowClick = (e: VendorData) => {
-    router.push(`vendors/${e._id}`);
-    console.log(e);
-  };
 
   // const data = getDataVendors();
 
@@ -77,7 +73,7 @@ const VendorDataTable = () => {
           <DataTable
             columns={columns}
             data={query.data?.data?.data.businesses as Business[]}
-            rowClick={handleRowClick}
+            // rowClick={handleRowClick}
           />
         )}
       </div>

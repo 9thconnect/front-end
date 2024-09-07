@@ -10,12 +10,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import MainBadge from "@/components/badges/mainBadge";
 import DateCell from "@/components/common/dateCell";
 import { formatCurrency } from "@/utils/format-currency";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, EyeIcon, Trash2 } from "lucide-react";
 import { Business } from "@/type/professional";
+import Router from "next/router";
+import { navigate } from "@/app/actions";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type VendorData = Business;
+
+const handleRowClick = (id: string) => {
+  navigate(`vendors/${id}`);
+};
 
 export const renderStatus = (status: string) => {
   let el;
@@ -119,10 +125,16 @@ export const columns: ColumnDef<VendorData>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          <div className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full">
+          <div
+            onClick={() => handleRowClick(row.original._id)}
+            className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full cursor-pointer"
+          >
+            <EyeIcon color="#22bb36" />
+          </div>
+          <div className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full cursor-pointer">
             <Edit2 color="#8E7E7E" />
           </div>
-          <div className="flex items-center p-2 bg-[#F0D3D3] rounded-full">
+          <div className="flex items-center p-2 bg-[#F0D3D3] rounded-full cursor-pointer">
             <Trash2 color="#7B0A0A" />
           </div>
         </div>

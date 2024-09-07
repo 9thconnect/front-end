@@ -26,14 +26,16 @@ const SellerOverview = ({ id }: { id: string }) => {
             backgroundPosition: "center",
           }}
         ></div>
-        <div
-          className="w-full min-h-96 rounded-2xl overflow-hidden mt-5"
-          style={{
-            backgroundImage: `url(${data?.businessLogo})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
+        {/* {data && data.businessLogo && (
+          <div
+            className="w-full min-h-96 rounded-2xl overflow-hidden mt-5"
+            style={{
+              backgroundImage: `url(${data?.businessLogo})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          ></div>
+        )} */}
       </aside>
       <div className="lg:col-span-5 mt-10 lg:mt-0">
         <div className="justify-between flex">
@@ -130,11 +132,11 @@ const SellerOverview = ({ id }: { id: string }) => {
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Type:</p>
-              <p className="text-offBlack">{data?.businessType.title} </p>
+              <p className="text-offBlack">{data?.businessType?.title} </p>
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Category:</p>
-              <p className="text-offBlack">{data?.businessType.title}</p>
+              <p className="text-offBlack">{data?.businessType?.title}</p>
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Address:</p>
