@@ -270,7 +270,7 @@ const ProductForm = ({ product }: { product?: Product }) => {
             name="productCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>category</FormLabel>
+                <FormLabel>Product Category</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -301,7 +301,7 @@ const ProductForm = ({ product }: { product?: Product }) => {
             name="subCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sub category</FormLabel>
+                <FormLabel>Sub Category</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
