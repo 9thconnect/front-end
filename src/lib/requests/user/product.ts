@@ -11,6 +11,7 @@ export const getProductList = (
   search?: string,
   pageNumber?: number,
   filterByProductCategory?: string,
+  filterBySubCategory?: string,
   startPrice?: number,
   endPrice?: number
 ) => {
@@ -21,6 +22,8 @@ export const getProductList = (
     params.append("pageNumber", pageNumber.toString());
   if (filterByProductCategory !== undefined)
     params.append("filterByProductCategory", filterByProductCategory);
+  if (filterBySubCategory)
+    params.append("filterBysubCategory", filterBySubCategory);
   if (startPrice !== undefined)
     params.append("startPrice", startPrice.toString());
   if (endPrice !== undefined) params.append("endPrice", endPrice.toString());
@@ -32,6 +35,7 @@ export const useGetProductList = (
   search?: string,
   pageNumber?: number,
   filterByProductCategory?: string,
+  filterBySubCategory?: string,
   startPrice?: number,
   endPrice?: number
 ) => {
@@ -41,6 +45,7 @@ export const useGetProductList = (
       search,
       pageNumber,
       filterByProductCategory,
+      filterBySubCategory,
       startPrice,
       endPrice,
     ],
@@ -50,6 +55,7 @@ export const useGetProductList = (
         search,
         pageNumber,
         filterByProductCategory,
+        filterBySubCategory,
         startPrice,
         endPrice
       ),
@@ -93,6 +99,10 @@ export const useGetSimilarProducts = (id: string) => {
 
 export const addToCart = (id: string, qty: number) => {
   return requests.patch<CartItem>(`/customer/add-to-cart/${id}/${qty}`, {});
+};
+
+export const addToWishList = (id: string) => {
+  return requests.patch<CartItem>(`/customer/add-wishlist/${id}`, {});
 };
 
 export const removeFromCart = (id: string) => {

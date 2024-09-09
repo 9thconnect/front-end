@@ -11,6 +11,7 @@ import {
 import { useAppSelector } from "../../hooks";
 import { UserType } from "../auth/authSlice";
 import requests from "@/utils/requests";
+import { navigate } from "@/app/actions";
 
 interface CartState {
   items: { product: Product; quantity: number }[];
@@ -76,7 +77,7 @@ export const addItemToServer = createAsyncThunk(
     }: {
       product: Product;
       quantity: number;
-      type?: "productCard" | "cartCard";
+      type?: "productCard" | "cartCard" | "productPage";
     },
     { getState }
   ) => {
@@ -109,7 +110,7 @@ export const addItemToServer = createAsyncThunk(
       throw new Error("Failed to remove item from server cart");
     }
 
-    return { product, quantity };
+    return { product, quantity, type };
   }
 );
 
@@ -181,7 +182,11 @@ const cartSlice = createSlice({
     },
     addItem: (
       state,
-      action: PayloadAction<{ product: Product; quantity: number }>
+      action: PayloadAction<{
+        product: Product;
+        quantity: number;
+        type: "productCard" | "cartCard" | "productPage";
+      }>
     ) => {
       const existingItem = state.items.find(
         (item) => item.product._id === action.payload.product._id
@@ -204,6 +209,10 @@ const cartSlice = createSlice({
           },
         },
       });
+
+      if (action.payload.type == "productPage") {
+        navigate("/marketplace/cart");
+      }
     },
     removeItem: (state, action: PayloadAction<string>) => {
       const index = state.items.findIndex(
@@ -285,6 +294,10 @@ const cartSlice = createSlice({
           },
         },
       });
+
+      if (action.payload.type == "productPage") {
+        navigate("/marketplace/cart");
+      }
 
       console.log("Item successfully added to server");
     });

@@ -1,8 +1,14 @@
 import CertIcon from "@/icons/certIcon";
-import React from "react";
+import React, { useState } from "react";
 import SideBarItem from "./sideBarItem";
 import SectionCardHeader from "../cards/common/sectionCardHeader";
-import { useAppSelector } from "@/lib/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { Button } from "../ui/button";
+import { LogOut, LogOutIcon } from "lucide-react";
+import { logoutUser } from "@/lib/redux/features/auth/authSlice";
+import requests from "@/utils/requests";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const routes = [
   {
@@ -51,7 +57,26 @@ const routes = [
 
 const AccountPageSideBar = () => {
   const auth = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const type = auth.type;
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await requests.post(`customer/auth/logout`, {});
+      dispatch(logoutUser());
+
+      toast.success("logout successful");
+
+      router.push(`/${auth.type}/login`);
+    } catch (error) {
+      toast.success("logout error, try again");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredRoutes = routes.filter((route) => route.access.includes(type));
   return (
@@ -59,6 +84,10 @@ const AccountPageSideBar = () => {
       <div className={`section-card-header`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-xl  text-offBlack">User Profile</h3>
+          <Button disabled={loading} onClick={handleLogout}>
+            {loading ? "Loading.." : "Logout"}
+            <LogOutIcon className="ml-2" size={15} />
+          </Button>
         </div>
         <div className="border-b-2 mb-3 w-full"></div>
         <div className="flex p-2">

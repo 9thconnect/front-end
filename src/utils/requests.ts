@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
 
       store.dispatch(logoutUser());
 
-      // window.location.href = "/customer/login";
+      window.location.href = `/${store.getState().auth.type}/login`;
 
       // You might want to redirect to login page or clear the auth state here
       // For example:

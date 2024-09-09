@@ -29,8 +29,8 @@ import { toast } from "sonner";
 import ScrollableContainer from "@/components/common/scrollableContainer";
 import { useGetSimilarProducts } from "@/lib/requests/user/product";
 import ProductCard from "@/components/cards/productCard";
-import { useAppDispatch } from "@/lib/redux/hooks";
-import { addItem } from "@/lib/redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { addItem, addItemToServer } from "@/lib/redux/features/cart/cartSlice";
 import Counter from "@/components/common/countComponent";
 
 const SingleProductPage = ({ id }: { id: string }) => {
@@ -65,6 +65,23 @@ const SingleProductPage = ({ id }: { id: string }) => {
     isError,
     error,
   } = useGetSimilarProducts(id);
+
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
+
+  const handleAddToCart = (
+    e: React.MouseEvent<HTMLElement>,
+    product: Product
+  ) => {
+    e.preventDefault();
+
+    console.log("wdw");
+
+    if (isLoggedIn) {
+      dispatch(addItemToServer({ product, quantity: 1, type: "productPage" }));
+    } else {
+      dispatch(addItem({ product, quantity: 1, type: "productPage" }));
+    }
+  };
 
   if (loading) {
     return <p>Loading</p>;
@@ -159,20 +176,18 @@ const SingleProductPage = ({ id }: { id: string }) => {
                 ))}
               </div>
               <div className="w-full flex mt-5  items-end md:mt-auto space-x-4">
-                <Button
+                {/* <Button
                   className="bg-black hover:bg-black/70 text-white flex-grow"
                   variant={"secondary"}
                 >
                   Buy Now
-                </Button>
+                </Button> */}
                 {product && (
                   <Button
-                    onClick={() =>
-                      dispatch(addItem({ product, quantity: count }))
-                    }
-                    variant={"outline"}
+                    onClick={(e) => handleAddToCart(e, product)}
+                    className="w-full"
                   >
-                    Add to Cert
+                    Add to Cart
                   </Button>
                 )}
 

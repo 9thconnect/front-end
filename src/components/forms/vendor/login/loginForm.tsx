@@ -27,6 +27,7 @@ import {
 } from "@/lib/redux/features/auth/authSlice";
 import { syncCartWithServer } from "@/lib/redux/features/cart/cartSlice";
 import { REHYDRATE } from "redux-persist";
+import Link from "next/link";
 
 const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -129,6 +130,15 @@ export function LoginForm({ type }: { type: UserType }) {
         <Button disabled={isLoading} className="w-full" type="submit">
           {isLoading ? "Logging in..." : "Login"}
         </Button>
+
+        <div className="flex justify-between items-center">
+          <Link href={`/${type}/register`}>
+            Don't have an account? <span className="text-black">Register</span>{" "}
+          </Link>
+          <Link className="text-black" href={`/${type}/password/request`}>
+            Forget Password
+          </Link>
+        </div>
       </form>
     </Form>
   );

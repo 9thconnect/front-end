@@ -24,6 +24,6 @@ export const fetchBrandCategories = () =>
 export const fetchSubCategories = ({ queryKey }: { queryKey: any }) => {
   const [_key, { category, page }] = queryKey;
   return requests.get<FetchCategoryResponse>(
-    `/category/all?search&pageNumber=${page}&filterProductCategory=${category}`
+    `/category/all?search&pageNumber=${page}&filterProductCategory=${category}&filterCategoryType=product-sub-category`
   );
 };

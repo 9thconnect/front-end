@@ -90,6 +90,7 @@ const MarketplaceHomePage = () => {
 
   const params = useSearchParams();
   const catId = params.get("category");
+  const subCatId = params.get("subCategory");
 
   useEffect(() => {
     if (catId) {
@@ -124,6 +125,7 @@ const MarketplaceHomePage = () => {
     "",
     1,
     selectedCategory,
+    subCatId as string | undefined,
     priceRange(selectedPrice).startPrice,
     priceRange(selectedPrice).endPrice
   );

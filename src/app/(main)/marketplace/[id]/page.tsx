@@ -28,10 +28,10 @@ export async function generateMetadata(
       console.log(err);
     });
 
-  console.log(product.data.data.name);
+  console.log(product?.data?.data?.name);
 
   return {
-    title: product.data.data.name,
+    title: product?.data?.data?.name,
   };
 }
 

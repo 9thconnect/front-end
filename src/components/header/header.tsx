@@ -15,6 +15,7 @@ import FlashIconComponent from "@/icons/flashIcon";
 import NavItem from "./navItem";
 import {
   AlignVerticalDistributeCenter,
+  MenuIcon,
   StretchHorizontal,
   StretchHorizontalIcon,
 } from "lucide-react";
@@ -24,6 +25,7 @@ import { MainDrawer } from "../drawer/drawer";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
+import CategoryCard from "../cards/categoryCard";
 
 const MainHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -52,7 +54,11 @@ const MainHeader = () => {
       label: "Market Place",
       path: "/marketplace",
     },
-    { IconComponent: PeopleIconComponent, label: "Hire a Pro", path: "/hire" },
+    {
+      IconComponent: PeopleIconComponent,
+      label: "Hire a Professional",
+      path: "/hire",
+    },
     {
       IconComponent: FlashIconComponent,
       label: "Real Estate",
@@ -90,7 +96,7 @@ const MainHeader = () => {
         )}
       </div>
       <div className="mt-6 flex justify-between items-center">
-        <div className="flex w-full md:w-auto">
+        <div className="flex w-full md:w-auto items-center">
           <Link href={"/"}>
             <Image
               className="w-32 sm:w-auto"
@@ -98,6 +104,8 @@ const MainHeader = () => {
               src={siteConfig.logo}
             />
           </Link>
+
+          <CategoryCard />
 
           <label
             htmlFor="search"

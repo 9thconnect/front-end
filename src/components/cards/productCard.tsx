@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { addItem, addItemToServer } from "@/lib/redux/features/cart/cartSlice";
 import { Product } from "@/type/common";
+import { addToWishList } from "@/lib/requests/user/product";
+import axios from "axios";
 
 interface ProductCardProps {
   product: Product;
@@ -40,18 +42,28 @@ export interface IProduct {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
 
-  const handleAddToWishlist = (product: Product) => {
-    toast(`Product added to whish list`, {
-      description: `${product.name} added to whish list`,
-      action: {
-        label: "Whish List",
-        onClick: () => console.log("Undo"),
-        actionButtonStyle: {
-          backgroundColor: "#ab0505b9",
-          color: "#880b0bf",
+  const handleAddToWishlist = async (product: Product) => {
+    try {
+      const res = await addToWishList(product._id);
+
+      toast(res.message, {
+        description: `${product.name} added to whish list`,
+        action: {
+          label: "Whish List",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred try again");
+      }
+    }
   };
 
   const isLoggedIn = useAppSelector((state) => state.auth.data);
@@ -67,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     if (isLoggedIn) {
       dispatch(addItemToServer({ product, quantity: 1, type: "productCard" }));
     } else {
-      dispatch(addItem({ product, quantity: 1 }));
+      dispatch(addItem({ product, quantity: 1, type: "productCard" }));
     }
   };
 
@@ -100,7 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </CardHeader>
         <CardContent className="">
           <p className="text-xs my-3 text-gray-500">
-            {product.subCategory.title}
+            {product?.subCategory?.title}
             {/* {product.productCategory.title} TODO:change back */}
           </p>
           <CardTitle className="text-sm font-medium">{product.name}</CardTitle>
@@ -114,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </CardDescription>
           <Button
             onClick={(e) => handleAddToCart(e, product)}
-            className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
           >
             <ShippingBoxIcon />
           </Button>
