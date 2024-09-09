@@ -66,7 +66,7 @@ const CartPage = () => {
 
   const deliveryFee = 500; // Example delivery fee
   const subtotal = calculateSubtotal();
-  const total = subtotal + deliveryFee;
+  const total = subtotal;
 
   const {
     data: productList,
@@ -120,10 +120,10 @@ const CartPage = () => {
                 <p>Subtotal</p>
                 <p className="text-offBlack">₦ {subtotal.toLocaleString()}</p>
               </div>
-              <div className="flex justify-between items-center">
+              {/* <div className="flex justify-between items-center">
                 <p>Delivery Fee</p>
                 <p>₦ {deliveryFee.toLocaleString()}</p>
-              </div>
+              </div> */}
               <Separator className="my-4" />
               <div className="flex justify-between items-center">
                 <p>Total</p>
