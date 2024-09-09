@@ -133,7 +133,8 @@ export function LoginForm({ type }: { type: UserType }) {
 
         <div className="flex justify-between items-center">
           <Link href={`/${type}/register`}>
-            Don't have an account? <span className="text-black">Register</span>{" "}
+            Don&apos;t have an account?{" "}
+            <span className="text-black">Register</span>{" "}
           </Link>
           <Link className="text-black" href={`/${type}/password/request`}>
             Forget Password

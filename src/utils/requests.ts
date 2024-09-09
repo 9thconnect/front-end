@@ -7,6 +7,7 @@ import { BaseResponse } from "@/type/common";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "sonner";
 import https from "https";
+import { REHYDRATE } from "redux-persist";
 
 const axiosInstance = axios.create({
   baseURL: `${siteConfig.apiURL}`,
@@ -43,11 +44,13 @@ axiosInstance.interceptors.response.use(
 
       toast.error(error.response.data.message || "Unauthorized");
 
-      localStorage.getItem("persist:root");
+      localStorage.clear();
 
       const { store } = makeStore();
 
       store.dispatch(logoutUser());
+
+      store.dispatch({ type: REHYDRATE });
 
       window.location.href = `/${store.getState().auth.type}/login`;
 

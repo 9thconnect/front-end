@@ -67,7 +67,11 @@ const CategoryCard = () => {
           ) : (
             <div>
               {categories?.data?.data?.categories.map((category) => (
-                <AccordionItem className="mb-4" value={category._id}>
+                <AccordionItem
+                  className="mb-4"
+                  key={category._id}
+                  value={category._id}
+                >
                   <AccordionTrigger className="text-[16px] font-semibold">
                     {category.title}
                   </AccordionTrigger>
