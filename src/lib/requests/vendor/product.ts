@@ -16,3 +16,14 @@ export const getProducts = (
 export const deleteProduct = (id: string) => {
   return requests.delete<null>(`product/vendor/edit/delete-product/${id}`);
 };
+
+export const updateDiscount = (
+  id: string,
+  action: "activate" | "deactivate",
+  amount: number
+) => {
+  return requests.patch<null>(
+    `product/vendor/discount-product/${id}/${action}/${amount}`,
+    {}
+  );
+};

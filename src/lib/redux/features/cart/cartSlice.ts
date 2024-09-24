@@ -16,11 +16,19 @@ import { navigate } from "@/app/actions";
 interface CartState {
   items: { product: Product; quantity: number }[];
   isLoggedIn: boolean;
+  addingToCart: {
+    state: boolean;
+    product: Product | null;
+  };
 }
 
 const initialState: CartState = {
   items: [],
   isLoggedIn: false,
+  addingToCart: {
+    state: false,
+    product: null,
+  },
 };
 
 // export const syncCartWithServer = createAsyncThunk(
@@ -299,10 +307,19 @@ const cartSlice = createSlice({
         navigate("/marketplace/cart");
       }
 
+      state.addingToCart.state = false;
+      state.addingToCart.product = null;
+
       console.log("Item successfully added to server");
     });
     builder.addCase(addItemToServer.rejected, (state, action) => {
+      state.addingToCart.state = false;
+      state.addingToCart.product = null;
       console.error("Failed to add item to server:", action.error.message);
+    });
+    builder.addCase(addItemToServer.pending, (state, action) => {
+      state.addingToCart.state = true;
+      state.addingToCart.product = action.meta.arg.product;
     });
     builder.addCase(removeItemFromServer.fulfilled, (state, action) => {
       console.log(

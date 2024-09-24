@@ -11,14 +11,15 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
-import { HeartIcon } from "lucide-react";
+import { HeartIcon, LoaderCircleIcon } from "lucide-react";
 import ShippingBoxIcon from "@/icons/shippingBoxIcon";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { addItem, addItemToServer } from "@/lib/redux/features/cart/cartSlice";
 import { Product } from "@/type/common";
 import { addToWishList } from "@/lib/requests/user/product";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface ProductCardProps {
   product: Product;
@@ -42,12 +43,38 @@ export interface IProduct {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["addRemoveWishlist"],
+    mutationFn: (data: Product) => {
+      return addToWishList(product._id);
+    },
+    onSuccess: (data) => {
+      toast(data.message, {
+        description: `${product.name}`,
+        action: {
+          label: "Whish List",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+    },
+
+    onError: (error: AxiosError<{ message: string }>) => {
+      console.log(error.response?.data.message);
+
+      toast.error(error.response?.data.message);
+    },
+  });
+
   const handleAddToWishlist = async (product: Product) => {
     try {
       const res = await addToWishList(product._id);
 
       toast(res.message, {
-        description: `${product.name} added to whish list`,
+        description: `${product.name}`,
         action: {
           label: "Whish List",
           onClick: () => console.log("Undo"),
@@ -67,6 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
 
   const handleAddToCart = (
     e: React.MouseEvent<HTMLElement>,
@@ -103,11 +131,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              handleAddToWishlist(product);
+
+              mutate(product);
             }}
             className="absolute top-2 right-2 p-2 bg-white bg-opacity-75 rounded-full hover:bg-gray-100 z-10"
           >
-            <HeartIcon className="w-4 h-4 " />
+            {isPending ? (
+              <LoaderCircleIcon className="w-4 h-4 animate-spin " />
+            ) : (
+              <HeartIcon className="w-4 h-4 " />
+            )}
           </button>
         </CardHeader>
         <CardContent className="">
@@ -124,12 +157,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <CardDescription className="text-sm text-primary">
             {product.seller.fullName}
           </CardDescription>
-          <Button
-            onClick={(e) => handleAddToCart(e, product)}
-            className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
-          >
-            <ShippingBoxIcon />
-          </Button>
+
+          {loadingAddToCart.state &&
+          loadingAddToCart.product?._id == product._id ? (
+            <Button
+              onClick={(e) => handleAddToCart(e, product)}
+              className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500"
+            >
+              <LoaderCircleIcon className="w-4 h-4 animate-spin " />
+            </Button>
+          ) : (
+            <Button
+              onClick={(e) => handleAddToCart(e, product)}
+              className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
+            >
+              <ShippingBoxIcon />
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </Link>

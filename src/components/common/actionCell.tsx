@@ -26,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, X } from "lucide-react";
 import ProductForm from "@/components/forms/product/productForm";
+import { DiscountForm } from "../forms/vendor/product/discount/discountForm";
 
 interface ActionCellProps {
   row: any;
@@ -35,6 +36,7 @@ const ActionCell: React.FC<ActionCellProps> = ({ row }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [discount, setDiscount] = useState(false);
   const queryClient = useQueryClient();
 
   const handleDelete = async (id: string) => {
@@ -73,6 +75,9 @@ const ActionCell: React.FC<ActionCellProps> = ({ row }) => {
             Delete
           </DropdownMenuItem>
           <DropdownMenuItem>View</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setDiscount(true)}>
+            {row.original.discount.active ? "Update Discount" : "Add Discount"}
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -113,6 +118,22 @@ const ActionCell: React.FC<ActionCellProps> = ({ row }) => {
           </div>
 
           <ProductForm product={row.original} />
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={discount} onOpenChange={setDiscount}>
+        <AlertDialogContent className=" overflow-y-auto">
+          <div className="relative  w-full">
+            <AlertDialogHeader className="flex flex-row items-center">
+              <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
+                <X />
+              </AlertDialogCancel>
+              <AlertDialogTitle>
+                Add discount to {row.original.name}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+          </div>
+
+          <DiscountForm product={row.original} setDiscount={setDiscount} />
         </AlertDialogContent>
       </AlertDialog>
     </>

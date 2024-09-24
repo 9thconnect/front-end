@@ -1,5 +1,5 @@
 import { UserType } from "@/lib/redux/features/auth/authSlice";
-import { ProductsResponse } from "@/type/common";
+import { BusinessData, ProductsResponse } from "@/type/common";
 import { removeEmptyKeys } from "@/utils/clean-data";
 import requests from "@/utils/requests";
 
@@ -16,4 +16,15 @@ export const updateProfile = (
     delete data.gender;
   }
   return requests.put(`/${type}/update-my-profile`, removeEmptyKeys(data));
+};
+
+export const getMyBusiness = () => {
+  return requests.get<{
+    businesses: {
+      page: number;
+      pages: number;
+      count: number;
+      businesses: Array<BusinessData>;
+    };
+  }>(`vendor/my-businesses`);
 };

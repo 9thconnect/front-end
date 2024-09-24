@@ -1,5 +1,7 @@
 import {
   CartItem,
+  Order,
+  OrderResponse,
   Product,
   ProductsResponse,
   SimilarProductResponse,
@@ -102,7 +104,7 @@ export const addToCart = (id: string, qty: number) => {
 };
 
 export const addToWishList = (id: string) => {
-  return requests.patch<CartItem>(`/customer/add-wishlist/${id}`, {});
+  return requests.patch<CartItem>(`/customer/wishlist-product/${id}`, {});
 };
 
 export const removeFromCart = (id: string) => {
@@ -138,4 +140,27 @@ export const orderProduct = (body: Body) => {
     `/order/customer/create-order`,
     body
   );
+};
+
+export const getWishlist = () => {
+  return requests.get<{
+    count: number;
+    wishlist: Array<{
+      _id: string;
+      name: string;
+      price: number;
+      images: Array<string>;
+    }>;
+  }>(`/customer/my-wishlist`);
+};
+export const getOrders = ({ queryKey }: { queryKey: any }) => {
+  const [_key, { page, userType }] = queryKey;
+  return requests.get<OrderResponse>(
+    `/order/${userType}/orders?pageNumber=${page}`
+  );
+};
+
+export const getOrder = ({ queryKey }: { queryKey: any }) => {
+  const [_key, { id, userType }] = queryKey;
+  return requests.get<Order>(`order/${userType}/order/${id}`);
 };

@@ -20,11 +20,11 @@ import { formatCurrency } from "@/utils/format-currency";
 import { Input } from "@/components/ui/input";
 import FilterSelect from "@/components/common/filterSelect";
 import { useQuery } from "@tanstack/react-query";
-import { getPayments } from "@/lib/requests/vendor/payment";
+import { getPayments } from "@/lib/requests/user/payment";
 import { Payment } from "@/type/common";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const WithdrawalDataTable = () => {
+const TransactionDataTable = () => {
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
 
@@ -122,19 +122,14 @@ const WithdrawalDataTable = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-
       {isError && (
         <div>
           <p>Error loading data</p>
         </div>
       )}
 
-      {isError ? (
-        <div>
-          <p>Error loading data</p>
-        </div>
-      ) : isLoading ? (
-        <div className="space-y-4 mt-5 w-full overflow-x-auto">
+      {isLoading ? (
+        <div className="space-y-4">
           {/* Repeat this block for the number of rows you want to display as loading */}
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex items-center space-x-4 py-2 px-4">
@@ -145,8 +140,6 @@ const WithdrawalDataTable = () => {
               <Skeleton className="h-6 w-20" /> {/* Fourth Column */}
               <Skeleton className="h-6 w-20" /> {/* Fifth Column */}
               <Skeleton className="h-6 w-20" /> {/* Sixth Column */}
-              <Skeleton className="h-6 w-24" /> {/* Second Column */}
-              <Skeleton className="h-6 w-32" /> {/* Third Column */}
             </div>
           ))}
         </div>
@@ -172,6 +165,10 @@ const WithdrawalDataTable = () => {
                         name: "Failed",
                         value: 0,
                       },
+                      {
+                        name: "Successful",
+                        value: 1,
+                      },
                     ]}
                     placeholder="Status"
                   />
@@ -179,7 +176,6 @@ const WithdrawalDataTable = () => {
               </div>
             </div>
           </div>
-
           <DataTable
             columns={columns}
             data={data?.data?.payments || []}
@@ -191,4 +187,4 @@ const WithdrawalDataTable = () => {
   );
 };
 
-export default WithdrawalDataTable;
+export default TransactionDataTable;

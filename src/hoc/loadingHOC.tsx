@@ -3,7 +3,7 @@
 import { Copy, CheckCircle, XCircle, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 type DialogLoadingProps = {
   status: "idle" | "success" | "error" | "loading";
@@ -38,6 +38,12 @@ export function HOCLoading({
   hideCancelButton = false,
   children,
 }: DialogLoadingProps) {
+  console.log("statusstatus", status);
+
+  useEffect(() => {
+    console.log(status);
+  }, [status]);
+
   const renderIcon = () => {
     if (status === "loading")
       return (
@@ -110,8 +116,7 @@ export function HOCLoading({
           <div>{children}</div>
         ) : (
           <div className="flex flex-col items-center justify-center">
-            <LoaderCircle className="h-14 w-14 animate-spin" />
-            <p className="mt-4 text-offBlack text-lg mb-10">MC DONALD</p>
+            No Content
           </div>
         )}
       </div>

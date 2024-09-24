@@ -1,3 +1,4 @@
+import OrderPage from "@/components/pages/marketplace/orderPage";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
@@ -41,22 +42,7 @@ const page = () => {
     <div>
       <div className="pb-2">
         <h3 className="text-xl text-offBlack my-2">Order History</h3>
-        {orders.map((order) => (
-          <Link
-            key={order.id}
-            href={`orders/${order.id}`}
-            className="flex mb-4 cursor-pointer border rounded-xl p-2 justify-between"
-          >
-            <div>
-              <p className="mb-2">Order ID: {order.id}</p>
-              <p>Date: {order.date}</p>
-            </div>
-            <div>
-              <p className="mb-2">Total Amount: {order.totalAmount}</p>
-              <p>Status: {order.status}</p>
-            </div>
-          </Link>
-        ))}
+        <OrderPage />
       </div>
     </div>
   );

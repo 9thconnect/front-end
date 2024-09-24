@@ -18,16 +18,28 @@ const routes = [
     access: ["customer", "vendor"],
   },
   {
+    name: "My Business",
+    route: "/account/business",
+    icon: CertIcon,
+    access: ["vendor"],
+  },
+  {
     name: "Wallet",
     route: "/account/wallet",
     icon: CertIcon,
     access: ["vendor"],
   },
   {
+    name: "Transactions",
+    route: "/account/transactions",
+    icon: CertIcon,
+    access: ["customer"],
+  },
+  {
     name: "Orders",
     route: "/account/orders",
     icon: CertIcon,
-    access: ["customer"],
+    access: ["customer", "vendor"],
   },
   {
     name: "Wishlist",
