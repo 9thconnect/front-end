@@ -296,7 +296,7 @@ const MyBusinessPage = () => {
               )
             </DialogTitle>
             <DialogDescription>
-              Make changes to your business here. Click save when you're done.
+              Make changes to your business here. Click save when you are done.
             </DialogDescription>
           </DialogHeader>
           {formData && (
