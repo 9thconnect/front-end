@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
-import SendProposalForm, {
-  ProposalSchema,
-} from "../forms/hire/sendProposalForm";
 import { HOCLoading } from "@/hoc/loadingHOC";
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import SendProposalForm, {
+  ProposalSchema,
+} from "../forms/hire/sendProposalForm";
 
 const SendProposalModal = () => {
   const [loading, setLoading] = useState<
