@@ -1,7 +1,6 @@
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import WithdrawFromWallerModal from "@/components/modals/withdrawModal";
 import WithdrawalDataTable from "@/components/tables/vendors/withdrawal/data-table";
-import { walletDummy } from "@/data/dummy/productDummyData";
 import { formatCurrency } from "@/utils/format-currency";
 import { UsersRound } from "lucide-react";
 import React from "react";
