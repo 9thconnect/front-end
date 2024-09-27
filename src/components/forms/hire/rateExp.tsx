@@ -16,8 +16,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
-
-import NewRating from "@/components/Rating/Rating";
+import Rating from "@/components/Rating/Rating";
 
 export const RateProSchema = z.object({
   comment: z.string().min(2, {
@@ -56,7 +55,7 @@ const RateProForm = ({
               </FormLabel>
               <FormControl className="w-full">
                 <>
-                  <NewRating
+                  <Rating
                     className="!mt-4"
                     onChange={(value: any) => field.onChange(value)}
                     initialRating={field.value}
