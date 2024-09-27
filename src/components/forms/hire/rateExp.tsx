@@ -12,27 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { toast } from "sonner";
-import { forgotPassword } from "@/lib/requests/vendor/auth";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { DialogLoading } from "@/components/common/dialogLoading";
-import Rating from "react-rating";
+import NewRating from "@/components/Rating/Rating";
 
 export const RateProSchema = z.object({
   comment: z.string().min(2, {
@@ -71,9 +56,9 @@ const RateProForm = ({
               </FormLabel>
               <FormControl className="w-full">
                 <>
-                  <Rating
+                  <NewRating
                     className="!mt-4"
-                    onChange={(value) => field.onChange(value)}
+                    onChange={(value: any) => field.onChange(value)}
                     initialRating={field.value}
                     emptySymbol={
                       <div className="mr-4">
