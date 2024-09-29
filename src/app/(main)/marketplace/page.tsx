@@ -28,9 +28,6 @@ function page() {
 
           <div className="border-b-2 w-full mb-8"></div>
           <FeaturedProductSection />
-          <div className="mt-2">
-            <BrandsSection />
-          </div>
         </div>
         <div className="mt-5">
           <SectionCardHeader
