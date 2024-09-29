@@ -51,8 +51,13 @@ const MainHeader = () => {
   const navItems: NavItemType[] = [
     {
       IconComponent: LogoIconComp,
-      label: "Market Place",
+      label: "Marketplace",
       path: "/marketplace",
+    },
+    {
+      IconComponent: FlashIconComponent,
+      label: "Wholesale",
+      path: "/wholesale",
     },
     {
       IconComponent: PeopleIconComponent,
@@ -68,11 +73,6 @@ const MainHeader = () => {
       IconComponent: FlashIconComponent,
       label: "Logistics",
       path: "/logistics",
-    },
-    {
-      IconComponent: FlashIconComponent,
-      label: "Wholesale",
-      path: "/wholesale",
     },
   ];
 
