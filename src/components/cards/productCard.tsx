@@ -158,8 +158,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.seller.fullName}
           </CardDescription>
 
-          {loadingAddToCart.state &&
-          loadingAddToCart.product?._id == product._id ? (
+          {loadingAddToCart?.state &&
+          loadingAddToCart?.product?._id == product._id ? (
             <Button
               onClick={(e) => handleAddToCart(e, product)}
               className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500"

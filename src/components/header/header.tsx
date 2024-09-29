@@ -69,6 +69,11 @@ const MainHeader = () => {
       label: "Logistics",
       path: "/logistics",
     },
+    {
+      IconComponent: FlashIconComponent,
+      label: "Wholesale",
+      path: "/wholesale",
+    },
   ];
 
   const isLoggedIn = useAppSelector((state) => state.auth.data);
