@@ -215,7 +215,9 @@ const SingleProductPage = ({ id }: { id: string }) => {
               <div className="flex space-x-4 flex-wrap text-gray-950">
                 <div className="flex items-center">
                   <BriefcaseBusiness size={20} color="red" />
-                  <span className="ml-2">{product?.seller.fullName}</span>
+                  <span className="ml-2">
+                    {product?.seller?.businesses[0]?.businessLegalName}
+                  </span>
                 </div>
                 <div className="flex">
                   <MapPin size={20} color="red" />
@@ -372,7 +374,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
                           {product?.seller?.businesses[0]?.businessRegNo}
                         </p>
                       </div>
-                      <div className="flex items-center mb-4">
+                      {/* <div className="flex items-center mb-4">
                         <p className="mr-7">Email:</p>
                         <p className="text-offBlack">
                           {product?.seller?.businesses[0]?.businessEmail}
@@ -383,7 +385,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
                         <p className="text-offBlack">
                           {product?.seller?.businesses[0]?.businessPhoneNumber}
                         </p>
-                      </div>
+                      </div> */}
 
                       <h2 className="text-offBlack">Shop details</h2>
                       <Separator className="my-2" />
@@ -393,7 +395,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
                           {product?.seller?.businesses[0]?.shopName}
                         </p>
                       </div>
-                      <div className="flex items-center mb-4">
+                      {/* <div className="flex items-center mb-4">
                         <p className="mr-7">Type:</p>
                         <p className="text-offBlack">
                           {product?.seller?.businesses[0]?.businessType?.title}{" "}
@@ -404,7 +406,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
                         <p className="text-offBlack">
                           {product?.seller?.businesses[0]?.businessType?.title}
                         </p>
-                      </div>
+                      </div> */}
                       <div className="flex items-center mb-4">
                         <p className="mr-7">Address:</p>
                         <p className="text-offBlack">
