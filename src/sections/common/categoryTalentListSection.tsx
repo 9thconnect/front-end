@@ -19,7 +19,7 @@ export const talentsData: ITalent[] = [
     location: "Abuja, NG",
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -32,7 +32,7 @@ export const talentsData: ITalent[] = [
     location: "Abuja, NG",
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -46,7 +46,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -60,7 +60,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -74,7 +74,7 @@ export const talentsData: ITalent[] = [
 
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -88,7 +88,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -102,7 +102,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -116,7 +116,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -130,7 +130,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -144,7 +144,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -158,7 +158,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -172,7 +172,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -186,7 +186,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -200,7 +200,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -214,7 +214,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -228,7 +228,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "engineering",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -242,7 +242,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: false,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "management",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"
@@ -256,7 +256,7 @@ export const talentsData: ITalent[] = [
     rating: 4.5,
     verified: true,
     imageUrl:
-      "https://s3-alpha-sig.figma.com/img/d2ba/bb85/01f6a973b94fc8cb81c553333f57c62d?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZlOotb8Vj6QrSiHV6j1gi0yX8~XJDVuo6W78v-ynT0ZtCwxM1XsGjD5pDKwG~1BQuqyT3s2NbBQddFHKtdbWYz328ypYZ6Q~D041fI5U9UOin6pGZl-HiskQ0MeQ8qvWp5cWzHIMf13mSPA1Y2kNIISWd3IgwUOYwrbOhtQuOdx6Wsq0Nb~93YltPnLyjbXGcs6Fc3kyGAd2s2sDWLufVjCRVNbbHoCgrjko4yC~T24JISHJKxLQivq0dowbLwN2lrHaZWwVvuaebLV9MwHfl5wUHfldLE9-KWLq6jy9z7Mf9cj7gYWbaW2CGlL3S2rLuUIjQAl2YMGbeuAY0trvgA__",
+      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
     category: "architecture",
     type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
       | "artisan"

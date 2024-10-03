@@ -16,7 +16,7 @@ const page = async () => {
     <div className="pt-5">
       <div className="lg:flex lg:space-x-5 text-offBlack">
         <div className="md:grid grid-cols-2 bg-white rounded-xl overflow-hidden">
-          <div className="min-h-60 bg-[url('https://s3-alpha-sig.figma.com/img/3048/d2ba/2be35d48b8daca0b6b718c9628b25105?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AX1Mmnh7F3r88knG7LKEYDFRKgKZOJLiFaZMqB0XeP2Sxa85W3PMR0esRyloJonV1WJnvzObVntgbvqSP5lQrIbajF5ULlApQ~Lmdvkv4wweYNxGW7sKIyPMbGUwMx6F4Ed8aCb4bmKi4wqIMlFf9cKZUwFBi8iWJTAcwqvQO4O3Jh1UsUnPKaM4YJezFK7J0IXAZtJsasZ4oWbKNL3ZSdzmijIqemsosGHUTam6XH57IEWh~LlT0T1XUVyX-SHyLrNfATG1W~nWO64UqWAQUr9oLTrKUtJYybDrhEoipeUa~SEo252Dbx5VbcP8Ty3N3I4NNYFRXBBRuizoImK3Iw__')] bg-cover bg-no-repeat "></div>
+          <div className="min-h-60 bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799631/4d56ce8c38262e55c19c507e6ac71960_kt6zfd.png')] bg-cover bg-no-repeat bg-center"></div>
           <div className="flex flex-col px-5 py-10">
             <h2 className="text-xl font-semibold">Hire a Professional</h2>
             <p className="mt-4 text-lg">
@@ -33,7 +33,7 @@ const page = async () => {
           </div>
         </div>
         <div className="mt-5 lg:mt-0 md:grid grid-cols-2 bg-white rounded-xl overflow-hidden">
-          <div className="min-h-60 bg-[url('https://s3-alpha-sig.figma.com/img/3048/d2ba/2be35d48b8daca0b6b718c9628b25105?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AX1Mmnh7F3r88knG7LKEYDFRKgKZOJLiFaZMqB0XeP2Sxa85W3PMR0esRyloJonV1WJnvzObVntgbvqSP5lQrIbajF5ULlApQ~Lmdvkv4wweYNxGW7sKIyPMbGUwMx6F4Ed8aCb4bmKi4wqIMlFf9cKZUwFBi8iWJTAcwqvQO4O3Jh1UsUnPKaM4YJezFK7J0IXAZtJsasZ4oWbKNL3ZSdzmijIqemsosGHUTam6XH57IEWh~LlT0T1XUVyX-SHyLrNfATG1W~nWO64UqWAQUr9oLTrKUtJYybDrhEoipeUa~SEo252Dbx5VbcP8Ty3N3I4NNYFRXBBRuizoImK3Iw__')] bg-cover bg-no-repeat "></div>
+          <div className="min-h-60 bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727942799/85a78f48cd09d81a21a4bdc3c2d3c9c1_bueo7f.png')] bg-cover bg-no-repeat bg-center "></div>
           <div className="flex flex-col px-5 py-10">
             <h2 className="text-xl font-semibold">Find an Artisan</h2>
             <p className="mt-4 text-lg">

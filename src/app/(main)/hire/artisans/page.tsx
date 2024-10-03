@@ -13,7 +13,7 @@ export const metadata = {
 const page = async () => {
   return (
     <div>
-      <div className="bg-[url('https://s3-alpha-sig.figma.com/img/6a6d/c7d4/696a5b5f167757391ac16bf51e0b316e?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Yj8CjsoMEiA7jHuS1U2XWftj5NE6lYXZ6UXGZs~PgWkeVkAXn2HyAhbG80rWwEoEM~9LyjDjls~IjvbebU006o8N0BDl8N98g3tYVXwmYhk4fY3mBxbsKDgctbsJld~Fq4eFzi21ZqE08OEsuY6fZKYlQR9PLOFksc5W4Lr6m6-6kGDw9nVGoJwDOgk-zO7hxU~4uZqjXZ4lHahDUmB2IBPsWclk-UP3K8vw56InyVtZKLfQJkL0SU~9BFdLjZR0WnaK7wFCvXkVowLiE-5SVx4M2yGi0LZMKD-rx2m6Zaz5Du1UGQmNoMctlWiulg-yPQOmqxEN1aIlkRVl6N8~0A__')] bg-cover h-80 bg-no-repeat rounded-2xl mt-5 "></div>
+      <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727944377/696a5b5f167757391ac16bf51e0b316e_bjxilh.jpg')] bg-cover h-80 bg-no-repeat rounded-2xl mt-5 "></div>
 
       <SectionContainer>
         <SectionCardHeader
