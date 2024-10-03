@@ -32,11 +32,100 @@ import ProductCard from "@/components/cards/productCard";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { addItem, addItemToServer } from "@/lib/redux/features/cart/cartSlice";
 import Counter from "@/components/common/countComponent";
+import { siteConfig } from "@/config/site.config";
+import { formatDate } from "@/utils/format-date";
+import Empty from "@/components/common/empty";
+
+interface RatingBarProps {
+  rating: number;
+  count: number;
+}
+
+const RatingBar: React.FC<RatingBarProps> = ({ rating, count }) => (
+  <div className="flex items-center mb-1">
+    <span className="w-6 text-sm flex">
+      <div className="flex">
+        <span className="text-black">{rating}</span>
+
+        <Star className="w-4 h-4 mx-2 text-yellow-400 fill-yellow-400" />
+      </div>
+
+      <span className="text-sm text-gray-500">({count})</span>
+    </span>
+    <div className="w-40 bg-gray-200 rounded-full h-1.5 ml-20">
+      <div
+        className="bg-yellow-400 h-1.5 rounded-full"
+        style={{ width: `${(count / 2975) * 100}%` }}
+      ></div>
+    </div>
+  </div>
+);
+
+interface CustomerCommentProps {
+  name: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+  customer: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  reviewedOn: Date; // This can be a `Date` type as well if you want to parse it
+  _id: string;
+}
+
+const CustomerComment: React.FC<CustomerCommentProps> = ({
+  rating,
+  comment,
+  customer,
+  reviewedOn,
+}) => (
+  <div className="border-b border-gray-200 py-4">
+    <div className="flex items-center mb-2">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className={`w-4 h-4 ${
+            i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+          }`}
+        />
+      ))}
+    </div>
+    <p className="text-sm text-gray-600 mb-2">{comment}</p>
+    <div className="flex justify-between text-sm text-gray-500">
+      <span>{customer.fullName}</span>
+      <span>{formatDate(reviewedOn)}</span>
+    </div>
+  </div>
+);
+
+interface Rating {
+  stars: number;
+  count: number;
+}
+
+interface Comment extends CustomerCommentProps {}
 
 const SingleProductPage = ({ id }: { id: string }) => {
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+
+  const ratings: Rating[] = [
+    { stars: 5, count: 0 },
+    { stars: 4, count: 0 },
+    { stars: 3, count: 0 },
+    { stars: 2, count: 0 },
+    { stars: 1, count: 0 },
+  ];
+
+  product?.reviews.forEach((review) => {
+    const foundRating = ratings.find((r) => r.stars === review.rating);
+    if (foundRating) {
+      foundRating.count += 1;
+    }
+  });
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -130,7 +219,9 @@ const SingleProductPage = ({ id }: { id: string }) => {
                 </div>
                 <div className="flex">
                   <MapPin size={20} color="red" />
-                  <span className="ml-2">Dummy Location</span>
+                  <span className="ml-2">
+                    {product?.seller?.businesses[0]?.shopCity || "No Location"}
+                  </span>
                 </div>
                 <div className="flex">
                   <Star size={20} color="red" />
@@ -210,26 +301,162 @@ const SingleProductPage = ({ id }: { id: string }) => {
             </TabsList>
             <TabsContent className="w-full border-t" value="spec">
               <div className="mt-3 bg-gray-100 p-7 rounded-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam,
-                animi incidunt ipsum amet totam placeat quis sequi quibusdam
-                laudantium nemo maiores voluptatibus quisquam eaque enim
-                asperiores sint ipsam qui aspernatur!
+                {product?.description}
               </div>
             </TabsContent>
             <TabsContent className="w-full border-t" value="review">
-              <div className="mt-3 bg-gray-100 p-7 rounded-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam,
-                animi incidunt ipsum amet totam placeat quis sequi quibusdam
-                laudantium nemo maiores voluptatibus quisquam eaque enim
-                asperiores sint ipsam qui aspernatur!
+              <div className="w-full mx-auto p-6 flex space-x-8">
+                <div className="mb-8 w-2/5">
+                  <h1 className="text-2xl font-bold mb-6 text-black">
+                    Ratings
+                  </h1>
+                  <div className="bg-gray-100 p-6 rounded-lg flex flex-col items-center">
+                    <div className="text-5xl  mb-2 text-black">
+                      {product?.rating}
+                    </div>
+                    <div className="flex mb-2">
+                      {[...Array(product?.rating)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-6 h-6 text-yellow-400 fill-yellow-400"
+                        />
+                      ))}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {product?.numReviews} verified ratings
+                    </div>
+                  </div>
+                  <hr className="my-5" />
+                  <div>
+                    {ratings.map(({ stars, count }) => (
+                      <RatingBar key={stars} rating={stars} count={count} />
+                    ))}
+                  </div>
+                </div>
+                <div className="w-full border rounded-xl p-3">
+                  <h2 className="text-lg font-bold mb-4 text-black">
+                    Customer Comments
+                  </h2>
+                  <hr />
+                  {product?.reviews && product?.reviews.length > 0 ? (
+                    product?.reviews.map((comment, index) => (
+                      <CustomerComment key={index} {...comment} />
+                    ))
+                  ) : (
+                    <Empty size={150} text="No comments yet" />
+                  )}
+                  {}
+                </div>
               </div>
             </TabsContent>
             <TabsContent className="w-full border-t" value="info">
-              <div className="mt-3 bg-gray-100 p-7 rounded-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam,
-                animi incidunt ipsum amet totam placeat quis sequi quibusdam
-                laudantium nemo maiores voluptatibus quisquam eaque enim
-                asperiores sint ipsam qui aspernatur!
+              <div className="mt-3  p-7 flex w-full ">
+                <div className="w-2/5">
+                  <Image src={siteConfig.logo} alt="" />
+                </div>
+
+                <div className="mt-5">
+                  {product?.seller.businesses[0] && (
+                    <div className="border rounded-lg px-4 py-4">
+                      <h2 className="text-offBlack">Business</h2>
+                      <Separator className="my-2" />
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Business:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessLegalName}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">CAC:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessRegNo}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Email:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessEmail}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Phone:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessPhoneNumber}
+                        </p>
+                      </div>
+
+                      <h2 className="text-offBlack">Shop details</h2>
+                      <Separator className="my-2" />
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Name:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.shopName}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Type:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessType?.title}{" "}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Category:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.businessType?.title}
+                        </p>
+                      </div>
+                      <div className="flex items-center mb-4">
+                        <p className="mr-7">Address:</p>
+                        <p className="text-offBlack">
+                          {product?.seller?.businesses[0]?.shopAddress}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* <div className="w-full">
+                  <div className="border rounded-lg px-4 py-4">
+                    <h2 className="text-offBlack">Business</h2>
+                    <Separator className="my-2" />
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Business:</p>
+                      <p className="text-offBlack">Dummy Business Name</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">CAC:</p>
+                      <p className="text-offBlack">12345678</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Email:</p>
+                      <p className="text-offBlack">dummybusiness@email.com</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Phone:</p>
+                      <p className="text-offBlack">+1234567890</p>
+                    </div>
+
+                    <h2 className="text-offBlack">Shop details</h2>
+                    <Separator className="my-2" />
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Name:</p>
+                      <p className="text-offBlack">Dummy Shop Name</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Type:</p>
+                      <p className="text-offBlack">Retail</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Category:</p>
+                      <p className="text-offBlack">General</p>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <p className="mr-7">Address:</p>
+                      <p className="text-offBlack">
+                        123 Dummy Street, Dummy City
+                      </p>
+                    </div>
+                  </div>
+                </div> */}
               </div>
             </TabsContent>
           </Tabs>

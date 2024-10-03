@@ -20,6 +20,7 @@ import { Product } from "@/type/common";
 import { addToWishList } from "@/lib/requests/user/product";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { truncateText } from "@/utils/common";
 
 interface ProductCardProps {
   product: Product;
@@ -154,8 +155,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </p>
         </CardContent>
         <CardFooter className="w-full flex justify-between mt-auto self-baseline relative">
-          <CardDescription className="text-sm text-primary">
-            {product.seller.fullName}
+          <CardDescription className="text-xs ">
+            Sold By{" "}
+            <span className="text-primary">
+              {truncateText(
+                product?.seller?.businesses[0].shopName || "No Shop Name",
+                20
+              )}
+            </span>
           </CardDescription>
 
           {loadingAddToCart?.state &&

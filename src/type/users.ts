@@ -1,3 +1,5 @@
+import { CartItem } from "./common";
+
 export interface IAdmin {
   _id: string;
   fullName: string;
@@ -12,16 +14,21 @@ export interface IAdmin {
 }
 
 export interface IUser {
+  wallet: {
+    escrowBalance: number;
+    availableBalance: number;
+  };
   _id: string;
   fullName: string;
-  username: string;
+  phoneNumber: string;
   email: string;
-  role: string;
-  isActive: boolean;
-  phone: string;
+  avatar: string;
+  savedProducts: string[];
+  cart: Array<CartItem>;
   createdAt: string;
   updatedAt: string;
   __v: number;
+  lastSeen: string;
 }
 
 interface AccountDetails {
@@ -39,7 +46,8 @@ export interface IVendor {
   vendorID: string;
   email: string;
   phoneNumber: string;
-  vendorType: string;
+  vendorType: "seller" | "professional";
+  professionalType: "company" | "individual";
   avatar: string;
   gender: string;
   isActivate: boolean;
@@ -49,8 +57,8 @@ export interface IVendor {
   passwordResetToken: string;
   accountClosed: boolean;
   registeredOn: string;
-  businesses: Business[];
-  professions: Profession[];
+  businesses?: Business[];
+  professions?: Profession[];
   createdAt: string;
   updatedAt: string;
   __v: number;

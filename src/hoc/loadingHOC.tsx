@@ -38,8 +38,6 @@ export function HOCLoading({
   hideCancelButton = false,
   children,
 }: DialogLoadingProps) {
-  console.log("statusstatus", status);
-
   useEffect(() => {
     console.log(status);
   }, [status]);

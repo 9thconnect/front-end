@@ -17,19 +17,36 @@ import { Button } from "@/components/ui/button";
 import { vendorSignupProfileValidationSchema } from "./vendorSignupProfileValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
+import Link from "next/link";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
+import { ArrowLeft } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 type VendorSignupProfileFormProps = {
   onSubmit: (data: z.infer<typeof vendorSignupProfileValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
+  type: UserType;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const VendorSignupProfileForm = ({
   onSubmit,
   formStateData,
+  type,
+  setStage,
 }: VendorSignupProfileFormProps) => {
   const form = useVendorSignupProfileForm(formStateData);
   return (
     <Form {...form}>
+      <ArrowLeft
+        className="text-black cursor-pointer"
+        onClick={() => setStage(1)}
+      />
+      <h2 className="my-2 text-xl text-black">Create User Profile</h2>
+      <p className="mb-4">
+        We are excited to get you started as well. See you at the other side.
+      </p>
+      <Separator />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full grid grid-cols-2 gap-5 py-5"
@@ -84,6 +101,15 @@ const VendorSignupProfileForm = ({
           <Button className="w-full" type="submit">
             Submit
           </Button>
+        </div>
+
+        <div className="w-full col-span-2 flex justify-between items-center">
+          <Link href={`/${type}/login`}>
+            have an account? <span className="text-black">Login</span>{" "}
+          </Link>
+          <Link className="text-black" href={`/${type}/password/request`}>
+            Forget Password
+          </Link>
         </div>
       </form>
     </Form>

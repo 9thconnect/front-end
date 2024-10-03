@@ -1,5 +1,5 @@
 import { Category } from "./category";
-import { Vendor } from "./professional";
+import { Business, Vendor } from "./professional";
 
 export interface BaseResponse<T> {
   message: string;
@@ -12,6 +12,9 @@ interface Seller {
   fullName: string;
   vendorID: string;
   avatar: string;
+  phoneNumber: string;
+  gender: "male" | "female";
+  businesses: Array<Business>;
 }
 
 export interface Product {
@@ -39,6 +42,19 @@ export interface Product {
   variations: any[];
   rating: number;
   numReviews: number;
+  reviews: Array<{
+    name: string;
+    avatar: string;
+    rating: number;
+    comment: string;
+    customer: {
+      _id: string;
+      fullName: string;
+      avatar: string;
+    };
+    reviewedOn: Date; // This can be a `Date` type as well if you want to parse it
+    _id: string;
+  }>;
   __v: number;
 }
 
@@ -173,4 +189,24 @@ export interface Payment {
   updatedAt: Date;
   __v: number;
   ipAddress: string;
+}
+
+export interface OrderTracking {
+  title: string;
+  orderID: string;
+  customer: string;
+  status:
+    | "pending"
+    | "received"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
+  isPaid: boolean;
+  orderDetails: {
+    itemsTotalPrice: number;
+    totalPrice: number;
+    extraPrice: number;
+  };
+  orderItems: OrderItem[];
 }

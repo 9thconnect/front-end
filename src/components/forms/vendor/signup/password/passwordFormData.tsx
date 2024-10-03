@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon, XIcon } from "lucide-react";
+import { ArrowLeft, CheckIcon, XIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 // Define the password validation schema
 export const passwordValidationSchema = z
@@ -42,9 +43,16 @@ type PasswordFormProps = {
     password?: string;
     confirmPassword?: string;
   };
+  setStage: React.Dispatch<React.SetStateAction<number>>;
+  previousStage: number;
 };
 
-const PasswordForm = ({ onSubmit, formStateData }: PasswordFormProps) => {
+const PasswordForm = ({
+  onSubmit,
+  formStateData,
+  setStage,
+  previousStage,
+}: PasswordFormProps) => {
   const form = useForm<z.infer<typeof passwordValidationSchema>>({
     resolver: zodResolver(passwordValidationSchema),
     defaultValues: {
@@ -67,8 +75,19 @@ const PasswordForm = ({ onSubmit, formStateData }: PasswordFormProps) => {
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
   const isValidLength = password.length >= 6;
 
+  const handleGoBack = (previousStage: number) => {
+    console.log("ksmee", previousStage);
+
+    setStage(previousStage);
+  };
   return (
     <Form {...form}>
+      <ArrowLeft
+        className="text-black cursor-pointer"
+        onClick={() => handleGoBack(previousStage)}
+      />
+      <h2 className="my-2 text-xl text-black">Set Password</h2>
+      <Separator />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full grid grid-cols-1 gap-5 py-5"

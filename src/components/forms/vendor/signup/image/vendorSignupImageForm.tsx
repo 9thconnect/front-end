@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/select";
 import ImageUpload from "@/components/common/imageUpload";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
+import { ArrowLeft } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export const vendorSignupImageValidationSchema = z.object({
   gender: z.string({
@@ -38,11 +40,13 @@ export const vendorSignupImageValidationSchema = z.object({
 type VendorSignupImageFormProps = {
   onSubmit: (data: z.infer<typeof vendorSignupImageValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const VendorSignupImageForm = ({
   onSubmit,
   formStateData,
+  setStage,
 }: VendorSignupImageFormProps) => {
   function useVendorSignupImageForm() {
     return useForm<z.infer<typeof vendorSignupImageValidationSchema>>({
@@ -62,6 +66,15 @@ const VendorSignupImageForm = ({
 
   return (
     <Form {...form}>
+      <ArrowLeft
+        className="text-black cursor-pointer"
+        onClick={() => setStage(1)}
+      />
+      <h2 className="my-2 text-xl text-black">Profile Image</h2>
+      <p className="mb-4">
+        Put your best face forward, Let our community see and know you.
+      </p>
+      <Separator />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full grid grid-cols-2 gap-5 py-5"

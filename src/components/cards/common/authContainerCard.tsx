@@ -44,10 +44,10 @@ const AuthContainerCard = ({
       </div>
       <div className="col-span-2 md:col-span-1 overflow-y-auto p-1 md:p-4">
         <div className="text-offBlack">
-          <ArrowLeft />
+          {/* <ArrowLeft />
           <h2 className="my-2 text-xl">{title}</h2>
           <p className="mb-4">{body}</p>
-          <Separator />
+          <Separator /> */}
         </div>
         {children}
       </div>

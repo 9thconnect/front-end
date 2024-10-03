@@ -39,6 +39,7 @@ export interface Business {
   business: string;
   businessDesc: string;
   shopName: string;
+  shopCity: string;
   shopAddress: string;
   shopID: string;
   businessEmail: string;

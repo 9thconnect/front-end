@@ -26,6 +26,8 @@ import {
 import ImageUpload from "@/components/common/imageUpload";
 import { siteConfig } from "@/config/site.config";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
+import { ArrowLeft } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export const professionalDetailsValidationSchema = z.object({
   professionType: z.string().min(1, "Profession type is required"),
@@ -37,6 +39,7 @@ export const professionalDetailsValidationSchema = z.object({
 type ProfessionalDetailsFormProps = {
   onSubmit: (data: z.infer<typeof professionalDetailsValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 function useProfessionalDetailsForm(formStateData: VendorSignUpRequest) {
@@ -54,17 +57,18 @@ function useProfessionalDetailsForm(formStateData: VendorSignUpRequest) {
 const ProfessionalDetailsForm = ({
   onSubmit,
   formStateData,
+  setStage,
 }: ProfessionalDetailsFormProps) => {
   const form = useProfessionalDetailsForm(formStateData);
   const [professionTypes, setProfessionTypes] = useState<
-    { profession: string; _id: string }[]
+    { title: string; _id: string }[]
   >([]);
 
   useEffect(() => {
     const fetchProfessionTypes = async () => {
       try {
         const response = await axios.get(
-          `${siteConfig.apiURL}/category/profession/all`
+          `${siteConfig.apiURL}/category/all?search&pageNumber=1&filterCategoryType=profession-category`
         );
         setProfessionTypes(response.data.data.data.categories);
       } catch (error) {
@@ -77,6 +81,13 @@ const ProfessionalDetailsForm = ({
 
   return (
     <Form {...form}>
+      <ArrowLeft
+        className="text-black cursor-pointer"
+        onClick={() => setStage(4)}
+      />
+      <h2 className="my-2 text-xl text-black">Profession information</h2>
+      <p className="mb-4">Give us your business details</p>
+      <Separator className="mb-4" />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* Profession Type */}
         <FormField
@@ -96,7 +107,7 @@ const ProfessionalDetailsForm = ({
                   <SelectContent>
                     {professionTypes.map((type) => (
                       <SelectItem key={type._id} value={type._id}>
-                        {type.profession}
+                        {type.title}
                       </SelectItem>
                     ))}
                   </SelectContent>

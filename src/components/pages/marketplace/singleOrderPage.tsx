@@ -6,17 +6,234 @@ import { useAppSelector } from "@/lib/redux/hooks";
 import { getOrder } from "@/lib/requests/user/product";
 import { formatCurrency } from "@/utils/format-currency";
 import { formatDate } from "@/utils/format-date";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+import {
+  EllipsisIcon,
+  EllipsisVertical,
+  SquareMenuIcon,
+  X,
+} from "lucide-react";
+import { HOCLoading } from "@/hoc/loadingHOC";
+import requests from "@/utils/requests";
+import { Textarea } from "@/components/ui/textarea";
+import { OrderTracking } from "@/type/common";
+import OrderTrackingInfo from "@/components/cards/orderTrackingCard";
+import RateProductForm, {
+  RateProSchema,
+} from "@/components/forms/product/rateProduct";
+import { z } from "zod";
+import { toast } from "sonner";
+import axios from "axios";
 
 const SingleOrderPage = ({ id }: { id: string }) => {
   const userType = useAppSelector((state) => state.auth.type);
+
+  const [loading, setLoading] = useState<
+    "idle" | "success" | "error" | "loading"
+  >("idle");
+
+  const [actionType, setActionType] = useState<
+    "complete" | "report" | "cancel" | "track" | null
+  >(null);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+  const [serverMessage, setServerMessage] = useState({
+    success: "",
+    error: "",
+  });
+
+  const [trackingData, setTrackingData] = useState<OrderTracking | null>(null);
+
+  const [rate, setRate] = useState(false);
+
+  const completeOrderMutation = useMutation({
+    mutationFn: () =>
+      requests.patch<string>(`/order/customer/confirm-orders/${id}`, {}),
+    onSuccess: (response) => {
+      setLoading("success");
+      setServerMessage({
+        success: response.message || "Order completed successfully",
+        error: "",
+      });
+      refetch();
+    },
+    onError: (error: any) => {
+      setLoading("error");
+      setServerMessage({
+        success: "",
+        error: error.response?.data?.message || "Failed to complete order",
+      });
+    },
+  });
+
+  const cancelOrderMutation = useMutation({
+    mutationFn: () =>
+      requests.patch<string>(`/order/customer/cancel-order/${id}`, {}),
+    onSuccess: (response) => {
+      setLoading("success");
+      setServerMessage({
+        success: response.message || "Order cancelled successfully",
+        error: "",
+      });
+      refetch();
+    },
+    onError: (error: any) => {
+      setLoading("error");
+      setServerMessage({
+        success: "",
+        error: error.response?.data?.message || "Failed to cancel order",
+      });
+    },
+  });
+
+  const trackOrderMutation = useMutation({
+    mutationFn: () =>
+      requests.get<OrderTracking>(
+        `/order/customer/track-order/${data?.data?.orderID}`
+      ),
+    onSuccess: (response) => {
+      setLoading("idle");
+      setServerMessage({ success: "Order tracked successfully", error: "" });
+      setTrackingData(response.data);
+    },
+    onError: (error: any) => {
+      setLoading("error");
+      setServerMessage({
+        success: "",
+        error: error.response?.data?.message || "Failed to track order",
+      });
+    },
+  });
+
+  const reportOrderMutation = useMutation({
+    mutationFn: (reason: string) =>
+      requests.patch<string>("/order/customer/report-order", {
+        reason,
+        orderId: id,
+      }),
+    onSuccess: (response) => {
+      setLoading("success");
+      setServerMessage({
+        success: response.message || "Order reported successfully",
+        error: "",
+      });
+      refetch();
+    },
+    onError: (error: any) => {
+      console.log(error);
+
+      setLoading("error");
+      setServerMessage({
+        success: "",
+        error: error.response?.data?.message || "Failed to report order",
+      });
+    },
+  });
+
+  const confirmAction = () => {
+    setLoading("loading");
+
+    console.log("confirmAction", actionType);
+
+    switch (actionType) {
+      case "complete":
+        completeOrderMutation.mutate();
+        break;
+      case "cancel":
+        cancelOrderMutation.mutate();
+        break;
+      case "track":
+        trackOrderMutation.mutate();
+        break;
+      case "report":
+        reportOrderMutation.mutate(reportReason);
+        break;
+    }
+  };
+
+  const handleTrackOrder = () => {
+    setLoading("loading");
+    trackOrderMutation.mutate();
+  };
+
+  const handleAction = (action: "complete" | "report" | "cancel" | "track") => {
+    setActionType(action);
+    setIsDialogOpen(true);
+
+    if (action === "track") {
+      handleTrackOrder();
+    }
+  };
+
+  const resetState = () => {
+    setLoading("idle");
+    setActionType(null);
+    setIsDialogOpen(false);
+    setReportReason("");
+  };
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: ["get-order", { id: id, userType: userType }],
     queryFn: getOrder,
   });
+
+  const onSubmitRating = useCallback(
+    async (ratingData: z.infer<typeof RateProSchema>) => {
+      setLoading("loading");
+      try {
+        if (data?.data?.orderItems) {
+          await Promise.all(
+            data.data.orderItems.map((item) =>
+              requests.patch(
+                `product/customer/rate-product/${item.productId}`,
+                ratingData
+              )
+            )
+          );
+        }
+        setLoading("success");
+        toast.success("Rating submitted successfully");
+      } catch (error) {
+        setLoading("error");
+        if (axios.isAxiosError(error)) {
+          toast.error(
+            error.response?.data.message || "An error occurred, try again"
+          );
+        } else {
+          toast.error("An error occurred, try again");
+        }
+      } finally {
+        setRate(false);
+      }
+    },
+    [data] // Added dependency to ensure `data` is properly referenced
+  );
+
+  const handleShowRateForm = () => {
+    setRate(true);
+    setLoading("idle");
+  };
 
   // Handle loading state
   if (isLoading || isFetching) {
@@ -33,17 +250,131 @@ const SingleOrderPage = ({ id }: { id: string }) => {
   }
 
   return (
-    <div>
+    <div className="border rounded-2xl p-2">
       <div className="flex justify-between items-center border-b pb-2">
-        <h3 className="hidden sm:block text-xl text-offBlack">
-          Order Detail {data?.data?.orderID}
-        </h3>
+        <h3 className="hidden sm:block text-xl text-offBlack">Order Detail</h3>
         <div className="flex space-x-2 items-center">
-          <p>Status</p>
-          <Button variant="outline" disabled>
-            {data?.data?.status}
-          </Button>
-          <Button variant="outline">Track Order</Button>
+          <div className="flex space-x-2 items-center">
+            <Button onClick={() => handleAction("complete")}>
+              Complete Order
+            </Button>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button variant={"outline"}>More</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Order Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => handleAction("report")}>
+                  Report Order
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleAction("cancel")}>
+                  Cancel Order
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleAction("track")}>
+                  Track Order
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
+              <AlertDialogHeader className="flex flex-row items-center">
+                <AlertDialogCancel
+                  className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3"
+                  onClick={resetState}
+                >
+                  <X size={15} />
+                </AlertDialogCancel>
+                <AlertDialogTitle>
+                  {actionType === "report"
+                    ? "Report Order"
+                    : `Confirm ${actionType} Order`}
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <HOCLoading
+                status={loading}
+                successMessage={serverMessage.success}
+                successDescription="Your request has been processed successfully."
+                onSuccessButtonClick={
+                  actionType === "complete" ? handleShowRateForm : resetState
+                }
+                successButtonText={
+                  actionType === "complete" ? "Rate Experience" : "Okay"
+                }
+                // hideCancelButton={loading === "success" || actionType === "complete" && rate}
+                onClose={resetState}
+                cancelButtonText={
+                  actionType === "complete" ? "Continue Shopping" : "Cancel"
+                }
+                errorMessage={serverMessage.error}
+                onErrorButtonClick={() => {
+                  if (actionType) {
+                    console.log("retry", actionType);
+                    setLoading("loading"); // Set loading state
+                    confirmAction(); // Call confirmAction directly
+                  }
+                }}
+              >
+                {actionType === "report" ? (
+                  <div>
+                    <Textarea
+                      className="w-full p-2 border rounded"
+                      placeholder="Enter reason for reporting"
+                      rows={4}
+                      value={reportReason}
+                      onChange={(e) => setReportReason(e.target.value)}
+                    />
+
+                    <div className="flex mt-12 w-full justify-center space-x-3">
+                      <Button
+                        onClick={confirmAction}
+                        disabled={!reportReason.trim()}
+                      >
+                        Submit Report
+                      </Button>
+                      <Button variant={"outline"} onClick={resetState}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : actionType === "track" ? (
+                  trackingData ? (
+                    <OrderTrackingInfo trackingData={trackingData} />
+                  ) : (
+                    <p>Fetching tracking information...</p>
+                  )
+                ) : actionType === "complete" ? (
+                  rate ? (
+                    <RateProductForm onSubmit={onSubmitRating} />
+                  ) : (
+                    <div className="text-center">
+                      <p>Are you sure you want to {actionType} this order?</p>
+
+                      <div className="flex mt-12 w-full justify-center space-x-3">
+                        <Button onClick={confirmAction}>Confirm</Button>
+                        <Button variant={"outline"} onClick={resetState}>
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  )
+                ) : (
+                  <div className="text-center">
+                    <p>Are you sure you want to {actionType} this order?</p>
+
+                    <div className="flex mt-12 w-full justify-center space-x-3">
+                      <Button onClick={confirmAction}>Confirm</Button>
+                      <Button variant={"outline"} onClick={resetState}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </HOCLoading>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
       <div className="mt-3">
@@ -125,19 +456,6 @@ const SingleOrderPage = ({ id }: { id: string }) => {
       <div className="mt-6">
         <p className="text-offBlack">Delivery Information</p>
         <div className="px-2 py-2 border mt-2 rounded-lg">
-          {/* <div className="flex justify-between items-center">
-            <p>Delivery method</p>
-            <p className="text-offBlack">Door</p>
-          </div>
-          <div className="flex justify-between items-center my-3">
-            <p>Fulfilled by</p>
-            <p className="text-offBlack">Chika Trucks & Co.</p>
-          </div>
-          <div className="flex justify-between items-center my-3">
-            <p>Date</p>
-            <p className="text-offBlack">Mar 7 - Mar 20, 2024</p>
-          </div>
-          <Separator orientation="horizontal" /> */}
           <div className="flex justify-between items-center mt-3">
             <p>Address</p>
             <p className="text-offBlack text-right">

@@ -19,6 +19,7 @@ import { forgotPassword } from "@/lib/requests/vendor/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
+import Link from "next/link";
 
 const ForgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -72,6 +73,15 @@ export function ForgotPasswordForm({ type }: { type: UserType }) {
         <Button disabled={isLoading} className="w-full" type="submit">
           {isLoading ? "Sending otp..." : "Request reset password"}
         </Button>
+        <div className="flex justify-between items-center">
+          <Link href={`/${type}/register`}>
+            Don&apos;t have an account?{" "}
+            <span className="text-black">Register</span>{" "}
+          </Link>
+          <Link className="text-black" href={`/${type}/login`}>
+            Login
+          </Link>
+        </div>
       </form>
     </Form>
   );

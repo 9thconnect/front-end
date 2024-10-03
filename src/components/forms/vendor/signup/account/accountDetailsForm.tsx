@@ -23,6 +23,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import bankData from "@/data/bank.json";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
+import { ArrowLeft } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export const accountDetailsValidationSchema = z.object({
   bank: z.string({
@@ -39,11 +41,13 @@ export const accountDetailsValidationSchema = z.object({
 type AccountDetailsFormProps = {
   onSubmit: (data: z.infer<typeof accountDetailsValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const AccountDetailsForm = ({
   onSubmit,
   formStateData,
+  setStage,
 }: AccountDetailsFormProps) => {
   function useAccountDetailsForm() {
     return useForm<z.infer<typeof accountDetailsValidationSchema>>({
@@ -59,6 +63,13 @@ const AccountDetailsForm = ({
 
   return (
     <Form {...form}>
+      <ArrowLeft
+        className="text-black cursor-pointer"
+        onClick={() => setStage(2)}
+      />
+      <h2 className="my-2 text-xl text-black">Add Bank Details</h2>
+      <p className="mb-4">Give us your payout account detail</p>
+      <Separator />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full grid grid-cols-2 gap-5 py-5"

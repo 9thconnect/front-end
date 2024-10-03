@@ -33,7 +33,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
-export const businessDetailsValidationSchema = z.object({
+export const professionalCompanyDetailsValidationSchema = z.object({
   businessType: z.string().min(1, "Business type is required"),
   businessDesc: z.string().min(1, "Business description is required"),
   shopName: z.string().min(1, "Shop name is required"),
@@ -47,19 +47,21 @@ export const businessDetailsValidationSchema = z.object({
 });
 
 type BusinessDetailsFormProps = {
-  onSubmit: (data: z.infer<typeof businessDetailsValidationSchema>) => void;
+  onSubmit: (
+    data: z.infer<typeof professionalCompanyDetailsValidationSchema>
+  ) => void;
   formStateData: VendorSignUpRequest;
   setStage?: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const BusinessDetailsForm = ({
+const ProfessionalCompanyDetailsForm = ({
   onSubmit,
   formStateData,
   setStage,
 }: BusinessDetailsFormProps) => {
   function useBusinessDetailsForm() {
-    return useForm<z.infer<typeof businessDetailsValidationSchema>>({
-      resolver: zodResolver(businessDetailsValidationSchema),
+    return useForm<z.infer<typeof professionalCompanyDetailsValidationSchema>>({
+      resolver: zodResolver(professionalCompanyDetailsValidationSchema),
       defaultValues: {
         businessDesc: formStateData.businessDesc,
         shopName: formStateData.shopName,
@@ -101,8 +103,8 @@ const BusinessDetailsForm = ({
         />
       )}
 
-      <h2 className="my-2 text-xl text-black">Business details</h2>
-      <p className="mb-4">Give us your business details</p>
+      <h2 className="my-2 text-xl text-black">Company details</h2>
+      <p className="mb-4">Give us your company details</p>
       <Separator />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-10">
         {/* Business Type */}
@@ -294,4 +296,4 @@ const BusinessDetailsForm = ({
   );
 };
 
-export default BusinessDetailsForm;
+export default ProfessionalCompanyDetailsForm;

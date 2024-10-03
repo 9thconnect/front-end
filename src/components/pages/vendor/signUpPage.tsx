@@ -31,6 +31,21 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import ProfessionalCompanyDetailsForm, {
+  professionalCompanyDetailsValidationSchema,
+} from "@/components/forms/vendor/signup/account/professional/companyDetail";
+
 export interface VendorSignUpRequest {
   fullName?: string;
   email?: string;
@@ -56,15 +71,23 @@ export interface VendorSignUpRequest {
   professionName?: string;
   professionCity?: string;
   professionDesc?: string;
+  professionalType?: "individual" | "company";
 }
 
 const VendorSignUpPage = ({ type }: { type: UserType }) => {
   const [stage, setStage] = useState(1);
-
+  const [previousStage, setPreviousStage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [dialogStatus, setDialogStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("loading");
+
+  const updateStage = (newStage: number) => {
+    setPreviousStage(stage);
+    setStage(newStage);
+  };
+
+  const [openSelectProType, setOpenSelectProType] = useState(false);
 
   const [dialogMessage, setDialogMessage] = useState<string>("");
   const router = useRouter();
@@ -108,7 +131,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     console.log(data);
 
-    setStage(2);
+    updateStage(2);
   };
 
   const handleSubmitStageTwo = (
@@ -125,9 +148,9 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     if (type == "customer") {
       console.log("na customer");
 
-      setStage(7);
+      updateStage(7);
     } else {
-      setStage(3);
+      updateStage(3);
     }
   };
 
@@ -143,7 +166,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     console.log(data, formData);
 
-    setStage(4);
+    updateStage(4);
   };
 
   const handleSubmitStageFour = (
@@ -157,9 +180,9 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     console.log(data, formData);
 
     if (formData.type == "seller") {
-      setStage(5);
+      updateStage(5);
     } else {
-      setStage(6);
+      setOpenSelectProType(true);
     }
   };
 
@@ -176,11 +199,32 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       businessEmail: formData.businessEmail,
       businessPhoneNumber: formData.businessPhoneNumber,
       businessRegNo: formData.businessRegNo,
-      businessLogo: formData.businessLegalName,
+      businessLogo: formData.businessLogo,
       businessType: formData.businessType,
     }));
 
-    setStage(7);
+    updateStage(7);
+  };
+
+  const handleSubmitStageEight = async (
+    formData: z.infer<typeof professionalCompanyDetailsValidationSchema>
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      businessDesc: formData.businessDesc,
+      shopName: formData.shopName,
+      shopAddress: formData.shopAddress,
+      shopCity: formData.shopCity,
+      businessLegalName: formData.businessLegalName,
+      businessEmail: formData.businessEmail,
+      businessPhoneNumber: formData.businessPhoneNumber,
+      businessRegNo: formData.businessRegNo,
+      businessLogo: formData.businessLogo,
+      businessType: formData.businessType,
+      professionalType: "company",
+    }));
+
+    updateStage(7);
   };
 
   const handleSubmitStageSix = (
@@ -192,11 +236,12 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       professionName: formData.professionName,
       professionCity: formData.professionCity,
       professionDesc: formData.professionDesc,
+      professionalType: "individual",
     }));
 
     console.log(data, formData);
 
-    setStage(7);
+    updateStage(7);
 
     // submit
   };
@@ -274,52 +319,129 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
           setDialogStatus("idle");
         }}
       />
+
+      <Dialog
+        open={openSelectProType}
+        onOpenChange={(state) => setOpenSelectProType(state)}
+        modal
+      >
+        <DialogContent className="rounded-lg px-2 max-w-2xl">
+          <DialogHeader>
+            <div className="flex justify-between items-center mb-4">
+              <span
+                onClick={() => setOpenSelectProType(false)}
+                className="bg-gray-100 flex justify-center items-center rounded-full p-1 h-10 w-10 mr-3 cursor-pointer"
+              >
+                <X size={15} />
+              </span>
+              <DialogTitle className="text-black text-2xl">
+                Become a professional
+              </DialogTitle>
+            </div>
+
+            <Separator className="mt-3" />
+            <DialogDescription className="flex space-x-3">
+              <div className="border rounded-xl overflow-hidden">
+                <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799631/4d56ce8c38262e55c19c507e6ac71960_kt6zfd.png')] bg-cover h-60 bg-no-repeat"></div>
+                <div className="p-4">
+                  <h2 className="font-bold text-lg text-offBlack">Company</h2>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setOpenSelectProType(false);
+                      setStage(8);
+                    }}
+                    className="w-full mt-4"
+                  >
+                    Signup
+                  </Button>
+                </div>
+              </div>
+              <div className="border rounded-xl overflow-hidden">
+                <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799634/d51f1918fcfd3a3890328613e2556e35_qs9kgs.png')] bg-cover h-60 bg-no-repeat"></div>
+                <div className="p-4">
+                  <h2 className="font-bold text-lg text-offBlack">
+                    Individual
+                  </h2>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setOpenSelectProType(false);
+                      setStage(6);
+                    }}
+                    className="w-full mt-4"
+                  >
+                    Signup
+                  </Button>
+                </div>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
       <div>
-        <h2>Create your Profile</h2>
-        <p>
-          We are excited to get you started as well. See you at the other side.
-        </p>
         <div>
           {stage == 1 && (
             <VendorSignupProfileForm
               onSubmit={handleSubmitStageOne}
               formStateData={data}
+              type={type}
+              setStage={setStage}
             />
           )}
           {stage == 2 && (
             <VendorSignupImageForm
               onSubmit={handleSubmitStageTwo}
               formStateData={data}
+              setStage={setStage}
             />
           )}
           {stage == 3 && (
             <AccountDetailsForm
               onSubmit={handleSubmitStageThree}
               formStateData={data}
+              setStage={setStage}
             />
           )}
           {stage == 4 && (
             <SelectAccountTypeForm
               onSubmit={handleSubmitStageFour}
               formStateData={data}
+              setStage={setStage}
             />
           )}
           {stage == 5 && (
             <BusinessDetailsForm
               onSubmit={handleSubmitStageFive}
               formStateData={data}
+              setStage={setStage}
             />
           )}
           {stage == 6 && (
             <ProfessionalDetailsForm
               onSubmit={handleSubmitStageSix}
               formStateData={data}
+              setStage={setStage}
             />
           )}
           {stage == 7 && (
             <PasswordForm
               onSubmit={handleSubmitStageSeven}
               formStateData={data}
+              previousStage={previousStage}
+              setStage={setStage}
+            />
+          )}
+          {stage == 8 && (
+            <ProfessionalCompanyDetailsForm
+              onSubmit={handleSubmitStageEight}
+              formStateData={data}
+              setStage={setStage}
             />
           )}
         </div>

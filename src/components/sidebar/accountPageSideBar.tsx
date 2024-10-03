@@ -9,6 +9,7 @@ import { logoutUser } from "@/lib/redux/features/auth/authSlice";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { IVendor } from "@/type/users";
 
 const routes = [
   {
@@ -16,54 +17,80 @@ const routes = [
     route: "/account/profile",
     icon: CertIcon,
     access: ["customer", "vendor"],
+    vendorType: [],
+    professionalType: [],
   },
   {
     name: "My Business",
     route: "/account/business",
     icon: CertIcon,
     access: ["vendor"],
+    vendorType: ["seller", "professional"],
+    professionalType: ["company"],
   },
   {
     name: "Wallet",
     route: "/account/wallet",
     icon: CertIcon,
     access: ["vendor"],
+    vendorType: ["seller", "professional"],
+    professionalType: ["company", "individual"],
+  },
+  {
+    name: "Wallet",
+    route: "/account/customer-wallet",
+    icon: CertIcon,
+    access: ["customer"],
+    vendorType: [],
+    professionalType: [],
   },
   {
     name: "Transactions",
     route: "/account/transactions",
     icon: CertIcon,
     access: ["customer"],
+    vendorType: [],
+    professionalType: [],
   },
   {
     name: "Orders",
     route: "/account/orders",
     icon: CertIcon,
     access: ["customer", "vendor"],
+    vendorType: ["seller"],
+    professionalType: [],
   },
   {
     name: "Wishlist",
     route: "/account/wishlist",
     icon: CertIcon,
     access: ["customer"],
+    vendorType: [],
+    professionalType: [],
   },
   {
     name: "My Shop",
     route: "/account/shop",
     icon: CertIcon,
     access: ["vendor"],
+    vendorType: ["seller"],
+    professionalType: ["company"],
   },
   {
     name: "Workers",
     route: "/account/workers",
     icon: CertIcon,
     access: ["vendor"],
+    vendorType: ["professional"],
+    professionalType: ["company"],
   },
   {
     name: "Change Password",
     route: "/account/password",
     icon: CertIcon,
     access: ["customer", "vendor"],
+    vendorType: [],
+    professionalType: [],
   },
 ];
 
@@ -90,7 +117,37 @@ const AccountPageSideBar = () => {
     }
   };
 
-  const filteredRoutes = routes.filter((route) => route.access.includes(type));
+  // const filteredRoutes = routes.filter((route) => route.access.includes(type));
+
+  const filteredRoutes = routes.filter((route) => {
+    // Check access first
+    if (!route.access.includes(auth.type)) {
+      return false;
+    }
+
+    // If access is for vendor, check vendorType
+    if (auth.type === "vendor") {
+      let vendorData = auth.data as IVendor;
+      if (
+        route.vendorType.length > 0 &&
+        !route.vendorType.includes(vendorData.vendorType)
+      ) {
+        return false;
+      }
+
+      // If vendorType is professional, check professionalType
+      if (vendorData.vendorType === "professional") {
+        if (
+          route.professionalType.length > 0 &&
+          !route.professionalType.includes(vendorData.professionalType)
+        ) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  });
   return (
     <div>
       <div className={`section-card-header`}>
