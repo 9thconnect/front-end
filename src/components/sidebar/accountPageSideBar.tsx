@@ -160,7 +160,12 @@ const AccountPageSideBar = () => {
         </div>
         <div className="border-b-2 mb-3 w-full"></div>
         <div className="flex p-2">
-          <div className="rounded-md mr-3 h-20 w-20 bg-cover bg-no-repeat bg-center bg-[url(/images/Ads.png)]"></div>
+          <div
+            className="rounded-md mr-3 h-20 w-20 bg-cover bg-no-repeat bg-center"
+            style={{
+              backgroundImage: `url(${auth.data?.avatar || "/images/Ads.png"})`,
+            }}
+          ></div>
           {/* <img className="h-" src="/images/Ads.png" alt="" /> */}
           <div className=" flex flex-col justify-between">
             <p className="text-xs">UID-EDYTFUY</p>

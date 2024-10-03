@@ -10,6 +10,7 @@ export interface IAdmin {
   phone: string;
   createdAt: string;
   updatedAt: string;
+  avatar: string;
   __v: number;
 }
 
