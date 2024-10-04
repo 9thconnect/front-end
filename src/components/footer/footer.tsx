@@ -75,7 +75,7 @@ const MainFooter = () => {
           <h3 className="text-lg font-bold mb-4">About us</h3>
           <ul>
             <li>
-              <Link href={"/"}>About Us</Link>
+              <Link href={"/about"}>About Us</Link>
             </li>
             <li>
               <Link href={"/"}>Terms & Conditions</Link>

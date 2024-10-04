@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import logoImg from "@public/logo.svg";
-import logoIconImg from "@public/logo.svg";
+import logoIconImg from "@public/logo-two.svg";
 import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 
 export const siteConfig = {
