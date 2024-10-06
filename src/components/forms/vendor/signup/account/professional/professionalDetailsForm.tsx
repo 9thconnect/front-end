@@ -34,6 +34,9 @@ export const professionalDetailsValidationSchema = z.object({
   professionName: z.string().min(1, "Profession name is required"),
   professionCity: z.string().min(1, "Profession city is required"),
   professionDesc: z.string().min(1, "Profession description is required"),
+  price: z.coerce.number().min(1, {
+    message: "Price must be at least 1 naira.",
+  }),
 });
 
 type ProfessionalDetailsFormProps = {
@@ -50,6 +53,7 @@ function useProfessionalDetailsForm(formStateData: VendorSignUpRequest) {
       professionName: formStateData.professionName,
       professionCity: formStateData.professionCity,
       professionDesc: formStateData.professionDesc,
+      price: formStateData.price,
     },
   });
 }
@@ -112,6 +116,25 @@ const ProfessionalDetailsForm = ({
                     ))}
                   </SelectContent>
                 </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Profession Name */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter your price"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
