@@ -60,7 +60,7 @@ const MainFooter = () => {
               <Link href={"/"}>Careers</Link>
             </li>
             <li>
-              <Link href={"/"}>Become a Merchant</Link>
+              <Link href={"/become-a-merchant"}>Become a Merchant</Link>
             </li>
             <li>
               <Link href={"/"}>Our Affiliates</Link>
@@ -78,7 +78,7 @@ const MainFooter = () => {
               <Link href={"/about"}>About Us</Link>
             </li>
             <li>
-              <Link href={"/"}>Terms & Conditions</Link>
+              <Link href={"/legal"}>Terms & Conditions</Link>
             </li>
             <li>
               <Link href={"/"}>Privacy Polices</Link>
@@ -99,7 +99,7 @@ const MainFooter = () => {
               <Link href={"/"}>Track Order</Link>
             </li>
             <li>
-              <Link href={"/"}>Register Account</Link>
+              <Link href={"/customer/register"}>Register Account</Link>
             </li>
             <li>
               <Link href={"/"}>Brands</Link>
@@ -111,7 +111,7 @@ const MainFooter = () => {
           <h3 className="text-lg font-bold mb-4">Need Help</h3>
           <ul>
             <li>
-              <Link href={"/"}>FAQs</Link>
+              <Link href={"/knowledge-center"}>FAQs</Link>
             </li>
             <li>
               <Link href={"/"}>24/7 Support</Link>
@@ -123,7 +123,7 @@ const MainFooter = () => {
               <Link href={"/"}>Our Blog</Link>
             </li>
             <li>
-              <Link href={"/"}>Return Policy</Link>
+              <Link href={"/knowledge-center"}>Return Policy</Link>
             </li>
             <li>
               <Link href={"/"}>Bulk Purchase</Link>
