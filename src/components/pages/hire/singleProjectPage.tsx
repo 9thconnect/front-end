@@ -211,9 +211,9 @@ const SingleProjectPage = () => {
           linkUrl={"/hire/home"}
           linkText="See more"
         />
-        <div className="mt-5">
+        {/* <div className="mt-5">
           <TopRatedProfessions />
-        </div>
+        </div> */}
       </SectionContainer>
     </div>
   );

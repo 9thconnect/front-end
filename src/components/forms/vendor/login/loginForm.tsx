@@ -28,6 +28,7 @@ import {
 import { syncCartWithServer } from "@/lib/redux/features/cart/cartSlice";
 import { REHYDRATE } from "redux-persist";
 import Link from "next/link";
+import requests from "@/utils/requests";
 
 const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -84,9 +85,27 @@ export function LoginForm({ type }: { type: UserType }) {
         return;
       }
 
+      if (type == UserType.VENDOR) {
+        router.push("/account/profile");
+        return;
+      }
+
       router.push("/marketplace");
     } catch (error: any) {
       toast.error(error.response?.data.message);
+      if (error.response?.data.message == "Account not activated or verified") {
+        try {
+          let rsp = await requests.post(
+            `vendor/auth/resend-verification-code/${data.email}`,
+            {}
+          );
+          toast.error(rsp.message);
+
+          router.push(`/${type}/verify?email=${data.email}`);
+        } catch (error: any) {
+          toast.error(error.response?.data.message);
+        }
+      }
     } finally {
       setIsLoading(false);
     }

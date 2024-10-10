@@ -23,7 +23,7 @@ export interface ITalent {
   rating?: number;
   verified: boolean;
   imageUrl: string;
-  category: string;
+  category: string | undefined;
   type: "professional" | "artisan";
 }
 
@@ -52,12 +52,12 @@ const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
       className="block h-full w-full unselectable"
     >
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300">
-        {talent.rating && (
+        {/* {talent.rating && (
           <div className="absolute z-10 top-5 left-2 bg-red-500 bg-opacity-75 text-white text-xs px-2 py-1 rounded-2xl flex items-center">
             <StarIcon size={10} className="mr-2" />
             {talent.rating}
           </div>
-        )}
+        )} */}
         <CardHeader className="p-0 relative">
           <img
             src={talent.imageUrl}

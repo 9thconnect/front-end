@@ -12,7 +12,7 @@ export const fetchProfessionals = ({
   vendor?: string;
   pageNumber?: number;
 }) =>
-  requests.get<ProfessionsResponseData>(
+  requests.get<{ data: ProfessionsResponseData }>(
     `/vendor/all-professions?search=${encodeURIComponent(
       search
     )}&filterByProfessionType=${professionType}&filterByVendor=${vendor}&pageNumber=${pageNumber}`

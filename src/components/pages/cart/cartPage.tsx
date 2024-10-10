@@ -93,7 +93,7 @@ const CartPage = () => {
             <div className={`section-card-header `}>
               <div className="flex justify-between items-center mb-5">
                 <h3 className="text-2xl  text-offBlack">Cart</h3>
-                <Button onClick={onClearCart}>Clear Cert</Button>
+                <Button onClick={onClearCart}>Clear Cart</Button>
               </div>
               <div className="border-b-2 w-full"></div>
             </div>

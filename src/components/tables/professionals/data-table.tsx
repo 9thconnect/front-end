@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { columns, renderStatus, ProfessionalData } from "./columns";
+import { columns, renderStatus } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import {
   Drawer,
@@ -22,8 +22,9 @@ import FilterSelect from "@/components/common/filterSelect";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfessionals } from "@/lib/requests/admin/professional/admin-professional-requests";
+import { Profession, ProfessionalData } from "@/type/professional";
 
-const ProfessionalDataTable = ({ data }: { data: ProfessionalData[] }) => {
+const ProfessionalDataTable = () => {
   const router = useRouter();
 
   const query = useQuery({
@@ -31,10 +32,12 @@ const ProfessionalDataTable = ({ data }: { data: ProfessionalData[] }) => {
     queryFn: () => fetchProfessionals({ search: "" }),
   });
 
+  console.log(query.data?.data?.data.professions);
+
   console.log(query.data);
 
-  const handleRowClick = (e: ProfessionalData) => {
-    router.push(`professionals/${e.id}`);
+  const handleRowClick = (e: Profession) => {
+    router.push(`professionals/${e.vendor._id}`);
     console.log(e);
   };
 
@@ -66,7 +69,13 @@ const ProfessionalDataTable = ({ data }: { data: ProfessionalData[] }) => {
             </div>
           </div>
         </div>
-        <DataTable columns={columns} data={data} rowClick={handleRowClick} />
+
+        {query.data?.data?.data.professions && (
+          <DataTable
+            columns={columns}
+            data={query.data?.data?.data.professions}
+          />
+        )}
       </div>
     </div>
   );

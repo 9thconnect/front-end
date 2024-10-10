@@ -49,15 +49,6 @@ const page = async () => {
           </div>
         </div>
       </div>
-      <SectionContainer>
-        <SectionCardHeader
-          title="Top Rated Professionals"
-          linkUrl={"/hire/home?category=top-rated"}
-          linkText="See more"
-          className="mb-5"
-        />
-        <TopRatedProfessions />
-      </SectionContainer>
 
       <div className="h-80 mt-5">
         <MainHeroSection />

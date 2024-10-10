@@ -24,7 +24,7 @@ const Page = () => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-primary capitalize">
-              Cert
+              Cart
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>

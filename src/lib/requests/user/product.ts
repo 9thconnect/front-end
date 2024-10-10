@@ -117,7 +117,7 @@ export const clearCartFromServer = () => {
 
 export const useGetMyCert = (id: string) => {
   return useQuery({
-    queryKey: ["get-cert", id],
+    queryKey: ["get-cart", id],
 
     queryFn: () => requests.get<CartItem[]>(`/customer/myCart?userID=${id}`),
   });

@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils/format-currency";
 import { HandshakeIcon, ReceiptText, Wallet } from "lucide-react";
 import React, { Suspense } from "react";
 import { getDataSales } from "../home/page";
+import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
 
 const page = async () => {
   const tableData = await getDataSales();
@@ -46,7 +47,7 @@ const page = async () => {
         </div>
       </Suspense>
       <Suspense>
-        <SalesDataTable data={tableData} />
+        <TransactionDataTableAdmin />
       </Suspense>
     </div>
   );

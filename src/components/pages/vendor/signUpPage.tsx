@@ -271,8 +271,13 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       setDialogStatus("loading"); // Show loading dialog
       setIsLoading(true);
       const res = await signUp(finalData, type);
-      toast.success("Account creation successful, check email for OTP");
-      router.push(`/${type}/verify?email=${data.email}`);
+      toast.success(res.message);
+
+      if (type == UserType.VENDOR) {
+        router.push(`/${type}/verify?email=${data.email}`);
+      }
+
+      router.push(`/${type}/login`);
 
       console.log(res);
     } catch (error) {

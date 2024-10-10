@@ -29,6 +29,23 @@ const routes = [
     professionalType: ["company"],
   },
   {
+    name: "My Profession Artisan",
+    route: "/account/artisan/profession",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["professional"],
+    professionalType: ["individual"],
+  },
+  {
+    name: "My Profession Company",
+    route: "/account/company/profession",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["professional"],
+    professionalType: ["company"],
+  },
+
+  {
     name: "Wallet",
     route: "/account/wallet",
     icon: CertIcon,

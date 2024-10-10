@@ -1,284 +1,169 @@
+// import React from "react";
+// import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
+// import SectionContainer from "@/components/cards/common/sectionContainer";
+// import TalentCard from "@/components/cards/talentCard";
+// import { useGetProfessionalList } from "@/lib/requests/user/professional";
+
+// interface ICategory {
+//   title: string;
+//   pageUrl: string;
+//   professionType?: string;
+//   api: string;
+//   type: "professional" | "artisan";
+// }
+
+// const CategoryTalentListSection = ({
+//   title,
+//   pageUrl,
+//   professionType,
+//   api,
+//   type,
+// }: ICategory) => {
+//   const {
+//     data: professionalList,
+//     isLoading,
+//     isError,
+//     error,
+//   } = useGetProfessionalList(type, "", 1, professionType);
+
+//   console.log(professionType, "kemf");
+
+//   if (isLoading) return <div>Loading...</div>;
+//   if (isError) return <div>Error: {error.message}</div>;
+
+//   return (
+//     <SectionContainer>
+//       <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />
+//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
+//         {professionalList?.data?.data?.professions
+//           .slice(0, 4)
+//           .map((professional, index) => (
+//             <div className="flex-none" key={professional._id}>
+//               <TalentCard
+//                 talent={{
+//                   id: professional._id,
+//                   name: professional.vendor.fullName,
+//                   profession: professional.professionName,
+//                   rating: 0, // You might want to add a rating field to your professional data
+//                   imageUrl: professional.vendor.avatar,
+//                   type: type,
+//                   location: professional.professionCity,
+//                   verified: professional.professionActive,
+//                   category: professionType,
+//                 }}
+//               />
+//             </div>
+//           ))}
+//       </div>
+//     </SectionContainer>
+//   );
+// };
+
+// export default CategoryTalentListSection;
+
+import React from "react";
 import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
 import SectionContainer from "@/components/cards/common/sectionContainer";
-import ProductCard from "@/components/cards/productCard";
-import TalentCard, { ITalent } from "@/components/cards/talentCard";
-import { generateRandomAlphanumeric } from "@/utils/generateAlphanumeric";
-import React from "react";
+import TalentCard from "@/components/cards/talentCard";
+import { useGetProfessionalList } from "@/lib/requests/user/professional";
+import { Skeleton } from "@/components/ui/skeleton";
+import Empty from "@/components/common/empty";
 
 interface ICategory {
   title: string;
   pageUrl: string;
+  professionType?: string;
   api: string;
+  type: "professional" | "artisan";
 }
 
-export const talentsData: ITalent[] = [
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
+const SkeletonTalentCard = () => (
+  <div className="border rounded-lg p-4">
+    <Skeleton className="h-40 w-full mb-4" />
+    <Skeleton className="h-4 w-3/4 mb-2" />
+    <Skeleton className="h-4 w-1/2 mb-2" />
+    <Skeleton className="h-4 w-1/4" />
+  </div>
+);
 
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "engineering",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: false,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "management",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-  {
-    id: generateRandomAlphanumeric(),
-    name: "John Doe",
-    profession: "Snr. Product Manager",
-    location: "Abuja, NG",
-    rating: 4.5,
-    verified: true,
-    imageUrl:
-      "https://res.cloudinary.com/dougwnqok/image/upload/v1727944532/01f6a973b94fc8cb81c553333f57c62d_kteety.png",
-    category: "architecture",
-    type: ["artisan", "professional"][Math.floor(Math.random() * 4)] as
-      | "artisan"
-      | "professional",
-  },
-];
+const EmptyState = () => (
+  <div className="text-center py-8">
+    <h3 className="text-lg font-semibold mb-2">No professionals found</h3>
+    <p className="text-gray-500">
+      There are currently no professionals in this category.
+    </p>
+  </div>
+);
 
-const CategoryTalentListSection = ({ title, pageUrl, api }: ICategory) => {
-  return (
-    <SectionContainer>
-      <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />
+const CategoryTalentListSection = ({
+  title,
+  pageUrl,
+  professionType,
+  api,
+  type,
+}: ICategory) => {
+  const {
+    data: professionalList,
+    isLoading,
+    isError,
+    error,
+  } = useGetProfessionalList(type, "", 1, professionType);
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
+          {[...Array(4)].map((_, index) => (
+            <SkeletonTalentCard key={index} />
+          ))}
+        </div>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="text-center py-8 text-red-500">
+          Error: {error instanceof Error ? error.message : "An error occurred"}
+        </div>
+      );
+    }
+
+    if (
+      !professionalList?.data?.data?.professions ||
+      professionalList.data.data.professions.length === 0
+    ) {
+      return <Empty size={150} text="Empty Category" />;
+    }
+
+    return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
-        {talentsData
-          .filter(
-            (talent) => talent.category.toLowerCase() == title.toLowerCase()
-          )
-          .map((talent, index) => (
-            <div className="flex-none" key={index}>
-              <TalentCard talent={talent} />
+        {professionalList.data.data.professions
+          .slice(0, 4)
+          .map((professional) => (
+            <div className="flex-none" key={professional._id}>
+              <TalentCard
+                talent={{
+                  id: professional._id,
+                  name: professional.vendor.fullName,
+                  profession: professional.professionName,
+                  rating: 0,
+                  imageUrl: professional.vendor.avatar,
+                  type: type,
+                  location: professional.professionCity,
+                  verified: professional.professionActive,
+                  category: professionType,
+                }}
+              />
             </div>
           ))}
       </div>
+    );
+  };
+
+  return (
+    <SectionContainer>
+      <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />
+      {renderContent()}
     </SectionContainer>
   );
 };

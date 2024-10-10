@@ -1,40 +1,11 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { AlignJustify } from "lucide-react";
 
 import SectionContainer from "@/components/cards/common/sectionContainer";
-import ProductCard from "@/components/cards/productCard";
-import TalentCard, { ITalent } from "@/components/cards/talentCard";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  AlignJustify,
-  ArrowDown01Icon,
-  ArrowDownIcon,
-  ChevronDown,
-  ChevronUp,
-  Ellipsis,
-  Star,
-} from "lucide-react";
-import { useState } from "react";
-import Rating from "react-rating";
-import { useSearchParams } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import FilterSection from "@/components/common/filterSection";
-import FilterSelect from "@/components/common/filterSelect";
-import ItemList from "@/components/common/itemList";
-import { generateRandomAlphanumeric } from "@/utils/generateAlphanumeric";
+import TalentCard from "@/components/cards/talentCard";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,30 +14,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { talentsData } from "@/sections/common/categoryTalentListSection";
-
-const states = [
-  { name: "Abuja", value: "201" },
-  { name: "Lagos", value: "202" },
-  { name: "Kano", value: "203" },
-  { name: "Rivers", value: "204" },
-  { name: "Kaduna", value: "205" },
-  { name: "Enugu", value: "206" },
-  { name: "Ogun", value: "207" },
-  { name: "Oyo", value: "208" },
-  { name: "Cross River", value: "209" },
-  { name: "Plateau", value: "210" },
-];
+import FilterSelect from "@/components/common/filterSelect";
+import ItemList from "@/components/common/itemList";
+import { useGetProfessionalList } from "@/lib/requests/user/professional";
+import { fetchProfessionalsCategories } from "@/lib/requests/admin/categories/admin-category-request";
+import { Skeleton } from "@/components/ui/skeleton";
+import FilterSection from "@/components/common/filterSection";
+import Empty from "@/components/common/empty";
 
 const rates = [
   { name: "Under N5,000", value: "5000" },
-  { name: "N6,000 - N15,0000", value: "202" },
-  { name: "N15,000 - N35,000", value: "203" },
-  { name: "N35,000 - N100,000", value: "204" },
-  { name: "Above N100,000", value: "205" },
+  { name: "N6,000 - N15,0000", value: "15000" },
+  { name: "N15,000 - N35,000", value: "35000" },
+  { name: "N35,000 - N100,000", value: "100000" },
+  { name: "Above N100,000", value: "100001" },
 ];
 
-const starts = [
+const stars = [
   { name: "5", value: 5 },
   { name: "4", value: 4 },
   { name: "3", value: 3 },
@@ -74,36 +38,185 @@ const starts = [
   { name: "1", value: 1 },
 ];
 
+const SkeletonTalentCard = () => (
+  <div className="border rounded-lg p-4 mb-4">
+    <div className="flex items-center space-x-4 mb-4">
+      <Skeleton className="h-16 w-16 rounded-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[200px]" />
+        <Skeleton className="h-4 w-[150px]" />
+      </div>
+    </div>
+    <Skeleton className="h-4 w-full mb-2" />
+    <Skeleton className="h-4 w-3/4 mb-2" />
+    <Skeleton className="h-4 w-1/2" />
+  </div>
+);
+
 const HireHomePage = () => {
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
+
   const [isLocationOpen, setIsLocationOpen] = useState(true);
   const [isRateOpen, setIsRateOpen] = useState(true);
   const [isRatingOpen, setIsRatingOpen] = useState(true);
+  const [isBrandOpen, setIsBrandOpen] = useState(true);
+  const [selectedPrice, setSelectedPrice] = useState<string | undefined>();
+  const [selectedRating, setSelectedRating] = useState<string | undefined>();
+
+  const [selectedBrand, setSelectedBrand] = useState<string | undefined>();
+  const [selectedLocation, setSelectedLocation] = useState<
+    string | undefined
+  >();
+  const [selectedRate, setSelectedRate] = useState<string | undefined>();
+  const [selectedRatingSide, setSelectedRatingSide] = useState<
+    number | undefined
+  >();
+
   const params = useSearchParams();
 
   const catName = params.get("category");
+  const type = params.get("type") as "professional" | "artisan";
+
+  const { data: categories, isLoading: isLoadingCat } = useQuery({
+    queryKey: ["professional-category"],
+    queryFn: fetchProfessionalsCategories,
+  });
+
+  useEffect(() => {
+    if (catName) {
+      setSelectedCategory(catName);
+    }
+  }, [catName]);
+
+  const {
+    data: professionalList,
+    isLoading,
+    isError,
+    error,
+  } = useGetProfessionalList(type, "", 1, selectedCategory);
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <>
+          <SkeletonTalentCard />
+          <SkeletonTalentCard />
+          <SkeletonTalentCard />
+        </>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="text-center py-8 text-red-500">
+          Error:{" "}
+          {error instanceof Error
+            ? error.message
+            : "An error occurred while fetching data."}
+        </div>
+      );
+    }
+
+    if (
+      !professionalList?.data?.data?.professions ||
+      professionalList.data.data.professions.length === 0
+    ) {
+      return (
+        <div className="text-center py-8">
+          <Empty size={150} text="No professionals found." />
+        </div>
+      );
+    }
+
+    return (
+      <ItemList
+        items={professionalList.data.data.professions}
+        renderItem={(item) => (
+          <TalentCard
+            talent={{
+              id: item._id,
+              name: item.vendor.fullName,
+              profession: item.professionName,
+              rating: 0, // You might want to add a rating field to your item data
+              imageUrl: item.vendor.avatar,
+              type: type,
+              location: item.professionCity,
+              verified: item.professionActive,
+              category: selectedCategory,
+            }}
+          />
+        )}
+      />
+    );
+  };
+  console.log(categories?.data?.data?.categories);
 
   return (
     <div className="mt-5">
       <div className="grid grid-cols-8 gap-4">
         <aside className="hidden md:block self-start sticky col-span-2 top-56">
           <SectionContainer className="sticky self-start">
-            <FilterSection
+            {isLoadingCat ? (
+              <Skeleton className="h-10 w-full mb-2" />
+            ) : categories?.data?.data ? (
+              // <FilterSelect
+              //   label="Category"
+              //   options={categories.data.data.categories.map((cat) => ({
+              //     name: cat.title as string,
+              //     value: cat._id as string,
+              //   }))}
+              //   placeholder="Category"
+              //   state={[selectedCategory, setSelectedCategory]}
+              // />
+
+              <FilterSection
+                title="Category"
+                items={categories.data.data.categories.map((cat) => ({
+                  name: cat.title as string,
+                  value: cat._id as string,
+                }))}
+                isOpen={isBrandOpen}
+                onToggle={() => setIsBrandOpen(!isBrandOpen)}
+                selectedValue={selectedCategory}
+                onSelect={(value) => setSelectedCategory(value as string)}
+              />
+            ) : (
+              <div>No categories available</div>
+            )}
+
+            {/* <FilterSection
+              title="Brand"
+              items={brands}
+              isOpen={isBrandOpen}
+              onToggle={() => setIsBrandOpen(!isBrandOpen)}
+              selectedValue={selectedBrand}
+              onSelect={(value) => setSelectedBrand(value as string)}
+            /> */}
+            {/* <FilterSection
               title="Location"
               items={states}
               isOpen={isLocationOpen}
               onToggle={() => setIsLocationOpen(!isLocationOpen)}
-            />
+              selectedValue={selectedLocation}
+              onSelect={(value) => setSelectedLocation(value as string)}
+            /> */}
             <FilterSection
               title="Rate"
               items={rates}
               isOpen={isRateOpen}
               onToggle={() => setIsRateOpen(!isRateOpen)}
+              selectedValue={selectedPrice}
+              onSelect={(value) => setSelectedPrice(value as string)}
             />
             <FilterSection
               title="Rating"
-              items={starts}
+              items={stars}
               isOpen={isRatingOpen}
               onToggle={() => setIsRatingOpen(!isRatingOpen)}
+              selectedValue={selectedRatingSide?.toString()}
+              onSelect={(value) => setSelectedRatingSide(Number(value))}
             />
           </SectionContainer>
         </aside>
@@ -113,15 +226,19 @@ const HireHomePage = () => {
             <div className="mr-4">
               {catName && (
                 <h2 className="text-black text-2xl capitalize text-nowrap">
-                  {catName}
+                  By Category
                 </h2>
               )}
-              1-40 of 300
+              {isLoading ? (
+                <Skeleton className="h-4 w-[100px]" />
+              ) : professionalList?.data?.data?.professions ? (
+                <p>{`1-${professionalList.data.data.professions.length} of ${
+                  professionalList.data.data.pages || 0
+                }`}</p>
+              ) : null}
             </div>
-            {/* <Ellipsis  /> */}
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger>
-                {" "}
                 <AlignJustify size={30} className="md:hidden" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -147,18 +264,14 @@ const HireHomePage = () => {
                 <DropdownMenuItem>
                   <FilterSelect
                     label="Rating"
-                    options={starts.map((start) => ({
-                      name: `${start.value} star`,
-                      value: start.value.toString(),
-                    }))}
+                    options={stars}
                     placeholder="Select Rating"
                   />
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
 
-            {/* <AlignJustify size={30} className="md:hidden" /> */}
-            <div className="hidden md:flex space-x-2 flex-wrap">
+            {/* <div className="hidden md:flex space-x-2 flex-wrap">
               <FilterSelect
                 label="Relevance"
                 options={[
@@ -174,18 +287,13 @@ const HireHomePage = () => {
               />
               <FilterSelect
                 label="Rating"
-                options={starts.map((start) => ({
-                  name: `${start.value} star`,
-                  value: start.value.toString(),
-                }))}
+                options={stars}
                 placeholder="Select Rating"
               />
-            </div>
+            </div> */}
           </div>
-          <ItemList
-            items={talentsData}
-            renderItem={(item) => <TalentCard talent={item} />}
-          />
+
+          {renderContent()}
         </SectionContainer>
       </div>
     </div>

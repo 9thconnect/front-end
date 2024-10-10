@@ -59,3 +59,55 @@ export interface BusinessResponseData {
   count: number;
   businesses: Business[];
 }
+
+// jrjrjrj
+
+interface Artisan {
+  _id: string;
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  artisanID: string;
+  avatar: string;
+}
+
+interface ProfessionType {
+  _id: string;
+  title: string;
+  description: string;
+  categoryType: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Qualification {
+  degree: string;
+  institute: string;
+  year: string;
+  _id: string;
+}
+
+export interface ProfessionalData {
+  _id: string;
+  vendor: IVendor;
+  artisan: Artisan;
+  professionType: ProfessionType;
+  profession: string;
+  professionName: string;
+  professionDesc: string;
+  professionCity: string;
+  professionID: string;
+  professionApproved: boolean;
+  professionActive: boolean;
+  price: number;
+  portfolio: string[];
+  qualifications: Qualification[];
+  createdAt: string;
+  updatedAt: string;
+  ownerType: string;
+}
+
+export interface SingleTalentPageProps {
+  id: string;
+}

@@ -210,3 +210,43 @@ export interface OrderTracking {
   };
   orderItems: OrderItem[];
 }
+
+export interface SingleTransactionData {
+  _id: string;
+  customer: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  invoiceRef: string;
+  payerName: string;
+  payerEmail: string;
+  payerPhoneNumber: string;
+  amount: number;
+  paymentCompleted: boolean;
+  paymentDate: string;
+  order: {
+    _id: string;
+    orderItems: {
+      name: string;
+      quantity: number;
+      image: string;
+      price: number;
+      productId: string;
+      seller: string;
+      MCDFee: number;
+      sellerPay: number;
+      total: number;
+      _id: string;
+    }[];
+    orderID: string;
+    status: string;
+  };
+  paymentFor: string;
+  status: "approved" | "pending" | "failed";
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  ipAddress: string;
+  payment_options: string;
+}

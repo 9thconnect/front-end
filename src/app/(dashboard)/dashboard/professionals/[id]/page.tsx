@@ -36,110 +36,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import TwoStageAlertDialog from "@/components/alerts/twoStageAlertDialog";
+import { useEffect, useState } from "react";
+import { ProfessionalData } from "@/type/professional";
+import { siteConfig } from "@/config/site.config";
+import { Overview } from "@/components/pages/admin/professional/single/overView";
 
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const Overview = () => {
-  return (
-    <div className="block lg:grid md:grid-cols-8 md:gap-8">
-      <aside className="lg:self-start lg:sticky lg:col-span-3 lg:top-20 text-[#05141B]">
-        <img
-          src="https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Pl68FtY23824JiwQBjxL8MEE-BbLDerNbXWqGrV7YXJKDHVIaZVqLEx8E60Oj~-G4lYr7aqdL-oKn5EVhWm0yJnwWuBg3xfUx0eXah85VDeQDmZXNX5hVmeJSi4pdBRJua~Rhk124yordod611mRpnvsHWNCmwWmUcbC5-UpaCg053AIlP35PxOSrOVpGLnziy8JZtUGMeYMddPjcmf9qFZXnCMRkDRlxtDD0G~HjwH8kwPOy0sELk64L4-OOTb9v6qoffLFUHokIA9N94XeQBjyaHKzRuoQtawnXvUdaE-qDWSJypr6SXdwaEjp6VTpVjKk6aXz2uftwAz~A~EWZA__"
-          alt=""
-          className="rounded-lg"
-        />
-      </aside>
-      <div className="lg:col-span-5 mt-10 lg:mt-0">
-        <div className="justify-between flex">
-          <p>Architecture & Design</p>
-          <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
-            <ShieldCheck size={15} />
-            <p className="text-xs ml-2">Verified</p>
-          </div>
-        </div>
-        <h2 className="text-3xl text-black mt-3">Sharafadeen Mubarak</h2>
-        <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
-          <div className="flex">
-            <MapPin size={20} color="red" />
-            <span className="ml-2">Abuja, NG</span>
-          </div>
-          <div className="flex">
-            <Star size={20} color="red" />
-            <span className="ml-2">4.5</span>
-          </div>
-          <div className="flex">
-            <Separator orientation="vertical" />
-            <span className="ml-2">45 reviews</span>
-          </div>
-        </div>
-        <h2 className="mb-2 mt-6 text-offBlack">Overview</h2>
-        <div className="border rounded-lg px-4 py-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit
-          temporibus quasi assumenda cumque hic, nulla voluptatum voluptas porro
-          fugit molestiae, sed accusantium in beatae ut aperiam aliquam vel
-          inventore maiores. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Reprehenderit temporibus quasi assumenda cumque hic, nulla
-          voluptatum voluptas porro fugit molestiae, sed accusantium in beatae
-          ut aperiam aliquam vel inventore maiores. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Reprehenderit temporibus quasi assumenda
-          cumque hic, nulla voluptatum voluptas porro fugit molestiae, sed
-          accusantium in beatae ut aperiam aliquam vel inventore maiores. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit
-          temporibus quasi assumenda cumque hic, nulla voluptatum voluptas porro
-          fugit molestiae, sed accusantium in beatae ut aperiam aliquam vel
-          inventore maiores. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Reprehenderit temporibus quasi assumenda cumque hic, nulla
-          voluptatum voluptas porro fugit molestiae, sed accusantium in beatae
-          ut aperiam aliquam vel inventore maiores.
-        </div>
-        <h2 className="mt-7 mb-2 text-offBlack">Professional Rate</h2>
-        <div className="border rounded-lg px-4 py-4"># 100,000 per day</div>
-        <div>
-          <h2 className="mt-7 mb-2 text-offBlack">Qualification</h2>
-          <div className="border rounded-lg px-4 pb-4">
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>UID:</h4>
-              <p className="text-offBlack">W34567J</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Type:</h4>
-              <p className="text-offBlack">Professional</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Name:</h4>
-              <p className="text-offBlack">Sharafadeen Mubarak</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Skill:</h4>
-              <p className="text-offBlack">Architecture & Design</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>NIN:</h4>
-              <p className="text-offBlack">4567890123</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Email:</h4>
-              <p className="text-offBlack">user@email.com</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Phone:</h4>
-              <p className="text-offBlack">+234 909 904 8059</p>
-            </div>
-            <div className="flex justify-between [&>*]:mt-5">
-              <h4>Status:</h4>
-              <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
-                <ShieldCheck size={15} />
-                <p className="text-xs ml-2">Verified</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 };
 
 const Jobs = () => {
@@ -254,7 +158,7 @@ const page = async ({ params }: Props) => {
             initialTitle="User Verification"
             nextTitle="Authenticate"
             initialDescription="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
-            apiUrl="https://example.com/api/verify"
+            apiUrl={`vendor/approve-business-profession/${params.id}/profession`}
           />
         </div>
       </div>
@@ -282,7 +186,7 @@ const page = async ({ params }: Props) => {
         </TabsList>
         <TabsContent className="w-full border-t" value="spec">
           <div className="mt-3">
-            <Overview />
+            <Overview id={params.id} />
           </div>
         </TabsContent>
         <TabsContent className="w-full border-t" value="review">
