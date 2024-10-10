@@ -81,7 +81,7 @@ const MainFooter = () => {
               <Link href={"/legal"}>Terms & Conditions</Link>
             </li>
             <li>
-              <Link href={"/"}>Privacy Polices</Link>
+              <Link href={"/legal#section3"}>Privacy Polices</Link>
             </li>
             <li>
               <Link href={"/legal"}>Payment</Link>
