@@ -43,28 +43,28 @@ const LogisticPage = ({ slug }: { slug: string }) => {
     {
       name: "McDonald Trans",
       location: "Abuja, NG",
-      phone: "09099094859",
+      phone: "+234 803 742 9208",
       image:
         "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
     },
     {
       name: "7central Logistics",
       location: "Abuja, NG",
-      phone: "09099094859",
+      phone: "+234 803 742 9208",
       image:
         "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
     },
     {
       name: "Tayo Dispatch",
       location: "Abuja, NG",
-      phone: "09099094859",
+      phone: "+234 803 742 9208",
       image:
         "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
     },
     {
       name: "7central Logistics",
       location: "Abuja, NG",
-      phone: "09099094859",
+      phone: "+234 803 742 9208",
       image:
         "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
     },

@@ -11,13 +11,13 @@ const page = () => {
 
       <h3 className="mt-8 text-3xl font-bold text-offBlack">Our Partners</h3>
       <div className="flex items-center space-x-7 mt-8">
-        <Link href={"/logistics/9th"} className="cursor-pointer">
+        <div className="cursor-pointer">
           <img
             className=" h-56 w-56 rounded-3xl "
             src="https://res.cloudinary.com/dougwnqok/image/upload/v1728574102/Frame_1400002996_vmh94l.png"
             alt=""
           />
-        </Link>
+        </div>
         <Link href={"/logistics/royal"} className="cursor-pointer">
           <img
             className=" h-56 w-56 rounded-3xl "
