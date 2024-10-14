@@ -1,9 +1,12 @@
 import React from "react";
 import PaymentSuccessPage from "@/components/pages/marketplace/paymentSuccessPage";
+import { Suspense } from "react";
 const page = () => {
   return (
     <div>
-      <PaymentSuccessPage />
+      <Suspense>
+        <PaymentSuccessPage />
+      </Suspense>
     </div>
   );
 };
