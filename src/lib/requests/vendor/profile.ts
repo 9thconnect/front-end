@@ -19,12 +19,5 @@ export const updateProfile = (
 };
 
 export const getMyBusiness = () => {
-  return requests.get<{
-    businesses: {
-      page: number;
-      pages: number;
-      count: number;
-      businesses: Array<BusinessData>;
-    };
-  }>(`vendor/my-businesses`);
+  return requests.get<BusinessData[]>(`vendor/my-businesses`);
 };

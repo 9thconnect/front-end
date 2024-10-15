@@ -310,7 +310,13 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     const { accountName, ...dataWithoutAccountName } = updatedData;
 
-    const { gender, ...dataWithoutGender } = dataWithoutAccountName;
+    const {
+      gender,
+      portfolio: p,
+      qualifications: c,
+      professionalType,
+      ...dataWithoutGender
+    } = dataWithoutAccountName;
 
     const { portfolio, qualifications, ...dataWithoutPortAndQualification } =
       dataWithoutAccountName;
