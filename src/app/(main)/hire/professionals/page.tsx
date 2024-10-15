@@ -28,8 +28,13 @@ const page = async () => {
       <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727944375/95b7bc7460e22dd9948714052bae5d29_m5yfbt.png')] bg-cover h-80 bg-no-repeat bg-center rounded-2xl mt-5 "></div>
 
       <CategoryTalentListHomeForPro />
-      <div className="h-64 mt-5">
-        <MainHeroSection />
+      <div className="h-60 md:h-[600px] mt-5">
+        <MainHeroSection
+          images={[
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728995905/Architects_bxopcc.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728995904/electrician_yggbw4.jpg",
+          ]}
+        />
       </div>
     </div>
   );

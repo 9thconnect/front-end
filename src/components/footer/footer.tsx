@@ -35,10 +35,15 @@ const MainFooter = () => {
             more.
           </p>
           <div className="flex space-x-2">
+            <Link href={"https://x.com/9thmarketplace"}>
+              <Image alt="TwitterIcon" src={TwitterIcon} />
+            </Link>
+
+            <Link href={"https://www.instagram.com/9thmarketplace"}>
+              <Image alt="InstagramIcon" src={InstagramIcon} />
+            </Link>
             <Image alt="fb icon" src={FaceBookIcon} />
-            <Image alt="InstagramIcon" src={InstagramIcon} />
             <Image alt="TiktokIcon" src={TiktokIcon} />
-            <Image alt="TwitterIcon" src={TwitterIcon} />
             <Image alt="WhatsappIcon" src={WhatsappIcon} />
             <Image alt="YoutubeIcon" src={YoutubeIcon} />
           </div>

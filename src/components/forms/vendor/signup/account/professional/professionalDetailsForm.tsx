@@ -43,6 +43,7 @@ type ProfessionalDetailsFormProps = {
   onSubmit: (data: z.infer<typeof professionalDetailsValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
   setStage: React.Dispatch<React.SetStateAction<number>>;
+  previousStage: number;
 };
 
 function useProfessionalDetailsForm(formStateData: VendorSignUpRequest) {
@@ -62,6 +63,7 @@ const ProfessionalDetailsForm = ({
   onSubmit,
   formStateData,
   setStage,
+  previousStage,
 }: ProfessionalDetailsFormProps) => {
   const form = useProfessionalDetailsForm(formStateData);
   const [professionTypes, setProfessionTypes] = useState<
@@ -87,7 +89,7 @@ const ProfessionalDetailsForm = ({
     <Form {...form}>
       <ArrowLeft
         className="text-black cursor-pointer"
-        onClick={() => setStage(4)}
+        onClick={() => setStage(previousStage)}
       />
       <h2 className="my-2 text-xl text-black">Profession information</h2>
       <p className="mb-4">Give us your business details</p>

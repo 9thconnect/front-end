@@ -16,8 +16,13 @@ const page = async () => {
       <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727944377/696a5b5f167757391ac16bf51e0b316e_bjxilh.jpg')] bg-cover h-80 bg-no-repeat rounded-2xl mt-5 "></div>
 
       <CategoryTalentListHomeForArtisan />
-      <div className="h-64 mt-5">
-        <MainHeroSection />
+      <div className="h-60 md:h-[600px] mt-5">
+        <MainHeroSection
+          images={[
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728996053/masons_xghw1l.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728996050/handymen_ysna2e.jpg",
+          ]}
+        />
       </div>
     </div>
   );

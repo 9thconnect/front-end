@@ -50,8 +50,15 @@ const page = async () => {
         </div>
       </div>
 
-      <div className="h-80 mt-5">
-        <MainHeroSection />
+      <div className="h-60 md:h-[600px] mt-5">
+        <MainHeroSection
+          images={[
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728996053/masons_xghw1l.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728996050/handymen_ysna2e.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728995905/Architects_bxopcc.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728995904/electrician_yggbw4.jpg",
+          ]}
+        />
       </div>
     </div>
   );

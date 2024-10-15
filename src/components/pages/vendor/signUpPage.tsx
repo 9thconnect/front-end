@@ -45,6 +45,13 @@ import { Button } from "@/components/ui/button";
 import ProfessionalCompanyDetailsForm, {
   professionalCompanyDetailsValidationSchema,
 } from "@/components/forms/vendor/signup/account/professional/companyDetail";
+import QualificationForm, {
+  QualificationValidationSchema,
+} from "@/components/forms/vendor/signup/account/professional/artisan/qualificationForm";
+import PortfolioForm, {
+  PortfolioValidationSchema,
+} from "@/components/forms/vendor/signup/account/professional/artisan/portfolioForm";
+import { SubmitHandler } from "react-hook-form";
 
 export interface VendorSignUpRequest {
   fullName?: string;
@@ -73,6 +80,12 @@ export interface VendorSignUpRequest {
   professionDesc?: string;
   professionalType?: "individual" | "company";
   price?: number;
+  qualifications?: Array<{
+    degree: string;
+    institute: string;
+    year: string;
+  }>;
+  portfolio?: string[];
 }
 
 const VendorSignUpPage = ({ type }: { type: UserType }) => {
@@ -118,6 +131,9 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     professionName: "",
     professionCity: "",
     professionDesc: "",
+    qualifications: [],
+    portfolio: [],
+    professionalType: "company",
   });
 
   const handleSubmitStageOne = (
@@ -228,9 +244,43 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     updateStage(7);
   };
 
+  const handleSubmitStageNine: SubmitHandler<QualificationValidationSchema> = (
+    data
+  ) => {
+    // Handle the submitted data
+    console.log(data.qualifications);
+    // You can process the qualifications data here
+    // For example, update your state or send it to an API
+
+    setData((prevData) => ({
+      ...prevData,
+      qualifications: data.qualifications,
+    }));
+
+    updateStage(10);
+  };
+
+  const handleSubmitStageTen: SubmitHandler<PortfolioValidationSchema> = (
+    data
+  ) => {
+    // Handle the submitted data
+    console.log(data.portfolio);
+    // You can process the qualifications data here
+    // For example, update your state or send it to an API
+
+    setData((prevData) => ({
+      ...prevData,
+      portfolio: data.portfolio.map((image) => image.imageUrl),
+    }));
+
+    updateStage(7);
+  };
+
   const handleSubmitStageSix = (
     formData: z.infer<typeof professionalDetailsValidationSchema>
   ) => {
+    console.log("company form data");
+
     setData((prevData) => ({
       ...prevData,
       professionType: formData.professionType,
@@ -243,7 +293,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     console.log(data, formData);
 
-    updateStage(7);
+    updateStage(9);
 
     // submit
   };
@@ -262,10 +312,17 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     const { gender, ...dataWithoutGender } = dataWithoutAccountName;
 
-    console.log("form data", updatedData);
+    const { portfolio, qualifications, ...dataWithoutPortAndQualification } =
+      dataWithoutAccountName;
+
+    console.log("form data", formData);
 
     const finalData =
-      type == UserType.CUSTOMER ? dataWithoutGender : dataWithoutAccountName;
+      type == UserType.CUSTOMER
+        ? dataWithoutGender
+        : dataWithoutAccountName.professionalType == "company"
+        ? dataWithoutPortAndQualification
+        : dataWithoutAccountName;
 
     try {
       setDialogStatus("loading"); // Show loading dialog
@@ -275,6 +332,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
       if (type == UserType.VENDOR) {
         router.push(`/${type}/verify?email=${data.email}`);
+        return;
       }
 
       router.push(`/${type}/login`);
@@ -307,14 +365,6 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       title="Create Your Profile"
       body="We are excited to get you started as well. See you at the other side."
     >
-      {/* <DialogLoading
-        onButtonClick={() => {}}
-        status={"loading"}
-        successMessage="Successfully verify your account"
-        errorMessage="Error doing the operation"
-        open={isLoading}
-      /> */}
-
       <DialogLoading
         open={isLoading}
         status={dialogStatus}
@@ -434,6 +484,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
               onSubmit={handleSubmitStageSix}
               formStateData={data}
               setStage={setStage}
+              previousStage={4}
             />
           )}
           {stage == 7 && (
@@ -447,6 +498,22 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
           {stage == 8 && (
             <ProfessionalCompanyDetailsForm
               onSubmit={handleSubmitStageEight}
+              formStateData={data}
+              setStage={setStage}
+            />
+          )}
+
+          {stage == 9 && (
+            <QualificationForm
+              onSubmit={handleSubmitStageNine}
+              formStateData={data}
+              setStage={setStage}
+              previousStage={4}
+            />
+          )}
+          {stage == 10 && (
+            <PortfolioForm
+              onSubmit={handleSubmitStageTen}
               formStateData={data}
               setStage={setStage}
             />

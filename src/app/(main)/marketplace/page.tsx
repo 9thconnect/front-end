@@ -14,7 +14,18 @@ function page() {
   return (
     <div className="pt-8">
       <div className="h-60 md:h-[600px]">
-        <MainHeroSection />
+        <MainHeroSection
+          images={[
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728994853/Home_appliances_bwxga1.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728994850/house_hold_furniture_tnp2qp.jpg",
+            "/images/1-banner.jpg",
+            "/images/2-banner.jpg",
+            "/images/3-banner.jpg",
+            "/images/4-banner.jpg",
+            "/images/5-banner.jpg",
+            "/images/6-banner.jpg",
+          ]}
+        />
       </div>
 
       <SectionContainer>
@@ -44,7 +55,18 @@ function page() {
         </div>
       </SectionContainer>
       <div className="h-60 md:h-[500px] mt-5">
-        <MainHeroSection />
+        <MainHeroSection
+          images={[
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728994853/Home_appliances_bwxga1.jpg",
+            "https://res.cloudinary.com/dougwnqok/image/upload/v1728994850/house_hold_furniture_tnp2qp.jpg",
+            "/images/1-banner.jpg",
+            "/images/2-banner.jpg",
+            "/images/3-banner.jpg",
+            "/images/4-banner.jpg",
+            "/images/5-banner.jpg",
+            "/images/6-banner.jpg",
+          ]}
+        />
       </div>
       <CategoryProductListHomeSection />
     </div>

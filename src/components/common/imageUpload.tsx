@@ -1,9 +1,12 @@
-// import React, { useState } from "react";
+// "use client";
+
+// import React, { useState, useRef } from "react";
 // import axios from "axios";
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { siteConfig } from "@/config/site.config";
 // import { Camera } from "lucide-react";
+// import { Progress } from "../ui/progress";
 
 // type ImageUploadProps = {
 //   onUploadSuccess: (url: string) => void;
@@ -17,6 +20,7 @@
 //   const [file, setFile] = useState<File | null>(null);
 //   const [uploading, setUploading] = useState(false);
 //   const [progress, setProgress] = useState(0);
+//   const fileInputRef = useRef<HTMLInputElement>(null);
 
 //   const handleFileChange = async (
 //     event: React.ChangeEvent<HTMLInputElement>
@@ -62,16 +66,26 @@
 //     }
 //   };
 
+//   const handleDivClick = () => {
+//     if (fileInputRef.current) {
+//       fileInputRef.current.click();
+//     }
+//   };
+
 //   return (
-//     <div className="flex text-offBlack border-offBlack flex-col items-center border border-dashed py-4 px-10 rounded-xl">
+//     <div
+//       className="flex text-offBlack border-offBlack flex-col items-center border border-dashed py-4 px-10 rounded-xl cursor-pointer"
+//       onClick={handleDivClick}
+//     >
 //       <Camera />
 //       <p>Click to upload</p>
 //       <Input
+//         ref={fileInputRef}
 //         className="my-4 rounded-2xl"
 //         type="file"
 //         onChange={handleFileChange}
 //       />
-//       <p>Supports jpg, png and gif</p>
+//       <p>Supports jpg, png, and gif</p>
 //       {uploadMethod === "button" && (
 //         <Button
 //           onClick={() => file && handleUpload(file)}
@@ -82,36 +96,15 @@
 //         </Button>
 //       )}
 //       {uploading && uploadMethod === "auto" && (
-//         <div className="w-full mt-2">
-//           <div className="relative pt-1">
-//             <div className="flex mb-2 items-center justify-between">
-//               <div className="text-xs font-semibold inline-block py-1 px-2 rounded-full text-teal-600 bg-teal-200">
-//                 {progress}%
-//               </div>
-//             </div>
-//             <div className="flex-grow">
-//               <div className="relative pt-1">
-//                 <div
-//                   className="flex mb-2 items-center justify-between"
-//                   style={{ width: `${progress}%` }}
-//                 >
-//                   <div
-//                     className="bg-teal-500 text-xs leading-none py-1 text-center text-white rounded-full"
-//                     style={{ width: `${progress}%` }}
-//                   >
-//                     &nbsp;
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
+//         <Progress value={progress} className="w-[60%]" />
 //       )}
 //     </div>
 //   );
 // };
 
 // export default ImageUpload;
+
+"use client";
 
 import React, { useState, useRef } from "react";
 import axios from "axios";
@@ -123,7 +116,7 @@ import { Progress } from "../ui/progress";
 
 type ImageUploadProps = {
   onUploadSuccess: (url: string) => void;
-  uploadMethod?: "auto" | "button"; // Optional prop to choose upload method
+  uploadMethod?: "auto" | "button";
 };
 
 const ImageUpload = ({
@@ -179,9 +172,10 @@ const ImageUpload = ({
     }
   };
 
-  const handleDivClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  const handleDivClick = (e: React.MouseEvent) => {
+    // Only trigger if the click is directly on the div, not on its children
+    if (e.target === e.currentTarget) {
+      fileInputRef.current?.click();
     }
   };
 
@@ -197,11 +191,15 @@ const ImageUpload = ({
         className="my-4 rounded-2xl"
         type="file"
         onChange={handleFileChange}
+        onClick={(e) => e.stopPropagation()} // Prevent click from bubbling up
       />
       <p>Supports jpg, png, and gif</p>
       {uploadMethod === "button" && (
         <Button
-          onClick={() => file && handleUpload(file)}
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent click from bubbling up
+            file && handleUpload(file);
+          }}
           disabled={!file || uploading}
           className="mt-2"
         >
@@ -210,30 +208,6 @@ const ImageUpload = ({
       )}
       {uploading && uploadMethod === "auto" && (
         <Progress value={progress} className="w-[60%]" />
-        // <div className="w-full mt-2">
-        //   <div className="relative pt-1">
-        //     <div className="flex mb-2 items-center justify-between">
-        //       <div className="text-xs font-semibold inline-block py-1 px-2 rounded-full text-teal-600 bg-teal-200">
-        //         {progress}%
-        //       </div>
-        //     </div>
-        //     <div className="flex-grow">
-        //       <div className="relative pt-1">
-        //         <div
-        //           className="flex mb-2 items-center justify-between"
-        //           style={{ width: `${progress}%` }}
-        //         >
-        //           <div
-        //             className="bg-teal-500 text-xs leading-none py-1 text-center text-white rounded-full"
-        //             style={{ width: `${progress}%` }}
-        //           >
-        //             &nbsp;
-        //           </div>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
       )}
     </div>
   );
