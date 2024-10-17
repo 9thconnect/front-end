@@ -52,23 +52,27 @@ const LogisticPage = ({ slug }: { slug: string }) => {
       location: "Abuja, NG",
       phone: "+234 803 742 9208",
       image:
-        "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
+        "https://res.cloudinary.com/dougwnqok/image/upload/v1729141898/b9dcffc9f4818ed9ee421597eab9f5bc_kd0b41.png",
     },
     {
       name: "Tayo Dispatch",
       location: "Abuja, NG",
       phone: "+234 803 742 9208",
       image:
-        "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
+        "https://res.cloudinary.com/dougwnqok/image/upload/v1729141921/753a3bc4117fdd251d9a7b89d8869765_nlh3og.jpg",
     },
     {
       name: "7central Logistics",
       location: "Abuja, NG",
       phone: "+234 803 742 9208",
       image:
-        "https://s3-alpha-sig.figma.com/img/84fa/22f7/34adbc36ff5d9021e9e47c2811332b6a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLAHB~RTntNHgspNnwUheRHQN2-Y-uOi6R2LFSFOL-EAR1kyXED-IyWaoHTBmm0x3z6PIoc1Ae-47NYfo~9Q5ffUfMCXCp7uDiQtOezgvq9XWapTAyONUsZXaOYEKorvyLqjfbzKhBH2vaR6xKZ7YMTgJoEr0E5JRWo2dMcpYifKHUBBQ157Y5rdhr2VQUdkRFkrWn~65cYKQk5gM3eUIbu1yK9HTrrOsZdfZKsCUQwXvnqTjRyfwG6WTmSpADIyPjNdsVn~t~ZicYNKykZuadI4gJYMSfgAPMeJ8ZoP4VHm-wybu1tuzbpfVcMFAAmNSrfxT93kZNpk710e5gglUw__",
+        "https://res.cloudinary.com/dougwnqok/image/upload/v1729141937/c16610e14d7e7d2ee288c02d6baf6688_bzydy4.jpg",
     },
   ];
+
+  const shuffleArray = (array: typeof companies) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
 
   return (
     <div className="mt-5">
@@ -109,7 +113,7 @@ const LogisticPage = ({ slug }: { slug: string }) => {
         <SectionContainer className="col-span-8 md:col-span-6">
           <div className="container mx-auto p-4">
             <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-bold">Sponsored</h1>
+              <h1 className="text-2xl font-bold hidden md:block">Sponsored</h1>
               <div className="flex space-x-2">
                 <div className="flex items-center">
                   <span className="mr-2">Sort by</span>
@@ -127,7 +131,7 @@ const LogisticPage = ({ slug }: { slug: string }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {companies.map((company, index) => (
+              {shuffleArray(companies).map((company, index) => (
                 <div key={index} className="border rounded-lg overflow-hidden">
                   <div className="relative">
                     <img
@@ -150,7 +154,55 @@ const LogisticPage = ({ slug }: { slug: string }) => {
 
             <div className="bg-[url('https://s3-alpha-sig.figma.com/img/d575/ad34/b2122640fc585f6ae4a664d8a171888a?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GoHqpwl12ApUwa~sJxIgV7562bsY6dzXkKiPgiFPxLh7P1cP9CEhEJDkinV4u0HjNbY5BuVwxSsFn1-rsYFn2PkhX-WQz~AktjVEpn9GixbVrcOIbtGvDzg3SKDHrdwJa9FbecrfJPt~yYTcwhnncBm27UZ5kFSCOs9-q1VTGHKSIhhBo4l8KJdAblzejITejc1aNnHoFUt~T4rLPzOhJCkxjrghXab9zBNHl5BA1KNG5ff4vIq~lqxtWfbEKJqpaQMW-ppJoMIQpFIYwm850Xz0c-IMR8ug8sFrjdoMYQQ4C3wCkNjfgcEPhG5it5mZLnBnirV9VuguMMinRrIZCg__')] bg-cover h-60 bg-no-repeat bg-center rounded-2xl mt-5 "></div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {companies.map((company, index) => (
+              {shuffleArray(companies).map((company, index) => (
+                <div
+                  key={index}
+                  className="border rounded-lg overflow-hidden mt-6"
+                >
+                  <div className="relative">
+                    <img
+                      src={company.image}
+                      alt={company.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full flex items-center">
+                      <Check size={16} className="mr-1" /> Verified
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-500">{company.location}</p>
+                    <h3 className="font-semibold">{company.name}</h3>
+                    <p className="text-gray-600">{company.phone}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {shuffleArray(companies).map((company, index) => (
+                <div
+                  key={index}
+                  className="border rounded-lg overflow-hidden mt-6"
+                >
+                  <div className="relative">
+                    <img
+                      src={company.image}
+                      alt={company.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full flex items-center">
+                      <Check size={16} className="mr-1" /> Verified
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-500">{company.location}</p>
+                    <h3 className="font-semibold">{company.name}</h3>
+                    <p className="text-gray-600">{company.phone}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {shuffleArray(companies).map((company, index) => (
                 <div
                   key={index}
                   className="border rounded-lg overflow-hidden mt-6"
