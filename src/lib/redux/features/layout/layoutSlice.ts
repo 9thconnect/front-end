@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   adminSideBarOpen: false,
-  showTrackingModal: true,
+  showTrackingModal: false,
 };
 const layoutSlice = createSlice({
   name: "layout",
