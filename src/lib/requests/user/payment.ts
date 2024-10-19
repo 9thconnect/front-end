@@ -1,4 +1,4 @@
-import { Payment } from "@/type/common";
+import { Payment, SingleTransactionData } from "@/type/common";
 import requests from "@/utils/requests";
 
 export const getPayments = (
@@ -34,4 +34,8 @@ export const getPayments = (
     count: number;
     payments: Array<Payment>;
   }>(`/payment/customer/payments${queryString ? `?${queryString}` : ""}`);
+};
+
+export const getSinglePaymentCustomer = (id?: string) => {
+  return requests.get<SingleTransactionData>(`/payment/customer/${id}`);
 };

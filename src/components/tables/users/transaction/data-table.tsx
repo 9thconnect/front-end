@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { columns, renderStatus } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import {
   Drawer,
@@ -20,9 +20,15 @@ import { formatCurrency } from "@/utils/format-currency";
 import { Input } from "@/components/ui/input";
 import FilterSelect from "@/components/common/filterSelect";
 import { useQuery } from "@tanstack/react-query";
-import { getPayments } from "@/lib/requests/user/payment";
+import {
+  getPayments,
+  getSinglePaymentCustomer,
+} from "@/lib/requests/user/payment";
 import { Payment } from "@/type/common";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getSinglePaymentAdmin } from "@/lib/requests/admin/payment";
+import PaymentReceiptDrawer from "@/components/cards/common/singleTransactionDrawer";
+import { renderPaymentStatus } from "@/components/cards/common/renderPaymentStatus";
 
 const TransactionDataTable = () => {
   const [rowData, setRowData] = useState<Payment | undefined>();
@@ -31,6 +37,17 @@ const TransactionDataTable = () => {
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: ["get-transactions"],
     queryFn: () => getPayments(),
+  });
+
+  const {
+    isLoading: isSingleLoading,
+    data: singleTransactionData,
+    error: singleTransactionError,
+    refetch: refetchSingleTransaction,
+  } = useQuery({
+    queryKey: ["get-single-transaction", rowData?._id],
+    queryFn: () => getSinglePaymentCustomer(rowData?._id),
+    enabled: !!rowData?._id && open,
   });
 
   const handleRowClick = (e: Payment) => {
@@ -51,77 +68,17 @@ const TransactionDataTable = () => {
 
   return (
     <div>
-      <Drawer
+      <PaymentReceiptDrawer
         open={open}
         onOpenChange={onOpenChange}
-        dismissible
         onClose={onClose}
-        direction="right"
-      >
-        <DrawerContent className="max-w-[425px] overflow-y-auto overflow-x-hidden h-4/5 ml-auto border">
-          <DrawerHeader>
-            <div className="flex items-center">
-              <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
-                <X size={20} />
-              </DrawerClose>
-              <DrawerTitle className="font-thin text-offBlack">
-                Payment Receipt
-              </DrawerTitle>
-            </div>
-          </DrawerHeader>
+        singleTransactionData={
+          singleTransactionData?.data ? singleTransactionData.data : null
+        }
+        isSingleLoading={isSingleLoading}
+        singleTransactionError={singleTransactionError as Error | null}
+      />
 
-          {rowData && (
-            <div className="px-3 mt-4">
-              <div className="p-4 rounded-lg mb-4 relative border text-center">
-                <div className="p-2 rounded-full bg-primary/20 flex justify-center items-center absolute -top-5 right-1/2">
-                  <ReceiptText size={15} className="text-primary" />
-                </div>
-                <div className="mt-3">
-                  <p>Jan 20, 2024 - 08:45 PM</p>
-                  <p className="text-3xl font-bold text-offBlack my-3">
-                    {formatCurrency(rowData.amount)}
-                  </p>
-                  {renderStatus(rowData.status)}
-                </div>
-              </div>
-              <div>
-                <div className="border-b pb-5 mt-3 flex justify-between items-center">
-                  <p>Customer</p>
-                  <p>{rowData.payerName}</p>
-                </div>
-                <div className="border-b pb-5 mt-3 flex justify-between items-center">
-                  <p>Ben Vendor</p>
-                  <p>7central Ventures</p>
-                </div>
-
-                <div className="border-b pb-5 mt-20 flex justify-between items-center">
-                  <p>Method</p>
-                  <p>Card</p>
-                </div>
-                <div className="border-b pb-5 mt-3 flex justify-between items-center">
-                  <p>Subtotal</p>
-                  <p>{formatCurrency(4000000000)}</p>
-                </div>
-                <div className="border-b pb-5 mt-3 flex justify-between items-center">
-                  <p className="font-bold text-offBlack">Total</p>
-                  <p className="font-bold text-offBlack">
-                    {formatCurrency(4000000000)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <DrawerFooter className="w-full">
-            <div className="flex w-full space-x-4">
-              <Button className="w-full">Download</Button>
-              <Button className="w-full" variant="outline">
-                Print
-              </Button>
-            </div>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
       {isError && (
         <div>
           <p>Error loading data</p>

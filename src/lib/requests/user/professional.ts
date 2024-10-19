@@ -73,6 +73,12 @@ export const getProfessionalList = (
   );
 };
 
+export const getTopRatedPro = (pageNumber = 1) => {
+  return requests.get<ProfessionalsResponse>(
+    `/pro/top-rated-gig?pageNumber=${pageNumber}`
+  );
+};
+
 export const useGetProfessionalList = (
   type: "professional" | "artisan",
   search?: string,
@@ -84,7 +90,7 @@ export const useGetProfessionalList = (
 ) => {
   return useQuery({
     queryKey: [
-      "professionalList",
+      `professionalList-${type}`,
       search,
       pageNumber,
       filterByProfessionType,
@@ -102,5 +108,12 @@ export const useGetProfessionalList = (
         startPrice,
         endPrice
       ),
+  });
+};
+
+export const useGetTopRatedProfessionalList = (pageNumber?: number) => {
+  return useQuery({
+    queryKey: [`professionalList-top-rated`, pageNumber],
+    queryFn: () => getTopRatedPro(pageNumber),
   });
 };

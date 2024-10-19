@@ -68,6 +68,7 @@ import TalentCard from "@/components/cards/talentCard";
 import { useGetProfessionalList } from "@/lib/requests/user/professional";
 import { Skeleton } from "@/components/ui/skeleton";
 import Empty from "@/components/common/empty";
+import { SkeletonTalentCard } from "@/components/cards/skeletons/talent";
 
 interface ICategory {
   title: string;
@@ -76,15 +77,6 @@ interface ICategory {
   api: string;
   type: "professional" | "artisan";
 }
-
-const SkeletonTalentCard = () => (
-  <div className="border rounded-lg p-4">
-    <Skeleton className="h-40 w-full mb-4" />
-    <Skeleton className="h-4 w-3/4 mb-2" />
-    <Skeleton className="h-4 w-1/2 mb-2" />
-    <Skeleton className="h-4 w-1/4" />
-  </div>
-);
 
 const EmptyState = () => (
   <div className="text-center py-8">

@@ -23,7 +23,7 @@ export interface ITalent {
   rating?: number;
   verified: boolean;
   imageUrl: string;
-  category: string | undefined;
+  category?: string;
   type: "professional" | "artisan";
 }
 

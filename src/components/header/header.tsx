@@ -23,9 +23,11 @@ import BellIcon from "@/icons/bellIcon";
 import CertIcon from "@/icons/certIcon";
 import { MainDrawer } from "../drawer/drawer";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/lib/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import CategoryCard from "../cards/categoryCard";
+import { toggleTrackModal } from "@/lib/redux/features/layout/layoutSlice";
+import EnhancedSearch from "../forms/search/enhancedSearch";
 
 const MainHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -76,6 +78,8 @@ const MainHeader = () => {
     },
   ];
 
+  const dispatch = useAppDispatch();
+
   const isLoggedIn = useAppSelector((state) => state.auth.data);
 
   return (
@@ -91,7 +95,17 @@ const MainHeader = () => {
             {/* <Link href={"/"}>Contact Us</Link> */}
           </div>
           <div className="h-8 bg-gray-300 w-0.5"></div>
-          <Link className="ml-10" href={"/"}>
+          <Link
+            onClick={() =>
+              dispatch(
+                toggleTrackModal({
+                  open: true,
+                })
+              )
+            }
+            className="ml-10"
+            href={"/"}
+          >
             Track Order
           </Link>
         </div>
@@ -112,7 +126,9 @@ const MainHeader = () => {
 
           <CategoryCard />
 
-          <label
+          <EnhancedSearch />
+
+          {/* <label
             htmlFor="search"
             className="relative text-gray-400 focus-within:text-gray-600 block w-full md:w-2/5 ml-2 grow sm:ml-10"
           >
@@ -127,7 +143,7 @@ const MainHeader = () => {
               type="text"
               placeholder="Search"
             />
-          </label>
+          </label> */}
 
           <MainDrawer />
         </div>
