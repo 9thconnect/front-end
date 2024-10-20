@@ -95,7 +95,7 @@ const MainHeader = () => {
             {/* <Link href={"/"}>Contact Us</Link> */}
           </div>
           <div className="h-8 bg-gray-300 w-0.5"></div>
-          <Link
+          <div
             onClick={() =>
               dispatch(
                 toggleTrackModal({
@@ -104,10 +104,9 @@ const MainHeader = () => {
               )
             }
             className="ml-10"
-            href={"/"}
           >
             Track Order
-          </Link>
+          </div>
         </div>
 
         {auth && auth.type !== UserType.VENDOR && (
