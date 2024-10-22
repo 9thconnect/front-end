@@ -1,5 +1,5 @@
 import React from "react";
-import { X, ReceiptText } from "lucide-react";
+import { X, ReceiptText, RotateCwIcon } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -13,6 +13,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SingleTransactionData } from "@/type/common";
 import { formatCurrency } from "@/utils/format-currency";
 import { renderPaymentStatus } from "./renderPaymentStatus";
+import { useMutation } from "@tanstack/react-query";
+import requests from "@/utils/requests";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 interface PaymentReceiptDrawerProps {
   open: boolean;
@@ -31,6 +35,21 @@ const PaymentReceiptDrawer: React.FC<PaymentReceiptDrawerProps> = ({
   isSingleLoading,
   singleTransactionError,
 }) => {
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["retry-paymenr"],
+    mutationFn: (ref: string) => {
+      return requests.patch(`/payment/verify-payment/${ref}`, {});
+    },
+    onSuccess: (data) => {
+      toast(data.message);
+    },
+
+    onError: (error: AxiosError<{ message: string }>) => {
+      console.log(error.response?.data.message);
+
+      toast.error(error.response?.data.message);
+    },
+  });
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="max-w-[425px] h-full flex flex-col ml-auto border">
@@ -73,7 +92,21 @@ const PaymentReceiptDrawer: React.FC<PaymentReceiptDrawerProps> = ({
                   <p className="text-3xl font-bold text-offBlack my-3">
                     {formatCurrency(singleTransactionData.amount)}
                   </p>
-                  {renderPaymentStatus(singleTransactionData.status)}
+                  {/* {renderPaymentStatus(singleTransactionData.status)} */}
+                  <div className="flex items-center justify-center">
+                    {renderPaymentStatus(singleTransactionData.status)}
+
+                    {singleTransactionData.status === "pending" && (
+                      <RotateCwIcon
+                        onClick={() =>
+                          !isPending && mutate(singleTransactionData.invoiceRef)
+                        }
+                        className={`ml-2 ${
+                          isPending && "animate-spin"
+                        }  cursor-pointer`}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <div>
