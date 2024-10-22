@@ -45,7 +45,7 @@ const TransactionDataTable = () => {
     error: singleTransactionError,
     refetch: refetchSingleTransaction,
   } = useQuery({
-    queryKey: ["get-single-transaction", rowData?._id],
+    queryKey: ["get-single-transaction", { id: rowData?._id }],
     queryFn: () => getSinglePaymentCustomer(rowData?._id),
     enabled: !!rowData?._id && open,
   });

@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SingleTransactionData } from "@/type/common";
 import { formatCurrency } from "@/utils/format-currency";
 import { renderPaymentStatus } from "./renderPaymentStatus";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -35,12 +35,21 @@ const PaymentReceiptDrawer: React.FC<PaymentReceiptDrawerProps> = ({
   isSingleLoading,
   singleTransactionError,
 }) => {
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["retry-paymenr"],
     mutationFn: (ref: string) => {
       return requests.patch(`/payment/verify-payment/${ref}`, {});
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          `get-single-transaction`,
+          { id: singleTransactionData?._id },
+        ],
+      });
+
       toast(data.message);
     },
 
@@ -97,14 +106,21 @@ const PaymentReceiptDrawer: React.FC<PaymentReceiptDrawerProps> = ({
                     {renderPaymentStatus(singleTransactionData.status)}
 
                     {singleTransactionData.status === "pending" && (
-                      <RotateCwIcon
+                      <button
+                        className="bg-green-600 rounded-3xl flex items-center px-2 py-[2px] text-white"
                         onClick={() =>
                           !isPending && mutate(singleTransactionData.invoiceRef)
                         }
-                        className={`ml-2 ${
-                          isPending && "animate-spin"
-                        }  cursor-pointer`}
-                      />
+                        disabled={isPending}
+                      >
+                        Verify Payment
+                        <RotateCwIcon
+                          size={13}
+                          className={`ml-2 ${
+                            isPending && "animate-spin"
+                          }  cursor-pointer`}
+                        />
+                      </button>
                     )}
                   </div>
                 </div>
