@@ -42,10 +42,27 @@ const MainFooter = () => {
             <Link href={"https://www.instagram.com/9thmarketplace"}>
               <Image alt="InstagramIcon" src={InstagramIcon} />
             </Link>
-            <Image alt="fb icon" src={FaceBookIcon} />
-            <Image alt="TiktokIcon" src={TiktokIcon} />
-            <Image alt="WhatsappIcon" src={WhatsappIcon} />
-            <Image alt="YoutubeIcon" src={YoutubeIcon} />
+            <Link
+              href={
+                "https://www.facebook.com/profile.php?id=61566668534655&mibextid=ZbWKwL"
+              }
+            >
+              <Image alt="fb icon" src={FaceBookIcon} />
+            </Link>
+
+            <Link
+              href={
+                "https://www.tiktok.com/@9thmarketplace?_t=8qZMkxYJ8sg&_r=1"
+              }
+            >
+              <Image alt="TiktokIcon" src={TiktokIcon} />
+            </Link>
+
+            {/* <Image alt="WhatsappIcon" src={WhatsappIcon} /> */}
+
+            <Link href={"https://youtu.be/L6PNwSg9nkY?si=S4QynA_Y2wNuh0iS"}>
+              <Image alt="YoutubeIcon" src={YoutubeIcon} />
+            </Link>
           </div>
           <Separator className="my-4" />
           <div className="flex space-x-2">
