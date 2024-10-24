@@ -35,32 +35,45 @@ const MainFooter = () => {
             more.
           </p>
           <div className="flex space-x-2">
-            <Link href={"https://x.com/9thmarketplace"}>
+            <Link
+              href="https://x.com/9thmarketplace"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image alt="TwitterIcon" src={TwitterIcon} />
             </Link>
 
-            <Link href={"https://www.instagram.com/9thmarketplace"}>
+            <Link
+              href="https://www.instagram.com/9thmarketplace"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image alt="InstagramIcon" src={InstagramIcon} />
             </Link>
+
             <Link
-              href={
-                "https://www.facebook.com/profile.php?id=61566668534655&mibextid=ZbWKwL"
-              }
+              href="https://www.facebook.com/profile.php?id=61566668534655&mibextid=ZbWKwL"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image alt="fb icon" src={FaceBookIcon} />
             </Link>
 
             <Link
-              href={
-                "https://www.tiktok.com/@9thmarketplace?_t=8qZMkxYJ8sg&_r=1"
-              }
+              href="https://www.tiktok.com/@9thmarketplace?_t=8qZMkxYJ8sg&_r=1"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image alt="TiktokIcon" src={TiktokIcon} />
             </Link>
 
             {/* <Image alt="WhatsappIcon" src={WhatsappIcon} /> */}
 
-            <Link href={"https://youtu.be/L6PNwSg9nkY?si=S4QynA_Y2wNuh0iS"}>
+            <Link
+              href="https://youtu.be/L6PNwSg9nkY?si=S4QynA_Y2wNuh0iS"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image alt="YoutubeIcon" src={YoutubeIcon} />
             </Link>
           </div>
