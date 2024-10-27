@@ -37,9 +37,15 @@ const authSlice = createSlice({
 
       console.log(state);
     },
+    updateAvatar: (state, action: PayloadAction<string>) => {
+      if (state.data?.avatar) {
+        state.data.avatar = action.payload;
+      }
+    },
   },
 });
 
-export const { storeAuthenticatedUser, logoutUser } = authSlice.actions;
+export const { storeAuthenticatedUser, logoutUser, updateAvatar } =
+  authSlice.actions;
 
 export default authSlice.reducer;

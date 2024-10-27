@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AvatarUpload from "@/components/common/avatarUpload";
 
 const ProfileForm = forwardRef<HTMLFormElement>((props) => {
   const vendor = useAppSelector((state) => state.auth.data) as IVendor;
@@ -60,12 +61,17 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
     }
   };
 
+  const auth = useAppSelector((state) => state.auth);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full grid grid-cols-2 gap-5 py-5"
       >
+        <div className="col-span-2 flex justify-center mb-6">
+          <AvatarUpload form={form} defaultAvatar={auth.data?.avatar} />
+        </div>
         <div className="col-span-2">
           <FormField
             control={form.control}
