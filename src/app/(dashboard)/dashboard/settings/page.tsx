@@ -1,5 +1,4 @@
 import AdminSettingsPage from "@/components/pages/admin/settings/adminSettingsPage";
-import PaymentGatewaySettings from "@/components/pages/admin/settings/paymentGatewaySettings";
 import React from "react";
 
 const page = () => {
