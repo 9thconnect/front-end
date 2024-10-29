@@ -115,7 +115,13 @@ export interface Order {
   customer: string;
   orderItems: OrderItem[];
   orderID: string;
-  status: string;
+  status:
+    | "pending"
+    | "received"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   customerConfirmOrder: boolean;
   isPaid: boolean;
   dateOrdered: string;
@@ -250,3 +256,16 @@ export interface SingleTransactionData {
   ipAddress: string;
   payment_options: string;
 }
+
+export type Admin = {
+  _id: string;
+  fullName: string;
+  username: string;
+  email: string;
+  role: "superAdmin" | "product" | "order" | "accounting" | "diplomacy";
+  isActive: boolean;
+  phone: string;
+  createdAt: string;
+  updatedAt: string;
+  lastSeen?: string;
+};

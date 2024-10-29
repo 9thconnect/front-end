@@ -38,6 +38,21 @@ const routes = [
     icon: CertIcon,
   },
   {
+    name: "Orders",
+    route: "/dashboard/orders",
+    icon: CertIcon,
+  },
+  {
+    name: "Admin",
+    route: "/dashboard/admins",
+    icon: CertIcon,
+  },
+  {
+    name: "Payment gateways",
+    route: "/dashboard/gateway",
+    icon: CertIcon,
+  },
+  {
     name: "Notifications",
     route: "/dashboard/notifications",
     icon: CertIcon,
@@ -91,7 +106,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">Marketplace Management</h3>
             <div>
-              {routes.slice(3, 5).map((route) => (
+              {routes.slice(3, 6).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -101,11 +116,21 @@ const DashboardSideBar = () => {
               ))}
             </div>
 
+            <h3 className="mb-7">General Settings</h3>
+
+            {routes.slice(6, 8).map((route) => (
+              <DashboardSideBarItem
+                IconComponent={route.icon}
+                label={route.name}
+                path={route.route}
+                key={`account-route-${route.name}`}
+              />
+            ))}
             <Separator />
           </div>
 
           <div className="pl-2 mt-auto">
-            {routes.slice(5, 8).map((route) => (
+            {routes.slice(8, 12).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}

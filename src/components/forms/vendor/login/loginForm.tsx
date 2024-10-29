@@ -29,6 +29,7 @@ import { syncCartWithServer } from "@/lib/redux/features/cart/cartSlice";
 import { REHYDRATE } from "redux-persist";
 import Link from "next/link";
 import requests from "@/utils/requests";
+import { IAdmin, IVendor } from "@/type/users";
 
 const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -63,10 +64,24 @@ export function LoginForm({ type }: { type: UserType }) {
       toast.success("Logged in successfully");
 
       if (res.data) {
+        // dispatch(
+        //   storeAuthenticatedUser({
+        //     type: type,
+        //     data:
+        //       type == UserType.ADMIN
+        //         ? (res.data.admin as IAdmin)
+        //         : res.data.profile,
+        //     token: res.data.token,
+        //   })
+        // );
+
         dispatch(
           storeAuthenticatedUser({
             type: type,
-            data: res.data.profile,
+            data:
+              type == UserType.ADMIN
+                ? (res.data.admin as IAdmin)
+                : (res.data.profile as IVendor),
             token: res.data.token,
           })
         );
@@ -76,6 +91,11 @@ export function LoginForm({ type }: { type: UserType }) {
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         dispatch(syncCartWithServer());
+      } else {
+        if (type == UserType.ADMIN) {
+          router.push(`/admin/confirm?email=${data.email}`);
+          return;
+        }
       }
 
       console.log(UserType.ADMIN, type, type == UserType.ADMIN);

@@ -1,7 +1,12 @@
+import AdminsTable from "@/components/tables/admin/admins/data-table";
 import React from "react";
 
 const page = () => {
-  return <div>admins</div>;
+  return (
+    <div>
+      <AdminsTable />
+    </div>
+  );
 };
 
 export default page;

@@ -2,7 +2,7 @@ import { IAdmin, IUser, IVendor } from "@/type/users";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  data: IAdmin | IUser | IVendor | null;
+  data: IAdmin | IUser | IVendor | null | undefined;
   type: UserType;
   token: string | null;
 }
@@ -42,10 +42,31 @@ const authSlice = createSlice({
         state.data.avatar = action.payload;
       }
     },
+    updateAdminProfile: (
+      state,
+      action: PayloadAction<{
+        fullName: string;
+        username: string;
+        email: string;
+        phone: string;
+      }>
+    ) => {
+      if (state.data && state.type === UserType.ADMIN) {
+        const adminData = state.data as IAdmin;
+        adminData.fullName = action.payload.fullName;
+        adminData.email = action.payload.email;
+        adminData.username = action.payload.username;
+        adminData.phone = action.payload.phone;
+      }
+    },
   },
 });
 
-export const { storeAuthenticatedUser, logoutUser, updateAvatar } =
-  authSlice.actions;
+export const {
+  storeAuthenticatedUser,
+  logoutUser,
+  updateAvatar,
+  updateAdminProfile,
+} = authSlice.actions;
 
 export default authSlice.reducer;

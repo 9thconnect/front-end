@@ -1,5 +1,6 @@
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
+import { Admin } from "@/type/common";
 import { IVendor } from "@/type/users";
 import { removeEmptyKeys } from "@/utils/clean-data";
 import requests from "@/utils/requests";
@@ -49,7 +50,7 @@ export interface LoginRequest {
 }
 
 export const login = (data: LoginRequest, type: UserType) => {
-  return requests.post<{ profile: IVendor; token: string }>(
+  return requests.post<{ profile: IVendor; token: string; admin?: Admin }>(
     `/${type}/auth/login`,
     data
   );
