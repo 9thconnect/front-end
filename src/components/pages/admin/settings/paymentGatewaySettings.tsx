@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import requests from "@/utils/requests";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Gateway {
   _id: string;
@@ -78,7 +79,17 @@ const PaymentGatewaySettings: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div>
+        <Skeleton className="h-7 w-36 mb-4" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+        </div>
+      </div>
+    );
 
   return (
     <div className="space-y-4 p-4">

@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProfessionals } from "@/lib/requests/admin/professional/admin-professional-requests";
 import { fetchBusinesses } from "@/lib/requests/admin/seller/admin-seller-requests";
 import { Business } from "@/type/professional";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // function getDataVendors(): VendorData[] {
 //   return Array.from({ length: 10 }, (_, i) => ({
@@ -68,7 +69,22 @@ const VendorDataTable = () => {
           </div>
         </div>
         {query.isLoading ? (
-          <>Loading</>
+          <div className="space-y-4">
+            {/* Repeat this block for the number of rows you want to display as loading */}
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-4 py-2 px-4"
+              >
+                {/* Table columns loader */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+              </div>
+            ))}
+          </div>
         ) : (
           <DataTable
             columns={columns}

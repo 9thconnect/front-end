@@ -407,12 +407,11 @@ const OrderTableAdmin = () => {
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex items-center space-x-4 py-2 px-4">
               {/* Table columns loader */}
-              <Skeleton className="h-6 w-16" /> {/* First Column */}
-              <Skeleton className="h-6 w-24" /> {/* Second Column */}
-              <Skeleton className="h-6 w-32" /> {/* Third Column */}
-              <Skeleton className="h-6 w-20" /> {/* Fourth Column */}
-              <Skeleton className="h-6 w-20" /> {/* Fifth Column */}
-              <Skeleton className="h-6 w-20" /> {/* Sixth Column */}
+              <Skeleton className="h-6 w-full" /> {/* First Column */}
+              <Skeleton className="h-6 w-full" /> {/* First Column */}
+              <Skeleton className="h-6 w-full" /> {/* First Column */}
+              <Skeleton className="h-6 w-full" /> {/* First Column */}
+              <Skeleton className="h-6 w-full" /> {/* First Column */}
             </div>
           ))}
         </div>

@@ -9,58 +9,70 @@ import DashboardSideBarItem from "./sideBarItem";
 import { Separator } from "@/components/ui/separator";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { toggleAdminSideBar } from "@/lib/redux/features/layout/layoutSlice";
+import OpenBoxLove from "@/icons/openBoxLove";
+import BriefCaseIcon from "@/icons/briefCaseIcon";
+import CategoryIcon from "@/icons/categoryIcon";
+import PeopleIconComponent from "@/icons/peopleIcon";
+import UsersIcon from "@/icons/usersIcon";
+import LogoIconComp from "@/icons/logoIcon";
+import MainLogoIcon from "@/icons/mainLogoIcon";
+import CartCheckIcon from "@/icons/cartCheckIcon";
+import UserPolygon from "@/icons/userPolygon";
+import TransferIcon from "@/icons/transferIcon";
+import MailNotificationIcon from "@/icons/mailNotificationIcon";
+import SettingsIcon from "@/icons/settingsIcon";
 
 const routes = [
   {
     name: "Dashboard",
     route: "/dashboard/home",
-    icon: CertIcon,
+    icon: OpenBoxLove,
   },
   {
     name: "Transactions",
     route: "/dashboard/transactions/",
-    icon: CertIcon,
+    icon: BriefCaseIcon,
   },
   {
     name: "Categories",
     route: "/dashboard/categories",
-    icon: CertIcon,
+    icon: CategoryIcon,
   },
 
   {
     name: "Professionals",
     route: "/dashboard/professionals",
-    icon: CertIcon,
+    icon: UsersIcon,
   },
   {
     name: "Vendors",
     route: "/dashboard/vendors",
-    icon: CertIcon,
+    icon: MainLogoIcon,
   },
   {
     name: "Orders",
     route: "/dashboard/orders",
-    icon: CertIcon,
+    icon: CartCheckIcon,
   },
   {
     name: "Admin",
     route: "/dashboard/admins",
-    icon: CertIcon,
+    icon: UserPolygon,
   },
   {
     name: "Payment gateways",
     route: "/dashboard/gateway",
-    icon: CertIcon,
+    icon: TransferIcon,
   },
   {
     name: "Notifications",
     route: "/dashboard/notifications",
-    icon: CertIcon,
+    icon: MailNotificationIcon,
   },
   {
     name: "Settings",
     route: "/dashboard/settings",
-    icon: CertIcon,
+    icon: SettingsIcon,
   },
 ];
 
