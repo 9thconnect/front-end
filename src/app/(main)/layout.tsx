@@ -3,6 +3,7 @@
 import MainFooter from "@/components/footer/footer";
 import MainHeader from "@/components/header/header";
 import TrackOrderModal from "@/components/modals/trackOrderModal";
+import Script from "next/script";
 
 export default function OtherPageLayout({
   children,
@@ -11,6 +12,7 @@ export default function OtherPageLayout({
 }) {
   return (
     <div className="px-2 lg:px-14 m-auto lg:py-8">
+      <Script src="//code.tidio.co/zjzf4sgtmmvqxxuvrt0ojcqau7xesodf.js" />
       <MainHeader />
       <TrackOrderModal />
       <div>{children}</div>
