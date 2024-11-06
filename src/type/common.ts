@@ -269,3 +269,13 @@ export type Admin = {
   updatedAt: string;
   lastSeen?: string;
 };
+
+export interface DeliveryMethod {
+  _id: string;
+  country: string;
+  deliveryMethod: "Pick-up-station" | "Door-delivery";
+  pricePerWeight: number;
+  pricePerKilometer: number;
+  timelineDurationFrom: number;
+  timelineDurationTo: number;
+}

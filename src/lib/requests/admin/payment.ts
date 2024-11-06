@@ -8,7 +8,9 @@ export const getPaymentsAdmin = (
   filteredByStatus?: string,
   filteredByCompletedPayment?: boolean,
   startDate?: string,
-  endDate?: string
+  endDate?: string,
+  paymentFor?: "order" | "service" | "withdrawal" | "payout",
+  filteredByVendor?: string
 ) => {
   // Create a query object based on the passed parameters
   const queryParams: Record<string, string | number | boolean | undefined> = {
@@ -19,6 +21,8 @@ export const getPaymentsAdmin = (
     startDate,
     endDate,
     filterByProductCategory,
+    paymentFor,
+    filteredByVendor,
   };
 
   // Filter out undefined values from the query object

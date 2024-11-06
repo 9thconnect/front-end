@@ -1,4 +1,4 @@
-import { ProfessionsResponseData } from "@/type/professional";
+import { Business, ProfessionsResponseData } from "@/type/professional";
 import requests from "@/utils/requests";
 
 export const fetchProfessionals = ({
@@ -17,3 +17,36 @@ export const fetchProfessionals = ({
       search
     )}&filterByProfessionType=${professionType}&filterByVendor=${vendor}&pageNumber=${pageNumber}`
   );
+
+export const fetchProfessionalBusinesses = ({
+  search = "",
+  filterByBusinessType = "",
+  filterByVendor = "",
+  pageNumber = 1,
+}: {
+  search?: string;
+  filterByBusinessType?: string;
+  filterByVendor?: string;
+  pageNumber?: number;
+}) => {
+  const queryParams: Record<string, string | number | boolean | undefined> = {
+    search,
+    pageNumber,
+    filterByBusinessType,
+    filterByVendor,
+  };
+
+  const queryString = Object.keys(queryParams)
+    .filter((key) => queryParams[key] !== undefined)
+    .map((key) => `${key}=${encodeURIComponent(queryParams[key] as string)}`)
+    .join("&");
+
+  return requests.get<{
+    data: {
+      page: number;
+      pages: number;
+      count: number;
+      businesses: Business[];
+    };
+  }>(`/vendor/all-businesses${queryString ? `?${queryString}` : ""}`);
+};

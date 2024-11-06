@@ -79,16 +79,16 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
   },
-  {
-    accessorKey: "orderDetails.totalPrice",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total Amount" />
-    ),
-    cell: ({ row }) => {
-      const amount = row.getValue("orderDetails.totalPrice") as number;
-      return <p className="font-medium">{formatCurrency(amount)}</p>;
-    },
-  },
+  // {
+  //   accessorKey: "orderDetails.totalPrice",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Total Amount" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const amount = row.getValue("orderDetails.totalPrice") as number;
+  //     return <p className="font-medium">{formatCurrency(amount)}</p>;
+  //   },
+  // },
   {
     accessorKey: "dateOrdered",
     header: ({ column }) => (

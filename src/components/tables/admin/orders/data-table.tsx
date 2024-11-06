@@ -49,7 +49,7 @@ import {
 import requests from "@/utils/requests";
 import axios from "axios";
 
-const OrderTableAdmin = () => {
+const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
   const [rowData, setRowData] = useState<Order | undefined>();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -58,7 +58,7 @@ const OrderTableAdmin = () => {
   const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["get-orders", { page: page, userType: "admin" }],
+    queryKey: ["get-orders", { page: page, userType: "admin", vendor: vendor }],
     queryFn: getOrders,
   });
 
@@ -72,6 +72,7 @@ const OrderTableAdmin = () => {
   } = useQuery({
     queryKey: ["get-order", { id: rowData?._id, userType: "admin" }],
     queryFn: getOrder,
+    enabled: !!rowData?._id,
   });
 
   const handleRowClick = (e: Order) => {

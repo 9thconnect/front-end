@@ -243,6 +243,21 @@ const ProductForm = ({ product }: { product?: Product }) => {
             )}
           />
         </div>
+        <div className="mb-8">
+          <FormField
+            control={form.control}
+            name="weight"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Weight</FormLabel>
+                <FormControl>
+                  <Input placeholder="Weight" type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <div className="mb-8">
           <FormField

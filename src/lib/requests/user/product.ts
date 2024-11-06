@@ -132,6 +132,8 @@ interface ShippingAddress {
 }
 
 interface Body {
+  deliveryMethod: string;
+  deliveryPrice: number;
   shippingAddress: ShippingAddress;
 }
 
@@ -154,13 +156,22 @@ export const getWishlist = () => {
   }>(`/customer/my-wishlist`);
 };
 export const getOrders = ({ queryKey }: { queryKey: any }) => {
-  const [_key, { page, userType }] = queryKey;
-  return requests.get<OrderResponse>(
-    `/order/${userType}/orders?pageNumber=${page}`
-  );
+  const [_key, { page, userType, vendor }] = queryKey;
+
+  console.log(vendor);
+
+  if (vendor) {
+    return requests.get<OrderResponse>(
+      `/order/${userType}/orders?pageNumber=${page}&filterByVendor=${vendor}`
+    );
+  } else {
+    return requests.get<OrderResponse>(
+      `/order/${userType}/orders?pageNumber=${page}`
+    );
+  }
 };
 
 export const getOrder = ({ queryKey }: { queryKey: any }) => {
-  const [_key, { id, userType }] = queryKey;
+  const [_key, { id, userType, vendor }] = queryKey;
   return requests.get<Order>(`order/${userType}/order/${id}`);
 };

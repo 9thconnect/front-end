@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
-  BadgeCheck,
   Banknote,
-  BoxIcon,
   BriefcaseBusiness,
   Calendar,
   HandCoins,
@@ -11,34 +9,16 @@ import {
   Landmark,
   LayoutList,
   ListChecks,
-  ListTodo,
   MapPin,
-  ShieldCheck,
   Star,
-  X,
 } from "lucide-react";
 // import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import EarningDataTable from "@/components/tables/professionals/earnings/data-table";
 import { EarningData } from "@/components/tables/professionals/earnings/columns";
 import { formatCurrency } from "@/utils/format-currency";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import TwoStageAlertDialog from "@/components/alerts/twoStageAlertDialog";
-import { useEffect, useState } from "react";
-import { ProfessionalData } from "@/type/professional";
-import { siteConfig } from "@/config/site.config";
 import { Overview } from "@/components/pages/admin/professional/single/overView";
 
 type Props = {

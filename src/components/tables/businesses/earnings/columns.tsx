@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { EyeIcon, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,7 +22,7 @@ import { formatCurrency } from "@/utils/format-currency";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type OrderData = {
+export type EarningData = {
   id: string;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
@@ -30,7 +30,6 @@ export type OrderData = {
   date: Date;
   customerPhoto?: string;
   amount: number;
-  orderId: string;
 };
 
 export const renderStatus = (status: string) => {
@@ -56,7 +55,7 @@ export const renderStatus = (status: string) => {
   return el;
 };
 
-export const columns: ColumnDef<OrderData>[] = [
+export const columns: ColumnDef<EarningData>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -81,13 +80,6 @@ export const columns: ColumnDef<OrderData>[] = [
   },
 
   {
-    accessorKey: "orderId",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Order" />
-    ),
-  },
-
-  {
     accessorKey: "customer",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Customer" />
@@ -107,15 +99,6 @@ export const columns: ColumnDef<OrderData>[] = [
     },
   },
   {
-    accessorKey: "amount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Amount" />
-    ),
-    cell: ({ row }) => {
-      return formatCurrency(row.original.amount);
-    },
-  },
-  {
     accessorKey: "date",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
@@ -128,7 +111,7 @@ export const columns: ColumnDef<OrderData>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="User Type" />
     ),
     cell: ({ row }) => {
       const status: string = row.getValue("status") as string;
@@ -145,20 +128,6 @@ export const columns: ColumnDef<OrderData>[] = [
       const amount = row.getValue("amount") as number;
 
       return formatCurrency(amount);
-    },
-  },
-
-  {
-    accessorKey: "action",
-    header: ({ column }) => "",
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center">
-          <div className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full">
-            <EyeIcon color="#8E7E7E" />
-          </div>
-        </div>
-      );
     },
   },
 ];

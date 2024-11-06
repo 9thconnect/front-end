@@ -2,7 +2,6 @@
 
 import { DataTableColumnHeader } from "@/components/ui/column-header";
 import { ColumnDef } from "@tanstack/react-table";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,44 +11,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit2, EyeIcon, MoreHorizontal, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import MainBadge from "@/components/badges/mainBadge";
 import DateCell from "@/components/common/dateCell";
 import { formatCurrency } from "@/utils/format-currency";
-import { Business } from "@/type/professional";
+import { ProfessionalData } from "@/type/professional";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type WorkersData = {
-  id: string;
-  name: string;
-  earning: number;
-  tasks: number;
-  rating: number;
-  status: "disabled" | "enabled";
+export const renderStatus = (status: boolean) => {
+  return (
+    <MainBadge
+      text={status ? "Approved" : "Not Approved"}
+      type={status ? "green" : "red"}
+    />
+  );
 };
 
-export const renderStatus = (status: string) => {
-  let el;
-  switch (status) {
-    case "enabled":
-      el = <MainBadge text={status} type="green" />;
-      break;
-    case "disabled":
-      el = <MainBadge text={status} type="red" />;
-      break;
-
-    default:
-      break;
-  }
-
-  return el;
-};
-
-export const columns: ColumnDef<WorkersData>[] = [
+export const columns: ColumnDef<ProfessionalData>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -73,55 +53,104 @@ export const columns: ColumnDef<WorkersData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "artisan.fullName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Artisan" />
     ),
-  },
-
-  {
-    accessorKey: "earning",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Earning" />
-    ),
     cell: ({ row }) => {
-      return formatCurrency(row.original.earning);
-    },
-  },
-
-  {
-    accessorKey: "tasks",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tasks" />
-    ),
-  },
-
-  {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Artisan Status" />
-    ),
-    cell: ({ row }) => {
-      const status: string = row.getValue("status") as string;
-
-      return renderStatus(status);
-    },
-  },
-
-  {
-    accessorKey: "action",
-    header: ({ column }) => "",
-    cell: ({ row }) => {
+      const artisan = row.original.artisan;
       return (
         <div className="flex items-center">
-          <div className=" flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full">
-            <Edit2 color="#8E7E7E" />
-          </div>
-          <div className="flex items-center p-2 bg-[#F0D3D3] rounded-full">
-            <Trash2 color="#7B0A0A" />
-          </div>
+          <Avatar>
+            <AvatarImage src={artisan.avatar} alt="Artisan avatar" />
+            <AvatarFallback>{artisan.fullName.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <p className="ml-3">{artisan.fullName}</p>
         </div>
       );
     },
+  },
+  {
+    accessorKey: "professionType.title",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Profession Type" />
+    ),
+  },
+  {
+    accessorKey: "professionName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Profession Name" />
+    ),
+  },
+  {
+    accessorKey: "professionDesc",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Profession Description" />
+    ),
+  },
+  {
+    accessorKey: "professionCity",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="City" />
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Price" />
+    ),
+    cell: ({ row }) => formatCurrency(row.original.price),
+  },
+  {
+    accessorKey: "professionApproved",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Approved" />
+    ),
+    cell: ({ row }) => {
+      return renderStatus(row.original.professionApproved);
+    },
+  },
+  {
+    accessorKey: "professionActive",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const isActive = row.original.professionActive;
+      return (
+        <MainBadge
+          text={isActive ? "Active" : "Inactive"}
+          type={isActive ? "green" : "red"}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date Created" />
+    ),
+    cell: ({ row }) => <DateCell date={row.getValue("createdAt")} />,
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Updated" />
+    ),
+    cell: ({ row }) => <DateCell date={row.getValue("updatedAt")} />,
+  },
+  {
+    accessorKey: "action",
+    header: ({ column }) => "",
+    cell: ({ row }) => (
+      <div className="flex items-center">
+        <div className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full cursor-pointer">
+          <EyeIcon color="#22bb36" />
+        </div>
+        <div className="flex items-center p-2 bg-[#F0D3D3] rounded-full cursor-pointer">
+          <Trash2 color="#7B0A0A" />
+        </div>
+      </div>
+    ),
   },
 ];

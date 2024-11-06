@@ -24,22 +24,13 @@ import AnalyticCard from "@/components/cards/common/analyticCard";
 import EarningDataTable from "@/components/tables/vendors/earnings/data-table";
 import { EarningData } from "@/components/tables/professionals/earnings/columns";
 import { formatCurrency } from "@/utils/format-currency";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import TwoStageAlertDialog from "@/components/alerts/twoStageAlertDialog";
 import ProductDataTable from "@/components/tables/vendors/products/data-table";
-import OrderDataTable from "@/components/tables/vendors/orders/data-table";
 import { siteConfig } from "@/config/site.config";
 import SellerOverview from "@/sections/dashboard/seller/overview";
+import OrderTableAdmin from "@/components/tables/admin/orders/data-table";
+import { Suspense } from "react";
+import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
 
 type Props = {
   params: { id: string };
@@ -225,12 +216,19 @@ const page = async ({ params }: Props) => {
                 Icon={Handshake}
               />
             </div>
-            <EarningDataTable data={tableData} />
+            {/* <EarningDataTable data={tableData} /> */}
+
+            <Suspense>
+              <TransactionDataTableAdmin
+                vendor={params.id}
+                paymentFor="withdrawal"
+              />
+            </Suspense>
           </div>
         </TabsContent>
         <TabsContent className="w-full border-t" value="Orders">
           <div className="mt-3">
-            <OrderDataTable />
+            <OrderTableAdmin vendor={params.id} />
           </div>
         </TabsContent>
       </Tabs>

@@ -45,7 +45,12 @@ const routes = [
     icon: UsersIcon,
   },
   {
-    name: "Vendors",
+    name: "Pro Businesses",
+    route: "/dashboard/business-professionals",
+    icon: UsersIcon,
+  },
+  {
+    name: "Sellers",
     route: "/dashboard/vendors",
     icon: MainLogoIcon,
   },
@@ -55,15 +60,20 @@ const routes = [
     icon: CartCheckIcon,
   },
   {
+    name: "Products",
+    route: "/dashboard/products",
+    icon: TransferIcon,
+  },
+  {
     name: "Admin",
     route: "/dashboard/admins",
     icon: UserPolygon,
   },
-  {
-    name: "Payment gateways",
-    route: "/dashboard/gateway",
-    icon: TransferIcon,
-  },
+  // {
+  //   name: "Payment gateways",
+  //   route: "/dashboard/settings/gateway",
+  //   icon: TransferIcon,
+  // },
   {
     name: "Notifications",
     route: "/dashboard/notifications",
@@ -118,7 +128,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">Marketplace Management</h3>
             <div>
-              {routes.slice(3, 6).map((route) => (
+              {routes.slice(3, 7).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -130,7 +140,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">General Settings</h3>
 
-            {routes.slice(6, 8).map((route) => (
+            {routes.slice(7, 9).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}
@@ -142,7 +152,7 @@ const DashboardSideBar = () => {
           </div>
 
           <div className="pl-2 mt-auto">
-            {routes.slice(8, 12).map((route) => (
+            {routes.slice(9, 13).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}

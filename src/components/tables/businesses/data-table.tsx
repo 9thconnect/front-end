@@ -1,59 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
-import { columns, renderStatus } from "./columns";
+import React from "react";
+import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { ReceiptText, X } from "lucide-react";
-import { formatCurrency } from "@/utils/format-currency";
 import { Input } from "@/components/ui/input";
 import FilterSelect from "@/components/common/filterSelect";
-import { ProfessionalData } from "@/type/professional";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import requests from "@/utils/requests";
+import { fetchProfessionalBusinesses } from "@/lib/requests/admin/professional/admin-professional-requests";
+import { Business } from "@/type/professional";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const WorkerDataTable = () => {
-  const [rowData, setRowData] = useState<ProfessionalData | undefined>();
-  const [open, setOpen] = useState(false);
-
-  const handleRowClick = (e: ProfessionalData) => {
-    setRowData(e);
-    setOpen(true);
-  };
-
-  const onOpenChange = (open: boolean) => {
-    if (!open) {
-      setRowData(undefined);
-      setOpen(false);
-    }
-  };
-
-  function onClose() {
-    setOpen(false);
-  }
+const ProfessionalBusinessesDataTable = () => {
+  const router = useRouter();
 
   const query = useQuery({
-    queryKey: ["get-company-workers"],
-    queryFn: () =>
-      requests.get<{
-        page: number;
-        pages: number;
-        count: number;
-        professions: ProfessionalData[];
-      }>("vendor/my-professions"),
+    queryKey: ["get-professional-businesses"],
+    queryFn: () => fetchProfessionalBusinesses({ search: "" }),
   });
+
+  console.log(query.data?.data?.data.businesses);
+
+  console.log(query.data);
+
+  const handleRowClick = (e: Business) => {
+    router.push(`business-professionals/${e.business}`);
+    console.log(e);
+  };
 
   return (
     <div>
@@ -101,8 +75,11 @@ const WorkerDataTable = () => {
             ))}
           </div>
         ) : (
-          query.data?.data?.professions && (
-            <DataTable columns={columns} data={query.data?.data?.professions} />
+          query.data?.data?.data.businesses && (
+            <DataTable
+              columns={columns}
+              data={query.data?.data?.data.businesses}
+            />
           )
         )}
       </div>
@@ -110,4 +87,4 @@ const WorkerDataTable = () => {
   );
 };
 
-export default WorkerDataTable;
+export default ProfessionalBusinessesDataTable;

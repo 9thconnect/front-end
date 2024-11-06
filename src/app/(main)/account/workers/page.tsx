@@ -29,7 +29,7 @@ const page = () => {
         />
       </div>
       <div>
-        <WorkerDataTable data={workersDummy} />
+        <WorkerDataTable />
       </div>
     </div>
   );

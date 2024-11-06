@@ -28,13 +28,30 @@ import {
   getSinglePaymentAdmin,
 } from "@/lib/requests/admin/payment";
 
-const TransactionDataTableAdmin = () => {
+const TransactionDataTableAdmin = ({
+  vendor,
+  paymentFor,
+}: {
+  vendor?: string;
+  paymentFor?: "order" | "service" | "withdrawal" | "payout";
+}) => {
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: ["get-transactions-admin"],
-    queryFn: () => getPaymentsAdmin(),
+    queryFn: () =>
+      getPaymentsAdmin(
+        undefined, // Placeholder for `search`
+        undefined, // Placeholder for `pageNumber`
+        undefined, // Placeholder for `filterByProductCategory`
+        undefined, // Placeholder for `filteredByStatus`
+        undefined, // Placeholder for `filteredByCompletedPayment`
+        undefined, // Placeholder for `startDate`
+        undefined, // Placeholder for `endDate`
+        paymentFor,
+        vendor
+      ),
   });
 
   const {
@@ -182,14 +199,16 @@ const TransactionDataTableAdmin = () => {
         <div className="space-y-4">
           {/* Repeat this block for the number of rows you want to display as loading */}
           {Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="flex items-center space-x-4 py-2 px-4">
+            <div
+              key={index}
+              className="flex items-center space-x-4 py-2 px-4 mt-8"
+            >
               {/* Table columns loader */}
-              <Skeleton className="h-6 w-16" /> {/* First Column */}
-              <Skeleton className="h-6 w-24" /> {/* Second Column */}
-              <Skeleton className="h-6 w-32" /> {/* Third Column */}
-              <Skeleton className="h-6 w-20" /> {/* Fourth Column */}
-              <Skeleton className="h-6 w-20" /> {/* Fifth Column */}
-              <Skeleton className="h-6 w-20" /> {/* Sixth Column */}
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
             </div>
           ))}
         </div>

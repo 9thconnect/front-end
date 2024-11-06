@@ -131,12 +131,6 @@ export const columns: ColumnDef<VendorData>[] = [
           >
             <EyeIcon color="#22bb36" />
           </div>
-          <div className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full cursor-pointer">
-            <Edit2 color="#8E7E7E" />
-          </div>
-          <div className="flex items-center p-2 bg-[#F0D3D3] rounded-full cursor-pointer">
-            <Trash2 color="#7B0A0A" />
-          </div>
         </div>
       );
     },

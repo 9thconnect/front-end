@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 type CheckoutFormProps = {
   onSubmit: (data: z.infer<typeof checkoutValidationSchema>) => void;
+  locationData: { country: string; state: string; city: string };
 };
 
 const languages = [
@@ -31,10 +32,15 @@ const languages = [
 
 const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
   (props, ref) => {
-    const form = useCheckoutFormContext();
+    const { onSubmit, locationData } = props;
 
-    const { onSubmit } = props;
+    console.log("locationData", locationData);
 
+    const form = useCheckoutFormContext(locationData);
+
+    form.setValue("country", locationData.country);
+    form.setValue("state", locationData.state);
+    form.setValue("city", locationData.city);
     return (
       <Form {...form}>
         <form
@@ -42,7 +48,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full grid grid-cols-2 gap-5 py-5"
         >
-          <div className="col-span-1">
+          <div className="col-span-1 ">
             <FormField
               control={form.control}
               name="country"
@@ -58,7 +64,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             />
           </div>
 
-          <div className="col-span-1">
+          <div className="col-span-1 ">
             <FormField
               control={form.control}
               name="state"
@@ -93,7 +99,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
               )}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col-span-1 hidden">
             <FormField
               control={form.control}
               name="city"
@@ -107,7 +113,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
               )}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col-span-2">
             <FormField
               control={form.control}
               name="posterCode"
