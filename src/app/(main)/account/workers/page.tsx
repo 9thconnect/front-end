@@ -1,7 +1,6 @@
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import AddWorkerModal from "@/components/modals/addWorkerModal";
 import WorkerDataTable from "@/components/tables/vendors/workers/data-table";
-import { workersDummy } from "@/data/dummy/productDummyData";
 import { formatCurrency } from "@/utils/format-currency";
 import { UsersRound } from "lucide-react";
 import React from "react";
