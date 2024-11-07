@@ -312,7 +312,7 @@ const DeliveryMethodPage = () => {
                   name="timelineDurationFrom"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Timeline Duration From</FormLabel>
+                      <FormLabel>Duration From</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -333,7 +333,7 @@ const DeliveryMethodPage = () => {
                   name="timelineDurationTo"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Timeline Duration To</FormLabel>
+                      <FormLabel>Duration To</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
