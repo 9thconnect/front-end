@@ -123,12 +123,7 @@ const HireHomePage = () => {
           <TalentCard
             talent={{
               id: item._id,
-              name:
-                type == "professional"
-                  ? item.vendor.fullName
-                  : item.artisan
-                  ? item.artisan.fullName
-                  : "",
+              name: item.vendor.fullName,
               profession: item.professionName,
               rating: 0, // You might want to add a rating field to your item data
               imageUrl: item.vendor.avatar,

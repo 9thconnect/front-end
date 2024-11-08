@@ -136,7 +136,12 @@ const CategoryTalentListSection = ({
               <TalentCard
                 talent={{
                   id: professional._id,
-                  name: professional.vendor.fullName,
+                  name:
+                    type == "professional"
+                      ? professional.vendor.fullName
+                      : professional.artisan
+                      ? professional.artisan.fullName
+                      : "",
                   profession: professional.professionName,
                   rating: 0,
                   imageUrl: professional.vendor.avatar,

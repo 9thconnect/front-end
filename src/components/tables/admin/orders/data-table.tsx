@@ -244,8 +244,8 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
                   <p className="text-offBlack">Items in this Order</p>
                   <div className="px-0.5 py-2 border mt-2 rounded-lg">
                     {singleOrder?.data?.orderItems.map((item) => (
-                      <Link
-                        href={`/marketplace/${item.productId}`}
+                      <div
+                        // href={`/marketplace/${item.productId}`}
                         key={`item-in-order-${item}`}
                         className="flex p-2 py-4"
                       >
@@ -260,7 +260,7 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
                             {formatCurrency(item.price)}
                           </p>
                         </div>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </div>

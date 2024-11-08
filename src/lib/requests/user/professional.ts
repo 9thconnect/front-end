@@ -14,6 +14,14 @@ export interface ProfessionalsResponse {
         vendorID: string;
         email: string;
         avatar: string;
+        businesses?: Array<{
+          shopName: string;
+          shopID: string;
+          businessRegNo: string;
+          businessLogo: string;
+          businessApproved: boolean;
+          businessActive: boolean;
+        }>;
       };
       professionType: string | null;
       profession: string;
@@ -25,6 +33,14 @@ export interface ProfessionalsResponse {
       professionActive: boolean;
       price: number;
       portfolio: string[];
+      artisan?: {
+        _id: string;
+        fullName: string;
+        phoneNumber: string;
+        email: string;
+        artisanID: string;
+        avatar: string;
+      };
       qualifications: Array<{
         degree: string;
         institute: string;

@@ -16,11 +16,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AlignJustify } from "lucide-react";
+import { AlignJustify, ChevronLeft, ChevronRight } from "lucide-react";
 import { useGetProductList } from "@/lib/requests/user/product";
 import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { SkeletonTalentCard } from "@/components/cards/skeletons/talent";
 
 const states = [
   { name: "Abuja", value: "201" },
@@ -57,6 +58,7 @@ const brands = [
   { name: "Jasiri", value: "Jasiri" },
   { name: "Maikano", value: "Maikano" },
 ];
+const ITEMS_PER_PAGE = 40;
 
 const MarketplaceHomePage = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(true);
@@ -78,6 +80,8 @@ const MarketplaceHomePage = () => {
   const [selectedRatingSide, setSelectedRatingSide] = useState<
     number | undefined
   >();
+
+  const [page, setPage] = useState(1);
 
   const handleClearFilters = () => {
     setSelectedPrice(undefined);
@@ -123,7 +127,7 @@ const MarketplaceHomePage = () => {
     error,
   } = useGetProductList(
     "",
-    1,
+    page,
     selectedCategory,
     subCatId as string | undefined,
     priceRange(selectedPrice).startPrice,
@@ -135,9 +139,27 @@ const MarketplaceHomePage = () => {
     queryFn: () => fetchProductCategories(),
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const totalPages = productList?.data?.data
+    ? Math.ceil(productList.data.data.count / ITEMS_PER_PAGE)
+    : 0;
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // if (isLoading) {
+  //   return (
+  //     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+  //       {[...Array(4)].map((_, index) => (
+  //         <SkeletonTalentCard key={index} />
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   if (isError) {
     return <div>Error: {(error as Error).message}</div>;
@@ -186,8 +208,8 @@ const MarketplaceHomePage = () => {
         <SectionContainer className="col-span-8 md:col-span-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              {`1 - ${productList?.data?.data.products.length} of ${productList?.data?.data.count}`}
-              {/* 1-40 of 300 */}
+              {!isLoading &&
+                `1 - ${productList?.data?.data.products.length} of ${productList?.data?.data.count}`}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -271,11 +293,91 @@ const MarketplaceHomePage = () => {
               )}
             </div>
           </div>
-          {productList?.data?.data.products && (
-            <ItemList
-              items={productList.data.data.products}
-              renderItem={(item) => <ProductCard product={item} />}
-            />
+
+          {isLoading ? (
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+              {[...Array(12)].map((_, index) => (
+                <SkeletonTalentCard key={index} />
+              ))}
+            </div>
+          ) : (
+            productList?.data?.data.products && (
+              <>
+                <ItemList
+                  items={productList.data.data.products}
+                  renderItem={(item) => <ProductCard product={item} />}
+                />
+
+                {/* Pagination Controls */}
+                <div className="mt-8 flex items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1 || isLoading}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+
+                  <div className="flex gap-1">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNumber;
+                      if (totalPages <= 5) {
+                        pageNumber = i + 1;
+                      } else if (page <= 3) {
+                        pageNumber = i + 1;
+                      } else if (page >= totalPages - 2) {
+                        pageNumber = totalPages - 4 + i;
+                      } else {
+                        pageNumber = page - 2 + i;
+                      }
+
+                      return (
+                        <Button
+                          key={pageNumber}
+                          variant={page === pageNumber ? "default" : "outline"}
+                          size="icon"
+                          onClick={() => handlePageChange(pageNumber)}
+                          disabled={isLoading}
+                          className="w-8 h-8"
+                        >
+                          {pageNumber}
+                        </Button>
+                      );
+                    })}
+
+                    {totalPages > 5 && page < totalPages - 2 && (
+                      <>
+                        <span className="px-2">...</span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handlePageChange(totalPages)}
+                          disabled={isLoading}
+                          className="w-8 h-8"
+                        >
+                          {totalPages}
+                        </Button>
+                      </>
+                    )}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPages || isLoading}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                {/* Page Info */}
+                <div className="mt-4 text-center text-sm text-gray-600">
+                  Page {page} of {totalPages}
+                </div>
+              </>
+            )
           )}
         </SectionContainer>
       </div>
