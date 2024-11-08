@@ -42,8 +42,8 @@ const PhysicalMarketPage = () => {
                 Everything You Need Under One Roof
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                Welcome to 9th Marketplace's physical location at Enugu State
-                International Building Materials Market. Our market hosts
+                Welcome to 9th Marketplace&apos;s physical location at Enugu
+                State International Building Materials Market. Our market hosts
                 numerous vendors offering a comprehensive selection of building
                 materials and home improvement products.
               </p>
