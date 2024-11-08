@@ -70,7 +70,7 @@ const MainFooter = () => {
             {/* <Image alt="WhatsappIcon" src={WhatsappIcon} /> */}
 
             <Link
-              href="https://youtu.be/L6PNwSg9nkY?si=S4QynA_Y2wNuh0iS"
+              href="https://youtube.com/@9thmarketplace?si=UwiK_aDz9Y_Ow5IC"
               target="_blank"
               rel="noopener noreferrer"
             >
