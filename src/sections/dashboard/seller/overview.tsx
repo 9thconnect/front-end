@@ -87,7 +87,7 @@ const SellerOverview = ({ id }: { id: string }) => {
               <p className="mr-7">Rating:</p>
               <p className="text-offBlack">4.5 Stars</p>
             </div>
-            <h2 className="text-offBlack">Bank details</h2>
+            {/* <h2 className="text-offBlack">Bank details</h2>
             <Separator className="my-2" />
             <div className="flex items-center mb-4">
               <p className="mr-7">Bank:</p>
@@ -100,7 +100,7 @@ const SellerOverview = ({ id }: { id: string }) => {
             <div className="flex items-center mb-4">
               <p className="mr-7">Bank Code:</p>
               <p className="text-offBlack">345</p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-5">

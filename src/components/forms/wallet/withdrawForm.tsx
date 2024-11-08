@@ -13,13 +13,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { use, useState } from "react";
 import { toast } from "sonner";
 import { forgotPassword } from "@/lib/requests/vendor/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { IVendor } from "@/type/users";
 
 const WithdrawSchema = z.object({
   amount: z.number(),
@@ -34,6 +36,8 @@ export function WithdrawForm() {
       amount: 0,
     },
   });
+
+  const user = useAppSelector((state) => state.auth.data as IVendor);
 
   async function onSubmit(data: z.infer<typeof WithdrawSchema>) {
     try {
@@ -71,15 +75,19 @@ export function WithdrawForm() {
         <div className="border rounded-lg px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Bank:</p>
-            <p className="text-offBlack">Zenith Bank PLC</p>
+            <p className="text-offBlack">{user.accountDetails.bankName}</p>
+          </div>
+          <div className="flex items-center justify-between mb-4">
+            <p className="mr-7">Name:</p>
+            <p className="text-offBlack">{user.accountDetails.accountName}</p>
           </div>
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Account:</p>
-            <p className="text-offBlack">3456789012 </p>
+            <p className="text-offBlack">{user.accountDetails.accountNumber}</p>
           </div>
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Bank Code:</p>
-            <p className="text-offBlack">345</p>
+            <p className="text-offBlack">{user.accountDetails.bankCode}</p>
           </div>
         </div>
         <div className="grid grid-cols-5 gap-3">
