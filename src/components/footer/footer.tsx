@@ -146,7 +146,7 @@ const MainFooter = () => {
           <h3 className="text-lg font-bold mb-4">Need Help</h3>
           <ul>
             <li>
-              <Link href={"/knowledge-center"}>FAQs</Link>
+              <Link href={"/knowledge-center#section4"}>FAQs</Link>
             </li>
             <li>
               <Link href={"/"}>24/7 Support</Link>
@@ -155,7 +155,7 @@ const MainFooter = () => {
               <Link href={"/"}>Live Chat</Link>
             </li>
             <li>
-              <Link href={"/"}>Our Blog</Link>
+              <Link href={"/blog"}>Our Blog</Link>
             </li>
             <li>
               <Link href={"/knowledge-center"}>Return Policy</Link>
