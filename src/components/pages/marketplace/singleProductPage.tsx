@@ -222,7 +222,8 @@ const SingleProductPage = ({ id }: { id: string }) => {
                 <div className="flex">
                   <MapPin size={20} color="red" />
                   <span className="ml-2">
-                    {product?.seller?.businesses[0]?.shopCity || "No Location"}
+                    {product?.seller?.businesses[0]?.shopAddress ||
+                      "No Location"}
                   </span>
                 </div>
                 <div className="flex">
