@@ -408,7 +408,7 @@ const DeliveryMethodPage = () => {
                     </div>
                     <div>
                       <strong>Duration:</strong> {delivery.timelineDurationFrom}{" "}
-                      - {delivery.timelineDurationTo} minutes
+                      - {delivery.timelineDurationTo} days
                     </div>
                     <div className="col-span-2 flex justify-end gap-2">
                       <Button
