@@ -48,5 +48,9 @@ export const fetchProfessionalBusinesses = ({
       count: number;
       businesses: Business[];
     };
-  }>(`/vendor/all-businesses${queryString ? `?${queryString}` : ""}`);
+  }>(
+    `/vendor/all-businesses?filterByVendorType=professional${
+      queryString ? `&${queryString}` : ""
+    }`
+  );
 };
