@@ -1,11 +1,14 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 const MainBadge = ({
   text,
   type,
+  className,
 }: {
   text: string;
   type: "grey" | "green" | "red" | "blue";
+  className?: string;
 }) => {
   // Define color classes based on the type
   const colorClasses = {
@@ -29,7 +32,10 @@ const MainBadge = ({
 
   return (
     <div
-      className={`px-3 py-0.5 inline-flex items-center ${colorClasses[type].background} rounded-2xl`}
+      className={cn(
+        `px-3 py-0.5 inline-flex items-center ${colorClasses[type].background} rounded-2xl`,
+        className
+      )}
     >
       <span
         className={`w-2 h-2 rounded-full ${colorClasses[type].dot} mr-2`}

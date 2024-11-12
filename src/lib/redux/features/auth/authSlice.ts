@@ -59,6 +59,36 @@ const authSlice = createSlice({
         adminData.phone = action.payload.phone;
       }
     },
+
+    updateUserProfile: (
+      state,
+      action: PayloadAction<{
+        fullName: string;
+        phoneNumber: string;
+        gender: string;
+      }>
+    ) => {
+      if (state.data) {
+        const userData = state.data as IUser;
+        userData.fullName = action.payload.fullName;
+        userData.phoneNumber = action.payload.phoneNumber;
+      }
+    },
+    updateVendorProfile: (
+      state,
+      action: PayloadAction<{
+        fullName: string;
+        phoneNumber: string;
+        gender: string;
+      }>
+    ) => {
+      if (state.data) {
+        const userData = state.data as IVendor;
+        userData.fullName = action.payload.fullName;
+        userData.phoneNumber = action.payload.phoneNumber;
+        userData.gender = action.payload.gender;
+      }
+    },
   },
 });
 
@@ -67,6 +97,8 @@ export const {
   logoutUser,
   updateAvatar,
   updateAdminProfile,
+  updateUserProfile,
+  updateVendorProfile,
 } = authSlice.actions;
 
 export default authSlice.reducer;

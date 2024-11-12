@@ -15,7 +15,7 @@ import { profileValidationSchema } from "./profileValidator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useAppSelector } from "@/lib/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { IVendor } from "@/type/users";
 import { toast } from "sonner";
 import axios from "axios";
@@ -29,12 +29,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AvatarUpload from "@/components/common/avatarUpload";
+import {
+  updateUserProfile,
+  updateVendorProfile,
+  UserType,
+} from "@/lib/redux/features/auth/authSlice";
 
 const ProfileForm = forwardRef<HTMLFormElement>((props) => {
   const vendor = useAppSelector((state) => state.auth.data) as IVendor;
   const type = useAppSelector((state) => state.auth.type);
   const [isLoading, setIsLoading] = useState(false);
   const form = useProfileFormContext(vendor);
+
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (data: z.infer<typeof profileValidationSchema>) => {
     try {
@@ -47,6 +54,24 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
         },
         type
       );
+
+      if (type == UserType.CUSTOMER) {
+        dispatch(
+          updateUserProfile({
+            fullName: data.fullName,
+            phoneNumber: data.phone,
+            gender: data.gender,
+          })
+        );
+      } else {
+        dispatch(
+          updateVendorProfile({
+            fullName: data.fullName,
+            phoneNumber: data.phone,
+            gender: data.gender,
+          })
+        );
+      }
 
       toast.success(resp.message);
     } catch (error) {
@@ -130,7 +155,7 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
             )}
           />
         </div>
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           <FormField
             control={form.control}
             name="address"
@@ -148,8 +173,8 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
               </FormItem>
             )}
           />
-        </div>
-        <div className="col-span-1">
+        </div> */}
+        {/* <div className="col-span-1">
           <FormField
             control={form.control}
             name="city"
@@ -162,8 +187,8 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
               </FormItem>
             )}
           />
-        </div>
-        <div className="col-span-1">
+        </div> */}
+        {/* <div className="col-span-1">
           <FormField
             control={form.control}
             name="posterCode"
@@ -176,7 +201,7 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
 
         <Button disabled={isLoading} className="col-span-2" type="submit">
           {isLoading ? "loading.." : "Submit"}

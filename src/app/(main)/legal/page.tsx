@@ -173,7 +173,7 @@ const page = () => {
             </p>
           </section>
           <section id="section2" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
+            <h2 className="text-3xl mt-10 font-bold mb-4">
               APPLICATION AND ACCEPTANCE OF THE TERMS OF USE
             </h2>
             <p>
@@ -213,10 +213,7 @@ const page = () => {
             </p>
           </section>
           <section id="section3" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
-              {" "}
-              PRIVACY NOTICE
-            </h2>
+            <h2 className="text-3xl mt-10 font-bold mb-4"> PRIVACY NOTICE</h2>
             <p>
               In connection with your access to or use of our website, we may
               obtain information from or about you. We will use your information
@@ -225,7 +222,7 @@ const page = () => {
             </p>
           </section>
           <section id="section4" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
+            <h2 className="text-3xl mt-10 font-bold mb-4">
               {" "}
               ACCURACY OF YOUR INFORMATION & COMMUNICATION METHODS
             </h2>
@@ -248,7 +245,7 @@ const page = () => {
             </p>
           </section>
           <section id="section5" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
+            <h2 className="text-3xl mt-10 font-bold mb-4">
               AGE ELIGIBILITY AND LEGAL CAPACITY
             </h2>
             <p>
@@ -266,7 +263,7 @@ const page = () => {
             </p>
           </section>
           <section id="section6" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
+            <h2 className="text-3xl font-bold mb-4 mt-10">
               USERNAME, PASSWORD AND OTHER CREDENTIALS
             </h2>
             <p>
@@ -284,7 +281,7 @@ const page = () => {
             </p>
           </section>
           <section id="section7" className="h-auto">
-            <h2 className="text-3xl mt-10 font-bold mb-4 mt-10">
+            <h2 className="text-3xl mt-10 font-bold mb-4">
               INTELLECTUAL AND OTHER PROPRIETARY RIGHTS
             </h2>
             <p>

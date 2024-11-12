@@ -255,7 +255,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
 
               <div className="flex mt-7">
                 <span>Size</span>
-                <p className="ml-3"> 25KG</p>
+                <p className="ml-3"> {product?.weight} KG</p>
               </div>
               <div className="flex gap-2 my-2">
                 {product?.variations?.map((size, index) => (

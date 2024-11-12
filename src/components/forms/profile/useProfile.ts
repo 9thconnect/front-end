@@ -10,7 +10,7 @@ export function useProfileFormContext(vendor: IVendor) {
     resolver: zodResolver(profileValidationSchema),
     defaultValues: {
       phone: vendor?.phoneNumber,
-      address: "kkamkamd",
+      address: "",
       city: "",
       fullName: vendor?.fullName,
       posterCode: "",

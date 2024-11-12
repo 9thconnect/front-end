@@ -42,6 +42,7 @@ export interface Product {
   variations: any[];
   rating: number;
   numReviews: number;
+  weight: number;
   reviews: Array<{
     name: string;
     avatar: string;
@@ -252,7 +253,7 @@ export interface SingleTransactionData {
   status: "approved" | "pending" | "failed";
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  __v?: number;
   ipAddress: string;
   payment_options: string;
 }
