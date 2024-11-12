@@ -35,6 +35,7 @@ import Counter from "@/components/common/countComponent";
 import { siteConfig } from "@/config/site.config";
 import { formatDate } from "@/utils/format-date";
 import Empty from "@/components/common/empty";
+import { formatCurrency } from "@/utils/format-currency";
 
 interface RatingBarProps {
   rating: number;
@@ -236,7 +237,9 @@ const SingleProductPage = ({ id }: { id: string }) => {
                 </div>
               </div>
 
-              <h3 className="text-gray-950 text-4xl mt-7">{product?.price}</h3>
+              <h3 className="text-gray-950 text-4xl mt-7">
+                {formatCurrency(product?.price)}
+              </h3>
 
               <div className="my-2 w-fit">
                 <Counter
@@ -255,7 +258,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
 
               <div className="flex mt-7">
                 <span>Size</span>
-                <p className="ml-3"> {product?.weight} KG</p>
+                <p className="ml-3"> {product?.weight || "0"} KG</p>
               </div>
               <div className="flex gap-2 my-2">
                 {product?.variations?.map((size, index) => (
