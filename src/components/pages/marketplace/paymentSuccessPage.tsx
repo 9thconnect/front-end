@@ -344,14 +344,18 @@ const PaymentStatusPage: React.FC = () => {
     loadData();
   }, [status, code]);
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="w-64 h-64">
-        <Lottie animationData={currentAnimation} loop />
-      </div>
-      <p className="text-2xl font-bold mt-4 mb-8">{statusMessage}</p>
+  console.log(status, code);
 
-      {status !== "cancelled" && status !== "failed" && (
+  return (
+    <div className="flex flex-col items-center justify-center pt-4">
+      <div className="bg-white rounded-2xl py-12 px-6 w-full max-w-2xl flex justify-center items-center flex-col mb-5">
+        <div className="w-64 h-64">
+          <Lottie animationData={currentAnimation} loop />
+        </div>
+        <p className="text-2xl font-bold mt-4 mb-8">{statusMessage}</p>
+      </div>
+
+      {(status === "successful" || code === "00") && (
         <>
           {isReceiptLoading ? (
             <ReceiptSkeleton />
