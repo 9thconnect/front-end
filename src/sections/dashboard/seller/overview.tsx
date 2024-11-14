@@ -24,7 +24,10 @@ const SellerOverview = ({ id }: { id: string }) => {
         </aside>
         <div className="lg:col-span-5 mt-10 lg:mt-0">
           {[1, 2, 3, 4, 5, 6, 7].map((a) => (
-            <Skeleton className="rounded-lg h-10 w-full mb-3" />
+            <Skeleton
+              key={`${a}-skeleton`}
+              className="rounded-lg h-10 w-full mb-3"
+            />
           ))}
         </div>
       </div>
