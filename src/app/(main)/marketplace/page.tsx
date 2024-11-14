@@ -16,6 +16,7 @@ function page() {
       <div className="h-60 md:h-[600px]">
         <MainHeroSection
           images={[
+            "/images/Ads8.jpg",
             "https://res.cloudinary.com/dougwnqok/image/upload/v1728994853/Home_appliances_bwxga1.jpg",
             "https://res.cloudinary.com/dougwnqok/image/upload/v1728994850/house_hold_furniture_tnp2qp.jpg",
             "/images/1-banner.jpg",

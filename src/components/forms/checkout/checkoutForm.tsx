@@ -15,7 +15,12 @@ import { Textarea } from "@/components/ui/textarea";
 
 type CheckoutFormProps = {
   onSubmit: (data: z.infer<typeof checkoutValidationSchema>) => void;
-  locationData: { country: string; state: string; city: string };
+  locationData: {
+    country: string;
+    state: string;
+    city: string;
+    address: string;
+  };
 };
 
 const languages = [
@@ -41,6 +46,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
     form.setValue("country", locationData.country);
     form.setValue("state", locationData.state);
     form.setValue("city", locationData.city);
+    form.setValue("address", locationData.address);
     return (
       <Form {...form}>
         <form
@@ -52,6 +58,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             <FormField
               control={form.control}
               name="country"
+              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
@@ -68,6 +75,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             <FormField
               control={form.control}
               name="state"
+              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>State</FormLabel>
@@ -84,6 +92,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             <FormField
               control={form.control}
               name="address"
+              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Address</FormLabel>
@@ -103,6 +112,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             <FormField
               control={form.control}
               name="city"
+              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

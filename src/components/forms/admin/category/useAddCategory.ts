@@ -23,6 +23,7 @@ export function useAddCategory(
         categoryType: type,
         description: data.description,
         title: data.name,
+        ...(data.image && { image: data.image }),
       };
 
       if (category) {
@@ -31,6 +32,7 @@ export function useAddCategory(
           description: data.description,
           title: data.name,
           [type.replace(/-./g, (match) => match[1].toUpperCase())]: category,
+          ...(data.image && { image: data.image }),
         };
       }
 

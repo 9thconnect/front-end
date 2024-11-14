@@ -10,6 +10,7 @@ export function useAddCategoryFormContext() {
     defaultValues: {
       name: "",
       description: "",
+      image: "",
     },
   });
 }

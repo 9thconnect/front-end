@@ -1,7 +1,7 @@
 // AddCategoryForm.tsx
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useAddCategoryFormContext } from "./useAddCategoryFormContext";
 import {
   Form,
@@ -18,6 +18,7 @@ import { useAddCategory } from "./useAddCategory";
 import { addCategoryValidationSchema } from "./addCategoryValidator";
 import { z } from "zod";
 import { CategoryType } from "@/type/category";
+import ImageUpload from "@/components/common/imageUpload";
 
 const AddCategoryForm = ({
   type,
@@ -30,12 +31,21 @@ const AddCategoryForm = ({
 }) => {
   const mutation = useAddCategory(type, closeModel, category);
 
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+
   const onSubmit = (data: z.infer<typeof addCategoryValidationSchema>) => {
-    console.log(type);
+    console.log(data);
     mutation.mutate(data);
   };
 
   const form = useAddCategoryFormContext();
+
+  const handleUploadSuccess = (url: string) => {
+    form.setValue("image", url);
+    setIsAdding(false);
+  };
+
+  const image = form.watch("image");
 
   return (
     <Form {...form}>
@@ -44,9 +54,15 @@ const AddCategoryForm = ({
         className="w-full flex items-center justify-center flex-col gap-5 py-5"
       >
         <div className="w-full">
+          {type == "brand" && (
+            <div className="mb-4">
+              <ImageUpload onUploadSuccess={handleUploadSuccess} />
+            </div>
+          )}
           <FormField
             control={form.control}
             name="name"
+            disabled={type == "brand" && !image}
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="capitalize">Title</FormLabel>
@@ -62,6 +78,7 @@ const AddCategoryForm = ({
           <FormField
             control={form.control}
             name="description"
+            disabled={type == "brand" && !image}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>

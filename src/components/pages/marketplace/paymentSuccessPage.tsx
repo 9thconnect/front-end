@@ -16,6 +16,8 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import requests from "@/utils/requests";
 
 const Lottie = dynamic<LottieComponentProps>(() => import("lottie-react"), {
   ssr: false,
@@ -114,6 +116,7 @@ const PaymentStatusPage: React.FC = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
   const code = searchParams.get("code");
+  const ref = searchParams.get("linkingreference");
 
   const handleDownload = async () => {
     if (!receiptRef.current || !paymentData) return;
@@ -317,27 +320,34 @@ const PaymentStatusPage: React.FC = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      if ((status && status !== "successful") || (code && code !== "00")) {
+      if (
+        !ref ||
+        (status && status !== "successful") ||
+        (code && code !== "00")
+      ) {
         setCurrentAnimation(errorAnimation);
         setStatusMessage("Payment Error");
         setIsLoading(false);
         setIsReceiptLoading(false);
-      } else {
-        try {
-          // First show success animation
-          setCurrentAnimation(successAnimation);
-          setStatusMessage("Payment Successful");
-          setIsLoading(false);
+        return;
+      }
 
-          // Then fetch receipt data
-          const response = await fetchPaymentData();
-          setPaymentData(response.data);
-        } catch (error) {
-          console.error("Error fetching payment data:", error);
-          setStatusMessage("Error loading receipt");
-        } finally {
-          setIsReceiptLoading(false);
-        }
+      try {
+        // First show success animation
+        setCurrentAnimation(successAnimation);
+        setStatusMessage("Payment Successful");
+        setIsLoading(false);
+
+        // Then fetch receipt data
+        const response = await requests.get<SingleTransactionData>(
+          `payment/${ref}`
+        );
+        setPaymentData(response.data);
+      } catch (error) {
+        console.error("Error fetching payment data:", error);
+        setStatusMessage("Error loading receipt");
+      } finally {
+        setIsReceiptLoading(false);
       }
     };
 

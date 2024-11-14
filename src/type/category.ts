@@ -5,6 +5,7 @@ export interface Category {
   categoryType: CategoryType;
   title: string;
   description: string;
+  image: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

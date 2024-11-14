@@ -35,6 +35,7 @@ import { orderProduct } from "@/lib/requests/user/product";
 import axios from "axios";
 import CheckoutForm from "@/components/forms/checkout/checkoutForm";
 import { countryList } from "@/utils/common";
+import { Textarea } from "@/components/ui/textarea";
 
 // Types
 interface DeliveryMethod {
@@ -48,6 +49,7 @@ const locationSchema = z.object({
   country: z.string().min(1, "Country is required"),
   state: z.string().min(1, "State is required"),
   city: z.string().min(1, "City is required"),
+  address: z.string().min(1, "City is required"),
 });
 
 type LocationFormData = z.infer<typeof locationSchema>;
@@ -66,10 +68,12 @@ const CheckoutPage = () => {
     country: string;
     state: string;
     city: string;
+    address: string;
   }>({
     country: "",
     state: "",
     city: "",
+    address: "",
   });
 
   const {
@@ -86,7 +90,9 @@ const CheckoutPage = () => {
     setLocationData(data);
     try {
       const response = await requests.get<DeliveryMethod[]>(
-        `/delivery/delivery-methods/${data.country}/${data.state}/${data.city}`
+        `/delivery/delivery-methods/${data.country}/${data.state}/${
+          data.city
+        }/${encodeURIComponent(data.address)}`
       );
 
       if (response.data) {
@@ -241,6 +247,23 @@ const CheckoutPage = () => {
                         <input
                           {...field}
                           placeholder="Enter your city"
+                          className="mt-1 p-2 border rounded w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <textarea
+                          {...field}
+                          placeholder="Enter your address"
                           className="mt-1 p-2 border rounded w-full"
                         />
                       </FormControl>

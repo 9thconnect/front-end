@@ -108,7 +108,7 @@ export const addToWishList = (id: string) => {
 };
 
 export const removeFromCart = (id: string) => {
-  return requests.patch<CartItem>(`/customer/decrement-cart/${id}`, {});
+  return requests.patch<CartItem>(`/customer/remove-prod/${id}`, {});
 };
 
 export const clearCartFromServer = () => {

@@ -8,4 +8,6 @@ export const addCategoryValidationSchema = z.object({
   description: z.string().min(5, {
     message: "Description must be at least 5 characters.",
   }),
+
+  image: z.string().optional(),
 });
