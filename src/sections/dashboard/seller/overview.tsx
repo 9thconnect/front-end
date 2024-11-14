@@ -1,19 +1,67 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { fetchBusinesses } from "@/lib/requests/admin/seller/admin-seller-requests";
 import { useQuery } from "@tanstack/react-query";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
 
 const SellerOverview = ({ id }: { id: string }) => {
-  const query = useQuery({
+  const {
+    data: queryData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["get-businesses"],
     queryFn: () => fetchBusinesses({ search: "" }),
   });
 
-  let data = query.data?.data?.data.businesses.filter(
-    (data) => data._id == id
-  )[0];
+  if (isLoading) {
+    return (
+      <div className="block lg:grid md:grid-cols-8 md:gap-8 h-screen">
+        <aside className="lg:self-start lg:sticky lg:col-span-3 lg:top-20 text-[#05141B]">
+          <Skeleton className="rounded-lg h-80" />
+        </aside>
+        <div className="lg:col-span-5 mt-10 lg:mt-0">
+          {[1, 2, 3, 4, 5, 6, 7].map((a) => (
+            <Skeleton className="rounded-lg h-10 w-full mb-3" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full min-h-96 flex items-center justify-center">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-red-600">
+            Something went wrong
+          </h3>
+          <p className="text-gray-600 mt-2">
+            Failed to load seller information
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const data = queryData?.data?.data.businesses.find((data) => data._id === id);
+
+  if (!data) {
+    return (
+      <div className="w-full min-h-96 flex items-center justify-center">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-gray-900">
+            Seller Not Found
+          </h3>
+          <p className="text-gray-600 mt-2">
+            The seller information could not be found
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="block lg:grid md:grid-cols-8 md:gap-8">
@@ -26,25 +74,20 @@ const SellerOverview = ({ id }: { id: string }) => {
             backgroundPosition: "center",
           }}
         ></div>
-        {/* {data && data.businessLogo && (
-          <div
-            className="w-full min-h-96 rounded-2xl overflow-hidden mt-5"
-            style={{
-              backgroundImage: `url(${data?.businessLogo})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          ></div>
-        )} */}
       </aside>
       <div className="lg:col-span-5 mt-10 lg:mt-0">
         <div className="justify-between flex">
           <h2 className="text-3xl text-black mt-3">{data?.vendor?.fullName}</h2>
 
-          {data?.businessApproved && (
+          {data?.businessApproved ? (
             <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center self-start px-2 py-1">
               <ShieldCheck size={15} />
               <p className="text-xs ml-2">Verified</p>
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">unverified</p>
             </div>
           )}
         </div>
@@ -54,14 +97,6 @@ const SellerOverview = ({ id }: { id: string }) => {
             <MapPin size={20} color="red" />
             <span className="ml-2">{data?.shopAddress}</span>
           </div>
-          {/* <div className="flex">
-            <Star size={20} color="red" />
-            <span className="ml-2">4.5</span>
-          </div>
-          <div className="flex">
-            <Separator orientation="vertical" />
-            <span className="ml-2">45 reviews</span>
-          </div> */}
         </div>
         <div className="mt-5">
           <div className="border rounded-lg px-4 py-4">
@@ -87,20 +122,6 @@ const SellerOverview = ({ id }: { id: string }) => {
               <p className="mr-7">Rating:</p>
               <p className="text-offBlack">4.5 Stars</p>
             </div>
-            {/* <h2 className="text-offBlack">Bank details</h2>
-            <Separator className="my-2" />
-            <div className="flex items-center mb-4">
-              <p className="mr-7">Bank:</p>
-              <p className="text-offBlack">Zenith Bank PLC</p>
-            </div>
-            <div className="flex items-center mb-4">
-              <p className="mr-7">Account:</p>
-              <p className="text-offBlack">3456789012 </p>
-            </div>
-            <div className="flex items-center mb-4">
-              <p className="mr-7">Bank Code:</p>
-              <p className="text-offBlack">345</p>
-            </div> */}
           </div>
         </div>
         <div className="mt-5">

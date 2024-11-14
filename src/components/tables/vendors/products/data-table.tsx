@@ -23,14 +23,18 @@ import { Product } from "@/type/common";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
 import { getProducts } from "@/lib/requests/vendor/product";
+import { getProductsAdmin } from "@/lib/requests/admin/products";
 
-const ProductDataTable = () => {
+const ProductDataTable = ({ id }: { id: string }) => {
   const [rowData, setRowData] = useState<Product | undefined>();
   const [open, setOpen] = useState(false);
 
   const query = useQuery({
-    queryKey: ["get-products"],
-    queryFn: () => getProducts(),
+    queryKey: ["vendor-get-products", { id: id }],
+    queryFn: () =>
+      getProductsAdmin({
+        filterByProductBySeller: id,
+      }),
   });
 
   const { data: productData, isLoading: isLoadingCat } = useQuery({

@@ -31,7 +31,7 @@ export const renderStatus = (status: boolean) => {
 
 // Function to handle row click
 const handleRowClick = (id: string) => {
-  navigate(`business/${id}`);
+  navigate(`business-professionals/${id}`);
 };
 
 // Define columns with the updated `Business` fields
