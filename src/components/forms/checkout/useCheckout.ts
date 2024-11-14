@@ -9,13 +9,14 @@ export function useCheckoutFormContext(locationData: {
   country: string;
   state: string;
   city: string;
+  address: string;
 }) {
   console.log("locationData", locationData);
 
   return useForm<z.infer<typeof checkoutValidationSchema>>({
     resolver: zodResolver(checkoutValidationSchema),
     defaultValues: {
-      address: "",
+      address: locationData.address,
       city: locationData.city,
       state: locationData.state,
       country: locationData.country,

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import { useCheckoutFormContext } from "./useCheckout";
 import {
   Form,
@@ -43,10 +43,15 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
 
     const form = useCheckoutFormContext(locationData);
 
-    form.setValue("country", locationData.country);
-    form.setValue("state", locationData.state);
-    form.setValue("city", locationData.city);
-    form.setValue("address", locationData.address);
+    useEffect(() => {
+      form.setValue("country", locationData.country);
+      form.setValue("state", locationData.state);
+      form.setValue("city", locationData.city);
+      form.setValue("address", locationData.address);
+
+      form.reset(locationData);
+    }, [locationData, form]);
+
     return (
       <Form {...form}>
         <form
@@ -54,11 +59,10 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full grid grid-cols-2 gap-5 py-5"
         >
-          <div className="col-span-1 ">
+          <div className="col-span-1 hidden">
             <FormField
               control={form.control}
               name="country"
-              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
@@ -71,11 +75,10 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             />
           </div>
 
-          <div className="col-span-1 ">
+          <div className="col-span-1 hidden">
             <FormField
               control={form.control}
               name="state"
-              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>State</FormLabel>
@@ -88,11 +91,10 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-2 hidden">
             <FormField
               control={form.control}
               name="address"
-              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Address</FormLabel>
@@ -112,7 +114,6 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
             <FormField
               control={form.control}
               name="city"
-              disabled
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

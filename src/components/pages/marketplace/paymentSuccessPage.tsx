@@ -116,7 +116,7 @@ const PaymentStatusPage: React.FC = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
   const code = searchParams.get("code");
-  const ref = searchParams.get("linkingreference");
+  const ref = searchParams.get("reference");
 
   const handleDownload = async () => {
     if (!receiptRef.current || !paymentData) return;
