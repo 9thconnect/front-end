@@ -176,7 +176,10 @@ const MainHeader = () => {
             </Link>
           </div>
           <div className="h-8 bg-gray-300 w-0.5"></div>
-          <Link className="ml-10 text-nowrap flex items-center" href={"/"}>
+          <Link
+            className="ml-10 text-nowrap flex items-center"
+            href={"/logistics"}
+          >
             <Image alt="user icon" src={fastDeliveryIcon} />
             <span className="ml-2">Delivery Hub</span>
           </Link>

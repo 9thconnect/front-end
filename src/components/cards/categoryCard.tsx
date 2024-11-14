@@ -24,6 +24,7 @@ import {
   fetchSubCategories,
 } from "@/lib/requests/admin/categories/admin-category-request";
 import Link from "next/link";
+import { Category } from "@/type/category";
 
 const CategoryCard = () => {
   const {
@@ -76,7 +77,7 @@ const CategoryCard = () => {
                     {category.title}
                   </AccordionTrigger>
                   <AccordionContent>
-                    <SubCategoryList categoryId={category._id} />
+                    <SubCategoryList category={category} />
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -88,7 +89,7 @@ const CategoryCard = () => {
   );
 };
 
-const SubCategoryList = ({ categoryId }: { categoryId: string }) => {
+const SubCategoryList = ({ category }: { category: Category }) => {
   //   const { isLoading, isError, data, error } = useQuery({
   //     queryKey: ["product-sub-category", { category: categoryId, page: 1 }],
   //     queryFn: () => fetchSubCategories,
@@ -96,9 +97,9 @@ const SubCategoryList = ({ categoryId }: { categoryId: string }) => {
   //   });
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["product-sub-category", { category: categoryId, page: 1 }],
+    queryKey: ["product-sub-category", { category: category._id, page: 1 }],
     queryFn: fetchSubCategories,
-    enabled: !!categoryId,
+    enabled: !!category._id,
   });
 
   if (isLoading) return <p>Loading Subcategories...</p>;
@@ -106,6 +107,17 @@ const SubCategoryList = ({ categoryId }: { categoryId: string }) => {
 
   return (
     <div>
+      <Link
+        href={`/marketplace/home?category=${category._id}`}
+        key={category._id}
+        className="flex items-center w-full justify-between cursor-pointer mb-3"
+      >
+        <div className="flex items-center">
+          <Circle size={15} />
+          <p className="ml-3">All {category.title}</p>
+        </div>
+        <p>20</p>
+      </Link>
       {data &&
         data.data?.data?.categories.map((subCategory) => (
           <Link

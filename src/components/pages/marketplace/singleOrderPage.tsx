@@ -388,8 +388,9 @@ const SingleOrderPage = ({ id }: { id: string }) => {
         <p className="text-offBlack">Items in this Order</p>
         <div className="px-0.5 py-2 border mt-2 rounded-lg">
           {data?.data?.orderItems.map((item) => (
-            <Link
+            <a
               href={`/marketplace/${item.productId}`}
+              target="_blank"
               key={`item-in-order-${item}`}
               className="flex p-2 py-4"
             >
@@ -405,7 +406,7 @@ const SingleOrderPage = ({ id }: { id: string }) => {
                   {formatCurrency(item.price)}
                 </p>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>

@@ -18,10 +18,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlignJustify, ChevronLeft, ChevronRight } from "lucide-react";
 import { useGetProductList } from "@/lib/requests/user/product";
-import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
+import {
+  fetchBrandCategories,
+  fetchProductCategories,
+} from "@/lib/requests/admin/categories/admin-category-request";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { SkeletonTalentCard } from "@/components/cards/skeletons/talent";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const states = [
   { name: "Abuja", value: "201" },
@@ -90,6 +94,7 @@ const MarketplaceHomePage = () => {
     setSelectedBrand(undefined);
     setSelectedLocation(undefined);
     setSelectedRatingSide(undefined);
+    setSelectedBrand(undefined);
   };
 
   const params = useSearchParams();
@@ -131,12 +136,18 @@ const MarketplaceHomePage = () => {
     selectedCategory,
     subCatId as string | undefined,
     priceRange(selectedPrice).startPrice,
-    priceRange(selectedPrice).endPrice
+    priceRange(selectedPrice).endPrice,
+    selectedBrand
   );
 
   const { data: categories, isLoading: isLoadingCat } = useQuery({
     queryKey: ["product-category"],
     queryFn: () => fetchProductCategories(),
+  });
+
+  const { data: brandCategories, isLoading: isLoadingBrandCat } = useQuery({
+    queryKey: ["brand-category"],
+    queryFn: () => fetchBrandCategories(),
   });
 
   const totalPages = productList?.data?.data
@@ -151,16 +162,6 @@ const MarketplaceHomePage = () => {
     }
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-  //       {[...Array(4)].map((_, index) => (
-  //         <SkeletonTalentCard key={index} />
-  //       ))}
-  //     </div>
-  //   );
-  // }
-
   if (isError) {
     return <div>Error: {(error as Error).message}</div>;
   }
@@ -170,22 +171,56 @@ const MarketplaceHomePage = () => {
       <div className="grid grid-cols-8 gap-4">
         <aside className="hidden md:block self-start sticky col-span-2 top-56">
           <SectionContainer className="sticky self-start">
-            <FilterSection
-              title="Brand"
-              items={brands}
-              isOpen={isBrandOpen}
-              onToggle={() => setIsBrandOpen(!isBrandOpen)}
-              selectedValue={selectedBrand}
-              onSelect={(value) => setSelectedBrand(value as string)}
-            />
-            <FilterSection
-              title="Location"
-              items={states}
-              isOpen={isLocationOpen}
-              onToggle={() => setIsLocationOpen(!isLocationOpen)}
-              selectedValue={selectedLocation}
-              onSelect={(value) => setSelectedLocation(value as string)}
-            />
+            {isLoadingBrandCat ? (
+              <div>
+                <p className="text-lg text-black border-b pb-2 mb-3">Brands</p>
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+              </div>
+            ) : brandCategories?.data?.data ? (
+              <FilterSection
+                title="Brands"
+                items={brandCategories.data.data.categories.map((cat) => ({
+                  name: cat.title as string,
+                  value: cat._id as string,
+                }))}
+                isOpen={isBrandOpen}
+                onToggle={() => setIsBrandOpen(!isBrandOpen)}
+                selectedValue={selectedBrand}
+                onSelect={(value) => setSelectedBrand(value as string)}
+              />
+            ) : (
+              <div>No categories available</div>
+            )}
+
+            {isLoadingCat ? (
+              <div>
+                <p className="text-lg text-black border-b pb-2 mb-3">
+                  Category
+                </p>
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+              </div>
+            ) : categories?.data?.data ? (
+              <FilterSection
+                title="Category"
+                items={categories.data.data.categories.map((cat) => ({
+                  name: cat.title as string,
+                  value: cat._id as string,
+                }))}
+                isOpen={isBrandOpen}
+                onToggle={() => setIsBrandOpen(!isBrandOpen)}
+                selectedValue={selectedCategory}
+                onSelect={(value) => setSelectedCategory(value as string)}
+              />
+            ) : (
+              <div>No categories available</div>
+            )}
+
             <FilterSection
               title="Rate"
               items={rates}
@@ -272,7 +307,7 @@ const MarketplaceHomePage = () => {
                 placeholder="Select Price"
                 state={[selectedPrice, setSelectedPrice]}
               />
-              <FilterSelect
+              {/* <FilterSelect
                 label="Rating"
                 options={starts.map((start) => ({
                   name: `${start.value} star`,
@@ -280,7 +315,7 @@ const MarketplaceHomePage = () => {
                 }))}
                 placeholder="Select Rating"
                 state={[selectedRating, setSelectedRating]}
-              />
+              /> */}
 
               {(selectedPrice !== undefined ||
                 selectedRating !== undefined ||
@@ -288,7 +323,8 @@ const MarketplaceHomePage = () => {
                 selectedLocation !== undefined ||
                 selectedRate !== undefined ||
                 selectedRatingSide !== undefined ||
-                selectedCategory !== undefined) && (
+                selectedCategory !== undefined ||
+                selectedBrand !== undefined) && (
                 <Button onClick={handleClearFilters}>Clear</Button>
               )}
             </div>
@@ -300,8 +336,8 @@ const MarketplaceHomePage = () => {
                 <SkeletonTalentCard key={index} />
               ))}
             </div>
-          ) : (
-            productList?.data?.data.products && (
+          ) : productList?.data?.data.products ? (
+            productList?.data?.data.products.length > 0 ? (
               <>
                 <ItemList
                   items={productList.data.data.products}
@@ -377,7 +413,11 @@ const MarketplaceHomePage = () => {
                   Page {page} of {totalPages}
                 </div>
               </>
+            ) : (
+              <p>No product</p>
             )
+          ) : (
+            <p>Error fetching</p>
           )}
         </SectionContainer>
       </div>

@@ -20,12 +20,26 @@ import requests from "@/utils/requests";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { useAppSelector } from "@/lib/redux/hooks";
 
-export const passwordUpdateSchema = z.object({
-  oldPassword: z.string().min(6, { message: "Old password is required" }),
-  newPassword: z
-    .string()
-    .min(6, { message: "New password must be at least 6 characters long" }),
-});
+export const passwordUpdateSchema = z
+  .object({
+    oldPassword: z.string().min(6, { message: "Old password is required" }),
+    newPassword: z
+      .string()
+      .min(6, { message: "New password must be at least 6 characters long" }),
+
+    confirmPassword: z.string().min(6, {
+      message: "Confirm Password must be at least 6 characters.",
+    }),
+  })
+  .superRefine(({ confirmPassword, newPassword }, ctx) => {
+    if (confirmPassword !== newPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
 type PasswordUpdateFormData = z.infer<typeof passwordUpdateSchema>;
 
@@ -39,6 +53,7 @@ const PasswordUpdateForm = () => {
     defaultValues: {
       oldPassword: "",
       newPassword: "",
+      confirmPassword: "",
     },
   });
 
@@ -108,6 +123,24 @@ const PasswordUpdateForm = () => {
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Confirm Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button disabled={isLoading} className="col-span-1" type="submit">
           {isLoading ? "Loading..." : "Update Password"}

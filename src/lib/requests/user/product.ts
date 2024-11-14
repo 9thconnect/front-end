@@ -15,7 +15,8 @@ export const getProductList = (
   filterByProductCategory?: string,
   filterBySubCategory?: string,
   startPrice?: number,
-  endPrice?: number
+  endPrice?: number,
+  filterByBrands?: string
 ) => {
   const params = new URLSearchParams();
 
@@ -29,6 +30,8 @@ export const getProductList = (
   if (startPrice !== undefined)
     params.append("startPrice", startPrice.toString());
   if (endPrice !== undefined) params.append("endPrice", endPrice.toString());
+  if (filterByBrands !== undefined)
+    params.append("filterByBrands", filterByBrands.toString());
 
   return requests.get<ProductsResponse>(`/product/shop?${params.toString()}`);
 };
@@ -39,8 +42,11 @@ export const useGetProductList = (
   filterByProductCategory?: string,
   filterBySubCategory?: string,
   startPrice?: number,
-  endPrice?: number
+  endPrice?: number,
+  filterByBrands?: string
 ) => {
+  console.log(filterByBrands);
+
   return useQuery({
     queryKey: [
       "productList",
@@ -50,6 +56,7 @@ export const useGetProductList = (
       filterBySubCategory,
       startPrice,
       endPrice,
+      filterByBrands,
     ],
 
     queryFn: () =>
@@ -59,7 +66,8 @@ export const useGetProductList = (
         filterByProductCategory,
         filterBySubCategory,
         startPrice,
-        endPrice
+        endPrice,
+        filterByBrands
       ),
   });
 };

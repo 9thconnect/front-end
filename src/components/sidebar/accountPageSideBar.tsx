@@ -10,6 +10,7 @@ import requests from "@/utils/requests";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { IVendor } from "@/type/users";
+import { formatDate } from "@/utils/format-date";
 
 const routes = [
   {
@@ -165,32 +166,41 @@ const AccountPageSideBar = () => {
 
     return true;
   });
+
+  console.log(auth.data);
+
   return (
     <div>
-      <div className={`section-card-header`}>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xl  text-offBlack">User Profile</h3>
-          <Button disabled={loading} onClick={handleLogout}>
-            {loading ? "Loading.." : "Logout"}
-            <LogOutIcon className="ml-2" size={15} />
-          </Button>
-        </div>
-        <div className="border-b-2 mb-3 w-full"></div>
-        <div className="flex p-2">
-          <div
-            className="rounded-md mr-3 h-20 w-20 bg-cover bg-no-repeat bg-center"
-            style={{
-              backgroundImage: `url(${auth.data?.avatar || "/images/Ads.png"})`,
-            }}
-          ></div>
-          {/* <img className="h-" src="/images/Ads.png" alt="" /> */}
-          <div className=" flex flex-col justify-between">
-            <p className="text-xs">UID-EDYTFUY</p>
-            <p className="text-lg text-offBlack">{auth.data?.fullName}</p>
-            <p>{auth.data?.createdAt}</p>
+      {auth.data && (
+        <div className={`section-card-header`}>
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-xl  text-offBlack">User Profile</h3>
+            <Button disabled={loading} onClick={handleLogout}>
+              {loading ? "Loading.." : "Logout"}
+              <LogOutIcon className="ml-2" size={15} />
+            </Button>
+          </div>
+          <div className="border-b-2 mb-3 w-full"></div>
+          <div className="flex p-2">
+            <div
+              className="rounded-md mr-3 h-20 w-20 bg-cover bg-no-repeat bg-center"
+              style={{
+                backgroundImage: `url(${
+                  auth.data?.avatar || "/images/Ads.png"
+                })`,
+              }}
+            ></div>
+            {/* <img className="h-" src="/images/Ads.png" alt="" /> */}
+            <div className=" flex flex-col justify-between">
+              <p className="text-xs">{auth.data.phoneNumber}</p>
+              <p className="text-lg text-offBlack">{auth.data?.fullName}</p>
+
+              <p>{formatDate(new Date(auth.data.createdAt), "DD MMM, YYYY")}</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       <ul className="p-2 mt-5">
         {filteredRoutes.map((route) => (
           <SideBarItem

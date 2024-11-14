@@ -10,7 +10,7 @@ const page = () => {
       <div className="flex justify-between items-center">
         <h3 className="text-xl text-offBlack my-2">Transactions</h3>
       </div>
-      <div className="flex-wrap md:flex-nowrap flex md:space-x-3 space-y-3 md:space-y-0 items-center mt-4">
+      {/* <div className="flex-wrap md:flex-nowrap flex md:space-x-3 space-y-3 md:space-y-0 items-center mt-4">
         <AnalyticCard
           title={formatCurrency(50000000)}
           subTitle="Approved"
@@ -26,7 +26,7 @@ const page = () => {
           subTitle="Failed"
           Icon={UsersRound}
         />
-      </div>
+      </div> */}
       <div>
         <TransactionDataTable />
       </div>

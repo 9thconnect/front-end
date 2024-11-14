@@ -118,7 +118,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       className="block w-full h-full unselectable"
     >
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300 flex flex-col">
-        {product.discount && (
+        {product.discount.active && (
           <div className="absolute z-10 top-5 left-2 bg-red-500 bg-opacity-75 text-white text-xs px-2 py-1 rounded">
             {product.discount.amount}
           </div>

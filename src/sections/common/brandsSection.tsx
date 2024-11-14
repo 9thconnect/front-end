@@ -54,7 +54,7 @@ const BrandsSection = () => {
   // Loading state
   if (isLoading) {
     return (
-      <div className="bg-gray-300 rounded-lg px-3 py-5">
+      <div id="brands" className="bg-white rounded-lg px-3 py-5">
         <Skeleton className="h-10 w-32 mb-7" />
         <div className="flex flex-wrap gap-4">
           {[1, 2, 3, 4].map((index) => (

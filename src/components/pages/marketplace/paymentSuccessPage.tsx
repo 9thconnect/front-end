@@ -338,6 +338,8 @@ const PaymentStatusPage: React.FC = () => {
         setStatusMessage("Payment Successful");
         setIsLoading(false);
 
+        await requests.patch(`payment/verify-payment/${ref}`, {});
+
         // Then fetch receipt data
         const response = await requests.get<SingleTransactionData>(
           `payment/${ref}`

@@ -11,6 +11,7 @@ export interface IAdmin {
   createdAt: string;
   updatedAt: string;
   avatar: string;
+  phoneNumber: string;
   __v: number;
 }
 

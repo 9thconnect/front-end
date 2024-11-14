@@ -59,7 +59,7 @@ const VendorSignupProfileForm = ({
               <FormItem>
                 <FormLabel>Full Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="first name" {...field} />
+                  <Input placeholder="full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

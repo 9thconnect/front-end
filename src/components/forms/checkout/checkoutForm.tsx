@@ -83,7 +83,7 @@ const CheckoutForm = forwardRef<HTMLFormElement, CheckoutFormProps>(
                 <FormItem>
                   <FormLabel>State</FormLabel>
                   <FormControl>
-                    <Input placeholder="last name" {...field} />
+                    <Input placeholder="state" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

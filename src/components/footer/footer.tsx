@@ -97,11 +97,9 @@ const MainFooter = () => {
             <li>
               <Link href={"/become-a-merchant"}>Become a Merchant</Link>
             </li>
+
             <li>
-              <Link href={"/"}>Our Affiliates</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Delivery hub</Link>
+              <Link href={"/logistics"}>Delivery hub</Link>
             </li>
           </ul>
         </div>
@@ -128,16 +126,16 @@ const MainFooter = () => {
           <h3 className="text-lg font-bold mb-4">More Info</h3>
           <ul>
             <li>
-              <Link href={"/"}>Site map</Link>
+              <Link href={"/customer/register"}>Customer Register </Link>
             </li>
             <li>
-              <Link href={"/"}>Track Order</Link>
+              <Link href={"/customer/login"}>Customer Login</Link>
             </li>
             <li>
-              <Link href={"/customer/register"}>Register Account</Link>
+              <Link href={"/vendor/register"}>Vendor Register</Link>
             </li>
             <li>
-              <Link href={"/"}>Brands</Link>
+              <Link href={"/vendor/login"}>Vendor Login</Link>
             </li>
           </ul>
         </div>
@@ -149,10 +147,20 @@ const MainFooter = () => {
               <Link href={"/knowledge-center#section4"}>FAQs</Link>
             </li>
             <li>
-              <Link href={"/"}>24/7 Support</Link>
+              <Link
+                target="_blank"
+                href={"/https://chatting.page/zjzf4sgtmmvqxxuvrt0ojcqau7xesodf"}
+              >
+                24/7 Support
+              </Link>
             </li>
             <li>
-              <Link href={"/"}>Live Chat</Link>
+              <Link
+                target="_blank"
+                href={"/https://chatting.page/zjzf4sgtmmvqxxuvrt0ojcqau7xesodf"}
+              >
+                Live Chat
+              </Link>
             </li>
             <li>
               <Link href={"/blog"}>Our Blog</Link>
@@ -161,17 +169,17 @@ const MainFooter = () => {
               <Link href={"/knowledge-center"}>Return Policy</Link>
             </li>
             <li>
-              <Link href={"/"}>Bulk Purchase</Link>
+              <Link href={"/wholesale"}>Bulk Purchase</Link>
             </li>
           </ul>
         </div>
 
         {/* Last row: Twice as big */}
-        <div className="">
+        {/* <div className="">
           <h3 className="text-lg font-bold mb-4">Download App</h3>
           <Image alt="google_play_image" src={AppleStore} />
           <Image alt="apple_play_image" src={GooglePlay} />
-        </div>
+        </div> */}
       </div>
       <div className="bg-[#313133] text-white rounded-b-lg text-center py-6">
         <p>© 9TH TECH 2024. All Rights Reserved.</p>

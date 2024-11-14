@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 import searchIcon from "@public/icons/search.svg";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetProductList } from "@/lib/requests/user/product";
@@ -9,7 +10,6 @@ import { useRouter } from "next/navigation";
 
 const EnhancedSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -21,8 +21,9 @@ const EnhancedSearch = () => {
     isError,
     error,
   } = useGetProductList(
-    debouncedSearchTerm, // Use the debounced search term
-    1, // Page number
+    debouncedSearchTerm,
+    1,
+    undefined,
     undefined,
     undefined,
     undefined,
@@ -45,16 +46,12 @@ const EnhancedSearch = () => {
   }, []);
 
   useEffect(() => {
-    if (
-      debouncedSearchTerm &&
-      productList?.data?.data?.products &&
-      productList.data?.data?.products?.length > 0
-    ) {
+    if (debouncedSearchTerm) {
       setIsDropdownVisible(true);
     } else {
       setIsDropdownVisible(false);
     }
-  }, [debouncedSearchTerm, productList?.data?.data]);
+  }, [debouncedSearchTerm]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -63,21 +60,21 @@ const EnhancedSearch = () => {
   const handleSuggestionClick = (product: Product) => {
     setSearchTerm(product.name);
     setIsDropdownVisible(false);
-
     router.push(`/marketplace/${product._id}`);
-    // Implement search action here, e.g., navigate to product page
   };
+
+  const showDropdown = isDropdownVisible && debouncedSearchTerm.length > 0;
+
   return (
     <div className="relative w-full md:w-2/5 ml-2 grow sm:ml-10">
-      <label
-        htmlFor="search"
-        className="relative text-gray-400 focus-within:text-gray-600 block"
-      >
-        <Image
-          className="absolute top-1/2 transform -translate-y-1/2 left-3"
-          alt="search icon"
-          src={searchIcon}
-        />
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+          ) : (
+            <Image className="w-5 h-5" alt="search icon" src={searchIcon} />
+          )}
+        </div>
         <Input
           id="search"
           className="ring-0 outline-none focus:outline-none pl-10"
@@ -86,15 +83,20 @@ const EnhancedSearch = () => {
           value={searchTerm}
           onChange={handleInputChange}
         />
-      </label>
-      {isDropdownVisible &&
-        productList?.data?.data &&
-        productList?.data?.data.products.length > 0 && (
-          <div
-            ref={dropdownRef}
-            className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
-          >
-            {productList?.data?.data.products.map((suggestion, index) => (
+      </div>
+      {showDropdown && (
+        <div
+          ref={dropdownRef}
+          className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+        >
+          {isError ? (
+            <div className="px-4 py-2 text-red-500">
+              Error loading results. Please try again.
+            </div>
+          ) : productList?.data?.data?.products?.length === 0 ? (
+            <div className="px-4 py-2 text-gray-500">No products found</div>
+          ) : (
+            productList?.data?.data?.products?.map((suggestion, index) => (
               <div
                 key={index}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-100"
@@ -102,9 +104,10 @@ const EnhancedSearch = () => {
               >
                 {suggestion.name}
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };
