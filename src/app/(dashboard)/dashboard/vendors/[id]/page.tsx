@@ -189,7 +189,7 @@ const page = async ({ params }: Props) => {
         </TabsContent>
         <TabsContent className="w-full border-t" value="Products">
           <div className="mt-3">
-            <ProductDataTable />
+            <ProductDataTable id={params.id} />
           </div>
         </TabsContent>
         <TabsContent className="w-full border-t" value="Earning">
