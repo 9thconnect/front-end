@@ -37,6 +37,9 @@ export const professionalDetailsValidationSchema = z.object({
   price: z.coerce.number().min(1, {
     message: "Price must be at least 1 naira.",
   }),
+  expectedDelivery: z.coerce.number().min(1, {
+    message: "Expected Delivery must be at least 1 day.",
+  }),
 });
 
 type ProfessionalDetailsFormProps = {
@@ -55,6 +58,7 @@ function useProfessionalDetailsForm(formStateData: VendorSignUpRequest) {
       professionCity: formStateData.professionCity,
       professionDesc: formStateData.professionDesc,
       price: formStateData.price,
+      expectedDelivery: formStateData.expectedDelivery,
     },
   });
 }
@@ -135,6 +139,24 @@ const ProfessionalDetailsForm = ({
                 <Input
                   type="number"
                   placeholder="Enter your price"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="expectedDelivery"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Expected Delivery</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter your Expected Delivery days"
                   {...field}
                 />
               </FormControl>

@@ -117,6 +117,7 @@ const AddWorkerModal = () => {
       professionCity: formData.professionCity,
       professionDesc: formData.professionDesc,
       price: formData.price,
+      expectedDelivery: formData.expectedDelivery,
     }));
 
     updateStage(4);

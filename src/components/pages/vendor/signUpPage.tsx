@@ -80,6 +80,7 @@ export interface VendorSignUpRequest {
   professionDesc?: string;
   professionalType?: "individual" | "company";
   price?: number;
+  expectedDelivery?: number;
   qualifications?: Array<{
     degree: string;
     institute: string;
@@ -289,6 +290,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       professionDesc: formData.professionDesc,
       professionalType: "individual",
       price: formData.price,
+      expectedDelivery: formData.expectedDelivery,
     }));
 
     console.log(data, formData);
