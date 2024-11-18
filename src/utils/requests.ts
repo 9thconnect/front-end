@@ -58,7 +58,12 @@ axiosInstance.interceptors.response.use(
 
       console.log("fkfkfkfwlw");
 
-      window.location.href = `/${auth?.type || "customer"}/login`;
+      const currentPath = window.location.pathname;
+      const redirectTo = encodeURIComponent(currentPath);
+
+      window.location.href = `/${
+        auth?.type || "customer"
+      }/login?redirectTo=${redirectTo}`;
 
       localStorage.clear();
 
