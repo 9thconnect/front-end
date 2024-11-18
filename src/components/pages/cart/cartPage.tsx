@@ -136,7 +136,7 @@ const CartPage = () => {
                   `${
                     isLoggedIn
                       ? "/marketplace/cart/checkout"
-                      : "/customer/login"
+                      : "/customer/login?redirectTo=/marketplace/cart"
                   } `
                 )
               }

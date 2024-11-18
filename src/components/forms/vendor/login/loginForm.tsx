@@ -18,7 +18,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { login } from "@/lib/requests/vendor/auth";
 import { BaseResponse } from "@/type/common";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AxiosError } from "axios";
 import { useAppDispatch } from "@/lib/redux/hooks";
 import {
@@ -40,6 +40,8 @@ const LoginFormSchema = z.object({
 
 export function LoginForm({ type }: { type: UserType }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -64,17 +66,6 @@ export function LoginForm({ type }: { type: UserType }) {
       toast.success("Logged in successfully");
 
       if (res.data) {
-        // dispatch(
-        //   storeAuthenticatedUser({
-        //     type: type,
-        //     data:
-        //       type == UserType.ADMIN
-        //         ? (res.data.admin as IAdmin)
-        //         : res.data.profile,
-        //     token: res.data.token,
-        //   })
-        // );
-
         dispatch(
           storeAuthenticatedUser({
             type: type,
@@ -99,6 +90,12 @@ export function LoginForm({ type }: { type: UserType }) {
       }
 
       console.log(UserType.ADMIN, type, type == UserType.ADMIN);
+
+      const redirectTo = searchParams.get("redirectTo");
+      if (redirectTo) {
+        router.push(redirectTo);
+        return;
+      }
 
       if (type == UserType.ADMIN) {
         router.push("/dashboard/home");
