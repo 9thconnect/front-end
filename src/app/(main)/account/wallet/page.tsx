@@ -1,5 +1,6 @@
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import WithdrawFromWallerModal from "@/components/modals/withdrawModal";
+import VendorWalletAnalytics from "@/components/pages/vendor/walletAnalysisPage";
 import WithdrawalDataTable from "@/components/tables/vendors/withdrawal/data-table";
 import { formatCurrency } from "@/utils/format-currency";
 import { UsersRound } from "lucide-react";
@@ -14,18 +15,8 @@ const page = () => {
         {/* <AddProductModal /> */}
         <WithdrawFromWallerModal />
       </div>
-      <div className="flex space-x-3 items-center mt-4">
-        <AnalyticCard
-          title={formatCurrency(50000000)}
-          subTitle="escrow account"
-          Icon={UsersRound}
-        />
-        <AnalyticCard
-          title={formatCurrency(50000000)}
-          subTitle="total balance"
-          Icon={UsersRound}
-        />
-      </div>
+      <VendorWalletAnalytics />
+
       <div>
         <WithdrawalDataTable />
       </div>
