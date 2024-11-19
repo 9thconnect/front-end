@@ -19,6 +19,7 @@ export const productValidationSchema = z.object({
   subCategory: z.string().min(1, {
     message: "Sub Category is required.",
   }),
+  brand: z.string().optional(),
   weight: z.coerce.number().min(1, {
     message: "Weight must be at least 1.",
   }),

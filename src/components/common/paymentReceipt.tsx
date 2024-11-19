@@ -158,7 +158,7 @@ const PaymentReceipt = ({
                         {formatCurrency(item.price)}
                       </p>
                       <p className="text-sm text-gray-600 text-right">
-                        MCD Fee: {formatCurrency(item.MCDFee)}
+                        Transaction fee: {formatCurrency(item.MCDFee)}
                       </p>
                     </div>
                   </div>
@@ -179,7 +179,19 @@ const PaymentReceipt = ({
               <span>{formatCurrency(paymentData.amount)}</span>
             </div>
             <div className="flex justify-between items-center pb-2">
-              <span className="text-gray-600">MCD Fee</span>
+              <span className="text-gray-600">Delivery fee</span>
+              <span>
+                {formatCurrency(
+                  paymentData.amount -
+                    paymentData.order.orderItems.reduce(
+                      (sum, item) => sum + item.price,
+                      0
+                    )
+                )}
+              </span>
+            </div>
+            <div className="flex justify-between items-center pb-2">
+              <span className="text-gray-600">Transaction fee</span>
               <span>
                 {formatCurrency(
                   paymentData.order.orderItems.reduce(
@@ -192,7 +204,15 @@ const PaymentReceipt = ({
             <Separator />
             <div className="flex justify-between items-center pt-2 font-medium text-lg">
               <span>Total Amount</span>
-              <span>{formatCurrency(paymentData.amount)}</span>
+              <span>
+                {formatCurrency(
+                  paymentData.amount +
+                    paymentData.order.orderItems.reduce(
+                      (sum, item) => sum + item.MCDFee,
+                      0
+                    )
+                )}
+              </span>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Trash, Trash2 } from "lucide-react";
+import { LoaderCircleIcon, Trash, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Counter from "@/components/common/countComponent";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
@@ -21,6 +21,13 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
   const [count, setCount] = useState<number>(0);
 
   const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const isDeleting = useAppSelector(
+    (state) => state.cart.deletingProductFromCart
+  );
+
+  const isDeeting = useAppSelector((state) => state.cart);
+
+  console.log(isDeleting, isLoggedIn, isDeeting);
 
   const handleRemove = (id: string) => {
     console.log(quantity);
@@ -85,7 +92,11 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
           className=" w-8 h-8 p-1 bg-gray-100 rounded-full "
           onClick={() => handleRemove(product?._id)}
         >
-          <Trash2 size={15} color="red" />
+          {isDeleting?.product == product?._id && isDeleting?.state ? (
+            <LoaderCircleIcon className="w-4 h-4 animate-spin " />
+          ) : (
+            <Trash2 size={15} color="red" />
+          )}
         </Button>
         <Counter disable count={quantity} setCount={handleQuantityChange} />
       </div>

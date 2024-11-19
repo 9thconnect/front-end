@@ -34,6 +34,7 @@ import cn from "@/utils/class-names";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  fetchBrandCategories,
   fetchProductCategories,
   fetchSubCategories,
 } from "@/lib/requests/admin/categories/admin-category-request";
@@ -149,6 +150,18 @@ const ProductForm = ({ product }: { product?: Product }) => {
   } = useQuery({
     queryKey: ["product-sub-category", { category: category, page: 1 }],
     queryFn: fetchSubCategories,
+  });
+
+  const {
+    isLoading: isLoadingBrand,
+    isError: isErrorBrand,
+    data: brandCates,
+    error: errorBrand,
+    refetch: refetchBrand,
+    isFetching: isFetchingBrand,
+  } = useQuery({
+    queryKey: ["brand-category", { page: 1 }],
+    queryFn: fetchBrandCategories,
   });
 
   console.log(images);
@@ -338,8 +351,51 @@ const ProductForm = ({ product }: { product?: Product }) => {
                           {cat.title}
                         </SelectItem>
                       ))
+                    ) : isLoadingCat ? (
+                      <p>Loading cats</p>
+                    ) : isLoading ? (
+                      <p>Loading Sub Cat</p>
                     ) : (
                       <div>No categories found.</div>
+                    )}
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="mb-8">
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Brand</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a brand" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {isErrorBrand ? (
+                      <div>Error: An error occurred while fetching brands.</div>
+                    ) : brandCates?.data?.data?.categories &&
+                      brandCates.data.data.categories.length > 0 ? (
+                      brandCates.data.data.categories.map((cat) => (
+                        <SelectItem key={cat._id} value={cat._id}>
+                          {cat.title}
+                        </SelectItem>
+                      ))
+                    ) : isLoadingBrand ? (
+                      <p>Loading</p>
+                    ) : (
+                      <div>No brands found.</div>
                     )}
                   </SelectContent>
                 </Select>

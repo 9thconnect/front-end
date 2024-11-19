@@ -51,7 +51,7 @@ const OrderTrackingInfo = ({
               {formatCurrency(item.total)}
             </p>
             <p>
-              Seller Pay: {formatCurrency(item.sellerPay)} | MCD Fee:{" "}
+              Seller Pay: {formatCurrency(item.sellerPay)} | Transaction fee:{" "}
               {formatCurrency(item.MCDFee)}
             </p>
           </div>

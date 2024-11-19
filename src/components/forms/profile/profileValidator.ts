@@ -10,9 +10,7 @@ export const profileValidationSchema = z.object({
   phone: z.string().min(2, {
     message: "phone must be at least 2 characters.",
   }),
-  address: z.string().min(2, {
-    message: "address must be at least 2 characters.",
-  }),
+  address: z.string().optional(),
   city: z.string().optional(),
   posterCode: z.string().optional(),
 });

@@ -20,12 +20,20 @@ interface CartState {
     state: boolean;
     product: Product | null;
   };
+  deletingProductFromCart: {
+    state: boolean;
+    product: string | null;
+  };
 }
 
 const initialState: CartState = {
   items: [],
   isLoggedIn: false,
   addingToCart: {
+    state: false,
+    product: null,
+  },
+  deletingProductFromCart: {
     state: false,
     product: null,
   },
@@ -115,7 +123,7 @@ export const addItemToServer = createAsyncThunk(
     console.log(response);
 
     if (response.status !== "success") {
-      throw new Error("Failed to remove item from server cart");
+      throw new Error(response.message);
     }
 
     return { product, quantity, type };
@@ -281,6 +289,8 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addItemToServer.fulfilled, (state, action) => {
+      console.log(state, action);
+
       const existingItem = state.items.find(
         (item) => item.product._id === action.payload.product._id
       );
@@ -315,11 +325,24 @@ const cartSlice = createSlice({
     builder.addCase(addItemToServer.rejected, (state, action) => {
       state.addingToCart.state = false;
       state.addingToCart.product = null;
-      console.error("Failed to add item to server:", action.error.message);
+
+      toast(`We cannot add product to cart`, {
+        description: `We cannot add the product to your cart at this time, please check back later`,
+        action: {
+          label: "Cart",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+      console.error("Failed to add item to server:", action);
     });
     builder.addCase(addItemToServer.pending, (state, action) => {
       state.addingToCart.state = true;
       state.addingToCart.product = action.meta.arg.product;
+      console.log("addItemToServer.pending", action);
     });
     builder.addCase(removeItemFromServer.fulfilled, (state, action) => {
       console.log(
@@ -331,9 +354,16 @@ const cartSlice = createSlice({
         (item) => item.product._id === action.payload.id
       );
       if (index !== -1) {
-        state.items[index].quantity = action.payload.quantity;
-        toast(`Product quantity updated`, {
-          description: `${state.items[index].product.name} quantity updated to ${state.items[index].quantity}`,
+        state.items.splice(index, 1);
+
+        // state.items[index].quantity =  action.payload.quantity;
+
+        state.deletingProductFromCart = {
+          state: false,
+          product: null,
+        };
+        toast(`Product deleted`, {
+          description: `Product deleted successfully`,
           action: {
             label: "Cart",
             onClick: () => console.log("Undo"),
@@ -346,7 +376,13 @@ const cartSlice = createSlice({
       }
     });
     builder.addCase(removeItemFromServer.rejected, (state, action) => {
+      state.deletingProductFromCart.state = false;
       console.error("Failed to remove item from server:", action.error.message);
+    });
+
+    builder.addCase(removeItemFromServer.pending, (state, action) => {
+      state.deletingProductFromCart.state = true;
+      state.deletingProductFromCart.product = action.meta.arg.id;
     });
 
     builder.addCase(fetchCartFromServer.fulfilled, (state, action) => {
