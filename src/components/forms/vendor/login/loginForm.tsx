@@ -113,7 +113,7 @@ export function LoginForm({ type }: { type: UserType }) {
       if (error.response?.data.message == "Account not activated or verified") {
         try {
           let rsp = await requests.post(
-            `vendor/auth/resend-verification-code/${data.email}`,
+            `${type}/auth/resend-verification-code/${data.email}`,
             {}
           );
           toast.error(rsp.message);

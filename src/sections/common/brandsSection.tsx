@@ -1,39 +1,3 @@
-// "use client";
-
-// import { fetchBrandCategories } from "@/lib/requests/admin/categories/admin-category-request";
-// import { useQuery } from "@tanstack/react-query";
-// import Image from "next/image";
-// import React from "react";
-
-// const BrandsSection = () => {
-//   const { data: brandData, isLoading } = useQuery({
-//     queryKey: ["brand"],
-//     queryFn: () => fetchBrandCategories(),
-//   });
-
-//   return (
-//     <div className="bg-gray-100 rounded-lg px-3 py-5">
-//       <h3 className="text-3xl mb-7 font-bold text-black">Brands</h3>
-//       <div className=" flex flex-wrap ">
-//         {brandData &&
-//           brandData.data?.data?.categories.map((brand, index) => (
-//             <div key={index} className="flex items-center mb-5">
-//               <img
-//                 alt={`${brand._id} logo`}
-//                 src={brand.image}
-//                 width={200} // Adjust width as needed
-//                 height={50} // Adjust height as needed
-//                 className="rounded-full"
-//               />
-//             </div>
-//           ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BrandsSection;
-
 "use client";
 
 import { fetchBrandCategories } from "@/lib/requests/admin/categories/admin-category-request";

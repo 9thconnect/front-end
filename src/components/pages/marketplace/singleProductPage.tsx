@@ -273,12 +273,6 @@ const SingleProductPage = ({ id }: { id: string }) => {
                 ))}
               </div>
               <div className="w-full flex mt-5  items-end md:mt-auto space-x-4">
-                {/* <Button
-                  className="bg-black hover:bg-black/70 text-white flex-grow"
-                  variant={"secondary"}
-                >
-                  Buy Now
-                </Button> */}
                 {product && (
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
@@ -378,18 +372,6 @@ const SingleProductPage = ({ id }: { id: string }) => {
                           {product?.seller?.businesses[0]?.businessRegNo}
                         </p>
                       </div>
-                      {/* <div className="flex items-center mb-4">
-                        <p className="mr-7">Email:</p>
-                        <p className="text-offBlack">
-                          {product?.seller?.businesses[0]?.businessEmail}
-                        </p>
-                      </div>
-                      <div className="flex items-center mb-4">
-                        <p className="mr-7">Phone:</p>
-                        <p className="text-offBlack">
-                          {product?.seller?.businesses[0]?.businessPhoneNumber}
-                        </p>
-                      </div> */}
 
                       <h2 className="text-offBlack">Shop details</h2>
                       <Separator className="my-2" />
@@ -399,18 +381,7 @@ const SingleProductPage = ({ id }: { id: string }) => {
                           {product?.seller?.businesses[0]?.shopName}
                         </p>
                       </div>
-                      {/* <div className="flex items-center mb-4">
-                        <p className="mr-7">Type:</p>
-                        <p className="text-offBlack">
-                          {product?.seller?.businesses[0]?.businessType?.title}{" "}
-                        </p>
-                      </div>
-                      <div className="flex items-center mb-4">
-                        <p className="mr-7">Category:</p>
-                        <p className="text-offBlack">
-                          {product?.seller?.businesses[0]?.businessType?.title}
-                        </p>
-                      </div> */}
+
                       <div className="flex items-center mb-4">
                         <p className="mr-7">Address:</p>
                         <p className="text-offBlack">
@@ -420,49 +391,6 @@ const SingleProductPage = ({ id }: { id: string }) => {
                     </div>
                   )}
                 </div>
-                {/* <div className="w-full">
-                  <div className="border rounded-lg px-4 py-4">
-                    <h2 className="text-offBlack">Business</h2>
-                    <Separator className="my-2" />
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Business:</p>
-                      <p className="text-offBlack">Dummy Business Name</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">CAC:</p>
-                      <p className="text-offBlack">12345678</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Email:</p>
-                      <p className="text-offBlack">dummybusiness@email.com</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Phone:</p>
-                      <p className="text-offBlack">+1234567890</p>
-                    </div>
-
-                    <h2 className="text-offBlack">Shop details</h2>
-                    <Separator className="my-2" />
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Name:</p>
-                      <p className="text-offBlack">Dummy Shop Name</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Type:</p>
-                      <p className="text-offBlack">Retail</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Category:</p>
-                      <p className="text-offBlack">General</p>
-                    </div>
-                    <div className="flex items-center mb-4">
-                      <p className="mr-7">Address:</p>
-                      <p className="text-offBlack">
-                        123 Dummy Street, Dummy City
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </TabsContent>
           </Tabs>
