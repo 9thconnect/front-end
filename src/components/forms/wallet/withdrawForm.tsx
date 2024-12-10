@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { use, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { forgotPassword } from "@/lib/requests/vendor/auth";
 import axios from "axios";
