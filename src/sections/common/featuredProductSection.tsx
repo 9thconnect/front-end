@@ -4,7 +4,6 @@ import ScrollableContainer from "@/components/common/scrollableContainer";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import {
   useGetFeaturedProducts,
-  useGetFeaturedProductsB2B,
   useGetNewArrival,
 } from "@/lib/requests/user/product";
 
@@ -20,9 +19,7 @@ const FeaturedProductSection = ({
     isLoading,
     isError,
     error,
-  } = channel == "wholeSale"
-    ? useGetFeaturedProductsB2B(type)
-    : useGetFeaturedProducts(type);
+  } = useGetFeaturedProducts(type);
   return (
     <ScrollableContainer>
       <div className="flex space-x-4 cursor-pointer">

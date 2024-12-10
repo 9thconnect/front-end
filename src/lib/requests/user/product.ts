@@ -107,16 +107,6 @@ export const useGetFeaturedProducts = (
   });
 };
 
-export const useGetFeaturedProductsB2B = (
-  type: "new-arrival" | "top-rated" | "b2b-top-rated" | "b2b-new-arrival"
-) => {
-  return useQuery({
-    queryKey: [type, "B2B"],
-
-    queryFn: () => requests.get<ProductsResponse>(`/product/${type}`),
-  });
-};
-
 export const useGetSimilarProducts = (id: string) => {
   return useQuery({
     queryKey: ["get-similar", id],
