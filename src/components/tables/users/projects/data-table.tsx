@@ -177,8 +177,11 @@ const ProjectTable = () => {
                   <div className="border-b pb-5 mt-3">
                     <h3 className="mb-4">Project Assets</h3>
 
-                    {rowData.completedProject.map((proj) => (
-                      <div className="border p-3 rounded-lg">
+                    {rowData.completedProject.map((proj, index) => (
+                      <div
+                        key={`${index}-proj`}
+                        className="border p-3 rounded-lg"
+                      >
                         <div>
                           <p>Message:</p>
                           <p>{proj.message}</p>

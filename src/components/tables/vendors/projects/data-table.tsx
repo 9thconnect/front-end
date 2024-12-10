@@ -294,7 +294,10 @@ const ProjectTable = () => {
                     <h3 className="mb-4">Project Assets</h3>
 
                     {rowData.completedProject.map((proj) => (
-                      <div className="border p-3 rounded-lg">
+                      <div
+                        key={`${proj.fileUrl}-eejjjd`}
+                        className="border p-3 rounded-lg"
+                      >
                         <div>
                           <p>Message:</p>
                           <p>{proj.message}</p>
