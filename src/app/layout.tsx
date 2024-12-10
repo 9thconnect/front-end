@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site.config";
 import StoreProvider from "./StoreProvider";
 import { makeStore } from "@/lib/redux/store";
 import { ReactQueryClientProvider } from "./ClientProvider";
+import SocketNotificationListener from "@/components/common/notificationModal";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -29,6 +30,7 @@ export default function RootLayout({
             <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
           </div>
           <Toaster closeButton />
+          <SocketNotificationListener />
         </body>
       </html>
     </StoreProvider>

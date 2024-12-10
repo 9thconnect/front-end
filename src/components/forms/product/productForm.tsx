@@ -50,9 +50,12 @@ import {
 import requests from "@/utils/requests";
 import { AxiosError } from "axios";
 import { BaseResponse, Product } from "@/type/common";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { IVendor } from "@/type/users";
 
 const ProductForm = ({ product }: { product?: Product }) => {
   const queryClient = useQueryClient();
+  const { sellerType } = useAppSelector((state) => state.auth.data) as IVendor;
   const form = useProductFormContext(product);
 
   //   addProduct
@@ -62,7 +65,11 @@ const ProductForm = ({ product }: { product?: Product }) => {
     mutationFn: (data: z.infer<typeof productValidationSchema>) => {
       const { productCategory, ...dataWithOutProductCategory } = data;
       return requests.post(
-        `/product/vendor/add-product`,
+        `/product/vendor/${
+          sellerType && sellerType === "wholeSale"
+            ? "add-b2b-product"
+            : "add-product"
+        }`,
         dataWithOutProductCategory
       );
     },
@@ -82,7 +89,11 @@ const ProductForm = ({ product }: { product?: Product }) => {
     mutationFn: (data: z.infer<typeof productValidationSchema>) => {
       const { productCategory, ...dataWithOutProductCategory } = data;
       return requests.patch(
-        `/product/vendor/edit/edit-product/${product?._id}`,
+        `/product/vendor/edit/${
+          sellerType && sellerType === "wholeSale"
+            ? "edit-b2b-product"
+            : "edit-product"
+        }/${product?._id}`,
         dataWithOutProductCategory
       );
     },
@@ -106,6 +117,15 @@ const ProductForm = ({ product }: { product?: Product }) => {
       return;
     }
 
+    if (
+      sellerType &&
+      sellerType === "wholeSale" &&
+      (!data.minimumOrder || data.minimumOrder < 1)
+    ) {
+      toast.error("Minimum order is required for wholesale sellers");
+      return;
+    }
+
     if (product) {
       mutationEdit.mutate(data);
     } else {
@@ -114,6 +134,8 @@ const ProductForm = ({ product }: { product?: Product }) => {
   };
 
   const handleUploadSuccess = (url: string) => {
+    console.log("url from upload fun", url);
+
     toast.success("Image uploaded successfully");
     form.setValue("images", [...form.getValues("images"), url]); // Set the hidden image field with the uploaded image URL
   };
@@ -240,6 +262,28 @@ const ProductForm = ({ product }: { product?: Product }) => {
             )}
           />
         </div>
+
+        {sellerType && sellerType == "wholeSale" && (
+          <div className="mb-8">
+            <FormField
+              control={form.control}
+              name="minimumOrder"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Minimum Order</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Minimum Order"
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
 
         <div className="mb-8">
           <FormField

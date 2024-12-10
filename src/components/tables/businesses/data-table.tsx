@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
@@ -15,9 +15,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ProfessionalBusinessesDataTable = () => {
   const router = useRouter();
 
+  const [search, setSearch] = useState("");
+
   const query = useQuery({
-    queryKey: ["get-professional-businesses"],
-    queryFn: () => fetchProfessionalBusinesses({ search: "" }),
+    queryKey: ["get-professional-businesses", search],
+    queryFn: () => fetchProfessionalBusinesses({ search: search }),
   });
 
   console.log(query.data?.data?.data.businesses);
@@ -38,8 +40,9 @@ const ProfessionalBusinessesDataTable = () => {
               type="text"
               placeholder="Search"
               className="md:max-w-60 w-full"
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <div className="md:flex md:space-x-2">
+            {/* <div className="md:flex md:space-x-2">
               <div className="md:flex md:space-x-2 items-center">
                 <FilterSelect
                   label="Category"
@@ -54,7 +57,7 @@ const ProfessionalBusinessesDataTable = () => {
               </div>
 
               <Button className=" w-full md:w-fit">Add User</Button>
-            </div>
+            </div> */}
           </div>
         </div>
         {query.isLoading ? (

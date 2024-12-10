@@ -1,5 +1,5 @@
 import { Category } from "./category";
-import { Business, Vendor } from "./professional";
+import { Business, Project, Proposal, Vendor } from "./professional";
 
 export interface BaseResponse<T> {
   message: string;
@@ -29,6 +29,7 @@ export interface Product {
   seller: Seller;
   productCategory: Category;
   subCategory: Category;
+  brand: Category;
   images: string[];
   available: boolean;
   views: number;
@@ -43,6 +44,8 @@ export interface Product {
   rating: number;
   numReviews: number;
   weight: number;
+  minimumOrder?: number;
+  productSaleType: "b2c" | "b2b";
   reviews: Array<{
     name: string;
     avatar: string;
@@ -165,6 +168,8 @@ export interface BusinessData {
   businessDesc: string;
   shopName: string;
   shopAddress: string;
+  shopCountry: string;
+  shopState: string;
   shopID: string;
   businessEmail: string;
   businessPhoneNumber: string;
@@ -256,6 +261,8 @@ export interface SingleTransactionData {
   __v?: number;
   ipAddress: string;
   payment_options: string;
+  offer: Proposal;
+  project: Project;
 }
 
 export type Admin = {
@@ -279,4 +286,13 @@ export interface DeliveryMethod {
   pricePerKilometer: number;
   timelineDurationFrom: number;
   timelineDurationTo: number;
+}
+
+export interface UploadData {
+  url: string;
+  publicId: string;
+  name: string;
+  mimeType: string;
+  fileSize: number;
+  fileFormat: string;
 }

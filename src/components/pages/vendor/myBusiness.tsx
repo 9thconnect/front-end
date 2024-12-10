@@ -43,6 +43,8 @@ const MyBusinessPage = () => {
         businessDesc: businessData?.businessDesc,
         shopName: businessData?.shopName,
         shopAddress: businessData?.shopAddress,
+        shopCountry: businessData?.shopCountry,
+        shopState: businessData?.shopState,
         shopCity: businessData?.shopCity,
         businessLegalName: businessData?.businessLegalName,
         businessEmail: businessData?.businessEmail,

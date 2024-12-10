@@ -64,7 +64,11 @@ const brands = [
 ];
 const ITEMS_PER_PAGE = 40;
 
-const MarketplaceHomePage = () => {
+const MarketplaceHomePage = ({
+  channel,
+}: {
+  channel?: "wholeSale" | "retail";
+}) => {
   const [isLocationOpen, setIsLocationOpen] = useState(true);
   const [isRateOpen, setIsRateOpen] = useState(true);
   const [isRatingOpen, setIsRatingOpen] = useState(true);
@@ -137,7 +141,8 @@ const MarketplaceHomePage = () => {
     subCatId as string | undefined,
     priceRange(selectedPrice).startPrice,
     priceRange(selectedPrice).endPrice,
-    selectedBrand
+    selectedBrand,
+    channel
   );
 
   const { data: categories, isLoading: isLoadingCat } = useQuery({

@@ -38,7 +38,7 @@ const PaymentReceiptDrawer: React.FC<PaymentReceiptDrawerProps> = ({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["retry-paymenr"],
+    mutationKey: ["retry-payment"],
     mutationFn: (ref: string) => {
       return requests.patch(`/payment/verify-payment/${ref}`, {});
     },

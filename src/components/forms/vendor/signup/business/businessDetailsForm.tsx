@@ -32,13 +32,16 @@ import { Category } from "@/type/category";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { countryList } from "@/utils/common";
 
 export const businessDetailsValidationSchema = z.object({
   businessType: z.string().min(1, "Business type is required"),
   businessDesc: z.string().min(1, "Business description is required"),
   shopName: z.string().min(1, "Shop name is required"),
+  shopCountry: z.string().min(1, "Shop country is required"),
   shopAddress: z.string().min(1, "Shop address is required"),
   shopCity: z.string().min(1, "Shop city is required"),
+  shopState: z.string().min(1, "Shop state is required"),
   businessLegalName: z.string().min(1, "Business legal name is required"),
   businessEmail: z.string().email("Invalid email address"),
   businessPhoneNumber: z.string().min(1, "Phone number is required"),
@@ -64,6 +67,7 @@ const BusinessDetailsForm = ({
         businessDesc: formStateData.businessDesc,
         shopName: formStateData.shopName,
         shopAddress: formStateData.shopAddress,
+        shopState: formStateData.shopState,
         shopCity: formStateData.shopCity,
         businessLegalName: formStateData.businessLegalName,
         businessEmail: formStateData.businessEmail,
@@ -97,7 +101,7 @@ const BusinessDetailsForm = ({
       {setStage && (
         <ArrowLeft
           className="text-black cursor-pointer"
-          onClick={() => setStage(4)}
+          onClick={() => setStage(11)}
         />
       )}
 
@@ -171,6 +175,34 @@ const BusinessDetailsForm = ({
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="shopCountry"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select business country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countryList.map((country) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Shop Address */}
         <FormField
           control={form.control}
@@ -195,6 +227,19 @@ const BusinessDetailsForm = ({
               <FormLabel>Shop City</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your shop city" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="shopState"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Shop State</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your shop state" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

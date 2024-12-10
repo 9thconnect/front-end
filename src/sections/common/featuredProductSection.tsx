@@ -4,20 +4,25 @@ import ScrollableContainer from "@/components/common/scrollableContainer";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import {
   useGetFeaturedProducts,
+  useGetFeaturedProductsB2B,
   useGetNewArrival,
 } from "@/lib/requests/user/product";
 
 const FeaturedProductSection = ({
   type = "new-arrival",
+  channel = "retail",
 }: {
-  type?: "new-arrival" | "top-rated";
+  type?: "new-arrival" | "top-rated" | "b2b-top-rated" | "b2b-new-arrival";
+  channel?: "retail" | "wholeSale";
 }) => {
   const {
     data: productList,
     isLoading,
     isError,
     error,
-  } = useGetFeaturedProducts(type);
+  } = channel == "wholeSale"
+    ? useGetFeaturedProductsB2B(type)
+    : useGetFeaturedProducts(type);
   return (
     <ScrollableContainer>
       <div className="flex space-x-4 cursor-pointer">

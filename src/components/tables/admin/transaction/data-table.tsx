@@ -27,6 +27,7 @@ import {
   getPaymentsAdmin,
   getSinglePaymentAdmin,
 } from "@/lib/requests/admin/payment";
+import { DatePickerWithRange } from "@/components/common/datePickerRange";
 
 const TransactionDataTableAdmin = ({
   vendor,
@@ -38,17 +39,37 @@ const TransactionDataTableAdmin = ({
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
 
+  // State for filters
+  const [search, setSearch] = useState<string>("");
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [completedPayment, setCompletedPayment] = useState<boolean | undefined>(
+    undefined
+  );
+  const [dateRange, setDateRange] = useState<{
+    from?: Date;
+    to?: Date;
+  }>({});
+
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["get-transactions-admin"],
+    queryKey: [
+      "get-transactions-admin",
+      search,
+      status,
+      completedPayment,
+      dateRange.from,
+      dateRange.to,
+      paymentFor,
+      vendor,
+    ],
     queryFn: () =>
       getPaymentsAdmin(
-        undefined, // Placeholder for `search`
-        undefined, // Placeholder for `pageNumber`
-        undefined, // Placeholder for `filterByProductCategory`
-        undefined, // Placeholder for `filteredByStatus`
-        undefined, // Placeholder for `filteredByCompletedPayment`
-        undefined, // Placeholder for `startDate`
-        undefined, // Placeholder for `endDate`
+        search || undefined,
+        undefined, // pageNumber
+        undefined, // filterByProductCategory
+        status,
+        completedPayment,
+        dateRange.from?.toISOString(),
+        dateRange.to?.toISOString(),
         paymentFor,
         vendor
       ),
@@ -77,14 +98,21 @@ const TransactionDataTableAdmin = ({
     }
   };
 
-  function onClose() {
-    setOpen(false);
-  }
+  const handleDateRangeChange = (range: { from?: Date; to?: Date }) => {
+    setDateRange(range);
+  };
+
+  const resetFilters = () => {
+    setSearch("");
+    setStatus(undefined);
+    setCompletedPayment(undefined);
+    setDateRange({});
+  };
 
   return (
     <div>
       <Drawer open={open} onOpenChange={onOpenChange} direction="right">
-        <DrawerContent className="max-w-[425px] overflow-y-auto overflow-x-hidden h-4/5 ml-auto border">
+        <DrawerContent className="max-w-[425px] overflow-y-auto overflow-x-hidden h-full ml-auto border">
           <DrawerHeader>
             <div className="flex items-center">
               <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
@@ -189,6 +217,7 @@ const TransactionDataTableAdmin = ({
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+
       {isError && (
         <div>
           <p>Error loading data</p>
@@ -197,13 +226,11 @@ const TransactionDataTableAdmin = ({
 
       {isLoading ? (
         <div className="space-y-4">
-          {/* Repeat this block for the number of rows you want to display as loading */}
           {Array.from({ length: 5 }).map((_, index) => (
             <div
               key={index}
               className="flex items-center space-x-4 py-2 px-4 mt-8"
             >
-              {/* Table columns loader */}
               <Skeleton className="h-6 w-full" />
               <Skeleton className="h-6 w-full" />
               <Skeleton className="h-6 w-full" />
@@ -215,33 +242,45 @@ const TransactionDataTableAdmin = ({
       ) : (
         <div className="mt-5">
           <div className="border rounded-t-xl py-4 px-4">
-            <div className="md:flex flex-wrap justify-between items-center">
+            <div className="md:flex flex-wrap justify-between items-center space-y-2 md:space-y-0">
               <Input
                 type="text"
-                placeholder="Search"
+                placeholder="Search transactions"
                 className="md:max-w-60 w-full"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
-              <div className="md:flex md:space-x-2">
-                <div className="md:flex md:space-x-2 items-center">
-                  <FilterSelect
-                    label="Status"
-                    options={[
-                      {
-                        name: "Pending",
-                        value: 1,
-                      },
-                      {
-                        name: "Failed",
-                        value: 0,
-                      },
-                      {
-                        name: "Successful",
-                        value: 1,
-                      },
-                    ]}
-                    placeholder="Status"
-                  />
-                </div>
+              <div className="md:flex md:space-x-2 items-center">
+                <FilterSelect
+                  label="Status"
+                  options={[
+                    { name: "Pending", value: "pending" },
+                    { name: "Failed", value: "failed" },
+                    { name: "Successful", value: "successful" },
+                  ]}
+                  placeholder="Status"
+                  state={[status, setStatus]}
+                />
+                <FilterSelect
+                  label="Payment Type"
+                  options={[
+                    { name: "Completed", value: true },
+                    { name: "Incomplete", value: false },
+                  ]}
+                  placeholder="Payment Status"
+                  state={[completedPayment, setCompletedPayment]}
+                />
+                <DatePickerWithRange
+                  onDateChange={handleDateRangeChange}
+                  selectedRange={dateRange}
+                />
+                <Button
+                  variant="outline"
+                  onClick={resetFilters}
+                  className="ml-2"
+                >
+                  Reset Filters
+                </Button>
               </div>
             </div>
           </div>

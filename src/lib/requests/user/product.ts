@@ -16,7 +16,8 @@ export const getProductList = (
   filterBySubCategory?: string,
   startPrice?: number,
   endPrice?: number,
-  filterByBrands?: string
+  filterByBrands?: string,
+  channel?: "wholeSale" | "retail"
 ) => {
   const params = new URLSearchParams();
 
@@ -33,6 +34,11 @@ export const getProductList = (
   if (filterByBrands !== undefined)
     params.append("filterByBrands", filterByBrands.toString());
 
+  if (channel && channel == "wholeSale") {
+    return requests.get<ProductsResponse>(
+      `/product/b2b-shop?${params.toString()}`
+    );
+  }
   return requests.get<ProductsResponse>(`/product/shop?${params.toString()}`);
 };
 
@@ -43,7 +49,8 @@ export const useGetProductList = (
   filterBySubCategory?: string,
   startPrice?: number,
   endPrice?: number,
-  filterByBrands?: string
+  filterByBrands?: string,
+  channel?: "wholeSale" | "retail"
 ) => {
   console.log(filterByBrands);
 
@@ -57,6 +64,7 @@ export const useGetProductList = (
       startPrice,
       endPrice,
       filterByBrands,
+      channel,
     ],
 
     queryFn: () =>
@@ -67,7 +75,8 @@ export const useGetProductList = (
         filterBySubCategory,
         startPrice,
         endPrice,
-        filterByBrands
+        filterByBrands,
+        channel
       ),
   });
 };
@@ -88,9 +97,21 @@ export const useGetTopRated = () => {
   });
 };
 
-export const useGetFeaturedProducts = (type: "new-arrival" | "top-rated") => {
+export const useGetFeaturedProducts = (
+  type: "new-arrival" | "top-rated" | "b2b-top-rated" | "b2b-new-arrival"
+) => {
   return useQuery({
     queryKey: [type],
+
+    queryFn: () => requests.get<ProductsResponse>(`/product/${type}`),
+  });
+};
+
+export const useGetFeaturedProductsB2B = (
+  type: "new-arrival" | "top-rated" | "b2b-top-rated" | "b2b-new-arrival"
+) => {
+  return useQuery({
+    queryKey: [type, "B2B"],
 
     queryFn: () => requests.get<ProductsResponse>(`/product/${type}`),
   });
@@ -143,6 +164,7 @@ interface Body {
   deliveryMethod: string;
   deliveryPrice: number;
   shippingAddress: ShippingAddress;
+  redirectURL: string;
 }
 
 export const orderProduct = (body: Body) => {
@@ -164,9 +186,27 @@ export const getWishlist = () => {
   }>(`/customer/my-wishlist`);
 };
 export const getOrders = ({ queryKey }: { queryKey: any }) => {
-  const [_key, { page, userType, vendor }] = queryKey;
+  const [
+    _key,
+    { page, userType, vendor, search, status, reportedOrder, fromDate, toDate },
+  ] = queryKey;
 
   console.log(vendor);
+
+  const queryParams: Record<string, string | number | boolean | undefined> = {
+    search: search,
+    pageNumber: page,
+    filteredByReported: reportedOrder,
+    filteredByStatus: status,
+    startDate: fromDate,
+    endDate: toDate,
+    filteredByVendor: vendor,
+  };
+
+  const queryString = Object.keys(queryParams)
+    .filter((key) => queryParams[key] !== undefined)
+    .map((key) => `${key}=${encodeURIComponent(queryParams[key] as string)}`)
+    .join("&");
 
   if (vendor) {
     return requests.get<OrderResponse>(
@@ -174,7 +214,7 @@ export const getOrders = ({ queryKey }: { queryKey: any }) => {
     );
   } else {
     return requests.get<OrderResponse>(
-      `/order/${userType}/orders?pageNumber=${page}`
+      `/order/${userType}/orders${queryString ? `?${queryString}` : ""}`
     );
   }
 };

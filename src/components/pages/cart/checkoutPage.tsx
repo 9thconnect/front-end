@@ -50,6 +50,7 @@ const locationSchema = z.object({
   state: z.string().min(1, "State is required"),
   city: z.string().min(1, "City is required"),
   address: z.string().min(1, "City is required"),
+  posterCode: z.string().min(1, "Post Code is required"),
 });
 
 type LocationFormData = z.infer<typeof locationSchema>;
@@ -110,19 +111,7 @@ const CheckoutPage = () => {
     }
   };
 
-  const handlePaymentClick = () => {
-    console.log(formRef.current);
-
-    if (formRef.current) {
-      // Type cast the hidden button to HTMLButtonElement to access the click method
-      const hiddenSubmitButton = formRef.current.querySelector(
-        'button[type="submit"]'
-      ) as HTMLButtonElement;
-      hiddenSubmitButton?.click();
-    }
-  };
-
-  const onSubmit = async (data: z.infer<typeof checkoutValidationSchema>) => {
+  const handlePlaceOrder = async (data: LocationFormData) => {
     try {
       setLoading(true);
 
@@ -142,6 +131,8 @@ const CheckoutPage = () => {
             postalCode: data.posterCode,
             country: data.country,
           },
+          redirectURL:
+            `${process.env.NEXT_PUBLIC_BASE_URL}/marketplace/payment/confirm` as string,
         });
 
       toast.success(response?.message);
@@ -271,6 +262,23 @@ const CheckoutPage = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="posterCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Post Code</FormLabel>
+                      <FormControl>
+                        <input
+                          {...field}
+                          placeholder="Enter your Post Code"
+                          className="mt-1 p-2 border rounded w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <Button
                   type="submit"
@@ -336,7 +344,7 @@ const CheckoutPage = () => {
           )}
 
           {/* Shipping Details Form - Blurred until delivery method is selected */}
-          <div
+          {/* <div
             className={`transition-all duration-300 ${
               !selectedMethod
                 ? "opacity-50 pointer-events-none filter blur-sm"
@@ -357,7 +365,7 @@ const CheckoutPage = () => {
               ref={formRef}
               locationData={locationData}
             />
-          </div>
+          </div> */}
         </div>
 
         {/* Order Summary - Blurred until delivery method is selected */}
@@ -390,7 +398,7 @@ const CheckoutPage = () => {
           </div>
           <Button
             disabled={!selectedMethod || subtotal < 1 || loading}
-            onClick={handlePaymentClick}
+            onClick={form.handleSubmit(handlePlaceOrder)}
             className="w-full mt-5 rounded-lg"
           >
             {loading

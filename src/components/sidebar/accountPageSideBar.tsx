@@ -37,6 +37,39 @@ const routes = [
     vendorType: ["professional"],
     professionalType: ["individual"],
   },
+  {
+    name: "Offers",
+    route: "/account/offers",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["professional"],
+    professionalType: ["individual", "company"],
+  },
+  {
+    name: "Projects",
+    route: "/account/projects",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["professional"],
+    professionalType: ["individual", "company"],
+  },
+
+  {
+    name: "Offers",
+    route: "/account/customer-offers",
+    icon: CertIcon,
+    access: ["customer"],
+    vendorType: [],
+    professionalType: [],
+  },
+  {
+    name: "Projects",
+    route: "/account/customer-projects",
+    icon: CertIcon,
+    access: ["customer"],
+    vendorType: [],
+    professionalType: [],
+  },
   // {
   //   name: "My Profession Company",
   //   route: "/account/company/profession",
@@ -110,11 +143,20 @@ const routes = [
     vendorType: [],
     professionalType: [],
   },
+  {
+    name: "Notifications",
+    route: "/account/notifications",
+    icon: CertIcon,
+    access: ["customer", "vendor"],
+    vendorType: [],
+    professionalType: [],
+  },
 ];
 
 const AccountPageSideBar = () => {
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const vendor = auth.data as IVendor;
   const type = auth.type;
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -174,7 +216,9 @@ const AccountPageSideBar = () => {
       {auth.data && (
         <div className={`section-card-header`}>
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl  text-offBlack">User Profile</h3>
+            <h3 className="text-xl  text-offBlack">
+              Profile {vendor.sellerType == "wholeSale" && "- Whole Seller"}
+            </h3>
             <Button disabled={loading} onClick={handleLogout}>
               {loading ? "Loading.." : "Logout"}
               <LogOutIcon className="ml-2" size={15} />

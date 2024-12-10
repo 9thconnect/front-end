@@ -58,6 +58,11 @@ const ImageUpload = ({
       );
 
       const uploadedImageUrl = response.data.data[0].url;
+
+      console.log("response from server upload:", response);
+
+      console.log("url from server", uploadedImageUrl);
+
       onUploadSuccess(uploadedImageUrl);
     } catch (error) {
       console.error("Upload failed:", error);

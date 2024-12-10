@@ -49,6 +49,7 @@ export interface IVendor {
   email: string;
   phoneNumber: string;
   vendorType: "seller" | "professional";
+  sellerType: "wholeSale" | "retail";
   professionalType: "company" | "individual";
   avatar: string;
   gender: string;

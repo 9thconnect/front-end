@@ -28,9 +28,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ProfessionalDataTable = () => {
   const router = useRouter();
 
+  const [search, setSearch] = useState("");
+
   const query = useQuery({
-    queryKey: ["get-professionals"],
-    queryFn: () => fetchProfessionals({ search: "" }),
+    queryKey: ["get-professionals", search],
+    queryFn: () => fetchProfessionals({ search: search }),
   });
 
   console.log(query.data?.data?.data.professions);
@@ -51,8 +53,9 @@ const ProfessionalDataTable = () => {
               type="text"
               placeholder="Search"
               className="md:max-w-60 w-full"
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <div className="md:flex md:space-x-2">
+            {/* <div className="md:flex md:space-x-2">
               <div className="md:flex md:space-x-2 items-center">
                 <FilterSelect
                   label="Category"
@@ -67,7 +70,7 @@ const ProfessionalDataTable = () => {
               </div>
 
               <Button className=" w-full md:w-fit">Add User</Button>
-            </div>
+            </div> */}
           </div>
         </div>
         {query.isLoading ? (

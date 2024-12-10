@@ -23,61 +23,6 @@ const Lottie = dynamic<LottieComponentProps>(() => import("lottie-react"), {
   ssr: false,
 });
 
-const fetchPaymentData = async (): Promise<
-  BaseResponse<SingleTransactionData>
-> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        status: "success",
-        message: "yes yes ye",
-        data: {
-          _id: "66e3860dc548b6294ef05bca",
-          customer: {
-            _id: "66c4d700bdb4cd1259f1dd84",
-            fullName: "Praise Amadi",
-            avatar:
-              "https://res.cloudinary.com/dd3skpojo/image/upload/v1724174175/Nav_Component_q3n6kk.png",
-          },
-          invoiceRef: "MCD-1726187034201",
-          payerName: "Praise Amadi",
-          payerEmail: "o.ayomikun@gmail.com",
-          payerPhoneNumber: "08188693232",
-          amount: 8000,
-          paymentCompleted: true,
-          paymentDate: "2024-09-13T00:23:41.345Z",
-          order: {
-            _id: "66e3860dc548b6294ef05bc8",
-            orderItems: [
-              {
-                name: "Belland",
-                quantity: 1,
-                image:
-                  "https://res.cloudinary.com/dddofgfei/image/upload/v1721951829/b7qkzrk58st2i4buggkx.jpg",
-                price: 8000,
-                productId: "66d38b26d93d3d1abaf80604",
-                seller: "66afcc440497b2b04cd038de",
-                MCDFee: 160,
-                sellerPay: 7840,
-                total: 8000,
-                _id: "66e3860ec548b6294ef05bcf",
-              },
-            ],
-            orderID: "MCD3655005",
-            status: "cancelled",
-          },
-          paymentFor: "order",
-          status: "approved",
-          createdAt: "2024-09-13T00:23:42.314Z",
-          updatedAt: "2024-09-13T00:24:30.323Z",
-          ipAddress: "52.209.154.143",
-          payment_options: "card",
-        },
-      });
-    }, 3000);
-  });
-};
-
 const ReceiptSkeleton = () => (
   <div className="w-full max-w-2xl mx-auto mt-8 space-y-6">
     <div className="space-y-4">

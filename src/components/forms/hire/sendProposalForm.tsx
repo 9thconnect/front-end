@@ -37,12 +37,6 @@ export const ProposalSchema = z.object({
   budget: z.coerce.number().min(1, {
     message: "Budget must be at least 1 naira.",
   }),
-  city: z.string().min(2, {
-    message: "City must be at least 2 characters.",
-  }),
-  startData: z.date({
-    required_error: "Please provide date ",
-  }),
 });
 const SendProposalForm = ({
   onSubmit,
@@ -53,12 +47,8 @@ const SendProposalForm = ({
   const router = useRouter();
   const form = useForm<z.infer<typeof ProposalSchema>>({
     resolver: zodResolver(ProposalSchema),
-    defaultValues: {
-      description: "",
-      budget: 0,
-      city: "",
-    },
   });
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-7">
@@ -88,7 +78,7 @@ const SendProposalForm = ({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="city"
           render={({ field }) => (
@@ -100,8 +90,8 @@ const SendProposalForm = ({
               <FormMessage />
             </FormItem>
           )}
-        />
-        <FormField
+        /> */}
+        {/* <FormField
           control={form.control}
           name="startData"
           render={({ field }) => (
@@ -141,7 +131,7 @@ const SendProposalForm = ({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <div className="grid grid-cols-5 gap-3">
           <Button disabled={isLoading} className="col-span-3" type="submit">
             {isLoading ? "Loading" : "Submit"}

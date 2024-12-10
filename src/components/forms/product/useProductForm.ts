@@ -14,10 +14,14 @@ export function useProductFormContext(product?: Product) {
     defaultValues: {
       name: product?.name || "",
       description: product?.description || "",
-      price: product?.price || 0,
+      price: product?.price || undefined,
       productCategory: product?.productCategory?._id || "",
       images: product?.images || [],
-      stockQuantity: product?.stockQuantity || 0,
+      stockQuantity: product?.stockQuantity || undefined,
+      minimumOrder: product?.minimumOrder || undefined,
+      weight: product?.weight || undefined,
+      subCategory: product?.subCategory._id || "",
+      brand: product?.brand._id || "",
     },
   });
 }

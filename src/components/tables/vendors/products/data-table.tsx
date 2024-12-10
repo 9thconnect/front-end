@@ -67,7 +67,7 @@ const ProductDataTable = ({ id }: { id: string }) => {
         onClose={onClose}
         direction="right"
       >
-        <DrawerContent className="max-w-[425px] overflow-y-auto overflow-x-hidden h-4/5 ml-auto border">
+        <DrawerContent className="max-w-[425px] overflow-y-auto overflow-x-hidden h-full ml-auto border">
           <DrawerHeader>
             <div className="flex items-center">
               <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">

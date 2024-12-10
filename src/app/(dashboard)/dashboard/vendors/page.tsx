@@ -11,11 +11,6 @@ const page = () => {
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <p className="text-2xl text-offBlack">Vendors</p>
-        <div className="sm:flex flex-wrap sm:flex-nowrap">
-          <Button className="w-full sm:w-fit mt-2 sm:mt-0 font-normal">
-            Download
-          </Button>
-        </div>
       </div>
       <Suspense fallback={<p>Loading...</p>}>
         <div className="grid md:grid-cols-4 gap-5 mt-6">

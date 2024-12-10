@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { LucideProps } from "lucide-react";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 type AnalyticCardProp = {
   title: string;
@@ -22,7 +23,9 @@ const AnalyticCard = ({
   return (
     <div className={cn(` w-full rounded-lg bg-white border p-3 ${className}`)}>
       <div
-        className={`${iconClassName} bg-primary/20 rounded-full p-2 inline-flex items-center justify-center`}
+        className={twMerge(
+          `${iconClassName} bg-primary/20 rounded-full p-2 inline-flex items-center justify-center`
+        )}
       >
         <Icon size={15} color="red" />
       </div>

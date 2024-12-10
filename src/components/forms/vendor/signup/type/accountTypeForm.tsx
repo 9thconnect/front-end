@@ -134,7 +134,7 @@ export function SelectAccountTypeForm({
       />
       <h2 className="my-5 text-2xl text-black">
         {" "}
-        Welcome onboard, Let’s Setup your Profile...
+        Please select your account type
       </h2>
 
       <Separator />

@@ -10,17 +10,8 @@ const page = async () => {
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <p className="text-2xl text-offBlack">Professional</p>
-        <div className="sm:flex flex-wrap sm:flex-nowrap">
-          <Button className="w-full sm:w-fit mt-2 sm:mt-0 font-normal">
-            Download
-          </Button>
-        </div>
       </div>
       <div className="mt-5 rounded-lg border p-3">
-        <div className="flex justify-between items-center">
-          <p className="text-offBlack">Analysis</p>
-          <DatePickerWithRange />
-        </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-3">
           <div className="md">
             <AnalyticCard

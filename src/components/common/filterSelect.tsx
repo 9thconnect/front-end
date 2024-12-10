@@ -62,10 +62,10 @@ import {
 
 interface FilterSelectProps {
   label: string;
-  options: { name: string; value: string | number }[];
+  options: { name: string; value: string | number | boolean | any }[];
   placeholder: string;
   state?: [
-    string | number | undefined,
+    string | number | undefined | any,
     React.Dispatch<React.SetStateAction<string | any | undefined>>
   ];
 }

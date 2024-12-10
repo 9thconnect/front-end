@@ -23,9 +23,7 @@ export const productValidationSchema = z.object({
   weight: z.coerce.number().min(1, {
     message: "Weight must be at least 1.",
   }),
-  // images: z.string().array().nonempty({
-  //   message: "At least one image URL is required.",
-  // }),
+  minimumOrder: z.coerce.number().optional(),
 
   images: z.string().array(),
 });

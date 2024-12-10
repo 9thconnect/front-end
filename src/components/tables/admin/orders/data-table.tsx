@@ -48,17 +48,39 @@ import {
 } from "@/components/ui/select";
 import requests from "@/utils/requests";
 import axios from "axios";
+import { DatePickerWithRange } from "@/components/common/datePickerRange";
 
 const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
   const [rowData, setRowData] = useState<Order | undefined>();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [reportedOrder, setReportedOrder] = useState<boolean | undefined>(
+    undefined
+  );
+  const [dateRange, setDateRange] = useState<{
+    from?: Date;
+    to?: Date;
+  }>({});
 
   const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["get-orders", { page: page, userType: "admin", vendor: vendor }],
+    queryKey: [
+      "get-orders",
+      {
+        page: page,
+        userType: "admin",
+        vendor: vendor,
+        search,
+        status,
+        reportedOrder,
+        fromDate: dateRange.from?.toISOString(),
+        toDate: dateRange.to?.toISOString(),
+      },
+    ],
     queryFn: getOrders,
   });
 
@@ -150,6 +172,17 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
     } finally {
       setIsUpdatingStatus(false);
     }
+  };
+
+  const handleDateRangeChange = (range: { from?: Date; to?: Date }) => {
+    setDateRange(range);
+  };
+
+  const resetFilters = () => {
+    setSearch("");
+    setStatus(undefined);
+    setReportedOrder(undefined);
+    setDateRange({});
   };
 
   const renderStatus = (status: OrderStatus) => {
@@ -402,6 +435,49 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
         </div>
       )}
 
+      <div className="border rounded-t-xl py-4 px-4">
+        <div className="md:flex flex-wrap justify-between items-center">
+          <Input
+            type="text"
+            placeholder="Search"
+            className="md:max-w-60 w-full"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <div className="md:flex md:space-x-2 items-center">
+            <FilterSelect
+              label="Status"
+              options={[
+                { name: "Pending", value: "pending" },
+                { name: "received", value: "received" },
+                { name: "processing", value: "processing" },
+                { name: "shipped", value: "shipped" },
+                { name: "delivered", value: "delivered" },
+                { name: "cancelled", value: "cancelled" },
+              ]}
+              placeholder="Status"
+              state={[status, setStatus]}
+            />
+            <FilterSelect
+              label="Reported"
+              options={[
+                { name: "Reported", value: true },
+                { name: "Not Reported", value: false },
+              ]}
+              placeholder="Report"
+              state={[reportedOrder, setReportedOrder]}
+            />
+            <DatePickerWithRange
+              onDateChange={handleDateRangeChange}
+              selectedRange={dateRange}
+            />
+            <Button variant="outline" onClick={resetFilters} className="ml-2">
+              Reset Filters
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {isLoading ? (
         <div className="space-y-4">
           {/* Repeat this block for the number of rows you want to display as loading */}
@@ -417,38 +493,7 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
           ))}
         </div>
       ) : (
-        <div className="mt-5">
-          <div className="border rounded-t-xl py-4 px-4">
-            <div className="md:flex flex-wrap justify-between items-center">
-              <Input
-                type="text"
-                placeholder="Search"
-                className="md:max-w-60 w-full"
-              />
-              <div className="md:flex md:space-x-2">
-                <div className="md:flex md:space-x-2 items-center">
-                  <FilterSelect
-                    label="Status"
-                    options={[
-                      {
-                        name: "Pending",
-                        value: 1,
-                      },
-                      {
-                        name: "Failed",
-                        value: 0,
-                      },
-                      {
-                        name: "Successful",
-                        value: 1,
-                      },
-                    ]}
-                    placeholder="Status"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="">
           <DataTable
             columns={columns}
             data={data?.data?.orders || []}

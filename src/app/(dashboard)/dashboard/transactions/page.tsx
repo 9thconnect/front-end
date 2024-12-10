@@ -14,12 +14,12 @@ const page = async () => {
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <p className="text-2xl text-offBlack">Transactions</p>
-        <div className="sm:flex flex-wrap sm:flex-nowrap">
+        {/* <div className="sm:flex flex-wrap sm:flex-nowrap">
           <DatePickerWithRange className="sm:mr-2 w-full" />
           <Button className="w-full sm:w-fit mt-2 sm:mt-0 font-normal">
             Download
           </Button>
-        </div>
+        </div> */}
       </div>
       <Suspense fallback={<p>Loading...</p>}>
         <div className="grid md:grid-cols-3 gap-5 mt-6">

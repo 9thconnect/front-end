@@ -52,6 +52,10 @@ import PortfolioForm, {
   PortfolioValidationSchema,
 } from "@/components/forms/vendor/signup/account/professional/artisan/portfolioForm";
 import { SubmitHandler } from "react-hook-form";
+import {
+  SelectSellerTypeForm,
+  selectSellerTypeValidationSchema,
+} from "@/components/forms/vendor/signup/sellerType/sellerTypeForm";
 
 export interface VendorSignUpRequest {
   fullName?: string;
@@ -66,8 +70,10 @@ export interface VendorSignUpRequest {
   businessType?: string;
   businessDesc?: string;
   shopName?: string;
+  shopCountry?: string;
   shopAddress?: string;
   shopCity?: string;
+  shopState?: string;
   businessLegalName?: string;
   businessEmail?: string;
   businessPhoneNumber?: string;
@@ -79,6 +85,7 @@ export interface VendorSignUpRequest {
   professionCity?: string;
   professionDesc?: string;
   professionalType?: "individual" | "company";
+  sellerType?: "wholeSale" | "retail";
   price?: number;
   expectedDelivery?: number;
   qualifications?: Array<{
@@ -120,8 +127,10 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     businessType: "",
     businessDesc: "",
     shopName: "",
+    shopCountry: "",
     shopAddress: "",
     shopCity: "",
+    shopState: "",
     businessLegalName: "",
     businessEmail: "",
     businessPhoneNumber: "",
@@ -134,7 +143,6 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     professionDesc: "",
     qualifications: [],
     portfolio: [],
-    professionalType: "company",
   });
 
   const handleSubmitStageOne = (
@@ -198,7 +206,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     console.log(data, formData);
 
     if (formData.type == "seller") {
-      updateStage(5);
+      updateStage(11);
     } else {
       setOpenSelectProType(true);
     }
@@ -211,8 +219,10 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       ...prevData,
       businessDesc: formData.businessDesc,
       shopName: formData.shopName,
+      shopCountry: formData.shopCountry,
       shopAddress: formData.shopAddress,
       shopCity: formData.shopCity,
+      shopState: formData.shopState,
       businessLegalName: formData.businessLegalName,
       businessEmail: formData.businessEmail,
       businessPhoneNumber: formData.businessPhoneNumber,
@@ -277,6 +287,19 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     updateStage(7);
   };
 
+  const handleSubmitStageEleven = (
+    formData: z.infer<typeof selectSellerTypeValidationSchema>
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      sellerType: formData.sellerType,
+    }));
+
+    console.log(data, formData);
+
+    updateStage(5);
+  };
+
   const handleSubmitStageSix = (
     formData: z.infer<typeof professionalDetailsValidationSchema>
   ) => {
@@ -317,11 +340,24 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       portfolio: p,
       qualifications: c,
       professionalType,
+      sellerType,
+      shopCountry: pp,
       ...dataWithoutGender
     } = dataWithoutAccountName;
 
-    const { portfolio, qualifications, ...dataWithoutPortAndQualification } =
-      dataWithoutAccountName;
+    const {
+      portfolio,
+      qualifications,
+      sellerType: m,
+      shopCountry: sc,
+      ...dataWithoutPortAndQualification
+    } = dataWithoutAccountName;
+
+    const {
+      portfolio: ee,
+      qualifications: rr,
+      ...dataWithoutAccountNameAndPortfolioAndQualifications
+    } = dataWithoutAccountName;
 
     console.log("form data", formData);
 
@@ -330,7 +366,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
         ? dataWithoutGender
         : dataWithoutAccountName.professionalType == "company"
         ? dataWithoutPortAndQualification
-        : dataWithoutAccountName;
+        : dataWithoutAccountNameAndPortfolioAndQualifications;
 
     try {
       setDialogStatus("loading"); // Show loading dialog
@@ -522,6 +558,13 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
           {stage == 10 && (
             <PortfolioForm
               onSubmit={handleSubmitStageTen}
+              formStateData={data}
+              setStage={setStage}
+            />
+          )}
+          {stage == 11 && (
+            <SelectSellerTypeForm
+              onSubmit={handleSubmitStageEleven}
               formStateData={data}
               setStage={setStage}
             />

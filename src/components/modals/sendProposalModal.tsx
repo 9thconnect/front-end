@@ -19,8 +19,9 @@ import { useRouter } from "next/navigation";
 import SendProposalForm, {
   ProposalSchema,
 } from "../forms/hire/sendProposalForm";
+import requests from "@/utils/requests";
 
-const SendProposalModal = () => {
+const SendProposalModal = ({ id }: { id: string }) => {
   const [loading, setLoading] = useState<
     "idle" | "success" | "error" | "loading"
   >("idle");
@@ -28,10 +29,16 @@ const SendProposalModal = () => {
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof ProposalSchema>) {
+    console.log("submitting");
+
     setLoading("loading");
     try {
       // Make the API call
-      await axios.post("/api/send-proposal", data); // Replace with your API endpoint
+      await requests.post("/offer/send-offer", {
+        professionId: id,
+        proposedPrice: data.budget,
+        projectDescription: data.description,
+      }); // Replace with your API endpoint
       setLoading("success");
     } catch (error) {
       setLoading("error");
@@ -47,8 +54,6 @@ const SendProposalModal = () => {
     }
   }
 
-  const id = "wdlkmkwnekjfnewkfjenfjkew";
-
   return (
     <AlertDialog>
       <AlertDialogTrigger className="w-full">
@@ -57,18 +62,21 @@ const SendProposalModal = () => {
       <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
         <div className="relative h-full w-full">
           <AlertDialogHeader className="flex flex-row items-center">
-            <AlertDialogCancel className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3">
-              <X size={15} />
+            <AlertDialogCancel
+              onClick={() => setLoading("idle")}
+              className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3"
+            >
+              <X onClick={() => setLoading("idle")} size={15} />
             </AlertDialogCancel>
             <AlertDialogTitle>Hire Professional</AlertDialogTitle>
           </AlertDialogHeader>
         </div>
         <HOCLoading
-          status={"success"}
+          status={loading}
           successMessage="Proposal Submitted"
           successDescription="Your proposal has been submitted, we will send a copy to the professional and they will get back to you"
           onSuccessButtonClick={() => router.push(`/hire/projects/${id}`)}
-          successButtonText="Proceed to project"
+          successButtonText="Contact Professional"
           hideCancelButton={loading == "success"}
           onClose={() => setLoading("idle")}
         >
