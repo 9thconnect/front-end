@@ -41,6 +41,8 @@ export interface Business {
   shopName: string;
   shopCity: string;
   shopAddress: string;
+  shopState: string;
+  shopCountry: string;
   shopID: string;
   businessEmail: string;
   businessPhoneNumber: string;

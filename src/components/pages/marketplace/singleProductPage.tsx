@@ -732,10 +732,17 @@ const SingleProductPage = ({
                 </div>
                 <div className="flex">
                   <MapPin size={20} color="red" />
-                  <span className="ml-2">
-                    {product?.seller?.businesses[0]?.shopAddress ||
-                      "No Location"}
-                  </span>
+                  {product.productSaleType == "b2b" ? (
+                    <span className="ml-2">
+                      {product?.seller?.businesses[0]?.shopCountry ||
+                        "No Country"}
+                    </span>
+                  ) : (
+                    <span className="ml-2">
+                      {product?.seller?.businesses[0]?.shopAddress ||
+                        "No Location"}
+                    </span>
+                  )}
                 </div>
                 <div className="flex">
                   <Star size={20} color="red" />
