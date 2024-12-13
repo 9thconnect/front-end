@@ -114,7 +114,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link
-      href={`/marketplace/${product._id}`}
+      href={`/${
+        product.productSaleType == "b2b" ? "wholesale" : "marketplace"
+      }/${product._id}`}
       className="block w-full h-full unselectable"
     >
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300 flex flex-col">
@@ -144,11 +146,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </button>
         </CardHeader>
-        <CardContent className="">
-          <p className="text-xs my-3 text-gray-500">
-            {product?.subCategory?.title}
-            {/* {product.productCategory.title} TODO:change back */}
-          </p>
+        <CardContent className="px-2">
+          <div className="flex justify-between">
+            <p className="text-xs my-3 text-gray-500">
+              {product?.productCategory?.title}
+            </p>
+            {product.productSaleType === "b2b" && (
+              <p className="text-xs my-3 text-gray-500">
+                Min.order: {product?.minimumOrder}
+              </p>
+            )}
+          </div>
+
           <CardTitle className="text-sm font-medium">{product.name}</CardTitle>
           <p className="text-lg font-light mt-3 text-black">
             ₦ {product.price.toLocaleString()}

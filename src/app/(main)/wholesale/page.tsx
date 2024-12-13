@@ -55,7 +55,7 @@ function page() {
           ]}
         />
       </div>
-      {/* <CategoryProductListHomeSection /> */}
+      <CategoryProductListHomeSection channel="wholeSale" />
     </div>
   );
 }

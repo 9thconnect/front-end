@@ -5,6 +5,7 @@ import { RootState } from "../../store";
 import {
   addToCart,
   clearCartFromServer,
+  decreaseFromCart,
   removeFromCart,
   useGetMyCert,
 } from "@/lib/requests/user/product";
@@ -83,6 +84,55 @@ export const syncCartWithServer = createAsyncThunk(
   }
 );
 
+// export const addItemToServer = createAsyncThunk(
+//   "cart/addItemToServer",
+//   async (
+//     {
+//       product,
+//       quantity,
+//       type,
+//     }: {
+//       product: Product;
+//       quantity: number;
+//       type?: "productCard" | "cartCard" | "productPage";
+//     },
+//     { getState }
+//   ) => {
+//     const state = getState() as RootState;
+
+//     if (type == "productCard") {
+//       const existingItem = state.cart.items.find(
+//         (item) => item.product._id === product._id
+//       );
+
+//       if (existingItem) {
+//         quantity = existingItem?.quantity + 1;
+//       }
+//     }
+
+//     // let qty = quantity;
+
+//     // const existingItem = state.cart.items.find(
+//     //   (item) => item.product._id === product._id
+//     // );
+
+//     // if (existingItem) {
+//     //   qty = existingItem.quantity + quantity;
+//     // }
+
+//     const response = await addToCart(product._id, quantity);
+//     console.log(response);
+
+//     if (response.status !== "success") {
+//       console.log("response.message", response.message);
+
+//       throw new Error(response.message);
+//     }
+
+//     return { product, quantity, type };
+//   }
+// );
+
 export const addItemToServer = createAsyncThunk(
   "cart/addItemToServer",
   async (
@@ -95,38 +145,164 @@ export const addItemToServer = createAsyncThunk(
       quantity: number;
       type?: "productCard" | "cartCard" | "productPage";
     },
-    { getState }
+    { getState, rejectWithValue }
   ) => {
     const state = getState() as RootState;
 
+    let localQty = quantity;
+
+    // if (type == "productCard") {
+    //   const existingItem = state.cart.items.find(
+    //     (item) => item.product._id === product._id
+    //   );
+
+    //   if (product.productSaleType == "b2b" && product.minimumOrder) {
+    //     if (existingItem && product.minimumOrder > existingItem?.quantity) {
+    //       localQty = existingItem?.quantity + 1;
+    //     } else if (
+    //       existingItem &&
+    //       product.minimumOrder < existingItem?.quantity
+    //     ) {
+    //       localQty = product.minimumOrder;
+    //     }
+    //   } else {
+    //     if (existingItem) {
+    //       localQty = existingItem?.quantity + 1;
+    //     }
+    //   }
+    // }
+
     if (type == "productCard") {
+      console.log("Initial product:", product);
+      console.log("Initial type:", type);
+
       const existingItem = state.cart.items.find(
         (item) => item.product._id === product._id
       );
+      console.log("Existing item found:", existingItem);
 
-      if (existingItem) {
-        quantity = existingItem?.quantity + 1;
+      console.log("Initial localQty:", localQty);
+
+      if (product.productSaleType == "b2b" && product.minimumOrder) {
+        console.log("B2B product with minimum order:", product.minimumOrder);
+
+        if (existingItem && product.minimumOrder > existingItem?.quantity) {
+          localQty = existingItem?.quantity + 1;
+          console.log(
+            "Case 1: Existing item quantity less than minimum order. New localQty:",
+            localQty
+          );
+        } else if (
+          existingItem &&
+          product.minimumOrder < existingItem?.quantity
+        ) {
+          localQty = product.minimumOrder;
+          console.log(
+            "Case 2: Existing item quantity more than minimum order. New localQty:",
+            localQty
+          );
+        } else if (!existingItem) {
+          localQty = product.minimumOrder;
+        }
+      } else {
+        if (existingItem) {
+          localQty = existingItem?.quantity + 1;
+          console.log(
+            "Non-B2B or no minimum order: Incrementing quantity. New localQty:",
+            localQty
+          );
+        }
       }
+
+      console.log("Final localQty:", localQty);
+
+      // Use localQty for further processing
+      // quantity = localQty;
     }
 
-    // let qty = quantity;
+    console.log("Final localQty:", localQty);
+    try {
+      console.log(
+        "quantity",
+        localQty,
+        product.productSaleType,
+        product.minimumOrder,
+        "newww"
+      );
 
-    // const existingItem = state.cart.items.find(
-    //   (item) => item.product._id === product._id
-    // );
+      const response = await addToCart(product._id, localQty);
+      console.log(response);
 
-    // if (existingItem) {
-    //   qty = existingItem.quantity + quantity;
-    // }
+      if (response.status !== "success") {
+        return rejectWithValue(response);
+      }
 
-    const response = await addToCart(product._id, quantity);
-    console.log(response);
+      return { product, quantity: localQty, type };
+    } catch (error: any) {
+      // Handle Axios error with response data
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
 
-    if (response.status !== "success") {
-      throw new Error(response.message);
+      // Fallback for other types of errors
+      return rejectWithValue({
+        message: error.message || "An unknown error occurred",
+        status: "error",
+        statusCode: 500,
+      });
     }
+  }
+);
 
-    return { product, quantity, type };
+export const decreaseItemFromServer = createAsyncThunk(
+  "cart/decreaseItemFromServer",
+  async (
+    {
+      product,
+      quantity,
+    }: {
+      product: Product;
+      quantity: number;
+    },
+    { getState, rejectWithValue }
+  ) => {
+    const state = getState() as RootState;
+
+    console.log("quantity, minimumOrder", quantity, product.minimumOrder);
+
+    try {
+      if (
+        product.productSaleType == "b2b" &&
+        product.minimumOrder &&
+        quantity <= product.minimumOrder
+      ) {
+        return rejectWithValue({
+          message: "You cannot decrease lower than the minimum order",
+          status: "error",
+          statusCode: 400,
+        });
+      }
+      const response = await decreaseFromCart(product._id);
+      console.log(response);
+
+      if (response.status !== "success") {
+        return rejectWithValue(response);
+      }
+
+      return { product, quantity: quantity - 1 };
+    } catch (error: any) {
+      // Handle Axios error with response data
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+
+      // Fallback for other types of errors
+      return rejectWithValue({
+        message: error.message || "An unknown error occurred",
+        status: "error",
+        statusCode: 500,
+      });
+    }
   }
 );
 
@@ -140,8 +316,6 @@ export const fetchCartFromServer = createAsyncThunk(
         `/customer/my-cart`
       );
 
-      console.log("rest", rest);
-
       if (rest.data) {
         const certData = rest.data.cart.map((e) => {
           const p: { product: Product; quantity: number } = {
@@ -151,8 +325,6 @@ export const fetchCartFromServer = createAsyncThunk(
 
           return p;
         });
-
-        console.log("certData", certData);
 
         return certData;
       }
@@ -196,6 +368,114 @@ const cartSlice = createSlice({
     setLoggedIn(state, action: PayloadAction<boolean>) {
       state.isLoggedIn = action.payload;
     },
+    // addItem: (
+    //   state,
+    //   action: PayloadAction<{
+    //     product: Product;
+    //     quantity: number;
+    //     type: "productCard" | "cartCard" | "productPage";
+    //   }>
+    // ) => {
+    //   let firstItem = state.items[0];
+
+    //   console.log("firstItem", firstItem);
+
+    //   if (
+    //     firstItem &&
+    //     firstItem.product &&
+    //     firstItem.product.productSaleType !==
+    //       action.payload.product.productSaleType
+    //   ) {
+    //     toast(`We cannot add this product to your cart`, {
+    //       description: `You cannot mix wholesale and retail products, please clear cart first`,
+    //       action: {
+    //         label: "Cart",
+    //         onClick: () => console.log("Undo"),
+    //         actionButtonStyle: {
+    //           backgroundColor: "#ab0505b9",
+    //           color: "#880b0bf",
+    //         },
+    //       },
+    //     });
+
+    //     return;
+    //   }
+
+    //   let localQty = action.payload.quantity
+
+    //   if (action.payload.type == "productCard") {
+    //     console.log("Initial product:", action.payload.product);
+    //     console.log("Initial type:", action.payload.type);
+
+    //     const existingItem = state.items.find(
+    //       (item) => item.product._id === action.payload.product._id
+    //     );
+    //     console.log("Existing item found:", existingItem);
+
+    //     console.log("Initial localQty:", localQty);
+
+    //     if (action.payload.product.productSaleType == "b2b" && action.payload.product.minimumOrder) {
+    //       console.log("B2B product with minimum order:", action.payload.product.minimumOrder);
+
+    //       if (existingItem && action.payload.product.minimumOrder > existingItem?.quantity) {
+    //         localQty = existingItem?.quantity + 1;
+    //         console.log(
+    //           "Case 1: Existing item quantity less than minimum order. New localQty:",
+    //           localQty
+    //         );
+    //       } else if (
+    //         existingItem &&
+    //         action.payload.product.minimumOrder < existingItem?.quantity
+    //       ) {
+    //         localQty = action.payload.product.minimumOrder;
+    //         console.log(
+    //           "Case 2: Existing item quantity more than minimum order. New localQty:",
+    //           localQty
+    //         );
+    //       } else if (!existingItem) {
+    //         localQty = action.payload.product.minimumOrder;
+    //       }
+    //     } else {
+    //       if (existingItem) {
+    //         localQty = existingItem?.quantity + 1;
+    //         console.log(
+    //           "Non-B2B or no minimum order: Incrementing quantity. New localQty:",
+    //           localQty
+    //         );
+    //       }
+    //     }
+
+    //     // Use localQty for further processing
+    //     // quantity = localQty;
+    //   }
+
+    //   const existingItem = state.items.find(
+    //     (item) => item.product._id === action.payload.product._id
+    //   );
+    //   if (existingItem) {
+    //     existingItem.quantity += action.payload.quantity;
+    //   } else {
+    //     state.items.push(action.payload);
+    //   }
+
+    //   // Show toast notification
+    //   toast(`Product added to cart`, {
+    //     description: `${action.payload.product.name} added to cart`,
+    //     action: {
+    //       label: "Cart",
+    //       onClick: () => console.log("Undo"),
+    //       actionButtonStyle: {
+    //         backgroundColor: "#ab0505b9",
+    //         color: "#880b0bf",
+    //       },
+    //     },
+    //   });
+
+    //   if (action.payload.type == "productPage") {
+    //     navigate("/marketplace/cart");
+    //   }
+    // },
+
     addItem: (
       state,
       action: PayloadAction<{
@@ -204,13 +484,69 @@ const cartSlice = createSlice({
         type: "productCard" | "cartCard" | "productPage";
       }>
     ) => {
+      let firstItem = state.items[0];
+
+      // Check if the new product can be added to the cart
+      if (
+        firstItem &&
+        firstItem.product &&
+        firstItem.product.productSaleType !==
+          action.payload.product.productSaleType
+      ) {
+        toast(`We cannot add this product to your cart`, {
+          description: `You cannot mix wholesale and retail products, please clear cart first`,
+          action: {
+            label: "Cart",
+            onClick: () => console.log("Undo"),
+            actionButtonStyle: {
+              backgroundColor: "#ab0505b9",
+              color: "#880b0bf",
+            },
+          },
+        });
+
+        return;
+      }
+
       const existingItem = state.items.find(
         (item) => item.product._id === action.payload.product._id
       );
+
+      let localQty = action.payload.quantity;
+
+      if (action.payload.type === "productCard") {
+        // Handle B2B product with minimum order requirements
+        if (
+          action.payload.product.productSaleType === "b2b" &&
+          action.payload.product.minimumOrder
+        ) {
+          if (existingItem) {
+            if (existingItem.quantity < action.payload.product.minimumOrder) {
+              localQty = existingItem.quantity + 1;
+            } else if (
+              existingItem.quantity > action.payload.product.minimumOrder
+            ) {
+              localQty = action.payload.product.minimumOrder;
+            }
+          } else {
+            localQty = action.payload.product.minimumOrder;
+          }
+        } else {
+          // For non-B2B or products without minimum order
+          if (existingItem) {
+            localQty = existingItem.quantity + 1;
+          }
+        }
+      }
+
+      // Add or update the item in the cart
       if (existingItem) {
         existingItem.quantity += action.payload.quantity;
       } else {
-        state.items.push(action.payload);
+        state.items.push({
+          ...action.payload,
+          quantity: localQty,
+        });
       }
 
       // Show toast notification
@@ -226,10 +562,11 @@ const cartSlice = createSlice({
         },
       });
 
-      if (action.payload.type == "productPage") {
+      if (action.payload.type === "productPage") {
         navigate("/marketplace/cart");
       }
     },
+
     removeItem: (state, action: PayloadAction<string>) => {
       const index = state.items.findIndex(
         (item) => item.product._id === action.payload
@@ -266,12 +603,33 @@ const cartSlice = createSlice({
     },
     updateQuantity: (
       state,
-      action: PayloadAction<{ id: string; quantity: number }>
+      action: PayloadAction<{ product: Product; quantity: number }>
     ) => {
       const index = state.items.findIndex(
-        (item) => item.product._id === action.payload.id
+        (item) => item.product._id === action.payload.product._id
       );
+
       if (index !== -1) {
+        if (
+          action.payload.product.productSaleType == "b2b" &&
+          state.items[index].quantity > action.payload.quantity &&
+          action.payload.product.minimumOrder &&
+          state.items[index].quantity <= action.payload.product.minimumOrder
+        ) {
+          toast.error(`You cannot go beyond the minimum order`, {
+            description: `You cannot go below the minimum order for this product, minimum is ${action.payload.product.minimumOrder}`,
+            action: {
+              label: "Cart",
+              onClick: () => console.log("Undo"),
+              actionButtonStyle: {
+                backgroundColor: "#ab0505b9",
+                color: "#880b0bf",
+              },
+            },
+          });
+
+          return;
+        }
         state.items[index].quantity = action.payload.quantity;
         toast(`Product quantity updated`, {
           description: `${state.items[index].product.name} quantity updated to ${action.payload.quantity}`,
@@ -326,8 +684,17 @@ const cartSlice = createSlice({
       state.addingToCart.state = false;
       state.addingToCart.product = null;
 
+      const errorPayload = action.payload as {
+        message: string;
+        status: string;
+        statusCode: number;
+      };
+
+      const errorMessage =
+        errorPayload?.message || "Failed to add item to cart";
+
       toast(`We cannot add product to cart`, {
-        description: `We cannot add the product to your cart at this time, please check back later`,
+        description: errorMessage,
         action: {
           label: "Cart",
           onClick: () => console.log("Undo"),
@@ -337,13 +704,76 @@ const cartSlice = createSlice({
           },
         },
       });
-      console.error("Failed to add item to server:", action);
+
+      console.error("Failed to add item to server:", errorPayload);
     });
     builder.addCase(addItemToServer.pending, (state, action) => {
       state.addingToCart.state = true;
       state.addingToCart.product = action.meta.arg.product;
       console.log("addItemToServer.pending", action);
     });
+
+    builder.addCase(decreaseItemFromServer.fulfilled, (state, action) => {
+      console.log(state, action);
+
+      const existingItem = state.items.find(
+        (item) => item.product._id === action.payload.product._id
+      );
+      if (existingItem) {
+        existingItem.quantity = action.payload.quantity;
+      }
+
+      // Show toast notification
+      toast(`Product added to cart`, {
+        description: `${action.payload.product.name} updated`,
+        action: {
+          label: "Cart",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+
+      state.addingToCart.state = false;
+      state.addingToCart.product = null;
+
+      console.log("Item successfully added to server");
+    });
+    builder.addCase(decreaseItemFromServer.rejected, (state, action) => {
+      state.addingToCart.state = false;
+      state.addingToCart.product = null;
+
+      const errorPayload = action.payload as {
+        message: string;
+        status: string;
+        statusCode: number;
+      };
+
+      const errorMessage =
+        errorPayload?.message || "Failed to add item to cart";
+
+      toast(`We cannot add product to cart`, {
+        description: errorMessage,
+        action: {
+          label: "Cart",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+
+      console.error("Failed to add item to server:", errorPayload);
+    });
+    builder.addCase(decreaseItemFromServer.pending, (state, action) => {
+      state.addingToCart.state = true;
+      state.addingToCart.product = action.meta.arg.product;
+      console.log("addItemToServer.pending", action);
+    });
+
     builder.addCase(removeItemFromServer.fulfilled, (state, action) => {
       console.log(
         "Item successfully removed from server",

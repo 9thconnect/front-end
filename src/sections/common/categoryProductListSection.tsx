@@ -11,6 +11,7 @@ interface ICategory {
   pageUrl: string;
   api: string;
   category: string;
+  channel?: "retail" | "wholeSale";
 }
 
 const CategoryProductListSection = ({
@@ -18,13 +19,23 @@ const CategoryProductListSection = ({
   pageUrl,
   api,
   category,
+  channel,
 }: ICategory) => {
   const {
     data: productList,
     isLoading,
     isError,
     error,
-  } = useGetProductList("", 1, category);
+  } = useGetProductList(
+    "",
+    1,
+    category,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    channel
+  );
   return (
     <SectionContainer>
       <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />

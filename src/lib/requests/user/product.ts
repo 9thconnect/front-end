@@ -119,7 +119,15 @@ export const useGetSimilarProducts = (id: string) => {
 };
 
 export const addToCart = (id: string, qty: number) => {
+  console.log("addToCart", qty);
+
   return requests.patch<CartItem>(`/customer/add-to-cart/${id}/${qty}`, {});
+};
+
+export const decreaseFromCart = (id: string) => {
+  console.log("decreaseFromCart");
+
+  return requests.patch<CartItem>(`/customer/decrement-cart/${id}`, {});
 };
 
 export const addToWishList = (id: string) => {

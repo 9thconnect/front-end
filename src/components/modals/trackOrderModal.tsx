@@ -26,8 +26,6 @@ const TrackOrderModal = () => {
     (state) => state.layout.showTrackingModal
   );
 
-  console.log("isDialogOpen", isDialogOpen);
-
   const dispatch = useAppDispatch();
 
   const setIsDialogOpen = (open: boolean) => {

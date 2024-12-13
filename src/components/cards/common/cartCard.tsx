@@ -7,11 +7,13 @@ import Counter from "@/components/common/countComponent";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import {
   addItemToServer,
+  decreaseItemFromServer,
   removeItem,
   removeItemFromServer,
   updateQuantity,
 } from "@/lib/redux/features/cart/cartSlice";
 import { Product } from "@/type/common";
+import { toast } from "sonner";
 
 export type CartCardProp = {
   product: Product;
@@ -20,18 +22,20 @@ export type CartCardProp = {
 const CartCard = ({ product, quantity }: CartCardProp) => {
   const [count, setCount] = useState<number>(0);
 
+  console.log("CartCardProp", quantity);
+
   const isLoggedIn = useAppSelector((state) => state.auth.data);
   const isDeleting = useAppSelector(
     (state) => state.cart.deletingProductFromCart
   );
+  const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
+
+  const loading =
+    loadingAddToCart?.state && loadingAddToCart?.product?._id == product._id;
 
   const isDeeting = useAppSelector((state) => state.cart);
 
-  console.log(isDeleting, isLoggedIn, isDeeting);
-
   const handleRemove = (id: string) => {
-    console.log(quantity);
-
     if (isLoggedIn) {
       dispatch(removeItemFromServer({ id: id, quantity: quantity }));
     } else {
@@ -42,7 +46,6 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
   const dispatch = useAppDispatch();
 
   const handleQuantityChange = (quantityTwo: number) => {
-    console.log("isLoggedIn", isLoggedIn);
     if (quantityTwo === 0) {
       handleRemove(product._id);
     } else {
@@ -50,17 +53,39 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
         if (quantity < quantityTwo) {
           console.log("increase");
 
-          console.log("quantity", quantity, quantityTwo);
+          console.log("QUANTITY", quantity, quantityTwo);
 
           dispatch(addItemToServer({ product, quantity: quantityTwo }));
         } else {
           console.log("decrease");
+
+          console.log("QUANTITY", quantity, quantityTwo);
           dispatch(
-            removeItemFromServer({ id: product._id, quantity: quantityTwo })
+            decreaseItemFromServer({ product: product, quantity: quantity })
           );
         }
       } else {
-        dispatch(updateQuantity({ id: product._id, quantity: quantityTwo }));
+        if (
+          quantity > quantityTwo &&
+          product.productSaleType == "b2b" &&
+          product.minimumOrder &&
+          product.minimumOrder >= quantity
+        ) {
+          toast.error(`You cannot go below minimum order`, {
+            description: `The product minimum order is ${product.minimumOrder}`,
+            action: {
+              label: "Cart",
+              onClick: () => console.log("Undo"),
+              actionButtonStyle: {
+                backgroundColor: "#ab0505b9",
+                color: "#880b0bf",
+              },
+            },
+          });
+
+          return;
+        }
+        dispatch(updateQuantity({ product: product, quantity: quantityTwo }));
       }
     }
   };
@@ -98,7 +123,16 @@ const CartCard = ({ product, quantity }: CartCardProp) => {
             <Trash2 size={15} color="red" />
           )}
         </Button>
-        <Counter disable count={quantity} setCount={handleQuantityChange} />
+
+        {quantity && (
+          <Counter
+            loading={loading}
+            disable={loading}
+            disableInput
+            count={quantity}
+            setCount={handleQuantityChange}
+          />
+        )}
       </div>
     </div>
   );

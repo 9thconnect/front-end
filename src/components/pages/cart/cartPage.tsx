@@ -31,11 +31,7 @@ const CartPage = () => {
 
   const cartItems = useAppSelector((state) => state.cart?.items ?? []);
 
-  console.log("cartItems", cartItems);
-
   useEffect(() => {
-    console.log(isLoggedIn);
-
     if (isLoggedIn && isUser) {
       dispatch(fetchCartFromServer());
     }
