@@ -450,6 +450,7 @@ import CustomGallery from "@/components/gallery/customGallery";
 import {
   BriefcaseBusiness,
   Heart,
+  LoaderCircleIcon,
   MapPin,
   ShoppingBasket,
   Star,
@@ -577,6 +578,7 @@ const SingleProductPage = ({
 
   const cart = useAppSelector((state) => state.cart);
   const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
 
   const loadingCart =
     cart.addingToCart?.state &&
@@ -813,8 +815,17 @@ const SingleProductPage = ({
                   <Button
                     onClick={(e) => handleAddToCart(product, e)}
                     className="w-full"
+                    disabled={
+                      loadingAddToCart?.state &&
+                      loadingAddToCart?.product?._id === product._id
+                    }
                   >
-                    Add to Cart
+                    {loadingAddToCart?.state &&
+                    loadingAddToCart?.product?._id === product._id ? (
+                      <LoaderCircleIcon className="w-6 h-6 animate-spin " />
+                    ) : (
+                      "Add to Cart"
+                    )}
                   </Button>
                 )}
 

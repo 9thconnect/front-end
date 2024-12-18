@@ -71,6 +71,67 @@ const PhysicalMarketPage = () => {
             </div>
           </div>
         </div>
+        <div className="grid md:grid-cols-2 gap-12 mt-10 ">
+          {/* Description Section */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-xl p-6">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                Seller onboarding
+              </h2>
+              <p className="text-gray-600 leading-relaxed">
+                Comprehensive Guide to Registering as a Seller on 9th Africa{" "}
+                <br />
+                Follow These Steps to Start Selling on the Platform
+              </p>
+              <div className="mt-6 space-y-4">
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Enter your personal details</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Add a profile photo</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Fill in your bank details</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Select sell </span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Fill your business details</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Setup password </span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Upload products</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <span>Get approved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Video Section */}
+          <div className="rounded-lg shadow-xl bg-white p-6">
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                className="w-full h-[400px] rounded-lg"
+                src="https://www.youtube.com/embed/KLSaDIHueso?si=GLwwBRhiFBnE-q30"
+                title="Market Tour"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </SectionContainer>
   );
