@@ -8,7 +8,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Image from "next/image";
-import { siteConfig } from "@/config/site.config";
+import { metaObject, siteConfig } from "@/config/site.config";
+
+export const metadata = {
+  ...metaObject("About Us"),
+};
 
 const ServiceCard = ({
   title,

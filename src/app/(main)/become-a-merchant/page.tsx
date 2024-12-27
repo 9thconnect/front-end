@@ -8,10 +8,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { siteConfig } from "@/config/site.config";
+import { metaObject, siteConfig } from "@/config/site.config";
 import Image from "next/image";
 
-const pagee = () => {
+export const metadata = {
+  ...metaObject("How to become a vendor"),
+};
+
+const page = () => {
   return (
     <div>
       <Breadcrumb className="my-4">
@@ -107,4 +111,4 @@ const pagee = () => {
   );
 };
 
-export default pagee;
+export default page;

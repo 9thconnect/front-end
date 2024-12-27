@@ -90,12 +90,6 @@ const CategoryCard = () => {
 };
 
 const SubCategoryList = ({ category }: { category: Category }) => {
-  //   const { isLoading, isError, data, error } = useQuery({
-  //     queryKey: ["product-sub-category", { category: categoryId, page: 1 }],
-  //     queryFn: () => fetchSubCategories,
-  //     enabled: !!categoryId, // Ensure query only runs when categoryId is present
-  //   });
-
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: ["product-sub-category", { category: category._id, page: 1 }],
     queryFn: fetchSubCategories,
