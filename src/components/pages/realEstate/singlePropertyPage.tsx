@@ -65,7 +65,7 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
   }, [id]);
 
   const handleCallVendor = () => {
-    window.location.href = `tel:+2342014642998`;
+    window.location.href = `tel:+234808086872348`;
   };
 
   const handleWhatsAppVendor = () => {
@@ -74,7 +74,9 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
     if (property) {
       const message = `Hi, I'm interested in your property: ${property.title}`;
       window.open(
-        `https://wa.me/${"+2342014642998"}?text=${encodeURIComponent(message)}`,
+        `https://wa.me/${"+234808086872348"}?text=${encodeURIComponent(
+          message
+        )}`,
         "_blank"
       );
     }
