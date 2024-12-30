@@ -34,9 +34,7 @@ import { fetchPropertiesCategories } from "@/lib/requests/admin/categories/admin
 const PropertyForm = ({ property }: { property?: Property }) => {
   const form = usePropertyFormContext(property);
   const addPropertyMutation = useAddProperty();
-  const editPropertyMutation = property?._id
-    ? useEditProperty(property._id)
-    : null;
+  const editPropertyMutation = useEditProperty(property?._id ?? "");
 
   const { data: propertyData, isLoading: isLoadingCat } = useQuery({
     queryKey: ["property-category"],
@@ -363,7 +361,8 @@ const PropertyForm = ({ property }: { property?: Property }) => {
         {/* Submit Button */}
         <Button
           disabled={
-            addPropertyMutation.isPending || editPropertyMutation?.isPending
+            addPropertyMutation.isPending ||
+            (property?._id ? editPropertyMutation.isPending : false)
           }
           className="w-full"
           type="submit"
