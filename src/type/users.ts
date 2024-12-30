@@ -48,7 +48,7 @@ export interface IVendor {
   vendorID: string;
   email: string;
   phoneNumber: string;
-  vendorType: "seller" | "professional";
+  vendorType: "seller" | "professional" | "real-estate" | "logistic";
   sellerType: "wholeSale" | "retail";
   professionalType: "company" | "individual";
   avatar: string;

@@ -54,11 +54,12 @@ const AddCategoryForm = ({
         className="w-full flex items-center justify-center flex-col gap-5 py-5"
       >
         <div className="w-full">
-          {type == "brand" && (
-            <div className="mb-4">
-              <ImageUpload onUploadSuccess={handleUploadSuccess} />
-            </div>
-          )}
+          {type == "brand" ||
+            (type == "property" && (
+              <div className="mb-4">
+                <ImageUpload onUploadSuccess={handleUploadSuccess} />
+              </div>
+            ))}
           <FormField
             control={form.control}
             name="name"

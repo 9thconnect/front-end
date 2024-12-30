@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import {
   fetchBrandCategories,
   fetchBusinessCategories,
+  fetchLogisticCategories,
   fetchProductCategories,
   fetchProfessionalsCategories,
+  fetchPropertiesCategories,
 } from "@/lib/requests/admin/categories/admin-category-request";
 import { Category, CategoryType } from "@/type/category";
 import { useQuery } from "@tanstack/react-query";
@@ -81,6 +83,16 @@ const CategorySection = () => {
   const { data: brandData } = useQuery({
     queryKey: ["brand"],
     queryFn: () => fetchBrandCategories(),
+  });
+
+  const { data: propertiesData } = useQuery({
+    queryKey: ["property"],
+    queryFn: () => fetchPropertiesCategories(),
+  });
+
+  const { data: logisticData } = useQuery({
+    queryKey: ["logistic"],
+    queryFn: () => fetchLogisticCategories(),
   });
 
   const [open, setOpen] = useState<{
@@ -184,6 +196,20 @@ const CategorySection = () => {
           <CategorySectionComp
             title="brand"
             categories={brandData.data?.data?.categories}
+            openModel={openModel}
+          />
+        )}
+        {propertiesData && propertiesData.data?.data?.categories && (
+          <CategorySectionComp
+            title="property"
+            categories={propertiesData.data?.data?.categories}
+            openModel={openModel}
+          />
+        )}
+        {logisticData && logisticData.data?.data?.categories && (
+          <CategorySectionComp
+            title="logistic"
+            categories={logisticData.data?.data?.categories}
             openModel={openModel}
           />
         )}

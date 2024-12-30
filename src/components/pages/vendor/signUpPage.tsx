@@ -61,7 +61,7 @@ export interface VendorSignUpRequest {
   fullName?: string;
   email?: string;
   phoneNumber?: string;
-  vendorType?: "professional" | "seller";
+  vendorType?: "professional" | "seller" | "logistic" | "real-estate";
   password?: string;
   gender?: string;
   accountNumber?: string;
@@ -207,8 +207,10 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     if (formData.type == "seller") {
       updateStage(11);
-    } else {
+    } else if (formData.type == "professional") {
       setOpenSelectProType(true);
+    } else {
+      updateStage(5);
     }
   };
 
@@ -361,12 +363,32 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     console.log("form data", formData);
 
+    const {
+      professionCity,
+      professionDesc,
+      professionName,
+      professionType,
+      portfolio: rd,
+      qualifications: cx,
+      professionalType: es,
+      sellerType: xc,
+      shopCountry: ps,
+      ...dataWithoutProfessions
+    } = dataWithoutAccountName;
+
+    // return;
+
     const finalData =
       type == UserType.CUSTOMER
         ? dataWithoutGender
         : dataWithoutAccountName.professionalType == "company"
         ? dataWithoutPortAndQualification
+        : dataWithoutAccountName.vendorType == "logistic" ||
+          dataWithoutAccountName.vendorType == "real-estate"
+        ? dataWithoutProfessions
         : dataWithoutAccountNameAndPortfolioAndQualifications;
+
+    console.log("dataWithoutAccountName", finalData);
 
     try {
       setDialogStatus("loading"); // Show loading dialog

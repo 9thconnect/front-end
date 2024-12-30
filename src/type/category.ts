@@ -26,4 +26,6 @@ export type CategoryType =
   | "profession-category"
   | "product-category"
   | "brand"
+  | "property"
+  | "logistic"
   | "product-sub-category";

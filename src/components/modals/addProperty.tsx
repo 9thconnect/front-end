@@ -1,24 +1,21 @@
 import React from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import ProductForm from "../forms/product/productForm";
 import { X } from "lucide-react";
+import PropertyForm from "../forms/property/propertyForm";
 
-const AddProductModal = () => {
+const AddPropertyModal = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Button>Add Product</Button>
+        <Button>Add Property</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-3xl h-[90%] overflow-y-auto">
         <div className="relative h-full w-full">
@@ -26,14 +23,14 @@ const AddProductModal = () => {
             <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
               <X />
             </AlertDialogCancel>
-            <AlertDialogTitle>Add Product</AlertDialogTitle>
+            <AlertDialogTitle>Add Property</AlertDialogTitle>
           </AlertDialogHeader>
         </div>
 
-        <ProductForm />
+        <PropertyForm />
       </AlertDialogContent>
     </AlertDialog>
   );
 };
 
-export default AddProductModal;
+export default AddPropertyModal;

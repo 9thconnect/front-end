@@ -21,6 +21,15 @@ export const fetchBrandCategories = () =>
     "/category/all?search&pageNumber=1&filterCategoryType=brand"
   );
 
+export const fetchPropertiesCategories = () =>
+  requests.get<FetchCategoryResponse>(
+    "/category/all?search&pageNumber=1&filterCategoryType=property"
+  );
+export const fetchLogisticCategories = () =>
+  requests.get<FetchCategoryResponse>(
+    "/category/all?search&pageNumber=1&filterCategoryType=logistic"
+  );
+
 export const fetchSubCategories = ({ queryKey }: { queryKey: any }) => {
   const [_key, { category, page }] = queryKey;
   return requests.get<FetchCategoryResponse>(

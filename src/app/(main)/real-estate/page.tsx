@@ -1,13 +1,41 @@
+import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
+import SectionContainer from "@/components/cards/common/sectionContainer";
 import { metaObject, siteConfig } from "@/config/site.config";
 import MainHeroSection from "@/sections/hero/mainHeroSection";
-import Image from "next/image";
-import React from "react";
+import PropertyCard from "@/components/cards/propertyCard";
+import { Property } from "@/type/property";
 
 export const metadata = {
   ...metaObject("Real Estate"),
 };
 
-const page = () => {
+async function getNewArrivals() {
+  try {
+    const response = await fetch(
+      `${siteConfig.apiURL}/real-estate/properties/new-arrival`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch new arrivals");
+    }
+
+    const data = await response.json();
+
+    return data.data.data;
+  } catch (error) {
+    console.error("Error fetching new arrivals:", error);
+    return { properties: [] };
+  }
+}
+
+const Page = async () => {
+  const properties = ([] = await getNewArrivals());
+
+  console.log(properties);
+
   return (
     <div>
       <div className="h-60 md:h-[500px] mt-5">
@@ -18,11 +46,29 @@ const page = () => {
           ]}
         />
       </div>
-      <h3 className="text-center text-5xl text-gray-400 my-10">
-        Welcome To 9th Real estate
-      </h3>
+      <SectionContainer>
+        <div className="mt-5">
+          <SectionCardHeader
+            title="New Arrival"
+            linkUrl={"/real-estate/home"}
+            linkText="See all"
+          />
+
+          {properties.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">
+              No new properties available at the moment
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+              {properties.map((property: Property) => (
+                <PropertyCard key={property._id} property={property} />
+              ))}
+            </div>
+          )}
+        </div>
+      </SectionContainer>
     </div>
   );
 };
 
-export default page;
+export default Page;

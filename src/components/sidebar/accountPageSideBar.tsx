@@ -128,6 +128,14 @@ const routes = [
     professionalType: ["company"],
   },
   {
+    name: "Properties",
+    route: "/account/properties",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["real-estate"],
+    professionalType: [],
+  },
+  {
     name: "Workers",
     route: "/account/workers",
     icon: CertIcon,
