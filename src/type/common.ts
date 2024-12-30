@@ -1,5 +1,6 @@
 import { Category } from "./category";
 import { Business, Project, Proposal, Vendor } from "./professional";
+import { Property } from "./property";
 
 export interface BaseResponse<T> {
   message: string;
@@ -68,6 +69,15 @@ export interface ProductsResponse {
     pages: number;
     count: number;
     products: Product[];
+  };
+}
+
+export interface PropertyResponse {
+  data: {
+    page: number;
+    pages: number;
+    count: number;
+    properties: Property[];
   };
 }
 
