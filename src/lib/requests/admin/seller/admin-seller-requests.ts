@@ -1,4 +1,5 @@
 import {
+  Business,
   BusinessResponseData,
   ProfessionsResponseData,
 } from "@/type/professional";
@@ -20,6 +21,9 @@ export const fetchBusinesses = ({
       search
     )}&filterByProfessionType=${professionType}&filterByVendor=${vendor}&pageNumber=${pageNumber}`
   );
+
+export const fetchBusinessById = (id: string) =>
+  requests.get<Business>(`business/${id}`);
 
 export const approveBusiness = (id: string) =>
   requests.patch(`/vendor/approve-business-profession/${id}/business`, {});

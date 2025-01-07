@@ -65,6 +65,11 @@ const routes = [
     icon: CartCheckIcon,
   },
   {
+    name: "Logistic",
+    route: "/dashboard/logistics",
+    icon: CartCheckIcon,
+  },
+  {
     name: "Products",
     route: "/dashboard/products",
     icon: TransferIcon,

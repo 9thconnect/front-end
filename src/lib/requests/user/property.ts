@@ -42,36 +42,6 @@ export const getPropertyList = async (
   );
 };
 
-// const useGetPropertyList = (
-//     search?: string,
-//     pageNumber?: number,
-//     filteredByPropertyType?: string,
-//     searchByLocation?: string,
-//     startPrice?: number,
-//     endPrice?: number
-//   ) => {
-//     return useQuery({
-//       queryKey: [
-//         "propertyList",
-//         search,
-//         pageNumber,
-//         filteredByPropertyType,
-//         searchByLocation,
-//         startPrice,
-//         endPrice,
-//       ],
-//       queryFn: () =>
-//         getPropertyList(
-//           search,
-//           pageNumber,
-//           filteredByPropertyType,
-//           searchByLocation,
-//           startPrice,
-//           endPrice
-//         ),
-//     });
-//   };
-
 export const useGetPropertyList = (
   search?: string,
   pageNumber?: number,

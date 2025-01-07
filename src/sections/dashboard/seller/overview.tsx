@@ -2,7 +2,10 @@
 
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchBusinesses } from "@/lib/requests/admin/seller/admin-seller-requests";
+import {
+  fetchBusinessById,
+  fetchBusinesses,
+} from "@/lib/requests/admin/seller/admin-seller-requests";
 import { useQuery } from "@tanstack/react-query";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
 
@@ -12,8 +15,8 @@ const SellerOverview = ({ id }: { id: string }) => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["get-businesses"],
-    queryFn: () => fetchBusinesses({ search: "" }),
+    queryKey: ["get-business", id],
+    queryFn: () => fetchBusinessById(id),
   });
 
   if (isLoading) {
@@ -49,7 +52,7 @@ const SellerOverview = ({ id }: { id: string }) => {
     );
   }
 
-  const data = queryData?.data?.data.businesses.find((data) => data._id === id);
+  const data = queryData?.data;
 
   if (!data) {
     return (

@@ -86,7 +86,7 @@ const page = async ({ params }: Props) => {
             className="bg-none data-[state=active]:bg-transparent data-[state=active]:shadow-none"
             value="Products"
           >
-            Properties
+            Fleet
           </TabsTrigger>
           <TabsTrigger
             className="bg-none data-[state=active]:bg-transparent data-[state=active]:shadow-none"
@@ -129,6 +129,7 @@ const page = async ({ params }: Props) => {
                 Icon={Handshake}
               />
             </div>
+            {/* <EarningDataTable data={tableData} /> */}
 
             <Suspense>
               <TransactionDataTableAdmin

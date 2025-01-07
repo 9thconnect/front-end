@@ -26,6 +26,7 @@ interface TwoStageAlertDialogProps {
   nextTitle: string;
   initialDescription: string;
   apiUrl: string;
+  id?: string;
   onSuccess?: (data: any) => void;
 }
 
@@ -36,6 +37,7 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
   nextTitle,
   initialDescription,
   apiUrl,
+  id,
   onSuccess,
 }) => {
   const [stage, setStage] = useState(1); // 1: Initial stage, 2: Authentication stage
@@ -55,6 +57,7 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
       if (onSuccess) onSuccess(res);
 
       queryClient.invalidateQueries({ queryKey: [`get-businesses`] });
+      queryClient.invalidateQueries({ queryKey: [`get-business`, id] });
     } catch (error) {
       setSuccess(false);
       console.error("Error:", error);

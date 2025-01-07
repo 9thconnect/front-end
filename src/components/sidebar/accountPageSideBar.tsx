@@ -136,6 +136,14 @@ const routes = [
     professionalType: [],
   },
   {
+    name: "Fleet Management",
+    route: "/account/fleet",
+    icon: CertIcon,
+    access: ["vendor"],
+    vendorType: ["logistic"],
+    professionalType: [],
+  },
+  {
     name: "Workers",
     route: "/account/workers",
     icon: CertIcon,
