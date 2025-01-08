@@ -23,8 +23,16 @@ export interface Logistics {
   title: string;
   registration: string;
   details: string;
-  logisticType: "road" | "air" | "sea"; // Add more types if needed
-  logisticSubType: "van" | "cargoAirline" | string; // Add more subtypes if needed
+  logisticType: "road" | "rail" | "air" | "sea" | "interModal";
+  logisticSubType?:
+    | "bike"
+    | "truck"
+    | "van"
+    | "LTL"
+    | "internodalRail"
+    | "unitTrain"
+    | "cargoAirline"
+    | "containerShip";
   capacity: number;
   fuelType: string;
   image: string;

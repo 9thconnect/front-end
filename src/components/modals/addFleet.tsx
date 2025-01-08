@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -13,24 +15,25 @@ import PropertyForm from "../forms/property/propertyForm";
 import FleetForm from "../forms/logistic/logisticForm";
 
 const AddFleetModal = () => {
+  const [open, setOpen] = useState(false);
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <Button>Add Fleet</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-3xl h-[90%] overflow-y-auto">
-        <div className="relative h-full w-full">
-          <AlertDialogHeader className="flex  flex-row items-center">
-            <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
-              <X />
-            </AlertDialogCancel>
-            <AlertDialogTitle>Add Fleet</AlertDialogTitle>
-          </AlertDialogHeader>
-        </div>
+    <>
+      <Button onClick={() => setOpen(true)}>Add Fleet</Button>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent className="max-w-3xl h-[90%] overflow-y-auto">
+          <div className="relative h-full w-full">
+            <AlertDialogHeader className="flex  flex-row items-center">
+              <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
+                <X />
+              </AlertDialogCancel>
+              <AlertDialogTitle>Add Fleet</AlertDialogTitle>
+            </AlertDialogHeader>
+          </div>
 
-        <FleetForm />
-      </AlertDialogContent>
-    </AlertDialog>
+          <FleetForm setOpen={setOpen} />
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 

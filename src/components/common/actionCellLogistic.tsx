@@ -115,7 +115,7 @@ const ActionCellFleet: React.FC<ActionCellProps> = ({ row }) => {
               <AlertDialogTitle>Edit {row.original.title}</AlertDialogTitle>
             </AlertDialogHeader>
           </div>
-          <FleetForm fleet={row.original} />
+          <FleetForm setOpen={setEdit} fleet={row.original} />
         </AlertDialogContent>
       </AlertDialog>
 
