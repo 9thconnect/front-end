@@ -68,6 +68,7 @@ interface FilterSelectProps {
     string | number | undefined | any,
     React.Dispatch<React.SetStateAction<string | any | undefined>>
   ];
+  disabled?: boolean;
 }
 
 const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -75,6 +76,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   options,
   placeholder,
   state,
+  disabled,
 }) => {
   const [localValue, setLocalValue] = React.useState<
     string | number | undefined
@@ -86,7 +88,11 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   ];
 
   return (
-    <Select value={selectedValue?.toString()} onValueChange={setSelectedValue}>
+    <Select
+      disabled={disabled}
+      value={selectedValue?.toString()}
+      onValueChange={setSelectedValue}
+    >
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

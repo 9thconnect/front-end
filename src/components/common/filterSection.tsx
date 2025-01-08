@@ -57,6 +57,7 @@ interface FilterSectionProps {
   onToggle: () => void;
   selectedValue?: string | number;
   onSelect?: (value: string | number) => void;
+  disabled?: boolean;
 }
 
 const FilterSection: React.FC<FilterSectionProps> = ({
@@ -66,12 +67,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   onToggle,
   selectedValue,
   onSelect,
+  disabled,
 }) => {
   return (
     <CollapsibleSection title={title} isOpen={isOpen} onToggle={onToggle}>
       <RadioGroup
         value={selectedValue?.toString()}
         onValueChange={(value) => onSelect && onSelect(value)}
+        disabled={disabled}
       >
         {items.map((item, index) => (
           <div className="flex items-center space-x-2 mb-3" key={index}>

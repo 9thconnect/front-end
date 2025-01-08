@@ -16,7 +16,7 @@ import RealEstateHomePage from "@/components/pages/realEstate/realEstateHomePage
 import LogisticsHomePage from "@/components/pages/logistics/logisticsHome";
 
 export const metadata = {
-  ...metaObject("Marketplace Home"),
+  ...metaObject("Logistics Home"),
 };
 
 const page = ({ searchParams }: any) => {

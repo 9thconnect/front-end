@@ -23,15 +23,27 @@ import { useGetLogisticsList } from "@/lib/requests/user/logistics";
 
 const logisticTypes = [
   { name: "Road", value: "road" },
+  { name: "Rail", value: "rail" },
   { name: "Air", value: "air" },
   { name: "Sea", value: "sea" },
+  { name: "Intermodal", value: "interModal" },
 ];
 
-const logisticSubTypes = [
-  { name: "Van", value: "van" },
-  { name: "Cargo Airline", value: "cargoAirline" },
-  // Add more subtypes as needed
-];
+const logisticSubTypes = {
+  road: [
+    { name: "Bike", value: "bike" },
+    { name: "Truck", value: "truck" },
+    { name: "Van", value: "van" },
+    { name: "LTL", value: "LTL" },
+  ],
+  rail: [
+    { name: "Internodal Rail", value: "internodalRail" },
+    { name: "Unit Train", value: "unitTrain" },
+  ],
+  air: [{ name: "Cargo Airline", value: "cargoAirline" }],
+  sea: [{ name: "Container Ship", value: "containerShip" }],
+  interModal: [],
+};
 
 const ITEMS_PER_PAGE = 12;
 
@@ -44,11 +56,26 @@ const LogisticsHomePage = () => {
   const [selectedSubType, setSelectedSubType] = useState<string | undefined>();
   const [page, setPage] = useState(1);
 
+  const [availableSubTypes, setAvailableSubTypes] = useState(
+    logisticSubTypes.road
+  );
+
   const handleClearFilters = () => {
     setSearchTerm("");
     setSelectedType(undefined);
     setSelectedSubType(undefined);
   };
+
+  useEffect(() => {
+    if (selectedType) {
+      setAvailableSubTypes(
+        logisticSubTypes[selectedType as keyof typeof logisticSubTypes]
+      );
+      setSelectedSubType(undefined);
+    } else {
+      setAvailableSubTypes([]);
+    }
+  }, [selectedType]);
 
   const {
     data: logisticsList,
@@ -98,11 +125,12 @@ const LogisticsHomePage = () => {
 
             <FilterSection
               title="Sub Type"
-              items={logisticSubTypes}
+              items={availableSubTypes}
               isOpen={isSubTypeOpen}
               onToggle={() => setIsSubTypeOpen(!isSubTypeOpen)}
               selectedValue={selectedSubType}
               onSelect={(value) => setSelectedSubType(value as string)}
+              disabled={!selectedType || availableSubTypes.length === 0}
             />
           </SectionContainer>
         </aside>
@@ -142,9 +170,10 @@ const LogisticsHomePage = () => {
                 <DropdownMenuItem>
                   <FilterSelect
                     label="Sub Type"
-                    options={logisticSubTypes}
+                    options={availableSubTypes}
                     placeholder="Select Sub Type"
                     state={[selectedSubType, setSelectedSubType]}
+                    disabled={!selectedType || availableSubTypes.length === 0}
                   />
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -160,9 +189,10 @@ const LogisticsHomePage = () => {
               />
               <FilterSelect
                 label="Sub Type"
-                options={logisticSubTypes}
+                options={availableSubTypes}
                 placeholder="Select Sub Type"
                 state={[selectedSubType, setSelectedSubType]}
+                disabled={!selectedType || availableSubTypes.length === 0}
               />
 
               {(searchTerm || selectedType || selectedSubType) && (
