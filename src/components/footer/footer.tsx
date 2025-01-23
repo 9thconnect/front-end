@@ -157,7 +157,7 @@ const MainFooter = () => {
             <li>
               <Link
                 target="_blank"
-                href={"/https://chatting.page/zjzf4sgtmmvqxxuvrt0ojcqau7xesodf"}
+                href={"https://chatting.page/zjzf4sgtmmvqxxuvrt0ojcqau7xesodf"}
               >
                 Live Chat
               </Link>
