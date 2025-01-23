@@ -117,7 +117,7 @@ const MainFooter = () => {
               <Link href={"/legal#section3"}>Privacy Polices</Link>
             </li>
             <li>
-              <Link href={"/legal"}>Payment</Link>
+              <Link href={"/legal#section13"}>Payment</Link>
             </li>
           </ul>
         </div>
