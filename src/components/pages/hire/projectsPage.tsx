@@ -1,9 +1,20 @@
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import ProjectTable from "@/components/tables/vendors/projects/data-table";
+import { CustomerStats, VendorStats } from "@/type/users";
+import requests from "@/utils/requests";
+import { useQuery } from "@tanstack/react-query";
 import { UsersRound } from "lucide-react";
 import React from "react";
 
 function ProjectsPage() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["vendor-stats"],
+    queryFn: () =>
+      requests.get<{
+        data: VendorStats;
+      }>("/vendor/summary"),
+  });
+
   return (
     <div>
       <div className="flex space-x-3 items-center mt-4">
