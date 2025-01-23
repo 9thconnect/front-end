@@ -508,36 +508,39 @@ const cartSlice = createSlice({
         return;
       }
 
+      console.log("this is b2b", action.payload.product);
+
       const existingItem = state.items.find(
         (item) => item.product._id === action.payload.product._id
       );
 
       let localQty = action.payload.quantity;
 
-      if (action.payload.type === "productCard") {
-        // Handle B2B product with minimum order requirements
-        if (
-          action.payload.product.productSaleType === "b2b" &&
-          action.payload.product.minimumOrder
-        ) {
-          if (existingItem) {
-            if (existingItem.quantity < action.payload.product.minimumOrder) {
-              localQty = existingItem.quantity + 1;
-            } else if (
-              existingItem.quantity > action.payload.product.minimumOrder
-            ) {
-              localQty = action.payload.product.minimumOrder;
-            }
-          } else {
+      // if (action.payload.type === "productCard") {
+      // Handle B2B product with minimum order requirements
+
+      if (
+        action.payload.product.productSaleType === "b2b" &&
+        action.payload.product.minimumOrder
+      ) {
+        if (existingItem) {
+          if (existingItem.quantity < action.payload.product.minimumOrder) {
+            localQty = existingItem.quantity + 1;
+          } else if (
+            existingItem.quantity > action.payload.product.minimumOrder
+          ) {
             localQty = action.payload.product.minimumOrder;
           }
         } else {
-          // For non-B2B or products without minimum order
-          if (existingItem) {
-            localQty = existingItem.quantity + 1;
-          }
+          localQty = action.payload.product.minimumOrder;
+        }
+      } else {
+        // For non-B2B or products without minimum order
+        if (existingItem) {
+          localQty = existingItem.quantity + 1;
         }
       }
+      // }
 
       // Add or update the item in the cart
       if (existingItem) {
