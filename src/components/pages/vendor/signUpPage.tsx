@@ -468,9 +468,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
                 <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799631/4d56ce8c38262e55c19c507e6ac71960_kt6zfd.png')] bg-cover h-60 bg-no-repeat"></div>
                 <div className="p-4">
                   <h2 className="font-bold text-lg text-offBlack">Company</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
-                  </p>
+                  <p>For companies and business owners</p>
                   <Button
                     onClick={() => {
                       setOpenSelectProType(false);
@@ -488,9 +486,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
                   <h2 className="font-bold text-lg text-offBlack">
                     Individual
                   </h2>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
-                  </p>
+                  <p>Sign up as an individual worker or sole proprietor</p>
                   <Button
                     onClick={() => {
                       setOpenSelectProType(false);

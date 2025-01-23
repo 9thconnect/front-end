@@ -242,7 +242,7 @@ export function SelectAccountTypeForm({
                       />
                     </div>
                     <div className="font-normal mt-14 text-xl mb-2">
-                      Sell on MCD
+                      Sell on 9th
                     </div>
                     <p>Showcase products, and connect with customers.</p>
                   </div>
@@ -338,7 +338,7 @@ export function SelectAccountTypeForm({
           )}
         />
         <Button className="mt-7 w-full py-5" type="submit">
-          Process
+          Proceed
         </Button>
       </form>
     </Form>

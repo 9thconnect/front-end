@@ -8,6 +8,16 @@ import { Logistics } from "@/type/logistics";
 import LogisticsCard from "@/components/cards/logistiCard";
 import Empty from "@/components/common/empty";
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import LogisticsHomePage from "@/components/pages/logistics/logisticsHome";
+
 export const metadata = {
   ...metaObject("Real Estate"),
 };
@@ -51,32 +61,48 @@ const Page = async () => {
   ];
 
   return (
+    // <div>
+    //   <div className="h-60 md:h-[300px] mt-5">
+    //     <MainHeroSection images={heroImages} />
+    //   </div>
+
+    //   <SectionContainer>
+    //     <div className="mt-5">
+    //       <SectionCardHeader
+    //         title="New Arrival"
+    //         linkUrl="/logistics/home"
+    //         linkText="See all"
+    //       />
+
+    //       {!fleet || fleet.length === 0 ? (
+    //         <div className="text-center py-10 text-gray-500">
+    //           <Empty size={200} text="No new arrival" />
+    //         </div>
+    //       ) : (
+    //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+    //           {fleet.map((fleet: Logistics) => (
+    //             <LogisticsCard key={fleet._id} logistics={fleet} />
+    //           ))}
+    //         </div>
+    //       )}
+    //     </div>
+    //   </SectionContainer>
+    // </div>
     <div>
-      <div className="h-60 md:h-[300px] mt-5">
-        <MainHeroSection images={heroImages} />
-      </div>
-
-      <SectionContainer>
-        <div className="mt-5">
-          <SectionCardHeader
-            title="New Arrival"
-            linkUrl="/logistics/home"
-            linkText="See all"
-          />
-
-          {!fleet || fleet.length === 0 ? (
-            <div className="text-center py-10 text-gray-500">
-              <Empty size={200} text="No new arrival" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-              {fleet.map((fleet: Logistics) => (
-                <LogisticsCard key={fleet._id} logistics={fleet} />
-              ))}
-            </div>
-          )}
-        </div>
-      </SectionContainer>
+      <Breadcrumb className="my-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/real-estate">Logistics</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1731592382/PODX9843_1_rutvjx.jpg')] bg-cover bg-center h-56 bg-no-repeat rounded-2xl mt-5 "></div>
+      <LogisticsHomePage />
     </div>
   );
 };

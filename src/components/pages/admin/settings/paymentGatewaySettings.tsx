@@ -34,8 +34,6 @@ interface SwitchGatewayResponse {
   message: string;
 }
 
-const API_BASE_URL = "{{url}}"; // Replace with your actual API base URL
-
 const PaymentGatewaySettings: React.FC = () => {
   const [gateways, setGateways] = useState<Gateway[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

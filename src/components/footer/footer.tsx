@@ -79,11 +79,19 @@ const MainFooter = () => {
           </div>
           <Separator className="my-4" />
           <div className="flex space-x-2">
-            <Image alt="FlagChina" src={FlagChina} />
-            <Image alt="FlagGhana" src={FlagGhana} />
-            <Image alt="FlagNigeria" src={FlagNigeria} />
-            <Image alt="FlagUnitedKingdom" src={FlagUnitedKingdom} />
-            <Image alt="FlagUsOutlyingIslands" src={FlagUsOutlyingIslands} />
+            <Image className="h-7 w-7" alt="FlagChina" src={FlagChina} />
+            <Image className="h-7 w-7" alt="FlagGhana" src={FlagGhana} />
+            <Image className="h-7 w-7" alt="FlagNigeria" src={FlagNigeria} />
+            <Image
+              className="h-7 w-7"
+              alt="FlagUnitedKingdom"
+              src={FlagUnitedKingdom}
+            />
+            <Image
+              className="h-7 w-7"
+              alt="FlagUsOutlyingIslands"
+              src={FlagUsOutlyingIslands}
+            />
           </div>
         </div>
 
