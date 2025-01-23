@@ -1,3 +1,5 @@
+"use client";
+
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import ProposalTable from "@/components/tables/vendors/offers/data-table";
 import { CustomerStats, VendorStats } from "@/type/users";

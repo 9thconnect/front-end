@@ -167,7 +167,7 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
               <div className="w-full flex mt-5 space-x-4">
                 <Button
                   onClick={handleCallVendor}
-                  className="flex-1"
+                  className="flex-1 mr-4"
                   variant="default"
                 >
                   <Phone className="mr-2 h-4 w-4" />
