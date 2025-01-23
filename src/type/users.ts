@@ -93,3 +93,37 @@ interface Profession {
   updatedAt: string;
   __v: number;
 }
+
+export interface CustomerStats {
+  offerStats: {
+    pendingOffers: number;
+    acceptedOffers: number;
+    rejectedOffers: number;
+    totalProposedPrice: number;
+  };
+  projectStats: {
+    startedProjects: number;
+    completedProjects: number;
+    cancelledProjects: number;
+    totalProjectAmountSpent: number;
+  };
+  transactionStats: {
+    pendingPayments: number;
+    approvedPayments: number;
+    failedPayments: number;
+    shippedOrders: number;
+    totalAmountSpent: number;
+  };
+  orderStats: {
+    pendingOrders: number;
+    receivedOrders: number;
+    processingOrders: number;
+    deliveredOrders: number;
+    cancelledOrders: number;
+    totalOrderAmountSpent: number;
+  };
+  walletStats: {
+    availableBalance: number;
+    escrowBalance: number;
+  };
+}

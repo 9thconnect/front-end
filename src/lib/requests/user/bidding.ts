@@ -34,13 +34,10 @@ export const payForProject = (payload: {
   offerId: string;
   redirectURL: string;
 }) => {
-  return requests.post<{ checkout: string }>(
-    `/offer/customer-pay-gig/${payload.offerId}`,
-    {
-      redirectURL: payload.redirectURL,
-      offerId: payload.offerId,
-    }
-  );
+  return requests.post<{ checkout: string }>(`/offer/customer-pay-gig`, {
+    redirectURL: payload.redirectURL,
+    offerId: payload.offerId,
+  });
 };
 
 export const getProjects = (
