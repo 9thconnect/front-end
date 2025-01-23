@@ -172,53 +172,53 @@ export const addItemToServer = createAsyncThunk(
     //   }
     // }
 
-    if (type == "productCard") {
-      console.log("Initial product:", product);
-      console.log("Initial type:", type);
+    // if (type == "productCard") {
+    console.log("Initial product:", product);
+    console.log("Initial type:", type);
 
-      const existingItem = state.cart.items.find(
-        (item) => item.product._id === product._id
-      );
-      console.log("Existing item found:", existingItem);
+    const existingItem = state.cart.items.find(
+      (item) => item.product._id === product._id
+    );
+    console.log("Existing item found:", existingItem);
 
-      console.log("Initial localQty:", localQty);
+    console.log("Initial localQty:", localQty);
 
-      if (product.productSaleType == "b2b" && product.minimumOrder) {
-        console.log("B2B product with minimum order:", product.minimumOrder);
+    if (product.productSaleType == "b2b" && product.minimumOrder) {
+      console.log("B2B product with minimum order:", product.minimumOrder);
 
-        if (existingItem && product.minimumOrder > existingItem?.quantity) {
-          localQty = existingItem?.quantity + 1;
-          console.log(
-            "Case 1: Existing item quantity less than minimum order. New localQty:",
-            localQty
-          );
-        } else if (
-          existingItem &&
-          product.minimumOrder < existingItem?.quantity
-        ) {
-          localQty = product.minimumOrder;
-          console.log(
-            "Case 2: Existing item quantity more than minimum order. New localQty:",
-            localQty
-          );
-        } else if (!existingItem) {
-          localQty = product.minimumOrder;
-        }
-      } else {
-        if (existingItem) {
-          localQty = existingItem?.quantity + 1;
-          console.log(
-            "Non-B2B or no minimum order: Incrementing quantity. New localQty:",
-            localQty
-          );
-        }
+      if (existingItem && product.minimumOrder > existingItem?.quantity) {
+        localQty = existingItem?.quantity + 1;
+        console.log(
+          "Case 1: Existing item quantity less than minimum order. New localQty:",
+          localQty
+        );
+      } else if (
+        existingItem &&
+        product.minimumOrder < existingItem?.quantity
+      ) {
+        localQty = product.minimumOrder;
+        console.log(
+          "Case 2: Existing item quantity more than minimum order. New localQty:",
+          localQty
+        );
+      } else if (!existingItem) {
+        localQty = product.minimumOrder;
       }
-
-      console.log("Final localQty:", localQty);
-
-      // Use localQty for further processing
-      // quantity = localQty;
+    } else {
+      if (existingItem) {
+        localQty = existingItem?.quantity + 1;
+        console.log(
+          "Non-B2B or no minimum order: Incrementing quantity. New localQty:",
+          localQty
+        );
+      }
     }
+
+    console.log("Final localQty:", localQty);
+
+    // Use localQty for further processing
+    // quantity = localQty;
+    // }
 
     console.log("Final localQty:", localQty);
     try {
