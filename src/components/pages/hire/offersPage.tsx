@@ -1,6 +1,6 @@
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import ProposalTable from "@/components/tables/vendors/offers/data-table";
-import { CustomerStats } from "@/type/users";
+import { CustomerStats, VendorStats } from "@/type/users";
 import { formatCurrency } from "@/utils/format-currency";
 import requests from "@/utils/requests";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ const OffersPage = () => {
     queryKey: ["vendor-stats"],
     queryFn: () =>
       requests.get<{
-        data: CustomerStats;
+        data: VendorStats;
       }>("/vendor/summary"),
   });
 
