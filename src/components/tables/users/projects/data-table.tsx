@@ -19,10 +19,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/utils/format-date";
 import { truncateText } from "@/utils/common";
 import { getProjects } from "@/lib/requests/user/bidding";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const ProjectTable = () => {
   const [rowData, setRowData] = useState<Project | undefined>();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const handleRowClick = (e: Project) => {
     setRowData(e);
@@ -66,13 +69,21 @@ const ProjectTable = () => {
       >
         <DrawerContent className="max-w-[425px] h-full ml-auto border flex flex-col">
           <DrawerHeader className="sticky top-0 bg-white z-10 pb-2">
-            <div className="flex items-center">
-              <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
-                <X size={20} />
-              </DrawerClose>
-              <DrawerTitle className="font-thin text-offBlack">
-                Project Details
-              </DrawerTitle>
+            <div className="flex justify-between items-center">
+              <div className="flex items-center">
+                <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
+                  <X size={20} />
+                </DrawerClose>
+                <DrawerTitle className="font-thin text-offBlack">
+                  Project Details
+                </DrawerTitle>
+              </div>
+              <Button
+                onClick={() => router.push(`/hire/projects/${rowData?._id}`)}
+                className="rounded-xl"
+              >
+                View
+              </Button>
             </div>
           </DrawerHeader>
 

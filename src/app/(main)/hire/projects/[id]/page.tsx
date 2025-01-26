@@ -1,10 +1,15 @@
 import SingleProjectPage from "@/components/pages/hire/singleProjectPage";
 import React from "react";
 
-const page = () => {
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const page = ({ params }: Props) => {
   return (
     <div>
-      <SingleProjectPage />
+      <SingleProjectPage id={params.id} />
     </div>
   );
 };

@@ -137,19 +137,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
               ))}
             </div>
           </div>
-          {/* <button
-            onClick={(e) => {
-              e.preventDefault();
-              mutate(property);
-            }}
-            className="absolute top-2 right-2 p-2 bg-white bg-opacity-75 rounded-full hover:bg-gray-100 z-20"
-          >
-            {isPending ? (
-              <LoaderCircleIcon className="w-4 h-4 animate-spin" />
-            ) : (
-              <HeartIcon className="w-4 h-4" />
-            )}
-          </button> */}
         </CardHeader>
         <CardContent className="px-2">
           <div className="flex justify-between">

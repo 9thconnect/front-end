@@ -137,7 +137,7 @@ const page = async ({ params }: Props) => {
             triggerText="Verify"
             initialTitle="User Verification"
             nextTitle="Authenticate"
-            initialDescription="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+            initialDescription="This action will verify the User"
             apiUrl={`vendor/approve-business-profession/${params.id}/profession`}
           />
         </div>

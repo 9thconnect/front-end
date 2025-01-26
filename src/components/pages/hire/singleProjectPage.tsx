@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
 import SectionContainer from "@/components/cards/common/sectionContainer";
 import { Separator } from "@/components/ui/separator";
-import TopRatedProfessions from "@/sections/common/topRatedProfessions";
 import {
   BriefcaseBusiness,
   Calendar,
@@ -23,78 +23,223 @@ import { Button } from "@/components/ui/button";
 import ChatWindow from "@/components/chat/chatWindow";
 import ChatInput from "@/components/chat/chatInput";
 import CompleteProjectModal from "@/components/modals/completeProject";
+import requests from "@/utils/requests";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
 
-interface Message {
-  text: string;
-  time: string;
-  date: string;
-  isOwnMessage: boolean;
-  owner: {
-    name: string;
+export interface Message {
+  _id: string;
+  conversationId: string;
+  professional: {
+    _id: string;
+    fullName: string;
+    vendorID: string;
     avatar: string;
+  };
+  customer: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  sender: "professional" | "customer";
+  receiver: "professional" | "customer";
+  body: string;
+  selectedFile?: {
+    fileUrl: string;
+    fileName: string;
+    fileType: string;
+    fileSize: number;
+    fileFormat: string;
+  };
+  isRead: boolean;
+  createdAt: string;
+  updatedAt: string;
+  delivered?: boolean;
+  tempId?: string;
+}
+
+interface Conversation {
+  _id: string;
+  customerId: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  professionalId: {
+    _id: string;
+    fullName: string;
+    vendorID: string;
+    avatar: string;
+  };
+  project: {
+    _id: string;
+    projectID: string;
+    status: string;
   };
 }
 
-const SingleProjectPage = () => {
-  const chat = useRef<HTMLInputElement>();
-  const [message, setMessage] = useState("");
-  const [showButton, setShowButton] = useState(false);
-
-  const handOnChange = (text: string) => {
-    setMessage(chat?.current?.value as string);
+interface ConversationResponse {
+  data: {
+    page: number;
+    pages: number;
+    count: number;
+    conversations: Array<Conversation>;
   };
+}
+
+interface MessagesResponse {
+  data: {
+    page: number;
+    pages: number;
+    count: number;
+    messages: Message[];
+  };
+}
+
+interface ProfessionalData {
+  fullName: string;
+  profession: string;
+  location: string;
+  rating: number;
+  reviews: number;
+  verified: boolean;
+  avatar: string;
+  rate: number;
+}
+
+const SingleProjectPage = ({ id }: { id: string }) => {
+  const [conversationId, setConversationId] = useState<string>("");
+  const [conversation, setConversation] = useState<Conversation | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const userType = useAppSelector((state) => state.auth.type);
+
+  const queryClient = useQueryClient();
+
+  // Fetch conversation list
+  const {
+    data: conversationData,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["conversations", id],
+    queryFn: () =>
+      requests.get<ConversationResponse>(
+        `chat/${userType}/conversation-list?pageNumber=1`
+      ),
+  });
 
   useEffect(() => {
-    if (message.length > 0) {
-      setShowButton(true);
-    } else {
-      setShowButton(false);
+    if (
+      !isError &&
+      !isLoading &&
+      conversationData &&
+      conversationData.data &&
+      conversationData.data.data.conversations.length > 0
+    ) {
+      const convId = conversationData.data.data.conversations[0]._id;
+      setConversationId(conversationData.data.data.conversations[0]._id);
+      setConversation(conversationData.data.data.conversations[0]);
+
+      requests
+        .get<MessagesResponse>(`chat/${userType}/messages/${convId}`)
+        .then((response) => {
+          if (response.data)
+            setMessages(
+              response.data.data.messages.map((msg) => {
+                let message: Message = {
+                  ...msg,
+                  delivered: true,
+                };
+
+                return message;
+              })
+            );
+        })
+        .catch((error) => {
+          console.error("Error fetching messages:", error);
+        });
     }
-  }, [message]);
+  }, [conversationData, isError, isLoading, userType]);
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Hello!",
-      time: "11:50 AM",
-      date: "July 15",
-      isOwnMessage: false,
-      owner: {
-        name: "Mubarak Som",
-        avatar:
-          "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VM0cTDRJ~Srpn27yJabUwg49v95Fnvj3eCJ8wW1Tfp~IbhOzt64tG2Zv4q8DOuMYrwnPyMqUldfwV~4kmCGc0qEXazXSd4YPvKuHm0tutdzE2U9fw0SrIu7Cu2A~ObsVBEjQ9~8unhRmokb4NF~-5Dc5qJe57wUDSUy6F662ndCCYYqFxlT-X~RQsce2RjspmSTJpBrwTN-fOmqLvz5OX7ZF1QMn2JsU8NGzjgUTI0gTVx7TK70Grc~M8P~F0VEsH-Qa70T1zOn07IDIBAEOMYLIUgk6Sbk6YsHaHhCelK58JyfP-rZa2-06KGipYLWDERW1wB03nLqxbO4iu6HvFw__",
-      },
-    },
-    {
-      text: "Hi there!",
-      time: "11:51 AM",
-      date: "July 15",
-      isOwnMessage: true,
-      owner: {
-        name: "Mubarak Som",
-        avatar:
-          "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VM0cTDRJ~Srpn27yJabUwg49v95Fnvj3eCJ8wW1Tfp~IbhOzt64tG2Zv4q8DOuMYrwnPyMqUldfwV~4kmCGc0qEXazXSd4YPvKuHm0tutdzE2U9fw0SrIu7Cu2A~ObsVBEjQ9~8unhRmokb4NF~-5Dc5qJe57wUDSUy6F662ndCCYYqFxlT-X~RQsce2RjspmSTJpBrwTN-fOmqLvz5OX7ZF1QMn2JsU8NGzjgUTI0gTVx7TK70Grc~M8P~F0VEsH-Qa70T1zOn07IDIBAEOMYLIUgk6Sbk6YsHaHhCelK58JyfP-rZa2-06KGipYLWDERW1wB03nLqxbO4iu6HvFw__",
-      },
-    },
-    // More messages...
-  ]);
+  // Fetch messages
+  const { data: messagesData } = useQuery({
+    queryKey: ["messages", conversationId],
+    queryFn: () =>
+      requests.get<MessagesResponse>(
+        `chat/${userType}/messages/${conversationId}`
+      ),
+    enabled: !!conversationId,
+  });
 
-  const handleSendMessage = (messageText: string) => {
-    const newMessage: Message = {
-      text: messageText,
-      time: new Date().toLocaleTimeString(),
-      date: new Date().toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-      }),
-      isOwnMessage: true,
-      owner: {
-        name: "Mubarak Som",
-        avatar:
-          "https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VM0cTDRJ~Srpn27yJabUwg49v95Fnvj3eCJ8wW1Tfp~IbhOzt64tG2Zv4q8DOuMYrwnPyMqUldfwV~4kmCGc0qEXazXSd4YPvKuHm0tutdzE2U9fw0SrIu7Cu2A~ObsVBEjQ9~8unhRmokb4NF~-5Dc5qJe57wUDSUy6F662ndCCYYqFxlT-X~RQsce2RjspmSTJpBrwTN-fOmqLvz5OX7ZF1QMn2JsU8NGzjgUTI0gTVx7TK70Grc~M8P~F0VEsH-Qa70T1zOn07IDIBAEOMYLIUgk6Sbk6YsHaHhCelK58JyfP-rZa2-06KGipYLWDERW1wB03nLqxbO4iu6HvFw__",
+  // Fetch professional data
+  const { data: professionalData } = useQuery({
+    queryKey: ["professional", id],
+    queryFn: () => requests.get<ProfessionalData>(`vendor/vendor/${id}`),
+  });
+
+  const handleSendMessage = async (
+    messageText: string,
+    fileInfo?: {
+      fileUrl: string;
+      fileName: string;
+      fileType: string;
+      fileSize: number;
+      fileFormat: string;
+    }
+  ) => {
+    if (!conversationId) return;
+
+    const tempId = Date.now().toString();
+    const tempMessage: Message = {
+      _id: tempId,
+      conversationId,
+      body: messageText,
+      sender: userType == UserType.CUSTOMER ? "customer" : "professional",
+      receiver: userType == UserType.CUSTOMER ? "professional" : "customer",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      isRead: false,
+      delivered: false,
+      tempId,
+      professional: {
+        _id: conversation!.professionalId._id,
+        fullName: conversation!.professionalId.fullName,
+        vendorID: conversation!.professionalId.vendorID,
+        avatar: conversation!.professionalId.avatar,
       },
+
+      customer: {
+        _id: conversation!.customerId._id,
+        fullName: conversation!.customerId.fullName,
+        avatar: conversation!.customerId.avatar,
+      },
+      selectedFile: fileInfo,
     };
-    setMessages([newMessage, ...messages]);
+
+    setMessages((prev) => [...prev, tempMessage]);
+
+    try {
+      const response = await requests.post(`chat/${userType}/message`, {
+        body: messageText,
+        conversationId,
+        selectedFile: fileInfo,
+      });
+
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.tempId === tempId ? { ...tempMessage, delivered: true } : msg
+        )
+      );
+
+      // Invalidate and refetch messages
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => prev.filter((msg) => msg.tempId !== tempId));
+    }
   };
+
+  if (!professionalData) return <div>Loading...</div>;
 
   return (
     <div>
@@ -111,7 +256,7 @@ const SingleProjectPage = () => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage className="text-primary capitalize">
-                Project Name
+                {professionalData.data?.fullName}
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -124,96 +269,91 @@ const SingleProjectPage = () => {
 
       <SectionContainer>
         <div className="block md:grid md:grid-cols-8 md:gap-8">
-          <aside className="md:self-start md:sticky md:col-span-3 md:top-56 text-[#05141B]">
-            <img
-              src="https://s3-alpha-sig.figma.com/img/d311/7506/e0f6324a817ba285c547a01b11fcad6f?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VM0cTDRJ~Srpn27yJabUwg49v95Fnvj3eCJ8wW1Tfp~IbhOzt64tG2Zv4q8DOuMYrwnPyMqUldfwV~4kmCGc0qEXazXSd4YPvKuHm0tutdzE2U9fw0SrIu7Cu2A~ObsVBEjQ9~8unhRmokb4NF~-5Dc5qJe57wUDSUy6F662ndCCYYqFxlT-X~RQsce2RjspmSTJpBrwTN-fOmqLvz5OX7ZF1QMn2JsU8NGzjgUTI0gTVx7TK70Grc~M8P~F0VEsH-Qa70T1zOn07IDIBAEOMYLIUgk6Sbk6YsHaHhCelK58JyfP-rZa2-06KGipYLWDERW1wB03nLqxbO4iu6HvFw__"
-              alt=""
-              className="rounded-lg"
-            />
-            <div className="mt-8">
-              <div className="justify-between flex">
-                <p>Architecture & Design</p>
-                <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
-                  <ShieldCheck size={15} />
-                  <p className="text-sm">Verified</p>
-                </div>
-              </div>
-              <h2 className="text-3xl text-black mt-3">Sharafadeen Mubarak</h2>
-              <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
-                <div className="flex">
-                  <MapPin size={20} color="red" />
-                  <span className="ml-2">Abuja, NG</span>
-                </div>
-                <div className="flex">
-                  <Star size={20} color="red" />
-                  <span className="ml-2">4.5</span>
-                </div>
-                <div className="flex">
-                  <Separator orientation="vertical" />
-                  <span className="ml-2">45 reviews</span>
-                </div>
-              </div>
-              <h2 className="mb-2 mt-6 text-offBlack text-xl">
-                Ongoing Project
-              </h2>
-              <div className="border rounded-lg px-4 py-4">
-                <div className="pb-3 pt-3 ">
-                  <h4 className="text-primary underline">
-                    Abuja - Kaduna dual carriage Express way - SCC/FGN
-                  </h4>
-                  <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
-                    <div className="flex items-center">
-                      <MapPin size={15} color="red" />
-                      <span className="ml-2">Abuja, NG</span>
+          {professionalData && professionalData.data && (
+            <aside className="md:self-start md:sticky md:col-span-3 md:top-56 text-[#05141B]">
+              <img
+                src={professionalData.data.avatar}
+                alt={professionalData.data.fullName}
+                className="rounded-lg"
+              />
+              <div className="mt-8">
+                <div className="justify-between flex">
+                  <p>{professionalData.data.profession}</p>
+                  {professionalData.data.verified && (
+                    <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
+                      <ShieldCheck size={15} />
+                      <p className="text-sm">Verified</p>
                     </div>
-                    <div className="flex items-center">
-                      <Star size={15} color="red" />
-                      <span className="ml-2">4.5</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Calendar size={15} color="red" />
-                      <span className="ml-2">March - Sept 2024</span>
-                    </div>
+                  )}
+                </div>
+                <h2 className="text-3xl text-black mt-3">
+                  {professionalData.data.fullName}
+                </h2>
+                <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
+                  <div className="flex">
+                    <MapPin size={20} color="red" />
+                    <span className="ml-2">
+                      {professionalData.data.location}
+                    </span>
                   </div>
-                  <p className="mt-3">
-                    Sharafadeen design process was an absolute pleasure. The
-                    designer displayed an exceptional ability to translate my
-                    abstract ideas into tangible, visually stunning concepts.
-                  </p>
-                  <div className="flex items-center mt-3">
-                    <BriefcaseBusiness size={20} color="red" />
-                    <span className="ml-2 text-offBlack">
-                      ₦ 47,500.00 per Day
+                  <div className="flex">
+                    <Star size={20} color="red" />
+                    <span className="ml-2">{professionalData.data.rating}</span>
+                  </div>
+                  <div className="flex">
+                    <Separator orientation="vertical" />
+                    <span className="ml-2">
+                      {professionalData.data.reviews} reviews
                     </span>
                   </div>
                 </div>
+
+                <h2 className="my-3 text-xl">Professional Rate</h2>
+                <div className="border rounded-lg px-4 py-4">
+                  ₦ {professionalData.data.rate.toLocaleString()} per day
+                </div>
               </div>
-              <h2 className="my-3 text-xl">Professional Rate</h2>
-              <div className="border rounded-lg px-4 py-4">
-                # 100,000 per day
-              </div>
-            </div>
-          </aside>
+            </aside>
+          )}
+
           <div className="md:col-span-5 mt-10 md:mt-0">
             <h4>Message history</h4>
             <div className="border h-[600px] rounded-lg">
               <div className="flex flex-col h-full w-full">
-                <ChatWindow messages={messages} />
+                <ChatWindow
+                  messages={messages.map((msg: Message) => ({
+                    text: msg.body,
+                    time: new Date(msg.createdAt).toLocaleTimeString(),
+                    date: new Date(msg.createdAt).toLocaleDateString(),
+                    isOwnMessage: msg.sender === userType,
+                    userType: userType,
+                    owner: {
+                      name:
+                        msg.sender === "professional"
+                          ? msg.professional.fullName
+                          : msg.customer.fullName,
+                      avatar:
+                        msg.sender === "professional"
+                          ? msg.professional.avatar
+                          : msg.customer.avatar,
+                    },
+                    file: msg.selectedFile,
+                    delivered: msg.delivered,
+                  }))}
+                />
               </div>
             </div>
             <ChatInput onSendMessage={handleSendMessage} />
           </div>
         </div>
       </SectionContainer>
+
       <SectionContainer>
         <SectionCardHeader
           title={"Similar Professionals"}
           linkUrl={"/hire/home"}
           linkText="See more"
         />
-        {/* <div className="mt-5">
-          <TopRatedProfessions />
-        </div> */}
       </SectionContainer>
     </div>
   );

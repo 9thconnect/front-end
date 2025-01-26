@@ -191,7 +191,7 @@ const SocketNotificationListener: React.FC = () => {
 
   // Create socket connection
   useEffect(() => {
-    const newSocket = io("https://mcdonald-server.onrender.com", {
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
       reconnection: true,
       reconnectionAttempts: 10,
       reconnectionDelay: 1000,
