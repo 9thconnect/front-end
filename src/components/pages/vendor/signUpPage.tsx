@@ -376,6 +376,11 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       ...dataWithoutProfessions
     } = dataWithoutAccountName;
 
+    const {
+      shopCountry,
+      ...dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry
+    } = dataWithoutAccountNameAndPortfolioAndQualifications;
+
     // return;
 
     const finalData =
@@ -386,7 +391,9 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
         : dataWithoutAccountName.vendorType == "logistic" ||
           dataWithoutAccountName.vendorType == "real-estate"
         ? dataWithoutProfessions
-        : dataWithoutAccountNameAndPortfolioAndQualifications;
+        : dataWithoutAccountName.sellerType == "wholeSale"
+        ? dataWithoutAccountNameAndPortfolioAndQualifications
+        : dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry;
 
     console.log("dataWithoutAccountName", finalData);
 
