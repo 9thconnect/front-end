@@ -33,7 +33,6 @@ const authSlice = createSlice({
 
       state.data = null;
       state.token = null;
-      state.type = UserType.CUSTOMER;
 
       console.log(state);
     },

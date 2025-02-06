@@ -3,8 +3,24 @@
 import DashboardNavBar from "@/components/header/dashboardHeader";
 import DashboardSideBar from "@/components/sidebar/dasboard/dashboardSideBar";
 import { Separator } from "@/components/ui/separator";
-import { useAppDispatch } from "@/lib/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { toggleAdminSideBar } from "@/lib/redux/features/layout/layoutSlice";
+import { useRouter } from "next/navigation";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { IAdmin } from "@/type/users";
+import requests from "@/utils/requests";
+import { logoutUser } from "@/lib/redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 export default function DashboardLayout({
   children,
@@ -12,6 +28,20 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      // await requests.post(`admin/auth/logout`, {});
+      dispatch(logoutUser());
+
+      toast.success("logout successful");
+
+      router.push(`/admin/login`);
+    } catch (error) {}
+  };
+
+  const admin = useAppSelector((state) => state.auth.data as IAdmin);
   return (
     <div className="text-[#878C95]">
       <DashboardSideBar />
@@ -46,17 +76,35 @@ export default function DashboardLayout({
               </div>
               <div className="flex items-center">
                 <div className="flex items-center ms-3">
-                  <div className="w-8 h-8 rounded-full bg-gray-300 flex justify-center p-2 items-center mr-3">
-                    <img src="/icons/bell.svg" alt="" />
-                  </div>
-
-                  <Separator orientation="vertical" />
-
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
-                  />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Avatar>
+                        <AvatarImage src={admin?.avatar} alt="@shadcn" />
+                        <AvatarFallback>
+                          {admin?.fullName?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="mr-5">
+                      <DropdownMenuLabel>{admin?.fullName}</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => router.push("/dashboard/settings")}
+                      >
+                        Settings
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push("/dashboard/settings/profile")
+                        }
+                      >
+                        Account
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleLogout()}>
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </div>
