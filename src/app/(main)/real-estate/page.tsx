@@ -54,34 +54,6 @@ const Page = async () => {
   ];
 
   return (
-    // <div>
-    //   <div className="h-60 md:h-[500px] mt-5">
-    //     <MainHeroSection images={heroImages} />
-    //   </div>
-
-    //   <SectionContainer>
-    //     <div className="mt-5">
-    //       <SectionCardHeader
-    //         title="New Arrival"
-    //         linkUrl="/real-estate/home"
-    //         linkText="See all"
-    //       />
-
-    //       {!properties || properties.length === 0 ? (
-    //         <div className="text-center py-10 text-gray-500">
-    //           No new properties available at the moment
-    //         </div>
-    //       ) : (
-    //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-    //           {properties.map((property: Property) => (
-    //             <PropertyCard key={property._id} property={property} />
-    //           ))}
-    //         </div>
-    //       )}
-    //     </div>
-    //   </SectionContainer>
-    // </div>
-
     <div>
       <Breadcrumb className="my-4">
         <BreadcrumbList>

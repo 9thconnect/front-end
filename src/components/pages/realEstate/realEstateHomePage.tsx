@@ -25,6 +25,7 @@ import {
   getPropertyList,
   useGetPropertyList,
 } from "@/lib/requests/user/property";
+import { fetchPropertiesCategories } from "@/lib/requests/admin/categories/admin-category-request";
 
 const locations = [
   { name: "Ikeja", value: "Ikeja" },
@@ -56,14 +57,27 @@ const RealEstateHomePage = () => {
   const [selectedPrice, setSelectedPrice] = useState<string | undefined>();
   const [page, setPage] = useState(1);
 
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
+
+  const [isBrandOpen, setIsBrandOpen] = useState(true);
+
   const handleClearFilters = () => {
     setSearchTerm("");
+    setSelectedCategory(undefined);
     setSelectedLocation(undefined);
     setSelectedPrice(undefined);
   };
 
   const params = useSearchParams();
   const propertyTypeId = params.get("propertyType");
+
+  useEffect(() => {
+    if (propertyTypeId) {
+      setSelectedCategory(propertyTypeId);
+    }
+  }, [propertyTypeId]);
 
   const priceRange = (price?: string) => {
     if (!price) {
@@ -91,11 +105,17 @@ const RealEstateHomePage = () => {
   } = useGetPropertyList(
     searchTerm,
     page,
-    propertyTypeId || undefined,
+    selectedCategory,
     selectedLocation,
+
     priceRange(selectedPrice)?.startPrice,
     priceRange(selectedPrice)?.endPrice
   );
+
+  const { data: categories, isLoading: isLoadingCat } = useQuery({
+    queryKey: ["property-category"],
+    queryFn: () => fetchPropertiesCategories(),
+  });
 
   const totalPages = propertyList?.data?.data.count
     ? Math.ceil(propertyList.data.data.count / ITEMS_PER_PAGE)
@@ -126,7 +146,31 @@ const RealEstateHomePage = () => {
                 className="w-full p-2 border rounded-md"
               />
             </div>
-
+            {isLoadingCat ? (
+              <div>
+                <p className="text-lg text-black border-b pb-2 mb-3">
+                  Category
+                </p>
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+                <Skeleton className="h-5 w-full mb-2" />
+              </div>
+            ) : categories?.data?.data ? (
+              <FilterSection
+                title="Category"
+                items={categories.data.data.categories.map((cat) => ({
+                  name: cat.title as string,
+                  value: cat._id as string,
+                }))}
+                isOpen={isBrandOpen}
+                onToggle={() => setIsBrandOpen(!isBrandOpen)}
+                selectedValue={selectedCategory}
+                onSelect={(value) => setSelectedCategory(value as string)}
+              />
+            ) : (
+              <div>No categories available</div>
+            )}
             <FilterSection
               title="Location"
               items={locations}
@@ -170,6 +214,31 @@ const RealEstateHomePage = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full p-2 border rounded-md"
                   />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {isLoadingCat ? (
+                    <div>
+                      <p className="text-lg text-black border-b pb-2 mb-3">
+                        Category
+                      </p>
+                      <Skeleton className="h-5 w-full mb-2" />
+                      <Skeleton className="h-5 w-full mb-2" />
+                      <Skeleton className="h-5 w-full mb-2" />
+                      <Skeleton className="h-5 w-full mb-2" />
+                    </div>
+                  ) : categories?.data?.data ? (
+                    <FilterSelect
+                      label="Category"
+                      options={categories.data.data.categories.map((cat) => ({
+                        name: cat.title as string,
+                        value: cat._id as string,
+                      }))}
+                      placeholder="Category"
+                      state={[selectedCategory, setSelectedCategory]}
+                    />
+                  ) : (
+                    <div>No categories available</div>
+                  )}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <FilterSelect
