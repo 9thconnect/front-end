@@ -90,10 +90,10 @@ const CategorySection = () => {
     queryFn: () => fetchPropertiesCategories(),
   });
 
-  const { data: logisticData } = useQuery({
-    queryKey: ["logistic"],
-    queryFn: () => fetchLogisticCategories(),
-  });
+  // const { data: logisticData } = useQuery({
+  //   queryKey: ["logistic"],
+  //   queryFn: () => fetchLogisticCategories(),
+  // });
 
   const [open, setOpen] = useState<{
     type: CategoryType;
@@ -206,13 +206,13 @@ const CategorySection = () => {
             openModel={openModel}
           />
         )}
-        {logisticData && logisticData.data?.data?.categories && (
+        {/* {logisticData && logisticData.data?.data?.categories && (
           <CategorySectionComp
             title="logistic"
             categories={logisticData.data?.data?.categories}
             openModel={openModel}
           />
-        )}
+        )} */}
       </div>
     </>
   );
