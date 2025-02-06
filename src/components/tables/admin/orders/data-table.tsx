@@ -53,7 +53,8 @@ import { DatePickerWithRange } from "@/components/common/datePickerRange";
 const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
   const [rowData, setRowData] = useState<Order | undefined>();
   const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [status, setStatus] = useState<string | undefined>(undefined);
@@ -71,7 +72,8 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
     queryKey: [
       "get-orders",
       {
-        page: page,
+        page: pageIndex + 1,
+        pageSize,
         userType: "admin",
         vendor: vendor,
         search,
@@ -83,6 +85,8 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
     ],
     queryFn: getOrders,
   });
+
+  const totalPages = data?.data?.pages ?? 0;
 
   const {
     isLoading: isSingleLoading,
@@ -498,6 +502,11 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
             columns={columns}
             data={data?.data?.orders || []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

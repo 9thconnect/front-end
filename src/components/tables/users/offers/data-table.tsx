@@ -25,6 +25,8 @@ import { X as CloseIcon } from "lucide-react";
 const CustomerProposalTable = () => {
   const [rowData, setRowData] = useState<Proposal | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: Proposal) => {
     setRowData(e);
@@ -32,9 +34,11 @@ const CustomerProposalTable = () => {
   };
 
   const { isLoading, data } = useQuery({
-    queryKey: ["proposals"],
-    queryFn: () => getProposals(),
+    queryKey: ["proposals", pageIndex, pageSize],
+    queryFn: () => getProposals(pageIndex + 1),
   });
+
+  const totalPages = data?.data?.data?.pages ?? 0;
 
   const queryClient = useQueryClient();
 
@@ -215,6 +219,11 @@ const CustomerProposalTable = () => {
             columns={columns}
             data={data?.data?.data.offers ?? []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

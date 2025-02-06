@@ -27,11 +27,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 const WithdrawalDataTable = () => {
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["get-transactions"],
-    queryFn: () => getPayments(),
+    queryKey: ["get-transactions", pageIndex, pageSize],
+    queryFn: () => getPayments("", pageIndex + 1),
   });
+
+  const totalPages = data?.data?.pages ?? 0;
 
   const handleRowClick = (e: Payment) => {
     setRowData(e);
@@ -184,6 +188,11 @@ const WithdrawalDataTable = () => {
             columns={columns}
             data={data?.data?.payments || []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

@@ -19,11 +19,15 @@ import { getProducts } from "@/lib/requests/vendor/product";
 
 const VendorProductTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-products"],
-    queryFn: () => getProducts(),
+    queryKey: ["get-products", pageIndex, pageSize],
+    queryFn: () => getProducts("", pageIndex + 1),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   const { data: productData, isLoading: isLoadingCat } = useQuery({
     queryKey: ["product-category"],
@@ -70,6 +74,11 @@ const VendorProductTable = () => {
           <DataTable
             columns={columns}
             data={query.data?.data?.data.products || []}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         )}
       </div>

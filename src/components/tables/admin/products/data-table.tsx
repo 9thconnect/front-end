@@ -20,11 +20,15 @@ import { getProductsAdmin } from "@/lib/requests/admin/products";
 
 const AdminProductTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-products-admin"],
-    queryFn: () => getProductsAdmin(),
+    queryKey: ["get-products-admin", pageIndex, pageSize],
+    queryFn: () => getProductsAdmin({ pageNumber: pageIndex + 1 }),
   });
+
+  const totalPages = query.data?.data?.data?.pages ?? 0;
 
   const { data: productData, isLoading: isLoadingCat } = useQuery({
     queryKey: ["product-category"],
@@ -71,6 +75,11 @@ const AdminProductTable = () => {
           <DataTable
             columns={columns}
             data={query.data?.data?.data.products || []}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         )}
       </div>

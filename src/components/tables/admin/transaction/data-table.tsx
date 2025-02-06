@@ -38,6 +38,8 @@ const TransactionDataTableAdmin = ({
 }) => {
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   // State for filters
   const [search, setSearch] = useState<string>("");
@@ -60,11 +62,13 @@ const TransactionDataTableAdmin = ({
       dateRange.to,
       paymentFor,
       vendor,
+      pageIndex,
+      pageSize,
     ],
     queryFn: () =>
       getPaymentsAdmin(
         search || undefined,
-        undefined, // pageNumber
+        pageIndex + 1, // pageNumber
         undefined, // filterByProductCategory
         status,
         completedPayment,
@@ -74,6 +78,8 @@ const TransactionDataTableAdmin = ({
         vendor
       ),
   });
+
+  const totalPages = data?.data?.pages ?? 0;
 
   const {
     isLoading: isSingleLoading,
@@ -288,6 +294,11 @@ const TransactionDataTableAdmin = ({
             columns={columns}
             data={data?.data?.payments || []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

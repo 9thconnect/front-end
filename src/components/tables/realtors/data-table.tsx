@@ -17,14 +17,19 @@ const RealtorBusinessesDataTable = () => {
   const router = useRouter();
 
   const [search, setSearch] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-realtors-businesses", search],
+    queryKey: ["get-realtors-businesses", search, pageIndex, pageSize],
     queryFn: () =>
       fetchRealtorBusinesses({
         search: search,
+        pageNumber: pageIndex + 1,
       }),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   console.log(query.data?.data?.data.businesses);
 
@@ -65,6 +70,11 @@ const RealtorBusinessesDataTable = () => {
             <DataTable
               columns={columns}
               data={query.data?.data?.data.businesses}
+              pageCount={totalPages}
+              pageSize={pageSize}
+              pageIndex={pageIndex}
+              onPageChange={setPageIndex}
+              onPageSizeChange={setPageSize}
             />
           )
         )}

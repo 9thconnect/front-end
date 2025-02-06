@@ -30,6 +30,8 @@ const AdminsTable = () => {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<string | undefined>();
   const [isOpen, setIsOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const queryClient = useQueryClient();
 
@@ -42,7 +44,8 @@ const AdminsTable = () => {
     queryKey: [
       "get-admins",
       {
-        page,
+        pageIndex,
+        pageSize,
         filteredByRole: roleFilter,
         search,
       },
@@ -56,13 +59,15 @@ const AdminsTable = () => {
           admins: Admin[];
         };
       }>(
-        `admin/all-admins?search=${search}&pageNumber=${page}${
+        `admin/all-admins?search=${search}&pageNumber=${pageIndex + 1}${
           roleFilter && roleFilter !== "all"
             ? `&filteredByRole=${roleFilter}`
             : ""
         }`
       ),
   });
+
+  const totalPages = data?.data?.pages ?? 0;
 
   console.log(data?.data?.data.admins);
 
@@ -190,7 +195,15 @@ const AdminsTable = () => {
             ))}
           </div>
         ) : (
-          <DataTable columns={columns} data={data?.data?.data.admins || []} />
+          <DataTable
+            columns={columns}
+            data={data?.data?.data.admins || []}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
+          />
         )}
       </div>
     </div>

@@ -26,6 +26,8 @@ const ProjectTable = () => {
   const [rowData, setRowData] = useState<Project | undefined>();
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: Project) => {
     setRowData(e);
@@ -33,9 +35,11 @@ const ProjectTable = () => {
   };
 
   const { isLoading, data } = useQuery({
-    queryKey: ["projects-customer"],
-    queryFn: () => getProjects(),
+    queryKey: ["projects-customer", pageIndex, pageSize],
+    queryFn: () => getProjects(pageIndex + 1),
   });
+
+  const totalPages = data?.data?.data?.pages ?? 0;
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
@@ -253,6 +257,11 @@ const ProjectTable = () => {
             columns={columns}
             data={data?.data?.data.projects ?? []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

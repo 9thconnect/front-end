@@ -21,6 +21,8 @@ import { formatCurrency } from "@/utils/format-currency";
 const SalesDataTable = ({ data }: { data: SalesData[] }) => {
   const [rowData, setRowData] = useState<SalesData | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: SalesData) => {
     setRowData(e);
@@ -119,7 +121,16 @@ const SalesDataTable = ({ data }: { data: SalesData[] }) => {
         <div className="border rounded-t-xl py-8 px-4">
           <p className="text-xl ">Sales Table</p>
         </div>
-        <DataTable columns={columns} data={data} rowClick={handleRowClick} />
+        <DataTable
+          columns={columns}
+          data={data}
+          rowClick={handleRowClick}
+          pageCount={0}
+          pageSize={pageSize}
+          pageIndex={pageIndex}
+          onPageChange={setPageIndex}
+          onPageSizeChange={setPageSize}
+        />
       </div>
     </div>
   );

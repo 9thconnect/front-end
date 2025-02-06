@@ -27,6 +27,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 const WorkerDataTable = () => {
   const [rowData, setRowData] = useState<ProfessionalData | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: ProfessionalData) => {
     setRowData(e);
@@ -45,15 +47,17 @@ const WorkerDataTable = () => {
   }
 
   const query = useQuery({
-    queryKey: ["get-company-workers"],
+    queryKey: ["get-company-workers", pageIndex, pageSize],
     queryFn: () =>
       requests.get<{
         page: number;
         pages: number;
         count: number;
         professions: ProfessionalData[];
-      }>("vendor/my-professions"),
+      }>(`vendor/my-professions?pageNumber=${pageIndex + 1}`),
   });
+
+  const totalPages = query.data?.data?.pages ?? 0;
 
   return (
     <div>
@@ -102,7 +106,15 @@ const WorkerDataTable = () => {
           </div>
         ) : (
           query.data?.data?.professions && (
-            <DataTable columns={columns} data={query.data?.data?.professions} />
+            <DataTable
+              columns={columns}
+              data={query.data?.data?.professions}
+              pageCount={totalPages}
+              pageSize={pageSize}
+              pageIndex={pageIndex}
+              onPageChange={setPageIndex}
+              onPageSizeChange={setPageSize}
+            />
           )
         )}
       </div>

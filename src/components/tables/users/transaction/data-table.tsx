@@ -33,11 +33,14 @@ import { renderPaymentStatus } from "@/components/cards/common/renderPaymentStat
 const TransactionDataTable = () => {
   const [rowData, setRowData] = useState<Payment | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
-    queryKey: ["get-transactions"],
-    queryFn: () => getPayments(),
+    queryKey: ["get-transactions", pageIndex, pageSize],
+    queryFn: () => getPayments("", pageIndex + 1),
   });
+  const totalPages = data?.data?.pages ?? 0;
 
   const {
     isLoading: isSingleLoading,
@@ -137,6 +140,11 @@ const TransactionDataTable = () => {
             columns={columns}
             data={data?.data?.payments || []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

@@ -46,6 +46,8 @@ const ProposalTable = () => {
   const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const [customDeliveryDays, setCustomDeliveryDays] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: Proposal) => {
     setRowData(e);
@@ -53,9 +55,11 @@ const ProposalTable = () => {
   };
 
   const { isLoading, data } = useQuery({
-    queryKey: ["proposals"],
-    queryFn: () => getProposals(),
+    queryKey: ["proposals", pageIndex, pageSize],
+    queryFn: () => getProposals(pageIndex + 1),
   });
+
+  const totalPages = data?.data?.data.pages ?? 0;
 
   const queryClient = useQueryClient();
 
@@ -408,6 +412,11 @@ const ProposalTable = () => {
             columns={columns}
             data={data?.data?.data.offers ?? []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

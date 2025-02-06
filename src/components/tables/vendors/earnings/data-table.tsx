@@ -21,6 +21,10 @@ import { formatCurrency } from "@/utils/format-currency";
 const EarningDataTable = ({ data }: { data: EarningData[] }) => {
   const [rowData, setRowData] = useState<EarningData | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
+
+  const totalPages = 0;
 
   const handleRowClick = (e: EarningData) => {
     setRowData(e);
@@ -116,7 +120,16 @@ const EarningDataTable = ({ data }: { data: EarningData[] }) => {
         <div className="border rounded-t-xl py-8 px-4">
           <p className="text-xl text-offBlack">Vendor Earning</p>
         </div>
-        <DataTable columns={columns} data={data} rowClick={handleRowClick} />
+        <DataTable
+          columns={columns}
+          data={data}
+          rowClick={handleRowClick}
+          pageCount={totalPages}
+          pageSize={pageSize}
+          pageIndex={pageIndex}
+          onPageChange={setPageIndex}
+          onPageSizeChange={setPageSize}
+        />
       </div>
     </div>
   );

@@ -18,15 +18,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 const VendorDataTable = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   // const data = getDataVendors();
 
   const query = useQuery({
-    queryKey: ["get-businesses", search],
-    queryFn: () => fetchBusinesses({ search: search }),
+    queryKey: ["get-businesses", search, pageIndex, pageSize],
+    queryFn: () =>
+      fetchBusinesses({ search: search, pageNumber: pageIndex + 1 }),
   });
 
-  console.log(query.data?.data?.data.businesses);
+  const businesses = query.data?.data?.data.businesses ?? [];
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   return (
     <div>
@@ -61,7 +65,12 @@ const VendorDataTable = () => {
         ) : (
           <DataTable
             columns={columns}
-            data={query.data?.data?.data.businesses as Business[]}
+            data={businesses as Business[]}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
             // rowClick={handleRowClick}
           />
         )}

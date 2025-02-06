@@ -28,14 +28,19 @@ import { getProductsAdmin } from "@/lib/requests/admin/products";
 const ProductDataTable = ({ id }: { id: string }) => {
   const [rowData, setRowData] = useState<Product | undefined>();
   const [open, setOpen] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["vendor-get-products", { id: id }],
+    queryKey: ["vendor-get-products", { id: id }, pageIndex, pageSize],
     queryFn: () =>
       getProductsAdmin({
         filterByProductBySeller: id,
+        pageNumber: pageIndex + 1,
       }),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   const { data: productData, isLoading: isLoadingCat } = useQuery({
     queryKey: ["product-category"],
@@ -175,6 +180,11 @@ const ProductDataTable = ({ id }: { id: string }) => {
           columns={columns}
           data={query.data?.data?.data.products || []}
           rowClick={handleRowClick}
+          pageCount={totalPages}
+          pageSize={pageSize}
+          pageIndex={pageIndex}
+          onPageChange={setPageIndex}
+          onPageSizeChange={setPageSize}
         />
       </div>
     </div>

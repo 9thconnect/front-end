@@ -40,6 +40,8 @@ const ProjectTable = () => {
   const [isCompleteProjectDialogOpen, setIsCompleteProjectDialogOpen] =
     useState(false);
   const [completionNotes, setCompletionNotes] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const [completedProjectFiles, setCompletedProjectFiles] = useState<
     Array<{
@@ -58,9 +60,11 @@ const ProjectTable = () => {
   };
 
   const { isLoading, data } = useQuery({
-    queryKey: ["projects"],
-    queryFn: () => getProjects(),
+    queryKey: ["projects", pageIndex, pageSize],
+    queryFn: () => getProjects(pageIndex + 1),
   });
+
+  const totalPages = data?.data?.data.pages ?? 0;
 
   const queryClient = useQueryClient();
 
@@ -431,6 +435,11 @@ const ProjectTable = () => {
             columns={columns}
             data={data?.data?.data.projects ?? []}
             rowClick={handleRowClick}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         </div>
       )}

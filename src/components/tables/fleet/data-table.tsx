@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
 import FilterSelect from "@/components/common/filterSelect";
@@ -11,11 +11,15 @@ import { columns } from "./columns";
 
 const LogisticsTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-fleets"],
-    queryFn: () => getFleets(),
+    queryKey: ["get-fleets", pageIndex, pageSize],
+    queryFn: () => getFleets("", pageIndex + 1),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   const logisticTypes = [
     { name: "Road", value: "road" },
@@ -66,6 +70,11 @@ const LogisticsTable = () => {
           <DataTable
             columns={columns}
             data={query.data?.data?.data.logistics || []}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         )}
       </div>

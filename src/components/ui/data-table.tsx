@@ -38,12 +38,22 @@ import { DataTableViewOptions } from "./data-table-cell-toggle";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pageCount: number;
+  pageSize: number;
+  pageIndex: number;
+  onPageChange: (pageIndex: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
   rowClick?: (e: TData) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pageCount,
+  pageSize,
+  pageIndex,
+  onPageChange,
+  onPageSizeChange,
   rowClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -65,6 +75,21 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
+    },
+    manualPagination: true,
+    onPaginationChange: (updater) => {
+      if (typeof updater === "function") {
+        const newState = updater({
+          pageIndex,
+          pageSize,
+        });
+        onPageChange(newState.pageIndex);
+        onPageSizeChange(newState.pageSize);
+      }
     },
   });
 

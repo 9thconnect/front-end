@@ -16,16 +16,21 @@ import { fetchLogisticsBusinesses } from "@/lib/requests/admin/logistics";
 
 const LogisticBusinessesDataTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const [search, setSearch] = useState("");
 
   const query = useQuery({
-    queryKey: ["get-logistics-businesses", search],
+    queryKey: ["get-logistics-businesses", search, pageIndex, pageSize],
     queryFn: () =>
       fetchLogisticsBusinesses({
         search: search,
+        pageNumber: pageIndex + 1,
       }),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   console.log(query.data?.data?.data.businesses);
 
@@ -66,6 +71,11 @@ const LogisticBusinessesDataTable = () => {
             <DataTable
               columns={columns}
               data={query.data?.data?.data.businesses}
+              pageCount={totalPages}
+              pageSize={pageSize}
+              pageIndex={pageIndex}
+              onPageChange={setPageIndex}
+              onPageSizeChange={setPageSize}
             />
           )
         )}

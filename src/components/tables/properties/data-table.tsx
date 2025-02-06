@@ -23,11 +23,15 @@ import { getProperties } from "@/lib/requests/vendor/property";
 
 const VendorPropertiesTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-properties"],
-    queryFn: () => getProperties(),
+    queryKey: ["get-properties", pageIndex, pageSize],
+    queryFn: () => getProperties("", pageIndex + 1),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   const { data: propertyData, isLoading: isLoadingCat } = useQuery({
     queryKey: ["property-category"],
@@ -76,6 +80,11 @@ const VendorPropertiesTable = () => {
           <DataTable
             columns={columns}
             data={query.data?.data?.data.properties || []}
+            pageCount={totalPages}
+            pageSize={pageSize}
+            pageIndex={pageIndex}
+            onPageChange={setPageIndex}
+            onPageSizeChange={setPageSize}
           />
         )}
       </div>

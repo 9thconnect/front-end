@@ -127,7 +127,7 @@ const page = () => {
           <div className="md:w-1/2">
             <div className="">
               <img
-                src="https://res.cloudinary.com/dougwnqok/image/upload/v1728020579/Image_irxna5.png"
+                src="https://res.cloudinary.com/dougwnqok/image/upload/v1738831174/313f25f1-dc00-4b5f-8fef-f5cdc05d6445_voj8fk.png"
                 alt="Construction worker"
                 className="w-full h-auto"
               />

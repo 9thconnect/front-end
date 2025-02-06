@@ -27,13 +27,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfessionalDataTable = () => {
   const router = useRouter();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
   const [search, setSearch] = useState("");
 
   const query = useQuery({
-    queryKey: ["get-professionals", search],
-    queryFn: () => fetchProfessionals({ search: search }),
+    queryKey: ["get-professionals", search, pageIndex, pageSize],
+    queryFn: () =>
+      fetchProfessionals({ search: search, pageNumber: pageIndex + 1 }),
   });
+
+  const totalPages = query.data?.data?.data.pages ?? 0;
 
   console.log(query.data?.data?.data.professions);
 
@@ -95,6 +100,11 @@ const ProfessionalDataTable = () => {
             <DataTable
               columns={columns}
               data={query.data?.data?.data.professions}
+              pageCount={totalPages}
+              pageSize={pageSize}
+              pageIndex={pageIndex}
+              onPageChange={setPageIndex}
+              onPageSizeChange={setPageSize}
             />
           )
         )}
