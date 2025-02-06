@@ -245,6 +245,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       shopName: formData.shopName,
       shopAddress: formData.shopAddress,
       shopCity: formData.shopCity,
+      shopState: formData.shopState,
       businessLegalName: formData.businessLegalName,
       businessEmail: formData.businessEmail,
       businessPhoneNumber: formData.businessPhoneNumber,
@@ -354,6 +355,11 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       shopCountry: sc,
       ...dataWithoutPortAndQualification
     } = dataWithoutAccountName;
+
+    console.log(
+      "dataWithoutPortAndQualification",
+      dataWithoutPortAndQualification
+    );
 
     const {
       portfolio: ee,

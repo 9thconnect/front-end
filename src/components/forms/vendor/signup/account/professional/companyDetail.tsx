@@ -39,6 +39,7 @@ export const professionalCompanyDetailsValidationSchema = z.object({
   shopName: z.string().min(1, "Shop name is required"),
   shopAddress: z.string().min(1, "Shop address is required"),
   shopCity: z.string().min(1, "Shop city is required"),
+  shopState: z.string().min(1, "Shop state is required"),
   businessLegalName: z.string().min(1, "Business legal name is required"),
   businessEmail: z.string().email("Invalid email address"),
   businessPhoneNumber: z.string().min(1, "Phone number is required"),
@@ -67,6 +68,7 @@ const ProfessionalCompanyDetailsForm = ({
         shopName: formStateData.shopName,
         shopAddress: formStateData.shopAddress,
         shopCity: formStateData.shopCity,
+        shopState: formStateData.shopState,
         businessLegalName: formStateData.businessLegalName,
         businessEmail: formStateData.businessEmail,
         businessPhoneNumber: formStateData.businessPhoneNumber,
@@ -197,6 +199,20 @@ const ProfessionalCompanyDetailsForm = ({
               <FormLabel>Shop City</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your shop city" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="shopState"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Shop State</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your shop state" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
