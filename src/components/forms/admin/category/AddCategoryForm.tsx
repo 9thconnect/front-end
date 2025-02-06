@@ -54,16 +54,15 @@ const AddCategoryForm = ({
         className="w-full flex items-center justify-center flex-col gap-5 py-5"
       >
         <div className="w-full">
-          {type == "brand" ||
-            (type == "property" && (
-              <div className="mb-4">
-                <ImageUpload onUploadSuccess={handleUploadSuccess} />
-              </div>
-            ))}
+          {(type === "brand" || type === "property") && (
+            <div className="mb-4">
+              <ImageUpload onUploadSuccess={handleUploadSuccess} />
+            </div>
+          )}
           <FormField
             control={form.control}
             name="name"
-            disabled={type == "brand" && !image}
+            disabled={(type == "brand" || type == "property") && !image}
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="capitalize">Title</FormLabel>
@@ -79,7 +78,7 @@ const AddCategoryForm = ({
           <FormField
             control={form.control}
             name="description"
-            disabled={type == "brand" && !image}
+            disabled={(type == "brand" || type == "property") && !image}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
