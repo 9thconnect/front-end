@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UsersRound } from "lucide-react";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["vendor-stats"],
     queryFn: () =>
@@ -49,4 +49,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

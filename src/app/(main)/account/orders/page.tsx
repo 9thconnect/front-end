@@ -11,7 +11,7 @@ import { MonitorPlay } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const type = useAppSelector((state) => state.auth.type);
   const { data, isLoading, error } = useQuery({
     queryKey: ["vendor-stats-vendor-summary", type],
@@ -63,4 +63,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
