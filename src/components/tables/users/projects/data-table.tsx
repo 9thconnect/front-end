@@ -54,16 +54,6 @@ const ProjectTable = () => {
 
   return (
     <div>
-      <div className="border rounded-t-xl py-4 px-4">
-        <div className="md:flex flex-wrap justify-between items-center">
-          <div className="md:flex md:space-x-2">
-            <div className="md:flex md:space-x-2 items-center">
-              <FilterSelect label="Status" options={[]} placeholder="Status" />
-            </div>
-          </div>
-        </div>
-      </div>
-
       <Drawer
         open={open}
         onOpenChange={onOpenChange}
