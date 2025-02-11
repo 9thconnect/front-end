@@ -47,6 +47,7 @@ import Empty from "@/components/common/empty";
 import { formatCurrency } from "@/utils/format-currency";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
 
 interface RatingBarProps {
   rating: number;
@@ -281,7 +282,7 @@ const SingleProductPage = ({
   };
 
   if (loading) {
-    return <p>Loading</p>;
+    return <SingleProductSkeleton />;
   }
 
   const images = product?.images.map((url) => ({

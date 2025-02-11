@@ -160,4 +160,36 @@ export interface VendorStats {
     availableBalance: number;
     escrowBalance: number;
   };
+  workerStats: {
+    totalStaffs: number;
+    professionTotalValue: number;
+  };
+}
+
+interface WalletStats {
+  availableBalance: number;
+  escrowBalance: number;
+  totalAmountOwed: number;
+  totalAmountReceived: number;
+  totalAmountWithdraw: number;
+}
+
+interface OrderStats {
+  pendingOrders: number;
+  receivedOrders: number;
+  processingOrders: number;
+  shippedOrders: number;
+  deliveredOrders: number;
+  cancelledOrders: number;
+}
+
+interface ShopStats {
+  totalProducts: number;
+  totalProductValue: number;
+}
+
+export interface StatsSeller {
+  walletStats: WalletStats;
+  orderStats: OrderStats;
+  shopStats: ShopStats;
 }

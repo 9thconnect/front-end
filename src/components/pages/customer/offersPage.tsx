@@ -23,20 +23,20 @@ const CustomerOffersPage = () => {
     <div>
       <div className="grid lg:grid-cols-4 gap-4 items-center mt-4">
         <AnalyticCard
-          title={data?.data?.data.offerStats.pendingOffers}
+          title={data?.data?.data.offerStats.pendingOffers || 0}
           className="bg-gray-100 col-span-2"
           iconClassName="bg-gray-300!"
           subTitle="pending offers"
           Icon={UsersRound}
         />
         <AnalyticCard
-          title={data?.data?.data.offerStats.acceptedOffers}
+          title={data?.data?.data.offerStats.acceptedOffers || 0}
           className="bg-green-100 col-span-2"
           subTitle="accepted offers"
           Icon={UsersRound}
         />
         <AnalyticCard
-          title={data?.data?.data.offerStats.rejectedOffers}
+          title={data?.data?.data.offerStats.rejectedOffers || 0}
           subTitle="rejected offers "
           className="bg-red-100 col-span-2"
           Icon={UsersRound}
@@ -46,7 +46,7 @@ const CustomerOffersPage = () => {
             data?.data?.data.offerStats.totalProposedPrice || 0
           )}
           subTitle="total proposed"
-          className="bg-red-100 col-span-2"
+          className="bg-gray-300 col-span-2"
           Icon={UsersRound}
         />
       </div>

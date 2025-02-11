@@ -21,20 +21,20 @@ function ProjectsPage() {
     <div>
       <div className="flex space-x-3 items-center mt-4">
         <AnalyticCard
-          title="50"
+          title={data?.data?.data.projectStats.startedProjects || 0}
           className="bg-gray-100"
           iconClassName="bg-gray-300!"
           subTitle="started projects"
           Icon={UsersRound}
         />
         <AnalyticCard
-          title="50"
+          title={data?.data?.data.projectStats.completedProjects || 0}
           className="bg-green-100"
           subTitle="completed projects"
           Icon={UsersRound}
         />
         <AnalyticCard
-          title="50"
+          title={data?.data?.data.projectStats.cancelledProjects || 0}
           subTitle="cancelled projects"
           className="bg-red-100"
           Icon={UsersRound}
