@@ -199,7 +199,7 @@ export function SelectAccountTypeForm({
     <Form {...form}>
       <ArrowLeft
         className="text-black cursor-pointer"
-        onClick={() => setStage(3)}
+        onClick={() => setStage(1)}
       />
       <h2 className="my-5 text-2xl text-black">
         Please select your account type

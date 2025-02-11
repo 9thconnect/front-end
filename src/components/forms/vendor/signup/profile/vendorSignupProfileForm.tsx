@@ -21,6 +21,13 @@ import Link from "next/link";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { ArrowLeft } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type VendorSignupProfileFormProps = {
   onSubmit: (data: z.infer<typeof vendorSignupProfileValidationSchema>) => void;
@@ -36,6 +43,13 @@ const VendorSignupProfileForm = ({
   setStage,
 }: VendorSignupProfileFormProps) => {
   const form = useVendorSignupProfileForm(formStateData);
+
+  console.log("formStateData", formStateData);
+
+  React.useEffect(() => {
+    form.reset(formStateData);
+  }, [formStateData, form]);
+
   return (
     <Form {...form}>
       <ArrowLeft
@@ -92,6 +106,33 @@ const VendorSignupProfileForm = ({
                 <FormControl>
                   <Input type="tel" placeholder="Phone" {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-2">
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={formStateData.gender || field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+
                 <FormMessage />
               </FormItem>
             )}

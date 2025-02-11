@@ -153,11 +153,16 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       fullName: formData.fullName,
       email: formData.email,
       phoneNumber: formData.phone,
+      gender: formData.gender,
     }));
 
     console.log(data);
 
-    updateStage(2);
+    if (type == UserType.CUSTOMER) {
+      updateStage(7);
+    } else {
+      updateStage(4);
+    }
   };
 
   const handleSubmitStageTwo = (
@@ -210,7 +215,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     } else if (formData.type == "professional") {
       setOpenSelectProType(true);
     } else {
-      updateStage(5);
+      updateStage(7);
     }
   };
 
@@ -300,7 +305,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     console.log(data, formData);
 
-    updateStage(5);
+    updateStage(7);
   };
 
   const handleSubmitStageSix = (
@@ -389,19 +394,128 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     // return;
 
-    const finalData =
-      type == UserType.CUSTOMER
-        ? dataWithoutGender
-        : dataWithoutAccountName.professionalType == "company"
-        ? dataWithoutPortAndQualification
-        : dataWithoutAccountName.vendorType == "logistic" ||
-          dataWithoutAccountName.vendorType == "real-estate"
-        ? dataWithoutProfessions
-        : dataWithoutAccountName.sellerType == "wholeSale"
-        ? dataWithoutAccountNameAndPortfolioAndQualifications
-        : dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry;
+    let finalData;
 
-    console.log("dataWithoutAccountName", finalData);
+    // finalData =
+    //   type == UserType.CUSTOMER
+    //     ? dataWithoutGender
+    //     : dataWithoutAccountName.professionalType == "company"
+    //     ? dataWithoutPortAndQualification
+    //     : dataWithoutAccountName.vendorType == "logistic" ||
+    //       dataWithoutAccountName.vendorType == "real-estate"
+    //     ? dataWithoutProfessions
+    //     : dataWithoutAccountName.sellerType == "wholeSale"
+    //     ? dataWithoutAccountNameAndPortfolioAndQualifications
+    //     : dataWithoutAccountName.sellerType == "retail"
+    //     ? dataWithoutAccountNameAndPortfolioAndQualifications
+    //     : dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry;
+
+    // console.log("dataWithoutAccountName", finalData);
+
+    let retailSellerData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      vendorType: dataWithoutAccountName.vendorType,
+      sellerType: dataWithoutAccountName.sellerType,
+      password: dataWithoutAccountName.password,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    let wholesaleSellerData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      vendorType: dataWithoutAccountName.vendorType,
+      sellerType: dataWithoutAccountName.sellerType,
+      password: dataWithoutAccountName.password,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    let individualProfessionalData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      vendorType: dataWithoutAccountName.vendorType,
+      professionalType: dataWithoutAccountName.professionalType,
+      password: dataWithoutAccountName.password,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    let companyProfessionalData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      vendorType: dataWithoutAccountName.vendorType,
+      professionalType: dataWithoutAccountName.professionalType,
+      password: dataWithoutAccountName.password,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    let customerData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      password: dataWithoutAccountName.password,
+    };
+
+    let logisticsData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      password: dataWithoutAccountName.password,
+      vendorType: dataWithoutAccountName.vendorType,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    let realEstateData = {
+      fullName: dataWithoutAccountName.fullName,
+      email: dataWithoutAccountName.email,
+      phoneNumber: dataWithoutAccountName.phoneNumber,
+      password: dataWithoutAccountName.password,
+      vendorType: dataWithoutAccountName.vendorType,
+      gender: dataWithoutAccountName.gender,
+    };
+
+    if (type == UserType.CUSTOMER) {
+      finalData = customerData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "logistic"
+    ) {
+      finalData = logisticsData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "real-estate"
+    ) {
+      finalData = realEstateData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "professional" &&
+      dataWithoutAccountName.professionType == "company"
+    ) {
+      finalData = companyProfessionalData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "professional" &&
+      dataWithoutAccountName.professionType == "individual"
+    ) {
+      finalData = individualProfessionalData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "seller" &&
+      dataWithoutAccountName.sellerType == "wholeSale"
+    ) {
+      finalData = wholesaleSellerData;
+    } else if (
+      type == UserType.VENDOR &&
+      dataWithoutAccountName.vendorType == "seller" &&
+      dataWithoutAccountName.sellerType == "retail"
+    ) {
+      finalData = retailSellerData;
+    } else {
+      finalData = retailSellerData;
+    }
 
     try {
       setDialogStatus("loading"); // Show loading dialog
@@ -477,15 +591,20 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
             <Separator className="mt-3" />
             <DialogDescription className="flex space-x-3">
-              <div className="border rounded-xl overflow-hidden">
+              <div className="border w-1/2 rounded-xl overflow-hidden">
                 <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799631/4d56ce8c38262e55c19c507e6ac71960_kt6zfd.png')] bg-cover h-60 bg-no-repeat"></div>
                 <div className="p-4">
                   <h2 className="font-bold text-lg text-offBlack">Company</h2>
                   <p>For companies and business owners</p>
                   <Button
                     onClick={() => {
+                      setData((prevData) => ({
+                        ...prevData,
+                        professionalType: "company",
+                      }));
                       setOpenSelectProType(false);
-                      setStage(8);
+                      setPreviousStage(4);
+                      setStage(7);
                     }}
                     className="w-full mt-4"
                   >
@@ -493,7 +612,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
                   </Button>
                 </div>
               </div>
-              <div className="border rounded-xl overflow-hidden">
+              <div className="border w-1/2 rounded-xl overflow-hidden">
                 <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727799634/d51f1918fcfd3a3890328613e2556e35_qs9kgs.png')] bg-cover h-60 bg-no-repeat"></div>
                 <div className="p-4">
                   <h2 className="font-bold text-lg text-offBlack">
@@ -502,8 +621,13 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
                   <p>Sign up as an individual worker or sole proprietor</p>
                   <Button
                     onClick={() => {
+                      setData((prevData) => ({
+                        ...prevData,
+                        professionalType: "individual",
+                      }));
                       setOpenSelectProType(false);
-                      setStage(6);
+                      setPreviousStage(4);
+                      setStage(7);
                     }}
                     className="w-full mt-4"
                   >
