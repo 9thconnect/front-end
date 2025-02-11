@@ -28,7 +28,10 @@ import { Product } from "@/type/common";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
 import ScrollableContainer from "@/components/common/scrollableContainer";
-import { useGetSimilarProducts } from "@/lib/requests/user/product";
+import {
+  addToWishList,
+  useGetSimilarProducts,
+} from "@/lib/requests/user/product";
 import ProductCard from "@/components/cards/productCard";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import {
@@ -42,6 +45,8 @@ import { siteConfig } from "@/config/site.config";
 import { formatDate } from "@/utils/format-date";
 import Empty from "@/components/common/empty";
 import { formatCurrency } from "@/utils/format-currency";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 interface RatingBarProps {
   rating: number;
@@ -124,6 +129,32 @@ const SingleProductPage = ({
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["addRemoveWishlist"],
+    mutationFn: (data: Product) => {
+      return addToWishList(product?._id as string);
+    },
+    onSuccess: (data) => {
+      toast(data.message, {
+        description: `${product?.name ?? "product name"}`,
+        action: {
+          label: "Whish List",
+          onClick: () => console.log("Undo"),
+          actionButtonStyle: {
+            backgroundColor: "#ab0505b9",
+            color: "#880b0bf",
+          },
+        },
+      });
+    },
+
+    onError: (error: AxiosError<{ message: string }>) => {
+      console.log(error.response?.data.message);
+
+      toast.error(error.response?.data.message);
+    },
+  });
 
   const ratings: Rating[] = [
     { stars: 5, count: 0 },
@@ -324,13 +355,6 @@ const SingleProductPage = ({
                 {formatCurrency(product?.price)}
               </h3>
 
-              {/* <div className="my-2 w-fit">
-                <Counter
-                  disable={count >= product?.stockQuantity}
-                  count={count}
-                  setCount={setCount}
-                />
-              </div> */}
               <div className="flex items-center mt-2">
                 {product.productSaleType == "b2b" && (
                   <div className="flex items-center mr-3">
@@ -393,8 +417,20 @@ const SingleProductPage = ({
                   </Button>
                 )}
 
-                <Button className="rounded-full p-3" variant={"ghost"}>
-                  <Heart />
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    mutate(product);
+                  }}
+                  className="rounded-full p-3"
+                  variant={"ghost"}
+                >
+                  {isPending ? (
+                    <LoaderCircleIcon className="w-6 h-6 animate-spin " />
+                  ) : (
+                    <Heart />
+                  )}
                 </Button>
               </div>
             </div>
