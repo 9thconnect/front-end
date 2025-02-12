@@ -13,6 +13,7 @@ export function useVendorSignupProfileForm(formStateData: VendorSignUpRequest) {
       email: formStateData.email,
       phone: formStateData.phoneNumber,
       fullName: formStateData.fullName,
+      gender: formStateData.gender,
     },
   });
 }

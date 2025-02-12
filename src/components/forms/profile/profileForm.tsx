@@ -113,7 +113,7 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
           />
         </div>
 
-        {/* <div className="col-span-1">
+        <div className="col-span-2">
           <FormField
             control={form.control}
             name="gender"
@@ -139,7 +139,7 @@ const ProfileForm = forwardRef<HTMLFormElement>((props) => {
               </FormItem>
             )}
           />
-        </div> */}
+        </div>
         <div className="col-span-2">
           <FormField
             control={form.control}
