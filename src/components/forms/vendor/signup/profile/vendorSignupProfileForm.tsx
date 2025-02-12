@@ -120,7 +120,7 @@ const VendorSignupProfileForm = ({
                 <FormLabel>Gender</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={formStateData.gender || field.value}
+                  value={formStateData.gender || field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
