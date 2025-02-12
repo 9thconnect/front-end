@@ -11,6 +11,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { IVendor } from "@/type/users";
 
 export default function AccountPagesLayout({
   children,
@@ -18,6 +20,8 @@ export default function AccountPagesLayout({
   children: React.ReactNode;
 }) {
   const path = usePathname();
+
+  const vendor = useAppSelector((state) => state.auth.data as IVendor);
 
   console.log(path);
 
@@ -43,11 +47,17 @@ export default function AccountPagesLayout({
 
       <SectionContainer>
         <div className="lg:grid grid-cols-1 lg:grid-cols-8 gap-8">
-          <aside className="self-start lg:sticky col-span-3 top-56 mb-10">
-            <AccountPageSideBar />
-          </aside>
+          {vendor && vendor.profileBuild && (
+            <aside className="self-start lg:sticky col-span-2 top-56 mb-10">
+              <AccountPageSideBar />
+            </aside>
+          )}
 
-          <div className="col-span-5">
+          <div
+            className={`${
+              vendor && vendor.profileBuild ? "col-span-6" : "col-span-8"
+            } `}
+          >
             <div className="rounded-md  p-2">{children}</div>
           </div>
         </div>

@@ -41,6 +41,11 @@ const authSlice = createSlice({
         state.data.avatar = action.payload;
       }
     },
+    updateBuildStatus: (state) => {
+      const userData = state.data as IVendor;
+
+      userData.profileBuild = true;
+    },
     updateAdminProfile: (
       state,
       action: PayloadAction<{
@@ -98,6 +103,7 @@ export const {
   updateAdminProfile,
   updateUserProfile,
   updateVendorProfile,
+  updateBuildStatus,
 } = authSlice.actions;
 
 export default authSlice.reducer;

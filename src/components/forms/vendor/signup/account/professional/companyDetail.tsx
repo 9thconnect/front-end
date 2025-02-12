@@ -98,13 +98,6 @@ const ProfessionalCompanyDetailsForm = ({
 
   return (
     <Form {...form}>
-      {setStage && (
-        <ArrowLeft
-          className="text-black cursor-pointer"
-          onClick={() => setStage(4)}
-        />
-      )}
-
       <h2 className="my-2 text-xl text-black">Company details</h2>
       <p className="mb-4">Give us your company details</p>
       <Separator />

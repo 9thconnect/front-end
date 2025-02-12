@@ -66,6 +66,7 @@ const BusinessDetailsForm = ({
       defaultValues: {
         businessDesc: formStateData.businessDesc,
         shopName: formStateData.shopName,
+        shopCountry: formStateData.shopCountry,
         shopAddress: formStateData.shopAddress,
         shopState: formStateData.shopState,
         shopCity: formStateData.shopCity,
@@ -74,6 +75,7 @@ const BusinessDetailsForm = ({
         businessPhoneNumber: formStateData.businessPhoneNumber,
         businessRegNo: formStateData.businessRegNo,
         businessLogo: formStateData.businessLegalName,
+        businessType: formStateData.businessType,
       },
     });
   }
@@ -98,13 +100,6 @@ const BusinessDetailsForm = ({
 
   return (
     <Form {...form}>
-      {setStage && (
-        <ArrowLeft
-          className="text-black cursor-pointer"
-          onClick={() => setStage(11)}
-        />
-      )}
-
       <h2 className="my-2 text-xl text-black">Business details</h2>
       <p className="mb-4">Give us your business details</p>
       <Separator />
@@ -119,7 +114,7 @@ const BusinessDetailsForm = ({
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={formStateData.businessType || field.value}
                   onOpenChange={() => setGetBusinessTypes(true)}
                 >
                   <SelectTrigger>
@@ -184,7 +179,7 @@ const BusinessDetailsForm = ({
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={formStateData.shopCountry || field.value}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select business country" />

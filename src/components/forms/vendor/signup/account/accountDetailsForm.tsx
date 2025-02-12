@@ -42,12 +42,14 @@ type AccountDetailsFormProps = {
   onSubmit: (data: z.infer<typeof accountDetailsValidationSchema>) => void;
   formStateData: VendorSignUpRequest;
   setStage: React.Dispatch<React.SetStateAction<number>>;
+  previousStage: number;
 };
 
 const AccountDetailsForm = ({
   onSubmit,
   formStateData,
   setStage,
+  previousStage,
 }: AccountDetailsFormProps) => {
   function useAccountDetailsForm() {
     return useForm<z.infer<typeof accountDetailsValidationSchema>>({
@@ -65,7 +67,7 @@ const AccountDetailsForm = ({
     <Form {...form}>
       <ArrowLeft
         className="text-black cursor-pointer"
-        onClick={() => setStage(2)}
+        onClick={() => setStage(previousStage)}
       />
       <h2 className="my-2 text-xl text-black">Add Bank Details</h2>
       <p className="mb-4">Give us your payout account detail</p>

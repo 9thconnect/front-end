@@ -343,74 +343,15 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
 
     const { accountName, ...dataWithoutAccountName } = updatedData;
 
-    const {
-      gender,
-      portfolio: p,
-      qualifications: c,
-      professionalType,
-      sellerType,
-      shopCountry: pp,
-      ...dataWithoutGender
-    } = dataWithoutAccountName;
-
-    const {
-      portfolio,
-      qualifications,
-      sellerType: m,
-      shopCountry: sc,
-      ...dataWithoutPortAndQualification
-    } = dataWithoutAccountName;
-
     console.log(
-      "dataWithoutPortAndQualification",
-      dataWithoutPortAndQualification
+      "dataWithoutAccountName",
+      type == UserType.VENDOR,
+      dataWithoutAccountName.vendorType,
+      dataWithoutAccountName.professionType,
+      dataWithoutAccountName.professionalType
     );
 
-    const {
-      portfolio: ee,
-      qualifications: rr,
-      ...dataWithoutAccountNameAndPortfolioAndQualifications
-    } = dataWithoutAccountName;
-
-    console.log("form data", formData);
-
-    const {
-      professionCity,
-      professionDesc,
-      professionName,
-      professionType,
-      portfolio: rd,
-      qualifications: cx,
-      professionalType: es,
-      sellerType: xc,
-      shopCountry: ps,
-      ...dataWithoutProfessions
-    } = dataWithoutAccountName;
-
-    const {
-      shopCountry,
-      ...dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry
-    } = dataWithoutAccountNameAndPortfolioAndQualifications;
-
-    // return;
-
     let finalData;
-
-    // finalData =
-    //   type == UserType.CUSTOMER
-    //     ? dataWithoutGender
-    //     : dataWithoutAccountName.professionalType == "company"
-    //     ? dataWithoutPortAndQualification
-    //     : dataWithoutAccountName.vendorType == "logistic" ||
-    //       dataWithoutAccountName.vendorType == "real-estate"
-    //     ? dataWithoutProfessions
-    //     : dataWithoutAccountName.sellerType == "wholeSale"
-    //     ? dataWithoutAccountNameAndPortfolioAndQualifications
-    //     : dataWithoutAccountName.sellerType == "retail"
-    //     ? dataWithoutAccountNameAndPortfolioAndQualifications
-    //     : dataWithoutAccountNameAndPortfolioAndQualificationsAndShopCountry;
-
-    // console.log("dataWithoutAccountName", finalData);
 
     let retailSellerData = {
       fullName: dataWithoutAccountName.fullName,
@@ -437,7 +378,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       email: dataWithoutAccountName.email,
       phoneNumber: dataWithoutAccountName.phoneNumber,
       vendorType: dataWithoutAccountName.vendorType,
-      professionalType: dataWithoutAccountName.professionalType,
+      professionalType: "individual",
       password: dataWithoutAccountName.password,
       gender: dataWithoutAccountName.gender,
     };
@@ -447,7 +388,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       email: dataWithoutAccountName.email,
       phoneNumber: dataWithoutAccountName.phoneNumber,
       vendorType: dataWithoutAccountName.vendorType,
-      professionalType: dataWithoutAccountName.professionalType,
+      professionalType: "company",
       password: dataWithoutAccountName.password,
       gender: dataWithoutAccountName.gender,
     };
@@ -492,13 +433,13 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     } else if (
       type == UserType.VENDOR &&
       dataWithoutAccountName.vendorType == "professional" &&
-      dataWithoutAccountName.professionType == "company"
+      dataWithoutAccountName.professionalType == "company"
     ) {
       finalData = companyProfessionalData;
     } else if (
       type == UserType.VENDOR &&
       dataWithoutAccountName.vendorType == "professional" &&
-      dataWithoutAccountName.professionType == "individual"
+      dataWithoutAccountName.professionalType == "individual"
     ) {
       finalData = individualProfessionalData;
     } else if (
@@ -598,6 +539,8 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
                   <p>For companies and business owners</p>
                   <Button
                     onClick={() => {
+                      console.log("kwkwkwf");
+
                       setData((prevData) => ({
                         ...prevData,
                         professionalType: "company",
@@ -657,13 +600,7 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
               setStage={setStage}
             />
           )}
-          {stage == 3 && (
-            <AccountDetailsForm
-              onSubmit={handleSubmitStageThree}
-              formStateData={data}
-              setStage={setStage}
-            />
-          )}
+
           {stage == 4 && (
             <SelectAccountTypeForm
               onSubmit={handleSubmitStageFour}

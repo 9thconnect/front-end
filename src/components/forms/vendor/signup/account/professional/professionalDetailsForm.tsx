@@ -91,10 +91,6 @@ const ProfessionalDetailsForm = ({
 
   return (
     <Form {...form}>
-      <ArrowLeft
-        className="text-black cursor-pointer"
-        onClick={() => setStage(previousStage)}
-      />
       <h2 className="my-2 text-xl text-black">Profession information</h2>
       <p className="mb-4">Give us your business details</p>
       <Separator className="mb-4" />

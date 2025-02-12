@@ -30,6 +30,7 @@ import { REHYDRATE } from "redux-persist";
 import Link from "next/link";
 import requests from "@/utils/requests";
 import { IAdmin, IVendor } from "@/type/users";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -41,9 +42,10 @@ const LoginFormSchema = z.object({
 export function LoginForm({ type }: { type: UserType }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -88,8 +90,6 @@ export function LoginForm({ type }: { type: UserType }) {
           return;
         }
       }
-
-      console.log(UserType.ADMIN, type, type == UserType.ADMIN);
 
       const redirectTo = searchParams.get("redirectTo");
       if (redirectTo) {
@@ -152,11 +152,26 @@ export function LoginForm({ type }: { type: UserType }) {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Enter your password"
-                  {...field}
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    {...field}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -180,3 +195,5 @@ export function LoginForm({ type }: { type: UserType }) {
     </Form>
   );
 }
+
+export default LoginForm;

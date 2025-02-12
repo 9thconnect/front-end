@@ -66,6 +66,7 @@ export interface IVendor {
   updatedAt: string;
   __v: number;
   lastSeen: string;
+  profileBuild: boolean;
 }
 
 interface Wallet {
