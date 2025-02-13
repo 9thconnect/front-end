@@ -255,7 +255,7 @@ const MarketplaceHomePage = ({
               <DropdownMenuTrigger>
                 <AlignJustify size={30} className="md:hidden" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="mr-3">
                 <DropdownMenuLabel>Filter</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -292,6 +292,20 @@ const MarketplaceHomePage = ({
                     state={[selectedRating, setSelectedRating]}
                   />
                 </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {(selectedPrice !== undefined ||
+                    selectedRating !== undefined ||
+                    selectedBrand !== undefined ||
+                    selectedLocation !== undefined ||
+                    selectedRate !== undefined ||
+                    selectedRatingSide !== undefined ||
+                    selectedCategory !== undefined ||
+                    selectedBrand !== undefined) && (
+                    <Button className="w-full" onClick={handleClearFilters}>
+                      Clear
+                    </Button>
+                  )}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <div className="hidden md:flex space-x-2">
@@ -312,15 +326,6 @@ const MarketplaceHomePage = ({
                 placeholder="Select Price"
                 state={[selectedPrice, setSelectedPrice]}
               />
-              {/* <FilterSelect
-                label="Rating"
-                options={starts.map((start) => ({
-                  name: `${start.value} star`,
-                  value: start.value.toString(),
-                }))}
-                placeholder="Select Rating"
-                state={[selectedRating, setSelectedRating]}
-              /> */}
 
               {(selectedPrice !== undefined ||
                 selectedRating !== undefined ||

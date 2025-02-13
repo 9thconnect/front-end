@@ -12,6 +12,9 @@
 //   items: FilterItem[];
 //   isOpen: boolean;
 //   onToggle: () => void;
+//   selectedValue?: string | number;
+//   onSelect?: (value: string | number) => void;
+//   disabled?: boolean;
 // }
 
 // const FilterSection: React.FC<FilterSectionProps> = ({
@@ -19,13 +22,23 @@
 //   items,
 //   isOpen,
 //   onToggle,
+//   selectedValue,
+//   onSelect,
+//   disabled,
 // }) => {
 //   return (
 //     <CollapsibleSection title={title} isOpen={isOpen} onToggle={onToggle}>
-//       <RadioGroup defaultValue="comfortable">
+//       <RadioGroup
+//         value={selectedValue?.toString()}
+//         onValueChange={(value) => onSelect && onSelect(value)}
+//         disabled={disabled}
+//       >
 //         {items.map((item, index) => (
 //           <div className="flex items-center space-x-2 mb-3" key={index}>
-//             <RadioGroupItem value={item.name} id={`${title}-${index}`} />
+//             <RadioGroupItem
+//               value={item.value.toString()}
+//               id={`${title}-${index}`}
+//             />
 //             <Label
 //               htmlFor={`${title}-${index}`}
 //               className="pl-4 text-sm flex w-full justify-between items-center"
@@ -56,7 +69,7 @@ interface FilterSectionProps {
   isOpen: boolean;
   onToggle: () => void;
   selectedValue?: string | number;
-  onSelect?: (value: string | number) => void;
+  onSelect?: (value: string | number | undefined) => void; // Updated type here
   disabled?: boolean;
 }
 
@@ -69,11 +82,23 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   onSelect,
   disabled,
 }) => {
+  const value = selectedValue?.toString() || "";
+
+  const handleValueChange = (newValue: string) => {
+    if (onSelect) {
+      if (newValue === selectedValue?.toString()) {
+        onSelect(undefined);
+      } else {
+        onSelect(newValue);
+      }
+    }
+  };
+
   return (
     <CollapsibleSection title={title} isOpen={isOpen} onToggle={onToggle}>
       <RadioGroup
-        value={selectedValue?.toString()}
-        onValueChange={(value) => onSelect && onSelect(value)}
+        value={value}
+        onValueChange={handleValueChange}
         disabled={disabled}
       >
         {items.map((item, index) => (

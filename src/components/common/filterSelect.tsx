@@ -11,12 +11,13 @@
 
 // interface FilterSelectProps {
 //   label: string;
-//   options: { name: string; value: string | number }[];
+//   options: { name: string; value: string | number | boolean | any }[];
 //   placeholder: string;
 //   state?: [
-//     string | number | undefined,
+//     string | number | undefined | any,
 //     React.Dispatch<React.SetStateAction<string | any | undefined>>
 //   ];
+//   disabled?: boolean;
 // }
 
 // const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -24,12 +25,23 @@
 //   options,
 //   placeholder,
 //   state,
+//   disabled,
 // }) => {
-//   const [selectedValue, setSelectedValue] =
-//     state ?? React.useState<string | number | undefined>(undefined);
+//   const [localValue, setLocalValue] = React.useState<
+//     string | number | undefined
+//   >(undefined);
+
+//   const [selectedValue, setSelectedValue] = state ?? [
+//     localValue,
+//     setLocalValue,
+//   ];
 
 //   return (
-//     <Select value={selectedValue?.toString()} onValueChange={setSelectedValue}>
+//     <Select
+//       disabled={disabled}
+//       value={selectedValue?.toString()}
+//       onValueChange={setSelectedValue}
+//     >
 //       <SelectTrigger className="w-full">
 //         <SelectValue placeholder={placeholder} />
 //       </SelectTrigger>
@@ -81,18 +93,26 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   const [localValue, setLocalValue] = React.useState<
     string | number | undefined
   >(undefined);
-
   const [selectedValue, setSelectedValue] = state ?? [
     localValue,
     setLocalValue,
   ];
 
+  // Convert value to string or empty string if undefined
+  const value = selectedValue?.toString() || "";
+
+  const handleValueChange = (newValue: string) => {
+    // If using external state
+    if (state) {
+      setSelectedValue(newValue || undefined);
+    } else {
+      // If using local state
+      setLocalValue(newValue || undefined);
+    }
+  };
+
   return (
-    <Select
-      disabled={disabled}
-      value={selectedValue?.toString()}
-      onValueChange={setSelectedValue}
-    >
+    <Select disabled={disabled} value={value} onValueChange={handleValueChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
