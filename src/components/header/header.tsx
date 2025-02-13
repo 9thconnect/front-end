@@ -117,7 +117,7 @@ const MainHeader = () => {
         <div className="flex w-full md:w-auto items-center">
           <Link href={"/"}>
             <Image
-              className="w-32 sm:w-auto"
+              className="w-32 sm:w-auto hidden md:block"
               alt="site logo"
               src={siteConfig.logo}
             />
@@ -181,16 +181,25 @@ const MainHeader = () => {
             </li>
           ))}
         </ul>
-        <div className="flex md:hidden">
-          <div className={"bg-gray-200 p-2 rounded-full md:bg-transparent"}>
+
+        <div className="flex items-center md:hidden">
+          <button className="bg-gray-200 p-2 rounded-full w-10 h-10 flex items-center justify-center">
             <BellIcon />
-          </div>
-          <div
+          </button>
+
+          <button
             onClick={() => router.push("/marketplace/cart")}
-            className={"bg-gray-200 p-2 rounded-full md:bg-transparent ml-2"}
+            className="bg-gray-200 p-2 rounded-full w-10 h-10 flex items-center justify-center ml-2"
           >
             <CertIcon />
-          </div>
+          </button>
+
+          <button
+            onClick={() => dispatch(toggleTrackModal({ open: true }))}
+            className="bg-gray-200 px-4 py-2 rounded-full flex items-center justify-center ml-2 text-sm font-medium"
+          >
+            Track Order
+          </button>
         </div>
       </div>
     </header>
