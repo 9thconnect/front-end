@@ -14,12 +14,7 @@ function page() {
   return (
     <div className="pt-8">
       <div className="h-60 md:h-[300px]">
-        <MainHeroSection
-          images={[
-            "https://s3-alpha-sig.figma.com/img/1fc1/7a11/8cccf3adfc0b9a36e8895c4dd4246b30?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CCOMVi5arxw71sdsHy3XKvTJOtCcS4BjkMiIoBqWcXs7JOVT2yETxgFkagUwqfr8RwxlkRvMgCUQs6Z6YvyzmyNdHjmHipFlLW2gs0Zgqt8L3cSwEe3F2mFXbfoDq8hZ2AYniQFjSHsH3uPTvF-i5gRzhpaCMOIUIK1v3seDzZjn-iKtRaQ2o7xEkfrwvPJZUbPifxwU2dNCWC3-0krbFVOLzANpaqo6vWL6uzJ5iiHwqwMBBaYGZoCg7l~yHN09Q2Dqmvzf13sRgK~cDSgmG1Fgj1EgmJYabLfG2RoBrotqloadFE-wnHShLQXuAgWtmgOxFe94LdxJP32fCOhIJA__",
-            "https://s3-alpha-sig.figma.com/img/1fc1/7a11/8cccf3adfc0b9a36e8895c4dd4246b30?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CCOMVi5arxw71sdsHy3XKvTJOtCcS4BjkMiIoBqWcXs7JOVT2yETxgFkagUwqfr8RwxlkRvMgCUQs6Z6YvyzmyNdHjmHipFlLW2gs0Zgqt8L3cSwEe3F2mFXbfoDq8hZ2AYniQFjSHsH3uPTvF-i5gRzhpaCMOIUIK1v3seDzZjn-iKtRaQ2o7xEkfrwvPJZUbPifxwU2dNCWC3-0krbFVOLzANpaqo6vWL6uzJ5iiHwqwMBBaYGZoCg7l~yHN09Q2Dqmvzf13sRgK~cDSgmG1Fgj1EgmJYabLfG2RoBrotqloadFE-wnHShLQXuAgWtmgOxFe94LdxJP32fCOhIJA__",
-          ]}
-        />
+        <MainHeroSection images={["/images/Ads8.jpg", "/images/Ads8.jpg"]} />
       </div>
 
       <SectionContainer>

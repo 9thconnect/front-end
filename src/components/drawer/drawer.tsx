@@ -23,10 +23,8 @@ export function MainDrawer() {
       </SheetTrigger>
       <SheetContent className="w-full">
         <SheetHeader>
-          <SheetTitle>Menu Item</SheetTitle>
-          <SheetDescription>hehehe</SheetDescription>
+          <SheetTitle>Call Us: +2342014642998</SheetTitle>
         </SheetHeader>
-        <div>Designs coming soon</div>
       </SheetContent>
     </Sheet>
   );
