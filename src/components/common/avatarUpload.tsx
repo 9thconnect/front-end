@@ -14,6 +14,7 @@ import { siteConfig } from "@/config/site.config";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import requests from "@/utils/requests";
 import { updateAvatar } from "@/lib/redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 export type ProfileFormValues = z.infer<typeof profileValidationSchema>;
 
@@ -68,6 +69,8 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ form, defaultAvatar }) => {
       });
 
       console.log(profileUploadDate);
+
+      toast.success("Avatar updated successfully");
 
       dispatch(updateAvatar(uploadedImageUrl));
 
