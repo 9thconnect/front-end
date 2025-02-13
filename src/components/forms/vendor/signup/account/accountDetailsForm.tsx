@@ -30,9 +30,12 @@ export const accountDetailsValidationSchema = z.object({
   bank: z.string({
     required_error: "Please select a bank",
   }),
-  accountNumber: z.string({
-    required_error: "Please enter your account number",
-  }),
+  accountNumber: z
+    .string()
+    .min(10, "Account number must be exactly 10 digits")
+    .max(10, "Account number must be exactly 10 digits")
+    .regex(/^\d+$/, "Account number must contain only digits"),
+
   accountName: z.string({
     required_error: "Please enter your account name",
   }),
@@ -56,9 +59,10 @@ const AccountDetailsForm = ({
       resolver: zodResolver(accountDetailsValidationSchema),
       defaultValues: {
         accountName: formStateData.accountName,
-        accountNumber: formStateData.accountNumber,
+        accountNumber: formStateData.accountNumber?.toString() || "",
         bank: formStateData.bankCode,
       },
+      mode: "onChange",
     });
   }
   const form = useAccountDetailsForm();
@@ -94,8 +98,11 @@ const AccountDetailsForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {bankData.map((bank) => (
-                      <SelectItem key={bank.code} value={bank.code}>
+                    {bankData.map((bank, index) => (
+                      <SelectItem
+                        key={`${bank.code} -- ${index}`}
+                        value={bank.code}
+                      >
                         {bank.bank_name}
                       </SelectItem>
                     ))}
@@ -115,7 +122,14 @@ const AccountDetailsForm = ({
               <FormItem>
                 <FormLabel>Account Number</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter your account number" />
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={10}
+                    {...field}
+                    placeholder="Enter your account number"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
