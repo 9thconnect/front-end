@@ -8,6 +8,17 @@ import Empty from "@/components/common/empty";
 import ScrollableContainer from "@/components/common/scrollableContainer";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { productDummyList } from "@/data/dummy/productDummyData";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import {
@@ -30,6 +41,8 @@ const CartPage = () => {
     useAppSelector((state) => state.auth.type) == UserType.CUSTOMER;
 
   const cartItems = useAppSelector((state) => state.cart?.items ?? []);
+
+  const clearingCart = useAppSelector((state) => state.cart.clearingCart);
 
   useEffect(() => {
     if (isLoggedIn && isUser) {
@@ -81,6 +94,8 @@ const CartPage = () => {
     }
   };
 
+  console.log("clearingCart", clearingCart);
+
   return (
     <div>
       <SectionContainer className="mt-5">
@@ -89,7 +104,28 @@ const CartPage = () => {
             <div className={`section-card-header `}>
               <div className="flex justify-between items-center mb-5">
                 <h3 className="text-2xl  text-offBlack">Cart</h3>
-                <Button onClick={onClearCart}>Clear Cart</Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button disabled={cartItems.length == 0}>
+                      {clearingCart ? "Loading..." : "Clear Cart"}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="max-w-md">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Clear Cart</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to clear your cart? This action
+                        cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={onClearCart}>
+                        Clear Cart
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
               <div className="border-b-2 w-full"></div>
             </div>
@@ -116,10 +152,6 @@ const CartPage = () => {
                 <p>Subtotal</p>
                 <p className="text-offBlack">₦ {subtotal.toLocaleString()}</p>
               </div>
-              {/* <div className="flex justify-between items-center">
-                <p>Delivery Fee</p>
-                <p>₦ {deliveryFee.toLocaleString()}</p>
-              </div> */}
               <Separator className="my-4" />
               <div className="flex justify-between items-center">
                 <p>Total</p>

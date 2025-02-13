@@ -17,6 +17,8 @@ import { toast } from "sonner";
 const Page = () => {
   const vendor = useAppSelector((state) => state.auth.data as IVendor);
 
+  const type = useAppSelector((state) => state.auth.type);
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ const Page = () => {
 
   return (
     <div>
-      {vendor && vendor.profileBuild ? (
+      {(vendor && vendor.profileBuild) || type == "customer" ? (
         <div>
           <h3 className="text-2xl text-offBlack border-b pb-4">
             Update Your Profile

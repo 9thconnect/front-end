@@ -22,6 +22,7 @@ export default function AccountPagesLayout({
   const path = usePathname();
 
   const vendor = useAppSelector((state) => state.auth.data as IVendor);
+  const type = useAppSelector((state) => state.auth.type);
 
   console.log(path);
 
@@ -47,15 +48,18 @@ export default function AccountPagesLayout({
 
       <SectionContainer>
         <div className="lg:grid grid-cols-1 lg:grid-cols-8 gap-8">
-          {vendor && vendor.profileBuild && (
-            <aside className="self-start lg:sticky col-span-2 top-56 mb-10">
-              <AccountPageSideBar />
-            </aside>
-          )}
+          {(vendor && vendor.profileBuild) ||
+            (type == "customer" && (
+              <aside className="self-start lg:sticky col-span-2 top-56 mb-10">
+                <AccountPageSideBar />
+              </aside>
+            ))}
 
           <div
             className={`${
-              vendor && vendor.profileBuild ? "col-span-6" : "col-span-8"
+              (vendor && vendor.profileBuild) || type == "customer"
+                ? "col-span-6"
+                : "col-span-8"
             } `}
           >
             <div className="rounded-md  p-2">{children}</div>

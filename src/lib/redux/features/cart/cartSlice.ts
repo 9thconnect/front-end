@@ -25,6 +25,8 @@ interface CartState {
     state: boolean;
     product: string | null;
   };
+
+  clearingCart: boolean;
 }
 
 const initialState: CartState = {
@@ -38,6 +40,7 @@ const initialState: CartState = {
     state: false,
     product: null,
   },
+  clearingCart: false,
 };
 
 // export const syncCartWithServer = createAsyncThunk(
@@ -83,55 +86,6 @@ export const syncCartWithServer = createAsyncThunk(
     }
   }
 );
-
-// export const addItemToServer = createAsyncThunk(
-//   "cart/addItemToServer",
-//   async (
-//     {
-//       product,
-//       quantity,
-//       type,
-//     }: {
-//       product: Product;
-//       quantity: number;
-//       type?: "productCard" | "cartCard" | "productPage";
-//     },
-//     { getState }
-//   ) => {
-//     const state = getState() as RootState;
-
-//     if (type == "productCard") {
-//       const existingItem = state.cart.items.find(
-//         (item) => item.product._id === product._id
-//       );
-
-//       if (existingItem) {
-//         quantity = existingItem?.quantity + 1;
-//       }
-//     }
-
-//     // let qty = quantity;
-
-//     // const existingItem = state.cart.items.find(
-//     //   (item) => item.product._id === product._id
-//     // );
-
-//     // if (existingItem) {
-//     //   qty = existingItem.quantity + quantity;
-//     // }
-
-//     const response = await addToCart(product._id, quantity);
-//     console.log(response);
-
-//     if (response.status !== "success") {
-//       console.log("response.message", response.message);
-
-//       throw new Error(response.message);
-//     }
-
-//     return { product, quantity, type };
-//   }
-// );
 
 export const addItemToServer = createAsyncThunk(
   "cart/addItemToServer",
@@ -714,6 +668,8 @@ const cartSlice = createSlice({
     builder.addCase(clearCertFromServer.fulfilled, (state, action) => {
       if (action.payload) state.items = action.payload;
 
+      state.clearingCart = false;
+
       toast(`Cart cleared`, {
         description: `Cart cleared`,
         action: {
@@ -727,7 +683,12 @@ const cartSlice = createSlice({
       });
     });
     builder.addCase(clearCertFromServer.rejected, (state, action) => {
+      state.clearingCart = false;
       console.error("Failed to fetch cart from server:", action.error.message);
+    });
+
+    builder.addCase(clearCertFromServer.pending, (state, action) => {
+      state.clearingCart = true;
     });
   },
 });
