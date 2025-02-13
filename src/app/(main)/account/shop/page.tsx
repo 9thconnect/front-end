@@ -22,8 +22,8 @@ const Page = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl text-offBlack my-2">My Shop</h3>
+      <div className="flex justify-between items-center my-3">
+        <h3 className="text-xl text-offBlack ">My Shop</h3>
         {/* <Button>Add Product</Button> */}
         <AddProductModal />
       </div>

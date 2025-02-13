@@ -76,7 +76,25 @@ interface Wallet {
 }
 
 interface Business {
-  // Define the properties for Business if they exist
+  _id: string;
+  vendor: string;
+  businessType: string;
+  business: string;
+  businessDesc: string;
+  shopName: string;
+  shopAddress: string;
+  shopID: string;
+  businessEmail: string;
+  businessPhoneNumber: string;
+  businessLegalName: string;
+  businessRegNo: string;
+  businessLogo: string;
+  businessApproved: boolean;
+  businessActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  approvedBy: string;
 }
 
 interface Profession {

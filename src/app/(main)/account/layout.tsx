@@ -48,12 +48,13 @@ export default function AccountPagesLayout({
 
       <SectionContainer>
         <div className="lg:grid grid-cols-1 lg:grid-cols-8 gap-8">
-          {(vendor && vendor.profileBuild) ||
-            (type == "customer" && (
-              <aside className="self-start lg:sticky col-span-2 top-56 mb-10">
-                <AccountPageSideBar />
-              </aside>
-            ))}
+          {(vendor && vendor.profileBuild) || type == "customer" ? (
+            <aside className="self-start lg:sticky col-span-2 top-56 mb-10">
+              <AccountPageSideBar />
+            </aside>
+          ) : (
+            <div></div>
+          )}
 
           <div
             className={`${
