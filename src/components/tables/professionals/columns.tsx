@@ -79,12 +79,12 @@ export const columns: ColumnDef<Profession>[] = [
       return (
         <div className="flex items-center">
           <Avatar>
-            <AvatarImage src={row.original.vendor.avatar} alt="user pic" />
+            <AvatarImage src={row.original?.vendor?.avatar} alt="user pic" />
             <AvatarFallback>
-              {row.original.vendor.fullName.charAt(2)}
+              {row.original?.vendor?.fullName.charAt(2)}
             </AvatarFallback>
           </Avatar>
-          <p className="ml-3">{row.original.vendor.fullName}</p>
+          <p className="ml-3">{row.original?.vendor?.fullName}</p>
         </div>
       );
     },
