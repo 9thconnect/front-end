@@ -70,7 +70,8 @@ const AccountDetailsForm = ({
         onClick={() => setStage(previousStage)}
       />
       <h2 className="my-2 text-xl text-black">Add Bank Details</h2>
-      <p className="mb-4">Give us your payout account detail</p>
+      <p className="">Give us your payout account detail</p>
+      <p className="text-red-500 my-2">only NG banks are accepted for now</p>
       <Separator />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
