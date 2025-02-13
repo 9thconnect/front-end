@@ -127,24 +127,9 @@ const MainHeader = () => {
 
           <EnhancedSearch />
 
-          {/* <label
-            htmlFor="search"
-            className="relative text-gray-400 focus-within:text-gray-600 block w-full md:w-2/5 ml-2 grow sm:ml-10"
-          >
-            <Image
-              className="absolute top-1/2 transform -translate-y-1/2 left-3"
-              alt="search icon"
-              src={searchIcon}
-            />
-            <Input
-              id="search"
-              className="ring-0 outline-none focus:outline-none pl-10"
-              type="text"
-              placeholder="Search"
-            />
-          </label> */}
-
-          <MainDrawer />
+          <div className="block md:hidden">
+            <MainDrawer />
+          </div>
         </div>
         <div className="hidden md:flex items-center text-sm">
           <div className="[&>*]:mr-10 flex">
@@ -173,11 +158,14 @@ const MainHeader = () => {
               <Image alt="user icon" src={cartIcon} />
               <span className="ml-2">Cart</span>
             </Link>
+            <div className="hidden md:block lg:hidden !mr-0">
+              <MainDrawer />
+            </div>
           </div>
         </div>
       </div>
       <div className="flex justify-between md:justify-center mt-7">
-        <ul className="flex">
+        <ul className="lg:flex hidden ">
           {navItems.map((item, index) => (
             <li
               key={index}

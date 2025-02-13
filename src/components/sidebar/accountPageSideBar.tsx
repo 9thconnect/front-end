@@ -180,7 +180,7 @@ const AccountPageSideBar = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await requests.post(`customer/auth/logout`, {});
+      await requests.post(`${auth.type}/auth/logout`, {});
       dispatch(logoutUser());
 
       toast.success("logout successful");
