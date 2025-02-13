@@ -184,9 +184,14 @@ const QualificationForm: React.FC<QualificationFormProps> = ({
       )}
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={fields.length === 0}>
           Submit
         </Button>
+        {fields.length === 0 && (
+          <p className="text-sm text-red-500 text-center">
+            Please add at least one qualification before submitting
+          </p>
+        )}
       </form>
     </Form>
   );

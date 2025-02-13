@@ -92,7 +92,6 @@ const MainHeader = () => {
         <div className="md:flex hidden items-center text-sm">
           <div className="[&>*]:mr-10">
             <Link href={"/about"}>About Us</Link>
-            {/* <Link href={"/"}>Contact Us</Link> */}
           </div>
           <div className="h-8 bg-gray-300 w-0.5"></div>
           <div
