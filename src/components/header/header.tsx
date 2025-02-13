@@ -102,7 +102,7 @@ const MainHeader = () => {
                 })
               )
             }
-            className="ml-10"
+            className="ml-10 cursor-pointer"
           >
             Track Order
           </div>
