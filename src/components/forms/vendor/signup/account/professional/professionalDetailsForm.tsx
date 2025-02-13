@@ -124,13 +124,12 @@ const ProfessionalDetailsForm = ({
           )}
         />
 
-        {/* Profession Name */}
         <FormField
           control={form.control}
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price</FormLabel>
+              <FormLabel>&#x20A6; Price</FormLabel>
               <FormControl>
                 <Input
                   type="number"

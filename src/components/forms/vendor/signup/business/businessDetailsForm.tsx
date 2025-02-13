@@ -44,7 +44,14 @@ export const businessDetailsValidationSchema = z.object({
   shopState: z.string().min(1, "Shop state is required"),
   businessLegalName: z.string().min(1, "Business legal name is required"),
   businessEmail: z.string().email("Invalid email address"),
-  businessPhoneNumber: z.string().min(1, "Phone number is required"),
+  businessPhoneNumber: z
+    .string()
+    .min(11, {
+      message: "phone must be at least 11 characters.",
+    })
+    .max(11, {
+      message: "phone must be at most 11 characters.",
+    }),
   businessRegNo: z.string().min(1, "Business registration number is required"),
   businessLogo: z.string().min(1, "Business logo is required"),
 });
@@ -77,6 +84,7 @@ const BusinessDetailsForm = ({
         businessLogo: formStateData.businessLegalName,
         businessType: formStateData.businessType,
       },
+      mode: "onChange",
     });
   }
 
