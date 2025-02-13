@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -18,6 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Command,
+  CommandInput,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +33,13 @@ import bankData from "@/data/bank.json";
 import { VendorSignUpRequest } from "@/components/pages/vendor/signUpPage";
 import { ArrowLeft } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 export const accountDetailsValidationSchema = z.object({
   bank: z.string({
@@ -54,6 +69,8 @@ const AccountDetailsForm = ({
   setStage,
   previousStage,
 }: AccountDetailsFormProps) => {
+  const [open, setOpen] = useState(false);
+
   function useAccountDetailsForm() {
     return useForm<z.infer<typeof accountDetailsValidationSchema>>({
       resolver: zodResolver(accountDetailsValidationSchema),
@@ -86,28 +103,83 @@ const AccountDetailsForm = ({
             control={form.control}
             name="bank"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="relative">
                 <FormLabel>Bank</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a bank" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {bankData.map((bank, index) => (
-                      <SelectItem
-                        key={`${bank.code} -- ${index}`}
-                        value={bank.code}
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-full justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
                       >
-                        {bank.bank_name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        {field.value
+                          ? bankData.find((bank) => bank.code === field.value)
+                              ?.bank_name
+                          : "Select a bank"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    align="start"
+                  >
+                    <Command className="relative">
+                      <CommandInput
+                        placeholder="Search banks..."
+                        className="h-9"
+                      />
+                      <CommandList>
+                        <CommandEmpty>No bank found.</CommandEmpty>
+
+                        <CommandGroup className="max-h-64 overflow-y-auto">
+                          {bankData.map((bank, index) => (
+                            <CommandItem
+                              key={`${bank.code} -- ${index}`}
+                              value={bank.bank_name}
+                              onSelect={() => {
+                                form.setValue("bank", bank.code);
+                                setOpen(false);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  field.value === bank.code
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {bank.bank_name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                    {/* <Command>
+                      <CommandInput placeholder="Type a command or search..." />
+                      <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup heading="Suggestions">
+                          <CommandItem>Calendar</CommandItem>
+                          <CommandItem>Search Emoji</CommandItem>
+                          <CommandItem>Calculator</CommandItem>
+                        </CommandGroup>
+
+                        <CommandGroup heading="Settings">
+                          <CommandItem>Profile</CommandItem>
+                          <CommandItem>Billing</CommandItem>
+                          <CommandItem>Settings</CommandItem>
+                        </CommandGroup>
+                      </CommandList>
+                    </Command> */}
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
