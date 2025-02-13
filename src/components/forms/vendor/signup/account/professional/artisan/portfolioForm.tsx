@@ -141,7 +141,10 @@ const PortfolioForm: React.FC<PortfolioFormProps> = ({
       ))}
 
       {isAdding ? (
-        <ImageUpload onUploadSuccess={handleUploadSuccess} />
+        <ImageUpload
+          onUploadSuccess={handleUploadSuccess}
+          acceptedTypes="image/jpeg,image/png,image/gif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        />
       ) : (
         <Button className="w-full" onClick={handleAddPortfolioItem}>
           Add Portfolio Item
