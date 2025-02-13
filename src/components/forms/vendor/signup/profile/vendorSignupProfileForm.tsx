@@ -149,7 +149,7 @@ const VendorSignupProfileForm = ({
             have an account? <span className="text-black">Login</span>{" "}
           </Link>
           <Link className="text-black" href={`/${type}/password/request`}>
-            Forget Password
+            Forgot Password
           </Link>
         </div>
       </form>

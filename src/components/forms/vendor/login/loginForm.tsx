@@ -188,7 +188,7 @@ export function LoginForm({ type }: { type: UserType }) {
             <span className="text-black">Register</span>{" "}
           </Link>
           <Link className="text-black" href={`/${type}/password/request`}>
-            Forget Password
+            Forgot Password
           </Link>
         </div>
       </form>

@@ -14,7 +14,7 @@ const page = ({ params }: Props) => {
       backUrl="/"
       image="/images/Ads.png"
       title="Request Reset"
-      body={"Forget password? not an issue, request"}
+      body={"Forgot Password? not an issue, request"}
     >
       <ForgotPasswordForm type={params.type} />
     </AuthContainerCard>
