@@ -20,6 +20,7 @@ import { EarningData } from "@/components/tables/professionals/earnings/columns"
 import { formatCurrency } from "@/utils/format-currency";
 import TwoStageAlertDialog from "@/components/alerts/twoStageAlertDialog";
 import { Overview } from "@/components/pages/admin/professional/single/overView";
+import Link from "next/link";
 
 type Props = {
   params: { id: string };
@@ -113,13 +114,12 @@ const page = async ({ params }: Props) => {
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <div className="flex items-center space-x-2">
-          <Button
-            className="rounded-full w-9 h-9 p-1 bg-gray-100"
-            variant={"ghost"}
-            // onClick={() => router.push(`professionals`)}
+          <Link
+            className="rounded-full flex justify-center items-center w-9 h-9 p-1 bg-gray-100"
+            href={"/dashboard/professionals"}
           >
             <ArrowLeft />
-          </Button>
+          </Link>
           <p className="text-2xl text-offBlack">Professional</p>
         </div>
 

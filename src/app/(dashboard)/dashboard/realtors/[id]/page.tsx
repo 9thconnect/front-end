@@ -31,6 +31,7 @@ import SellerOverview from "@/sections/dashboard/seller/overview";
 import OrderTableAdmin from "@/components/tables/admin/orders/data-table";
 import { Suspense } from "react";
 import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
+import Link from "next/link";
 
 type Props = {
   params: { id: string };
@@ -42,13 +43,12 @@ const page = async ({ params }: Props) => {
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <div className="flex items-center space-x-2">
-          <Button
-            className="rounded-full w-9 h-9 p-1 bg-gray-100"
-            variant={"ghost"}
-            // onClick={() => router.push(`professionals`)}
+          <Link
+            className="rounded-full w-9 h-9  flex justify-center items-center  p-1 bg-gray-100"
+            href={"/dashboard/realtors"}
           >
             <ArrowLeft />
-          </Button>
+          </Link>
           <p className="text-2xl text-offBlack">Vendors</p>
         </div>
 
