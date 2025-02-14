@@ -28,6 +28,8 @@ import { UserType } from "@/lib/redux/features/auth/authSlice";
 import CategoryCard from "../cards/categoryCard";
 import { toggleTrackModal } from "@/lib/redux/features/layout/layoutSlice";
 import EnhancedSearch from "../forms/search/enhancedSearch";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/utils/common";
 
 const MainHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -138,8 +140,14 @@ const MainHeader = () => {
                 className="text-nowrap flex items-center"
                 href={"/account/profile"}
               >
-                <Image alt="user icon" src={userIcon} />
-                <span className="ml-2">Account</span>
+                {/* <Image alt="user icon" src={userIcon} /> */}
+                <Avatar>
+                  <AvatarImage src={auth.data?.avatar} alt="@shadcn" />
+                  <AvatarFallback>
+                    {getInitials(auth.data?.fullName ?? "")}
+                  </AvatarFallback>
+                </Avatar>
+                {/* <span className="ml-2">Account</span> */}
               </Link>
             ) : (
               <Link

@@ -200,3 +200,14 @@ export const countryList = [
   "Zambia",
   "Zimbabwe",
 ];
+
+export function getInitials(fullname: string): string {
+  const nameParts = fullname.trim().split(" ");
+
+  if (nameParts.length >= 2) {
+    return (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase();
+  } else if (nameParts.length === 1 && nameParts[0].length > 0) {
+    return nameParts[0].slice(0, 2).toUpperCase();
+  }
+  return "";
+}
