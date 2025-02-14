@@ -190,7 +190,7 @@ const MainFooter = () => {
         </div> */}
       </div>
       <div className="bg-[#313133] text-white rounded-b-lg text-center py-6">
-        <p>© 9TH TECH 2024. All Rights Reserved.</p>
+        <p>© 9TH TECH 2025. All Rights Reserved.</p>
       </div>
     </SectionContainer>
   );
