@@ -43,9 +43,9 @@ const BusinessAwaitingApproval = () => {
           </div>
 
           <p className="text-gray-600 text-center mb-6">
-            Your business is currently under review. We're working to verify
-            your information to ensure the best experience for you and your
-            customers.
+            Your business is currently under review. We&apos;re working to
+            verify your information to ensure the best experience for you and
+            your customers.
           </p>
 
           <div className="grid grid-cols-2 gap-4">

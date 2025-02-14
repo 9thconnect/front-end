@@ -24,7 +24,9 @@ import { useAppSelector } from "@/lib/redux/hooks";
 import { IVendor } from "@/type/users";
 
 const WithdrawSchema = z.object({
-  amount: z.number(),
+  amount: z.coerce.number().min(1000, {
+    message: "Amount must be at least 1000.",
+  }),
 });
 
 export function WithdrawForm() {
@@ -33,7 +35,7 @@ export function WithdrawForm() {
   const form = useForm<z.infer<typeof WithdrawSchema>>({
     resolver: zodResolver(WithdrawSchema),
     defaultValues: {
-      amount: 0,
+      amount: undefined,
     },
   });
 
