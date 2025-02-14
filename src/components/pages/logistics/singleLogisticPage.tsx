@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import ScrollableContainer from "@/components/common/scrollableContainer";
 import { formatCurrency } from "@/utils/format-currency";
 import { Logistics } from "@/type/logistics";
+import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
 
 interface LogisticsDetailsProps {
   label: string;
@@ -67,9 +68,18 @@ const SingleLogisticsPage = ({ id }: { id: string }) => {
   }, [id]);
 
   const handleCall = () => {
-    if (logistics?.contact.callNumber) {
-      window.location.href = `tel:${logistics.contact.callNumber}`;
-    }
+    const phoneNumber = process.env.NEXT_PUBLIC_CALL_9th_LOGISTICS;
+
+    navigator.clipboard
+      .writeText(phoneNumber as string)
+      .then(() => {
+        toast.success("Phone number copied to clipboard");
+      })
+      .catch((err) => {
+        toast.success("Failed to copy phone number:", err);
+      });
+
+    window.location.href = `tel:${phoneNumber}`;
   };
 
   const handleWhatsApp = () => {
@@ -85,7 +95,7 @@ const SingleLogisticsPage = ({ id }: { id: string }) => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <SingleProductSkeleton />;
   }
 
   return (
@@ -172,15 +182,7 @@ const SingleLogisticsPage = ({ id }: { id: string }) => {
                   variant="default"
                 >
                   <Phone className="mr-2 h-4 w-4" />
-                  Call
-                </Button>
-                <Button
-                  onClick={handleWhatsApp}
-                  className="flex-1"
-                  variant="outline"
-                >
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  WhatsApp
+                  Contact 9th
                 </Button>
               </div>
             </div>

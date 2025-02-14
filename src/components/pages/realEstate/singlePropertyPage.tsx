@@ -22,6 +22,7 @@ import { formatCurrency } from "@/utils/format-currency";
 import { Property } from "@/type/property";
 import PropertyCard from "@/components/cards/propertyCard";
 import { useGetSimilarProperties } from "@/lib/requests/user/property";
+import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
 
 interface PropertyDetailsProps {
   label: string;
@@ -64,8 +65,19 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
     getProperty();
   }, [id]);
 
-  const handleCallVendor = () => {
-    window.location.href = `tel:+234808086872348`;
+  const handleCall = () => {
+    const phoneNumber = process.env.NEXT_PUBLIC_CALL_9th_LOGISTICS;
+
+    navigator.clipboard
+      .writeText(phoneNumber as string)
+      .then(() => {
+        toast.success("Phone number copied to clipboard");
+      })
+      .catch((err) => {
+        toast.success("Failed to copy phone number:", err);
+      });
+
+    window.location.href = `tel:${phoneNumber}`;
   };
 
   const handleWhatsAppVendor = () => {
@@ -83,7 +95,7 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <SingleProductSkeleton />;
   }
 
   const images = property?.images.map((url) => ({
@@ -166,20 +178,12 @@ const SinglePropertyPage = ({ id }: { id: string }) => {
 
               <div className="w-full flex mt-5 space-x-4">
                 <Button
-                  onClick={handleCallVendor}
+                  onClick={handleCall}
                   className="flex-1 mr-4"
                   variant="default"
                 >
                   <Phone className="mr-2 h-4 w-4" />
-                  Call Vendor
-                </Button>
-                <Button
-                  onClick={handleWhatsAppVendor}
-                  className="flex-1"
-                  variant="outline"
-                >
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  WhatsApp
+                  Contact 9th
                 </Button>
               </div>
             </div>
