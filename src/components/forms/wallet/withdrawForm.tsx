@@ -77,19 +77,21 @@ export function WithdrawForm() {
         <div className="border rounded-lg px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Bank:</p>
-            <p className="text-offBlack">{user.accountDetails.bankName}</p>
+            <p className="text-offBlack">{user?.accountDetails?.bankName}</p>
           </div>
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Name:</p>
-            <p className="text-offBlack">{user.accountDetails.accountName}</p>
+            <p className="text-offBlack">{user?.accountDetails?.accountName}</p>
           </div>
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Account:</p>
-            <p className="text-offBlack">{user.accountDetails.accountNumber}</p>
+            <p className="text-offBlack">
+              {user?.accountDetails?.accountNumber}
+            </p>
           </div>
           <div className="flex items-center justify-between mb-4">
             <p className="mr-7">Bank Code:</p>
-            <p className="text-offBlack">{user.accountDetails.bankCode}</p>
+            <p className="text-offBlack">{user?.accountDetails?.bankCode}</p>
           </div>
         </div>
         <div className="grid grid-cols-5 gap-3">
