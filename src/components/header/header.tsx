@@ -98,7 +98,7 @@ const MainHeader = () => {
   const user = useAppSelector((state) => state.auth);
 
   const userTitle =
-    user.type === UserType.CUSTOMER ? "Customer" : isLoggedIn.vendorType;
+    user.type === UserType.CUSTOMER ? "Customer" : isLoggedIn?.vendorType;
 
   return (
     <header
