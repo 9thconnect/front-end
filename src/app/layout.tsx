@@ -29,7 +29,7 @@ export default function RootLayout({
           <div>
             <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
           </div>
-          <Toaster closeButton />
+          <Toaster position={"bottom-left"} closeButton />
           <SocketNotificationListener />
         </body>
       </html>
