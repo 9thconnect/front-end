@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { use, useState } from "react";
 import { toast } from "sonner";
 import { login } from "@/lib/requests/vendor/auth";
 import { BaseResponse } from "@/type/common";
@@ -129,70 +129,109 @@ export function LoginForm({ type }: { type: UserType }) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Enter your email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <div className="relative">
+    <div>
+      <h1 className="capitalize font-bold text-2xl text-offBlack">
+        {type} Login
+      </h1>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    type="email"
+                    placeholder="Enter your email"
                     {...field}
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button disabled={isLoading} className="w-full" type="submit">
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+
+          <div className="flex justify-between items-center">
+            <Link href={`/${type}/register`}>
+              Don&apos;t have an account?{" "}
+              <span className="text-black">Register</span>{" "}
+            </Link>
+            <Link className="text-black" href={`/${type}/password/request`}>
+              Forgot Password
+            </Link>
+          </div>
+
+          {type == UserType.CUSTOMER && (
+            <div className="flex justify-between items-center">
+              <Link className="underline text-offBlack" href={`/vendor/login`}>
+                Login as a Vendor
+              </Link>{" "}
+              <Link
+                className="underline text-offBlack"
+                href={`/vendor/register`}
+              >
+                Register as a Vendor
+              </Link>{" "}
+            </div>
           )}
-        />
-
-        <Button disabled={isLoading} className="w-full" type="submit">
-          {isLoading ? "Logging in..." : "Login"}
-        </Button>
-
-        <div className="flex justify-between items-center">
-          <Link href={`/${type}/register`}>
-            Don&apos;t have an account?{" "}
-            <span className="text-black">Register</span>{" "}
-          </Link>
-          <Link className="text-black" href={`/${type}/password/request`}>
-            Forgot Password
-          </Link>
-        </div>
-      </form>
-    </Form>
+          {type == UserType.VENDOR && (
+            <div className="flex justify-between items-center">
+              <Link
+                className="underline text-offBlack"
+                href={`/customer/login`}
+              >
+                Login as a Customer
+              </Link>{" "}
+              <Link
+                className="underline text-offBlack"
+                href={`/customer/register`}
+              >
+                Register as a Customer
+              </Link>{" "}
+            </div>
+          )}
+        </form>
+      </Form>
+    </div>
   );
 }
 
