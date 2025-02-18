@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       toast(data.message, {
         description: `${product.name}`,
         action: {
-          label: "Whish List",
+          label: "Wish List",
           onClick: () => console.log("Undo"),
           actionButtonStyle: {
             backgroundColor: "#ab0505b9",
