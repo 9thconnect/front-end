@@ -21,6 +21,8 @@ import { addToWishList } from "@/lib/requests/user/product";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { truncateText } from "@/utils/common";
+import { toggleNotCustomerModal } from "@/lib/redux/features/layout/layoutSlice";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
 
 interface ProductCardProps {
   product: Product;
@@ -43,6 +45,12 @@ export interface IProduct {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
+
+  const handleNoCustomer = () => {
+    console.log("No customer");
+
+    dispatch(toggleNotCustomerModal({ open: true }));
+  };
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["addRemoveWishlist"],
@@ -96,6 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const isLoggedIn = useAppSelector((state) => state.auth.data);
   const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
+  const type = useAppSelector((state) => state.auth.type);
 
   const handleAddToCart = (
     e: React.MouseEvent<HTMLElement>,
@@ -134,6 +143,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
+
+              if (type !== UserType.CUSTOMER) {
+                handleNoCustomer();
+                return;
+              }
 
               mutate(product);
             }}
@@ -176,15 +190,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {loadingAddToCart?.state &&
           loadingAddToCart?.product?._id == product._id ? (
-            <Button
-              onClick={(e) => handleAddToCart(e, product)}
-              className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500"
-            >
+            <Button className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
               <LoaderCircleIcon className="w-4 h-4 animate-spin " />
             </Button>
           ) : (
             <Button
-              onClick={(e) => handleAddToCart(e, product)}
+              onClick={(e) => {
+                e.preventDefault();
+
+                if (type !== UserType.CUSTOMER) {
+                  handleNoCustomer();
+                  return;
+                }
+                handleAddToCart(e, product);
+              }}
               className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
             >
               <ShippingBoxIcon />

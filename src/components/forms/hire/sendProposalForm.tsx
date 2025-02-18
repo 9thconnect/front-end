@@ -70,7 +70,7 @@ const SendProposalForm = ({
           name="budget"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Total budget</FormLabel>
+              <FormLabel>Total budget (₦)</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Enter budget" {...field} />
               </FormControl>

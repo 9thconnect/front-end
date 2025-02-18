@@ -10,11 +10,11 @@ import WhatsappIcon from "@public/icons/socials/whatsapp.svg";
 import YoutubeIcon from "@public/icons/socials/youtube.svg";
 
 // flags
-import FlagChina from "@public/images/flags/FlagChina.png";
-import FlagGhana from "@public/images/flags/FlagGhana.png";
-import FlagNigeria from "@public/images/flags/FlagNigeria.png";
-import FlagUnitedKingdom from "@public/images/flags/FlagUnitedKingdom.png";
-import FlagUsOutlyingIslands from "@public/images/flags/FlagUsOutlyingIslands.png";
+import FlagChina from "@public/images/flags/1.png";
+import FlagGhana from "@public/images/flags/2.png";
+import FlagNigeria from "@public/images/flags/3.png";
+import FlagUnitedKingdom from "@public/images/flags/4.png";
+import FlagUsOutlyingIslands from "@public/images/flags/5.png";
 
 import AppleStore from "@public/images/applestore.png";
 import GooglePlay from "@public/images/googleplay.png";

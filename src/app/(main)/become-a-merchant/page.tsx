@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { metaObject, siteConfig } from "@/config/site.config";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const metadata = {
   ...metaObject("How to become a vendor"),
@@ -104,6 +106,15 @@ const page = () => {
                 to operate your shop and manage orders.
               </p>
             </div>
+          </div>
+
+          <div className="flex items-center mt-11 gap-3">
+            <Link href={"/vendor/register"}>
+              <Button>Register as a Vendor</Button>
+            </Link>
+            <Link href="/customer/register">
+              <Button>Register as a Customer</Button>{" "}
+            </Link>
           </div>
         </div>
       </div>

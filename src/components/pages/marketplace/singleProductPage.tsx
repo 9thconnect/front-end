@@ -48,6 +48,8 @@ import { formatCurrency } from "@/utils/format-currency";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
+import { toggleNotCustomerModal } from "@/lib/redux/features/layout/layoutSlice";
 
 interface RatingBarProps {
   rating: number;
@@ -175,6 +177,7 @@ const SingleProductPage = ({
   const cart = useAppSelector((state) => state.cart);
   const isLoggedIn = useAppSelector((state) => state.auth.data);
   const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
+  const type = useAppSelector((state) => state.auth.type);
 
   const loadingCart =
     cart.addingToCart?.state &&
@@ -291,6 +294,12 @@ const SingleProductPage = ({
     alt: "Image description", // Adjust or customize the description as needed
   }));
 
+  const handleNoCustomer = () => {
+    console.log("No customer");
+
+    dispatch(toggleNotCustomerModal({ open: true }));
+  };
+
   return (
     <div>
       <Breadcrumb className="my-4">
@@ -402,7 +411,11 @@ const SingleProductPage = ({
                   />
                 ) : (
                   <Button
-                    onClick={(e) => handleAddToCart(product, e)}
+                    onClick={(e) =>
+                      type == UserType.CUSTOMER
+                        ? handleAddToCart(product, e)
+                        : handleNoCustomer()
+                    }
                     className="w-full"
                     disabled={
                       loadingAddToCart?.state &&
@@ -421,8 +434,9 @@ const SingleProductPage = ({
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
-
-                    mutate(product);
+                    type == UserType.CUSTOMER
+                      ? mutate(product)
+                      : handleNoCustomer();
                   }}
                   className="rounded-full p-3"
                   variant={"ghost"}

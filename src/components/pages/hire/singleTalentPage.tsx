@@ -15,12 +15,25 @@ import {
 import SendProposalModal from "@/components/modals/sendProposalModal";
 import { ProfessionalData } from "@/type/professional";
 import { siteConfig } from "@/config/site.config";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
+import { Button } from "@/components/ui/button";
+import { toggleNotCustomerModal } from "@/lib/redux/features/layout/layoutSlice";
 
 const SingleTalentPage = ({ id }: { id: string }) => {
   const [professionalData, setProfessionalData] =
     useState<ProfessionalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+
+  const type = useAppSelector((state) => state.auth.type);
+
+  const handleNoCustomer = () => {
+    console.log("No customer");
+
+    dispatch(toggleNotCustomerModal({ open: true }));
+  };
 
   useEffect(() => {
     const fetchProfessionalData = async () => {
@@ -172,7 +185,13 @@ const SingleTalentPage = ({ id }: { id: string }) => {
               )}
             </div>
             <div className="mt-7 w-full">
-              <SendProposalModal id={id} />
+              {type !== UserType.CUSTOMER ? (
+                <Button onClick={handleNoCustomer} className="w-full">
+                  Hire Professional
+                </Button>
+              ) : (
+                <SendProposalModal id={id} />
+              )}
             </div>
           </div>
         </div>

@@ -114,7 +114,6 @@ const SubCategoryList = ({ category }: { category: Category }) => {
           <Circle size={15} />
           <p className="ml-3">All {category.title}</p>
         </div>
-        <p>20</p>
       </Link>
       {data &&
         data.data?.data?.categories.map((subCategory) => (
@@ -127,7 +126,6 @@ const SubCategoryList = ({ category }: { category: Category }) => {
               <Circle size={15} />
               <p className="ml-3">{subCategory.title}</p>
             </div>
-            <p>20</p>
           </Link>
         ))}
     </div>

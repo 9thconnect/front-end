@@ -5,7 +5,7 @@ import SectionCardHeader from "../cards/common/sectionCardHeader";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { Button } from "../ui/button";
 import { LogOut, LogOutIcon } from "lucide-react";
-import { logoutUser } from "@/lib/redux/features/auth/authSlice";
+import { logoutUser, UserType } from "@/lib/redux/features/auth/authSlice";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -227,13 +227,16 @@ const AccountPageSideBar = () => {
 
   console.log(auth.data);
 
+  const userTitle = type === UserType.CUSTOMER ? "Customer" : vendor.vendorType;
+
   return (
     <div>
       {auth.data && (
         <div className={`section-card-header`}>
           <div className="flex justify-between items-center mb-3">
             <h3 className="text-xl  text-offBlack">
-              Profile {vendor.sellerType == "wholeSale" && "- Whole Seller"}
+              Profile -
+              <span className="text-primary capitalize"> {userTitle}</span>{" "}
             </h3>
             <Button disabled={loading} onClick={handleLogout}>
               {loading ? "Loading.." : "Logout"}

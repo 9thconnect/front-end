@@ -26,16 +26,21 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import CategoryCard from "../cards/categoryCard";
-import { toggleTrackModal } from "@/lib/redux/features/layout/layoutSlice";
+import {
+  toggleNotCustomerModal,
+  toggleTrackModal,
+} from "@/lib/redux/features/layout/layoutSlice";
 import EnhancedSearch from "../forms/search/enhancedSearch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/common";
+import { IVendor } from "@/type/users";
 
 const MainHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
   const router = useRouter();
 
   const auth = useAppSelector((state) => state.auth);
+  const type = useAppSelector((state) => state.auth.type);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,7 +87,18 @@ const MainHeader = () => {
 
   const dispatch = useAppDispatch();
 
-  const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const handleNoCustomer = () => {
+    console.log("No customer");
+
+    dispatch(toggleNotCustomerModal({ open: true }));
+  };
+
+  const isLoggedIn = useAppSelector((state) => state.auth.data as IVendor);
+
+  const user = useAppSelector((state) => state.auth);
+
+  const userTitle =
+    user.type === UserType.CUSTOMER ? "Customer" : isLoggedIn.vendorType;
 
   return (
     <header
@@ -137,7 +153,7 @@ const MainHeader = () => {
           <div className="[&>*]:mr-10 flex">
             {isLoggedIn ? (
               <Link
-                className="text-nowrap flex items-center"
+                className="text-nowrap flex flex-col items-center justify-center"
                 href={"/account/profile"}
               >
                 {/* <Image alt="user icon" src={userIcon} /> */}
@@ -147,6 +163,7 @@ const MainHeader = () => {
                     {getInitials(auth.data?.fullName ?? "")}
                   </AvatarFallback>
                 </Avatar>
+                <p className="capitalize">{userTitle}</p>
                 {/* <span className="ml-2">Account</span> */}
               </Link>
             ) : (
@@ -159,13 +176,24 @@ const MainHeader = () => {
               </Link>
             )}
 
-            <Link
-              className="text-nowrap flex items-center"
-              href={"/marketplace/cart"}
-            >
-              <Image alt="user icon" src={cartIcon} />
-              <span className="ml-2">Cart</span>
-            </Link>
+            {type !== UserType.CUSTOMER ? (
+              <div
+                onClick={handleNoCustomer}
+                className="text-nowrap flex items-center"
+              >
+                <Image alt="user icon" src={cartIcon} />
+                <span className="ml-2">Cart</span>
+              </div>
+            ) : (
+              <Link
+                className="text-nowrap flex items-center"
+                href={"/marketplace/cart"}
+              >
+                <Image alt="user icon" src={cartIcon} />
+                <span className="ml-2">Cart</span>
+              </Link>
+            )}
+
             <div className="hidden md:block lg:hidden !mr-0">
               <MainDrawer />
             </div>

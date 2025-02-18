@@ -270,7 +270,7 @@ const DeliveryMethodPage = () => {
                   name="pricePerWeight"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Price per Weight</FormLabel>
+                      <FormLabel>Price per Weight (₦)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -291,7 +291,7 @@ const DeliveryMethodPage = () => {
                   name="pricePerKilometer"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Price per Kilometer</FormLabel>
+                      <FormLabel>Price per Kilometer (₦)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"

@@ -28,16 +28,18 @@ const WishlistPage = () => {
   const wishlist = data?.data?.wishlist || []; // Adjust based on the actual structure of the response
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 mt-5 gap-4">
-      {wishlist.length > 0 ? (
-        wishlist.map((product, index) => (
-          <div className="flex-none" key={index}>
-            <WishItemCard wish={product} />
-          </div>
-        ))
-      ) : (
-        <div className="text-center mt-10">Your wishlist is empty.</div>
-      )}
+    <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 mt-5 gap-4">
+        {wishlist.length > 0 ? (
+          wishlist.map((product, index) => (
+            <div className="flex-none" key={index}>
+              <WishItemCard wish={product} />
+            </div>
+          ))
+        ) : (
+          <div className="text-center mt-10">Your wishlist is empty.</div>
+        )}
+      </div>
     </div>
   );
 };

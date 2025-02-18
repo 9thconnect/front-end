@@ -64,7 +64,7 @@ export function WithdrawForm() {
           name="amount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Amount</FormLabel>
+              <FormLabel>Amount (₦)</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Enter amount" {...field} />
               </FormControl>
