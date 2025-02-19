@@ -46,8 +46,6 @@ async function getNewArrivals() {
 }
 
 const Page = async () => {
-  const properties = await getNewArrivals();
-
   const heroImages = [
     "https://res.cloudinary.com/dougwnqok/image/upload/v1735286600/modern-residential-district-with-green-roof-balcony-generated-by-ai_dd88dw.jpg",
     "https://res.cloudinary.com/dougwnqok/image/upload/v1735286597/villa-house-model-key-drawing-retro-desktop-real-estate-sale-concept_abicsf.jpg",
@@ -67,7 +65,9 @@ const Page = async () => {
           <BreadcrumbSeparator />
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1731592382/PODX9843_1_rutvjx.jpg')] bg-cover bg-center h-56 bg-no-repeat rounded-2xl mt-5 "></div>
+      <div className="h-60 md:h-[300px] mt-5">
+        <MainHeroSection images={heroImages} />
+      </div>
       <RealEstateHomePage />
     </div>
   );
