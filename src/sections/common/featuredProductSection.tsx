@@ -21,6 +21,13 @@ const FeaturedProductSection = ({
     error,
   } = useGetFeaturedProducts(type);
   return (
+    // <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+    //   {productList?.data?.data.products.map((product, index) => (
+    //     <div className="w-80 flex-none self-stretch" key={index}>
+    //       <ProductCard product={product} />
+    //     </div>
+    //   ))}
+    // </div>
     <ScrollableContainer>
       <div className="flex space-x-4 cursor-pointer">
         {productList?.data?.data.products.map((product, index) => (
