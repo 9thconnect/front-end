@@ -21,10 +21,6 @@ const CategoryProductListSection = ({
   category,
   channel,
 }: ICategory) => {
-  if (!category) {
-    return null;
-  }
-
   console.log(
     "CategoryProductListSection",
     title,
@@ -47,7 +43,8 @@ const CategoryProductListSection = ({
     undefined,
     undefined,
     undefined,
-    channel
+    channel,
+    category ? true : false
   );
   return (
     <>

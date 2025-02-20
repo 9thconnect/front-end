@@ -50,7 +50,8 @@ export const useGetProductList = (
   startPrice?: number,
   endPrice?: number,
   filterByBrands?: string,
-  channel?: "wholeSale" | "retail"
+  channel?: "wholeSale" | "retail",
+  enabled = true
 ) => {
   console.log(filterByBrands);
 
@@ -66,6 +67,7 @@ export const useGetProductList = (
       filterByBrands,
       channel,
     ],
+    enabled: enabled,
 
     queryFn: () =>
       getProductList(
