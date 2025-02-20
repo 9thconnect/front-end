@@ -14,6 +14,61 @@ interface ICategory {
   channel?: "retail" | "wholeSale";
 }
 
+// const CategoryProductListSection = ({
+//   title,
+//   pageUrl,
+//   api,
+//   category,
+//   channel,
+// }: ICategory) => {
+//   console.log(
+//     "CategoryProductListSection",
+//     title,
+//     pageUrl,
+//     api,
+//     category,
+//     channel
+//   );
+
+//   const {
+//     data: productList,
+//     isLoading,
+//     isError,
+//     error,
+//   } = useGetProductList(
+//     "",
+//     1,
+//     category,
+//     undefined,
+//     undefined,
+//     undefined,
+//     undefined,
+//     channel
+//   );
+//   return (
+//     <>
+//       {category &&
+//         productList &&
+//         productList?.data?.data &&
+//         productList?.data?.data.products.length > 0 && (
+//           <SectionContainer>
+//             <SectionCardHeader
+//               title={title}
+//               linkUrl={pageUrl}
+//               linkText="See more"
+//             />
+//             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
+//               {productList?.data?.data.products.map((product, index) => (
+//                 <div className="flex-none" key={index}>
+//                   <ProductCard product={product} />
+//                 </div>
+//               ))}
+//             </div>
+//           </SectionContainer>
+//         )}
+//     </>
+//   );
+// };
 const CategoryProductListSection = ({
   title,
   pageUrl,
@@ -21,32 +76,54 @@ const CategoryProductListSection = ({
   category,
   channel,
 }: ICategory) => {
+  console.log(
+    "CategoryProductListSection",
+    title,
+    pageUrl,
+    api,
+    category,
+    channel
+  );
+
   const {
     data: productList,
     isLoading,
     isError,
     error,
-  } = useGetProductList(
-    "",
-    1,
-    category,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    channel
-  );
+  } = category
+    ? useGetProductList(
+        "",
+        1,
+        category,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        channel
+      )
+    : { data: null, isLoading: false, isError: false, error: null };
+
   return (
-    <SectionContainer>
-      <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
-        {productList?.data?.data.products.map((product, index) => (
-          <div className="flex-none" key={index}>
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </div>
-    </SectionContainer>
+    <>
+      {category &&
+        productList?.data?.data &&
+        productList?.data?.data.products.length > 0 && (
+          <SectionContainer>
+            <SectionCardHeader
+              title={title}
+              linkUrl={pageUrl}
+              linkText="See more"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
+              {productList?.data?.data.products.map((product, index) => (
+                <div className="flex-none" key={index}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+          </SectionContainer>
+        )}
+    </>
   );
 };
 
