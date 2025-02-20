@@ -5,6 +5,10 @@ import CategoryProductListSection from "../common/categoryProductListSection";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
 
+const shuffleArray = (array: any[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
 const CategoryProductListHomeSection = ({
   channel,
 }: {
@@ -15,51 +19,14 @@ const CategoryProductListHomeSection = ({
     queryFn: () => fetchProductCategories(),
   });
 
+  const categories = data?.data?.data?.categories || [];
+  const shuffledCategories = shuffleArray([...categories]);
+
   return (
     <div>
       {!isLoading && !isError && (
         <div>
-          {/* <CategoryProductListSection
-            title={data?.data?.data?.categories[0]?.title as string}
-            api="/api/products/electrical"
-            pageUrl={`/${
-              channel && channel == "wholeSale" ? "wholesale" : "marketplace"
-            }/home?category=${data?.data?.data?.categories[0]?._id}`}
-            category={data?.data?.data?.categories[0]?._id as string}
-            channel={channel}
-          />
-          <CategoryProductListSection
-            title={data?.data?.data?.categories[1]?.title as string}
-            api="/api/products/plumbing"
-            pageUrl={`/${
-              channel && channel == "wholeSale" ? "wholesale" : "marketplace"
-            }/home?category=${data?.data?.data?.categories[1]?._id}`}
-            category={data?.data?.data?.categories[1]?._id as string}
-            channel={channel}
-          />
-          <CategoryProductListSection
-            title={data?.data?.data?.categories[2]?.title as string}
-            api="/api/products/roofing"
-            pageUrl={`/${
-              channel && channel == "wholeSale" ? "wholesale" : "marketplace"
-            }/home?category=${data?.data?.data?.categories[2]?._id}`}
-            category={data?.data?.data?.categories[2]?._id as string}
-            channel={channel}
-          />
-
-          <CategoryProductListSection
-            title={data?.data?.data?.categories[3]?.title as string}
-            api="/api/products/roofing"
-            pageUrl={`/${
-              channel && channel == "wholeSale" ? "wholesale" : "marketplace"
-            }/home?category=${data?.data?.data?.categories[3]?._id}`}
-            category={data?.data?.data?.categories[3]?._id as string}
-            channel={channel}
-          /> */}
-
-          {/* loop through 1 to 10 */}
-
-          {Array.from({ length: 20 }, (_, i) => (
+          {/* {Array.from({ length: 20 }, (_, i) => (
             <CategoryProductListSection
               key={i}
               title={data?.data?.data?.categories[i]?.title as string}
@@ -68,6 +35,18 @@ const CategoryProductListHomeSection = ({
                 channel && channel == "wholeSale" ? "wholesale" : "marketplace"
               }/home?category=${data?.data?.data?.categories[i]?._id}`}
               category={data?.data?.data?.categories[i]?._id as string}
+              channel={channel}
+            />
+          ))} */}
+          {shuffledCategories.slice(0, 20).map((category, i) => (
+            <CategoryProductListSection
+              key={i}
+              title={category?.title as string}
+              api="/api/products/roofing"
+              pageUrl={`/${
+                channel && channel == "wholeSale" ? "wholesale" : "marketplace"
+              }/home?category=${category?._id}`}
+              category={category?._id as string}
               channel={channel}
             />
           ))}
