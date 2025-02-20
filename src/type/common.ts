@@ -45,7 +45,7 @@ export interface Product {
   variations: any[];
   rating: number;
   numReviews: number;
-  weight: number;
+  weight?: number;
   minimumOrder?: number;
   productSaleType: "b2c" | "b2b";
   reviews: Array<{

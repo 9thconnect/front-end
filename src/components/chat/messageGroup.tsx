@@ -1,30 +1,35 @@
-// "use client";
-// import React from "react";
-// import MainBadge from "../badges/mainBadge";
-// import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-// import FileDisplay from "./fileDisplay";
+"use client";
+import React from "react";
+import MainBadge from "../badges/mainBadge";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import FileDisplay from "./fileDisplay";
+import { Check, Clock, ClockAlert } from "lucide-react";
 
-// interface MessageProps {
-//   message: {
-//     text: string;
-//     time: string;
-//     isOwnMessage: boolean;
-//     userType: string;
-//     owner: {
-//       name: string;
-//       avatar: string;
-//     };
-//     file?: {
-//       fileUrl: string;
-//       fileName: string;
-//       fileType: string;
-//       fileSize: number;
-//       fileFormat: string;
-//     };
-//     delivered?: boolean;
-//   };
-//   isOwnMessage: boolean;
-// }
+interface MessageProps {
+  message: {
+    text: string;
+    time: string;
+    isOwnMessage: boolean;
+    userType: string;
+    owner: {
+      name: string;
+      avatar: string;
+    };
+    file?: {
+      fileUrl: string;
+      fileName: string;
+      fileType: string;
+      fileSize: number;
+      fileFormat: string;
+    };
+    delivered?: boolean;
+    status?: "pending" | "failed" | "delivered";
+    tempId?: string;
+  };
+  isOwnMessage: boolean;
+  handleRetryMessage: (tempId?: string) => Promise<void>;
+  handleRemoveMessage: (tempId?: string) => void;
+}
 
 // const Message: React.FC<MessageProps> = ({ message, isOwnMessage }) => (
 //   <div
@@ -44,6 +49,15 @@
 //             <p className="text-red-800 ml-2">(professional)</p>
 //           )}
 //           <span className="text-xs text-gray-500 ml-2">{message.time}</span>
+//           {isOwnMessage && (
+//             <span className="ml-2">
+//               {message.delivered ? (
+//                 <Check className="w-4 h-4 text-blue-500" />
+//               ) : (
+//                 <Clock className="w-4 h-4 text-gray-400" />
+//               )}
+//             </span>
+//           )}
 //         </div>
 
 //         <div
@@ -68,64 +82,12 @@
 //   </div>
 // );
 
-// interface MessageGroupProps {
-//   date: string;
-//   messages: {
-//     text: string;
-//     time: string;
-//     isOwnMessage: boolean;
-//     userType: string;
-//     owner: {
-//       name: string;
-//       avatar: string;
-//     };
-//     delivered?: boolean;
-//   }[];
-// }
-
-// const MessageGroup: React.FC<MessageGroupProps> = ({ date, messages }) => (
-//   <div className="mb-4">
-//     <div className="text-center text-gray-500 text-xs mb-2 ">
-//       <MainBadge text={date} type="grey" />{" "}
-//     </div>
-//     {messages.map((msg, index) => (
-//       <Message key={index} message={msg} isOwnMessage={msg.isOwnMessage} />
-//     ))}
-//   </div>
-// );
-
-// export default MessageGroup;
-
-"use client";
-import React from "react";
-import MainBadge from "../badges/mainBadge";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import FileDisplay from "./fileDisplay";
-import { Check, Clock } from "lucide-react";
-
-interface MessageProps {
-  message: {
-    text: string;
-    time: string;
-    isOwnMessage: boolean;
-    userType: string;
-    owner: {
-      name: string;
-      avatar: string;
-    };
-    file?: {
-      fileUrl: string;
-      fileName: string;
-      fileType: string;
-      fileSize: number;
-      fileFormat: string;
-    };
-    delivered?: boolean;
-  };
-  isOwnMessage: boolean;
-}
-
-const Message: React.FC<MessageProps> = ({ message, isOwnMessage }) => (
+const Message: React.FC<MessageProps> = ({
+  message,
+  isOwnMessage,
+  handleRemoveMessage,
+  handleRetryMessage,
+}) => (
   <div
     className={`flex ${isOwnMessage ? "justify-end" : "justify-start"} mb-2`}
   >
@@ -144,13 +106,32 @@ const Message: React.FC<MessageProps> = ({ message, isOwnMessage }) => (
           )}
           <span className="text-xs text-gray-500 ml-2">{message.time}</span>
           {isOwnMessage && (
-            <span className="ml-2">
-              {message.delivered ? (
+            <div className="flex items-center ml-2">
+              {message.status === "delivered" && (
                 <Check className="w-4 h-4 text-blue-500" />
-              ) : (
+              )}
+              {message.status === "pending" && (
                 <Clock className="w-4 h-4 text-gray-400" />
               )}
-            </span>
+              {message.status === "failed" && (
+                <div className="flex space-x-2 items-center">
+                  <ClockAlert className="w-4 h-4 text-red-700" />
+
+                  <button
+                    onClick={() => handleRetryMessage(message.tempId!)}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    Retry
+                  </button>
+                  <button
+                    onClick={() => handleRemoveMessage(message.tempId!)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
@@ -159,7 +140,7 @@ const Message: React.FC<MessageProps> = ({ message, isOwnMessage }) => (
             isOwnMessage
               ? "bg-gray-100 text-gray-700"
               : "bg-gray-50 text-gray-900"
-          }`}
+          } ${message.status === "failed" ? "opacity-75" : ""}`}
         >
           <p>{message.text}</p>
           {message.file && <FileDisplay file={message.file} />}
@@ -175,7 +156,6 @@ const Message: React.FC<MessageProps> = ({ message, isOwnMessage }) => (
     </div>
   </div>
 );
-
 interface MessageGroupProps {
   date: string;
   messages: {
@@ -189,16 +169,33 @@ interface MessageGroupProps {
     };
     delivered?: boolean;
   }[];
+  handleRetryMessage: (tempId?: string) => Promise<void>;
+  handleRemoveMessage: (tempId?: string) => void;
 }
-const MessageGroup: React.FC<MessageGroupProps> = ({ date, messages }) => (
-  <div className="mb-4">
-    <div className="text-center text-gray-500 text-xs mb-2 ">
-      <MainBadge text={date} type="grey" />{" "}
+const MessageGroup: React.FC<MessageGroupProps> = ({
+  date,
+  messages,
+  handleRemoveMessage,
+  handleRetryMessage,
+}) => {
+  console.log(messages);
+
+  return (
+    <div className="mb-4">
+      <div className="text-center text-gray-500 text-xs mb-2 ">
+        <MainBadge text={date} type="grey" />{" "}
+      </div>
+      {messages.map((msg, index) => (
+        <Message
+          handleRemoveMessage={handleRemoveMessage}
+          handleRetryMessage={handleRetryMessage}
+          key={index}
+          message={msg}
+          isOwnMessage={msg.isOwnMessage}
+        />
+      ))}
     </div>
-    {messages.map((msg, index) => (
-      <Message key={index} message={msg} isOwnMessage={msg.isOwnMessage} />
-    ))}
-  </div>
-);
+  );
+};
 
 export default MessageGroup;

@@ -26,220 +26,78 @@ import CompleteProjectModal from "@/components/modals/completeProject";
 import requests from "@/utils/requests";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
+import ProjectChat from "@/components/chat/projectChat";
 
-export interface Message {
+interface Project {
+  requestExtension: {
+    originalDate: string | null;
+    newDate: string | null;
+    days: number;
+    reason: string;
+  };
   _id: string;
-  conversationId: string;
+  customer: { _id: string; fullName: string; avatar: string };
   professional: {
     _id: string;
     fullName: string;
     vendorID: string;
     avatar: string;
   };
-  customer: {
+  profession: {
     _id: string;
-    fullName: string;
-    avatar: string;
+    profession: string;
+    professionName: string;
+    professionID: string;
+    price: number;
   };
-  sender: "professional" | "customer";
-  receiver: "professional" | "customer";
-  body: string;
-  selectedFile?: {
+  projectDescription: string;
+  projectID: string;
+  status: string;
+  startedDate: string;
+  approvedPrice: number;
+  gatewayFee: number;
+  MCDFee: number;
+  professionalPay: number;
+  isPaid: boolean;
+  datePaid: string;
+  payment: {
+    _id: string;
+    invoiceRef: string;
+    payerName: string;
+    gateway: string;
+    status: string;
+  };
+  escrow: string;
+  offer: string;
+  expectedDelivery: number;
+  deliveryDate: string;
+  extendedDeliveryDate: boolean;
+  completedProject: {
+    message: string;
     fileUrl: string;
     fileName: string;
     fileType: string;
     fileSize: number;
     fileFormat: string;
-  };
-  isRead: boolean;
+    _id: string;
+  }[];
   createdAt: string;
   updatedAt: string;
-  delivered?: boolean;
-  tempId?: string;
-}
-
-interface Conversation {
-  _id: string;
-  customerId: {
-    _id: string;
-    fullName: string;
-    avatar: string;
-  };
-  professionalId: {
-    _id: string;
-    fullName: string;
-    vendorID: string;
-    avatar: string;
-  };
-  project: {
-    _id: string;
-    projectID: string;
-    status: string;
-  };
-}
-
-interface ConversationResponse {
-  data: {
-    page: number;
-    pages: number;
-    count: number;
-    conversations: Array<Conversation>;
-  };
-}
-
-interface MessagesResponse {
-  data: {
-    page: number;
-    pages: number;
-    count: number;
-    messages: Message[];
-  };
-}
-
-interface ProfessionalData {
-  fullName: string;
-  profession: string;
-  location: string;
-  rating: number;
-  reviews: number;
-  verified: boolean;
-  avatar: string;
-  rate: number;
+  __v: number;
+  completedDate: string;
 }
 
 const SingleProjectPage = ({ id }: { id: string }) => {
-  const [conversationId, setConversationId] = useState<string>("");
-  const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-
   const userType = useAppSelector((state) => state.auth.type);
 
-  const queryClient = useQueryClient();
-
-  // Fetch conversation list
-  const {
-    data: conversationData,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ["conversations", id],
-    queryFn: () =>
-      requests.get<ConversationResponse>(
-        `chat/${userType}/conversation-list?pageNumber=1`
-      ),
+  const { data: projectData, isLoading: isLoadingProj } = useQuery({
+    queryKey: ["project", id],
+    queryFn: () => requests.get<Project>(`project/single/${id}`),
   });
 
-  useEffect(() => {
-    if (
-      !isError &&
-      !isLoading &&
-      conversationData &&
-      conversationData.data &&
-      conversationData.data.data.conversations.length > 0
-    ) {
-      const convId = conversationData.data.data.conversations[0]._id;
-      setConversationId(conversationData.data.data.conversations[0]._id);
-      setConversation(conversationData.data.data.conversations[0]);
+  if (isLoadingProj) return <div>Loading...</div>;
 
-      requests
-        .get<MessagesResponse>(`chat/${userType}/messages/${convId}`)
-        .then((response) => {
-          if (response.data)
-            setMessages(
-              response.data.data.messages.map((msg) => {
-                let message: Message = {
-                  ...msg,
-                  delivered: true,
-                };
-
-                return message;
-              })
-            );
-        })
-        .catch((error) => {
-          console.error("Error fetching messages:", error);
-        });
-    }
-  }, [conversationData, isError, isLoading, userType]);
-
-  // Fetch messages
-  const { data: messagesData } = useQuery({
-    queryKey: ["messages", conversationId],
-    queryFn: () =>
-      requests.get<MessagesResponse>(
-        `chat/${userType}/messages/${conversationId}`
-      ),
-    enabled: !!conversationId,
-  });
-
-  // Fetch professional data
-  const { data: professionalData } = useQuery({
-    queryKey: ["professional", id],
-    queryFn: () => requests.get<ProfessionalData>(`vendor/vendor/${id}`),
-  });
-
-  const handleSendMessage = async (
-    messageText: string,
-    fileInfo?: {
-      fileUrl: string;
-      fileName: string;
-      fileType: string;
-      fileSize: number;
-      fileFormat: string;
-    }
-  ) => {
-    if (!conversationId) return;
-
-    const tempId = Date.now().toString();
-    const tempMessage: Message = {
-      _id: tempId,
-      conversationId,
-      body: messageText,
-      sender: userType == UserType.CUSTOMER ? "customer" : "professional",
-      receiver: userType == UserType.CUSTOMER ? "professional" : "customer",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      isRead: false,
-      delivered: false,
-      tempId,
-      professional: {
-        _id: conversation!.professionalId._id,
-        fullName: conversation!.professionalId.fullName,
-        vendorID: conversation!.professionalId.vendorID,
-        avatar: conversation!.professionalId.avatar,
-      },
-
-      customer: {
-        _id: conversation!.customerId._id,
-        fullName: conversation!.customerId.fullName,
-        avatar: conversation!.customerId.avatar,
-      },
-      selectedFile: fileInfo,
-    };
-
-    setMessages((prev) => [...prev, tempMessage]);
-
-    try {
-      const response = await requests.post(`chat/${userType}/message`, {
-        body: messageText,
-        conversationId,
-        selectedFile: fileInfo,
-      });
-
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.tempId === tempId ? { ...tempMessage, delivered: true } : msg
-        )
-      );
-
-      // Invalidate and refetch messages
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setMessages((prev) => prev.filter((msg) => msg.tempId !== tempId));
-    }
-  };
-
-  if (!professionalData) return <div>Loading...</div>;
+  if (!projectData) return <div>Error Loading Project</div>;
 
   return (
     <div>
@@ -256,7 +114,7 @@ const SingleProjectPage = ({ id }: { id: string }) => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage className="text-primary capitalize">
-                {professionalData.data?.fullName}
+                {projectData.data?.professional.fullName}
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -269,81 +127,81 @@ const SingleProjectPage = ({ id }: { id: string }) => {
 
       <SectionContainer>
         <div className="block md:grid md:grid-cols-8 md:gap-8">
-          {professionalData && professionalData.data && (
+          {projectData && projectData.data && (
             <aside className="md:self-start md:sticky md:col-span-3 md:top-56 text-[#05141B]">
               <img
-                src={professionalData.data.avatar}
-                alt={professionalData.data.fullName}
-                className="rounded-lg"
+                src={projectData.data.professional.avatar}
+                alt={projectData.data.professional.fullName}
+                className="rounded-lg w-full h-auto"
               />
               <div className="mt-8">
                 <div className="justify-between flex">
-                  <p>{professionalData.data.profession}</p>
-                  {professionalData.data.verified && (
-                    <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
-                      <ShieldCheck size={15} />
-                      <p className="text-sm">Verified</p>
-                    </div>
-                  )}
+                  <p>{projectData.data.profession.professionName}</p>
+                  <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
+                    <ShieldCheck size={15} />
+                    <p className="text-sm">Verified</p>
+                  </div>
                 </div>
                 <h2 className="text-3xl text-black mt-3">
-                  {professionalData.data.fullName}
+                  {projectData.data.professional.fullName}
                 </h2>
                 <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
-                  <div className="flex">
-                    <MapPin size={20} color="red" />
+                  <div className="flex items-center">
+                    <MapPin size={20} className="text-red-500" />
                     <span className="ml-2">
-                      {professionalData.data.location}
+                      {projectData.data.professional.vendorID}
                     </span>
                   </div>
-                  <div className="flex">
-                    <Star size={20} color="red" />
-                    <span className="ml-2">{professionalData.data.rating}</span>
-                  </div>
-                  <div className="flex">
-                    <Separator orientation="vertical" />
+                  <div className="flex items-center">
+                    <Star size={20} className="text-red-500" />
                     <span className="ml-2">
-                      {professionalData.data.reviews} reviews
+                      Project ID: {projectData.data.projectID}
                     </span>
                   </div>
                 </div>
 
-                <h2 className="my-3 text-xl">Professional Rate</h2>
+                <h2 className="my-3 text-xl">Project Rate</h2>
                 <div className="border rounded-lg px-4 py-4">
-                  ₦ {professionalData.data.rate.toLocaleString()} per day
+                  ₦ {projectData.data.approvedPrice.toLocaleString()}
+                </div>
+
+                <div className="mt-4">
+                  <h3 className="font-medium mb-2">Project Details</h3>
+                  <div className="space-y-2 text-sm">
+                    <p>
+                      Status:{" "}
+                      <span className="capitalize">
+                        {projectData.data.status}
+                      </span>
+                    </p>
+                    <p>
+                      Start Date:{" "}
+                      {new Date(
+                        projectData.data.startedDate
+                      ).toLocaleDateString()}
+                    </p>
+                    <p>
+                      Expected Delivery:{" "}
+                      {new Date(
+                        projectData.data.deliveryDate
+                      ).toLocaleDateString()}
+                    </p>
+                    {projectData.data.completedDate && (
+                      <p>
+                        Completed:{" "}
+                        {new Date(
+                          projectData.data.completedDate
+                        ).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </aside>
           )}
 
           <div className="md:col-span-5 mt-10 md:mt-0">
-            <h4>Message history</h4>
-            <div className="border h-[600px] rounded-lg">
-              <div className="flex flex-col h-full w-full">
-                <ChatWindow
-                  messages={messages.map((msg: Message) => ({
-                    text: msg.body,
-                    time: new Date(msg.createdAt).toLocaleTimeString(),
-                    date: new Date(msg.createdAt).toLocaleDateString(),
-                    isOwnMessage: msg.sender === userType,
-                    userType: userType,
-                    owner: {
-                      name:
-                        msg.sender === "professional"
-                          ? msg.professional.fullName
-                          : msg.customer.fullName,
-                      avatar:
-                        msg.sender === "professional"
-                          ? msg.professional.avatar
-                          : msg.customer.avatar,
-                    },
-                    file: msg.selectedFile,
-                    delivered: msg.delivered,
-                  }))}
-                />
-              </div>
-            </div>
-            <ChatInput onSendMessage={handleSendMessage} />
+            <ProjectChat projectId={id} userType={userType} />
           </div>
         </div>
       </SectionContainer>

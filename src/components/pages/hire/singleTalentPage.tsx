@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
 import { toggleNotCustomerModal } from "@/lib/redux/features/layout/layoutSlice";
+import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
 
 const SingleTalentPage = ({ id }: { id: string }) => {
   const [professionalData, setProfessionalData] =
@@ -28,6 +29,7 @@ const SingleTalentPage = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
 
   const type = useAppSelector((state) => state.auth.type);
+  const isLoggedIn = useAppSelector((state) => state.auth.data);
 
   const handleNoCustomer = () => {
     console.log("No customer");
@@ -55,7 +57,7 @@ const SingleTalentPage = ({ id }: { id: string }) => {
     fetchProfessionalData();
   }, [id]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SingleProductSkeleton />;
   if (error) return <div>Error: {error}</div>;
   if (!professionalData) return <div>No data available</div>;
 
@@ -185,7 +187,7 @@ const SingleTalentPage = ({ id }: { id: string }) => {
               )}
             </div>
             <div className="mt-7 w-full">
-              {type !== UserType.CUSTOMER ? (
+              {isLoggedIn && type !== UserType.CUSTOMER ? (
                 <Button onClick={handleNoCustomer} className="w-full">
                   Hire Professional
                 </Button>

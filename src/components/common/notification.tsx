@@ -43,24 +43,6 @@ export const NotificationItem = ({
   notification: Notification;
   onNotificationClick: (notification: Notification) => void;
 }) => {
-  // const getSenderAvatar = () => {
-  //   const sender =
-  //     notification.ownerType == "customer"
-  //       ? notification.vendorFrom
-  //         ? notification.vendorFrom
-  //         : notification.professional
-  //       : notification.customerFrom
-  //       ? notification.customerFrom
-  //       : notification.customer;
-
-  //   console.log(sender);
-
-  //   return {
-  //     src: sender?.avatar || "",
-  //     fallback: sender?.fullName?.charAt(0) || "N/A",
-  //   };
-  // };
-
   const getSenderAvatar = () => {
     let sender;
 

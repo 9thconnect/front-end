@@ -41,6 +41,7 @@ const MainHeader = () => {
 
   const auth = useAppSelector((state) => state.auth);
   const type = useAppSelector((state) => state.auth.type);
+  const userData = useAppSelector((state) => state.auth.data);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -176,7 +177,7 @@ const MainHeader = () => {
               </Link>
             )}
 
-            {type !== UserType.CUSTOMER ? (
+            {userData && type !== UserType.CUSTOMER ? (
               <div
                 onClick={handleNoCustomer}
                 className="text-nowrap flex items-center"

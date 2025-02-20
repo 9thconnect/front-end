@@ -320,6 +320,24 @@ const cartSlice = createSlice({
         type: "productCard" | "cartCard" | "productPage";
       }>
     ) => {
+      console.log("this is product", action.payload.product);
+
+      if (!action.payload.product.weight) {
+        toast(`This product cannot be added to cart`, {
+          description: `This product cannot be added to cart, please contact us for more information`,
+          action: {
+            label: "Cart",
+            onClick: () => console.log("Undo"),
+            actionButtonStyle: {
+              backgroundColor: "#ab0505b9",
+              color: "#880b0bf",
+            },
+          },
+        });
+
+        return;
+      }
+
       let firstItem = state.items[0];
 
       // Check if the new product can be added to the cart
@@ -444,6 +462,22 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{ product: Product; quantity: number }>
     ) => {
+      if (!action.payload.product.weight) {
+        toast(`This product cannot be added to cart`, {
+          description: `This product cannot be added to cart, please contact us for more information`,
+          action: {
+            label: "Cart",
+            onClick: () => console.log("Undo"),
+            actionButtonStyle: {
+              backgroundColor: "#ab0505b9",
+              color: "#880b0bf",
+            },
+          },
+        });
+
+        return;
+      }
+
       const index = state.items.findIndex(
         (item) => item.product._id === action.payload.product._id
       );

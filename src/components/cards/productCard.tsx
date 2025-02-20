@@ -144,7 +144,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             onClick={(e) => {
               e.preventDefault();
 
-              if (type !== UserType.CUSTOMER) {
+              if (isLoggedIn && type !== UserType.CUSTOMER) {
                 handleNoCustomer();
                 return;
               }
@@ -198,7 +198,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               onClick={(e) => {
                 e.preventDefault();
 
-                if (type !== UserType.CUSTOMER) {
+                if (isLoggedIn && type !== UserType.CUSTOMER) {
                   handleNoCustomer();
                   return;
                 }

@@ -75,8 +75,8 @@ const SendProposalModal = ({ id }: { id: string }) => {
           status={loading}
           successMessage="Proposal Submitted"
           successDescription="Your proposal has been submitted, we will send a copy to the professional and they will get back to you"
-          onSuccessButtonClick={() => router.push(`/hire/projects/${id}`)}
-          successButtonText="Contact Professional"
+          onSuccessButtonClick={() => router.push(`/account/customer-offers`)}
+          successButtonText="See All Offers"
           hideCancelButton={loading == "success"}
           onClose={() => setLoading("idle")}
         >
