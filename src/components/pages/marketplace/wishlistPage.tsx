@@ -24,8 +24,7 @@ const WishlistPage = () => {
     );
   }
 
-  // Assuming `data` contains the wishlist products
-  const wishlist = data?.data?.wishlist || []; // Adjust based on the actual structure of the response
+  const wishlist = data?.data?.wishlist || [];
 
   return (
     <div>

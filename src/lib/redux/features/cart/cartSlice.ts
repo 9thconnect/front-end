@@ -325,14 +325,6 @@ const cartSlice = createSlice({
       if (!action.payload.product.weight) {
         toast(`This product cannot be added to cart`, {
           description: `This product cannot be added to cart, please contact us for more information`,
-          action: {
-            label: "Cart",
-            onClick: () => console.log("Undo"),
-            actionButtonStyle: {
-              backgroundColor: "#ab0505b9",
-              color: "#880b0bf",
-            },
-          },
         });
 
         return;
