@@ -20,7 +20,9 @@ export const vendorSignupProfileValidationSchema = z.object({
       message: "phone must be at most 11 characters.",
     }),
 
-  gender: z.string({
-    required_error: "Please select a gender",
-  }),
+  gender: z
+    .string({
+      required_error: "Please select a gender",
+    })
+    .optional(),
 });

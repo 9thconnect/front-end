@@ -42,18 +42,24 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 export const accountDetailsValidationSchema = z.object({
-  bank: z.string({
-    required_error: "Please select a bank",
-  }),
+  bank: z
+    .string({
+      required_error: "Please select a bank",
+    })
+    .optional(),
+
   accountNumber: z
     .string()
     .min(10, "Account number must be exactly 10 digits")
     .max(10, "Account number must be exactly 10 digits")
-    .regex(/^\d+$/, "Account number must contain only digits"),
+    .regex(/^\d+$/, "Account number must contain only digits")
+    .optional(),
 
-  accountName: z.string({
-    required_error: "Please enter your account name",
-  }),
+  accountName: z
+    .string({
+      required_error: "Please enter your account name",
+    })
+    .optional(),
 });
 
 type AccountDetailsFormProps = {
@@ -76,7 +82,7 @@ const AccountDetailsForm = ({
       resolver: zodResolver(accountDetailsValidationSchema),
       defaultValues: {
         accountName: formStateData.accountName,
-        accountNumber: formStateData.accountNumber?.toString() || "",
+        accountNumber: formStateData.accountNumber?.toString() || undefined,
         bank: formStateData.bankCode,
       },
       mode: "onChange",
@@ -161,23 +167,6 @@ const AccountDetailsForm = ({
                         </CommandGroup>
                       </CommandList>
                     </Command>
-                    {/* <Command>
-                      <CommandInput placeholder="Type a command or search..." />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Suggestions">
-                          <CommandItem>Calendar</CommandItem>
-                          <CommandItem>Search Emoji</CommandItem>
-                          <CommandItem>Calculator</CommandItem>
-                        </CommandGroup>
-
-                        <CommandGroup heading="Settings">
-                          <CommandItem>Profile</CommandItem>
-                          <CommandItem>Billing</CommandItem>
-                          <CommandItem>Settings</CommandItem>
-                        </CommandGroup>
-                      </CommandList>
-                    </Command> */}
                   </PopoverContent>
                 </Popover>
                 <FormMessage />

@@ -70,6 +70,11 @@ const routes = [
     icon: CartCheckIcon,
   },
   {
+    name: "Customers",
+    route: "/dashboard/customers",
+    icon: CartCheckIcon,
+  },
+  {
     name: "Products",
     route: "/dashboard/products",
     icon: TransferIcon,
@@ -138,7 +143,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">Marketplace Management</h3>
             <div>
-              {routes.slice(3, 7).map((route) => (
+              {routes.slice(3, 10).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -150,7 +155,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">General Settings</h3>
 
-            {routes.slice(7, 9).map((route) => (
+            {routes.slice(10, 12).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}
@@ -158,11 +163,11 @@ const DashboardSideBar = () => {
                 key={`account-route-${route.name}`}
               />
             ))}
-            <Separator />
+            <Separator className="mb-7" />
           </div>
 
           <div className="pl-2 mt-auto">
-            {routes.slice(9, 13).map((route) => (
+            {routes.slice(12, 16).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}

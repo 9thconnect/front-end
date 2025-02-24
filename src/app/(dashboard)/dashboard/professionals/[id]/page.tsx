@@ -133,12 +133,21 @@ const page = async ({ params }: Props) => {
             apiUrl="https://example.com/api/archive"
           />
           <TwoStageAlertDialog
+            triggerButton={<Button className="bg-red-700">Reject</Button>}
+            triggerText="Reject"
+            initialTitle="Reject Verification"
+            nextTitle="Reason for Reject"
+            initialDescription="You are about to reject a professional, this action will send a rejection mail to the vendor."
+            type="reject"
+            apiUrl={`vendor/approve-business-profession/${params.id}/profession/reject`}
+          />
+          <TwoStageAlertDialog
             triggerButton={<Button>Verify</Button>}
             triggerText="Verify"
-            initialTitle="User Verification"
-            nextTitle="Authenticate"
-            initialDescription="This action will verify the User"
-            apiUrl={`vendor/approve-business-profession/${params.id}/profession`}
+            initialTitle="Professional Verification"
+            nextTitle="Confirm Verification"
+            initialDescription="This action will verify the professional, and they will be able to carry out actions on the application"
+            apiUrl={`vendor/approve-business-profession/${params.id}/profession/approve`}
           />
         </div>
       </div>

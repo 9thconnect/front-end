@@ -50,6 +50,7 @@ export interface Business {
   businessRegNo: string;
   businessLogo: string;
   businessApproved: boolean;
+  businessRejected: boolean;
   businessActive: boolean;
   createdAt: string;
   updatedAt: string;

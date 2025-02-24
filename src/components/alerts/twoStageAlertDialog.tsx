@@ -17,6 +17,8 @@ import { Input } from "../ui/input";
 import BoxIcon from "@/icons/box";
 import requests from "@/utils/requests";
 import { useQueryClient } from "@tanstack/react-query";
+import { Textarea } from "../ui/textarea";
+import { AxiosError } from "axios";
 
 // Define the types for the props
 interface TwoStageAlertDialogProps {
@@ -27,6 +29,7 @@ interface TwoStageAlertDialogProps {
   initialDescription: string;
   apiUrl: string;
   id?: string;
+  type?: "approve" | "reject" | "suspend" | "unsuspend";
   onSuccess?: (data: any) => void;
 }
 
@@ -38,11 +41,15 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
   initialDescription,
   apiUrl,
   id,
+  type,
   onSuccess,
 }) => {
   const [stage, setStage] = useState(1); // 1: Initial stage, 2: Authentication stage
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [reason, setReason] = useState("");
 
   const handleNextStage = () => setStage(2);
 
@@ -51,15 +58,25 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const res = await requests.patch(apiUrl, {});
+      let body = {};
+
+      if (type === "reject") {
+        body = { reasonForRejection: reason };
+      } else if (type === "suspend") {
+        body = { reasonForSuspension: reason };
+      }
+      const res = await requests.patch(apiUrl, body);
+
+      queryClient.invalidateQueries({ queryKey: [`get-businesses`] });
+      queryClient.invalidateQueries({ queryKey: ["get-business", id] });
+
+      setMessage(res.message);
 
       setSuccess(true);
       if (onSuccess) onSuccess(res);
-
-      queryClient.invalidateQueries({ queryKey: [`get-businesses`] });
-      queryClient.invalidateQueries({ queryKey: [`get-business`, id] });
-    } catch (error) {
+    } catch (error: AxiosError<{ message: string }> | any) {
       setSuccess(false);
+      setMessage(error.response?.data.message || "An error occurred");
       console.error("Error:", error);
     } finally {
       setLoading(false);
@@ -78,7 +95,13 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className="flex items-center">
-            <AlertDialogCancel className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
+            <AlertDialogCancel
+              onClick={() => {
+                setMessage("");
+                setStage(1);
+              }}
+              className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3"
+            >
               <X size={20} />
             </AlertDialogCancel>
             <AlertDialogTitle className="font-thin text-offBlack">
@@ -102,6 +125,8 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
             <Loader size={40} />
             <p className="ml-3">Loading, please wait...</p>
           </div>
+        ) : message.length > 0 ? (
+          <p className=" text-xl text-center">{message}</p>
         ) : (
           <>
             {stage === 1 ? (
@@ -112,14 +137,24 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
                 {initialDescription}
               </AlertDialogDescription>
             ) : (
-              !success && (
+              !success &&
+              (type === "reject" || type === "suspend") && (
                 <div className="w-full flex justify-center">
-                  <Input type="password" placeholder="Enter your password" />
+                  <Textarea
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder={`Reason for ${type}`}
+                  />
                 </div>
               )
             )}
             <AlertDialogFooter className="mt-4">
-              <AlertDialogCancel className="sm:w-32 w-full">
+              <AlertDialogCancel
+                onClick={() => {
+                  setMessage("");
+                  setStage(1);
+                }}
+                className="sm:w-32 w-full"
+              >
                 Cancel
               </AlertDialogCancel>
               {!success ? (

@@ -58,8 +58,8 @@ export function CompleteProfilePage({
     let retailSellerData = {
       vendorType: formStateData.vendorType,
       sellerType: formStateData.sellerType,
-      accountNumber: formStateData.accountNumber,
-      bankCode: formStateData.bankCode,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       businessType: formStateData.businessType,
       businessDesc: formStateData.businessDesc,
       shopName: formStateData.shopName,
@@ -71,13 +71,14 @@ export function CompleteProfilePage({
       businessPhoneNumber: formStateData.businessPhoneNumber,
       businessRegNo: formStateData.businessRegNo,
       businessLogo: formStateData.businessLogo,
+      gender: formStateData.gender,
     };
 
     let wholesaleSellerData = {
       vendorType: formStateData.vendorType,
       sellerType: formStateData.sellerType,
-      accountNumber: formStateData.accountNumber,
-      bankCode: formStateData.bankCode,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       businessType: formStateData.businessType,
       businessDesc: formStateData.businessDesc,
       shopName: formStateData.shopName,
@@ -90,13 +91,14 @@ export function CompleteProfilePage({
       businessPhoneNumber: formStateData.businessPhoneNumber,
       businessRegNo: formStateData.businessRegNo,
       businessLogo: formStateData.businessLogo,
+      gender: formStateData.gender,
     };
 
     let individualProfessionalData = {
       vendorType: formStateData.vendorType,
       professionalType: formStateData.professionalType,
-      bankCode: formStateData.bankCode,
-      accountNumber: formStateData.accountNumber,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       professionType: formStateData.professionType,
       professionName: formStateData.professionName,
       professionCity: formStateData.professionCity,
@@ -105,13 +107,14 @@ export function CompleteProfilePage({
       expectedDelivery: formStateData.expectedDelivery,
       portfolio: formStateData.portfolio,
       qualifications: formStateData.qualifications,
+      gender: formStateData.gender,
     };
 
     let companyProfessionalData = {
       vendorType: formStateData.vendorType,
       professionalType: formStateData.professionalType,
-      accountNumber: formStateData.accountNumber,
-      bankCode: formStateData.bankCode,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       businessType: formStateData.businessType,
       businessDesc: formStateData.businessDesc,
       shopName: formStateData.shopName,
@@ -123,13 +126,14 @@ export function CompleteProfilePage({
       businessPhoneNumber: formStateData.businessPhoneNumber,
       businessRegNo: formStateData.businessRegNo,
       businessLogo: formStateData.businessLogo,
+      gender: formStateData.gender,
     };
 
     let logisticsData = {
       vendorType: formStateData.vendorType,
       sellerType: formStateData.sellerType,
-      accountNumber: formStateData.accountNumber,
-      bankCode: formStateData.bankCode,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       businessType: formStateData.businessType,
       businessDesc: formStateData.businessDesc,
       shopName: formStateData.shopName,
@@ -141,13 +145,14 @@ export function CompleteProfilePage({
       businessPhoneNumber: formStateData.businessPhoneNumber,
       businessRegNo: formStateData.businessRegNo,
       businessLogo: formStateData.businessLogo,
+      gender: formStateData.gender,
     };
 
     let realEstateData = {
       vendorType: formStateData.vendorType,
       sellerType: formStateData.sellerType,
-      accountNumber: formStateData.accountNumber,
-      bankCode: formStateData.bankCode,
+      ...(formStateData.bankCode && { bankCode: formStateData.bankCode }),
+      accountNumber: formStateData.accountNumber ?? "",
       businessType: formStateData.businessType,
       businessDesc: formStateData.businessDesc,
       shopName: formStateData.shopName,
@@ -159,6 +164,7 @@ export function CompleteProfilePage({
       businessPhoneNumber: formStateData.businessPhoneNumber,
       businessRegNo: formStateData.businessRegNo,
       businessLogo: formStateData.businessLogo,
+      gender: formStateData.gender,
     };
 
     if (formStateData.vendorType == "logistic") {
@@ -232,7 +238,7 @@ export function CompleteProfilePage({
 
         <div className="flex justify-end space-x-2 mt-6">
           <Button
-            onClick={() => setStage(3)}
+            onClick={() => setStage(13)}
             className="flex items-center gap-2"
           >
             <EditIcon className="w-4 h-4" />

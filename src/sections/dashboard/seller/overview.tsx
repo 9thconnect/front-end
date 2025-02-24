@@ -90,10 +90,15 @@ const SellerOverview = ({ id }: { id: string }) => {
               <ShieldCheck size={15} />
               <p className="text-xs ml-2">Verified</p>
             </div>
-          ) : (
+          ) : data.businessRejected ? (
             <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
               <ShieldCheck size={15} />
-              <p className="text-xs ml-2">unverified</p>
+              <p className="text-xs ml-2">Rejected</p>
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-gray-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">unattended</p>
             </div>
           )}
         </div>

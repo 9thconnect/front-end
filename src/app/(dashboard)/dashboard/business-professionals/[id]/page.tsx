@@ -128,6 +128,14 @@ const page = async ({ params }: Props) => {
             apiUrl="https://example.com/api/archive"
           />
           <TwoStageAlertDialog
+            triggerButton={<Button className="bg-red-700">Reject</Button>}
+            triggerText="Reject"
+            initialTitle="Reject Verification"
+            nextTitle="Authenticate to Reject"
+            initialDescription="Rejecting this vendor will send them a rejection mail."
+            apiUrl="https://example.com/api/archive"
+          />
+          <TwoStageAlertDialog
             triggerButton={<Button>Verify</Button>}
             triggerText="Verify"
             initialTitle="Vendor Verification"

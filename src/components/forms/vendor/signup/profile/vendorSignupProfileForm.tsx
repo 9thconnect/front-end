@@ -111,7 +111,7 @@ const VendorSignupProfileForm = ({
             )}
           />
         </div>
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           <FormField
             control={form.control}
             name="gender"
@@ -137,7 +137,7 @@ const VendorSignupProfileForm = ({
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
         <div className="w-full col-span-2">
           <Button className="w-full" type="submit">
             Submit

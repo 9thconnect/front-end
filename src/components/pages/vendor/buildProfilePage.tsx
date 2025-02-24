@@ -59,6 +59,9 @@ import {
 import { useAppSelector } from "@/lib/redux/hooks";
 import { IVendor } from "@/type/users";
 import { CompleteProfilePage } from "@/components/forms/vendor/signup/confirm/completeProfilePage";
+import GenderSelectForm, {
+  genderValidationSchema,
+} from "@/components/forms/vendor/signup/gender/genderSelectForm";
 
 export interface VendorSignUpRequest {
   fullName?: string;
@@ -241,6 +244,18 @@ const VendorBuildProfilePage = ({ type }: { type: UserType }) => {
       accountNumber: formData.accountNumber,
       bankCode: formData.bank,
       accountName: formData.accountName,
+    }));
+
+    setStage(13);
+    console.log("kmjkewfnje", data, formData);
+  };
+
+  const handleSubmitStageThirteen = (
+    formData: z.infer<typeof genderValidationSchema>
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      gender: formData.gender,
     }));
 
     setStage(12);
@@ -601,8 +616,18 @@ const VendorBuildProfilePage = ({ type }: { type: UserType }) => {
                 setStage={setStage}
               />
             )}
+
             {stage == 12 && (
               <CompleteProfilePage formStateData={data} setStage={setStage} />
+            )}
+
+            {stage == 13 && (
+              <GenderSelectForm
+                onSubmit={handleSubmitStageThirteen}
+                formStateData={data}
+                setStage={setStage}
+                previousStage={3}
+              />
             )}
           </div>
         </div>

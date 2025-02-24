@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
@@ -32,6 +34,8 @@ import OrderTableAdmin from "@/components/tables/admin/orders/data-table";
 import { Suspense } from "react";
 import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { fetchBusinessById } from "@/lib/requests/admin/seller/admin-seller-requests";
 
 type Props = {
   params: { id: string };
@@ -118,9 +122,15 @@ async function getEarningSales(): Promise<EarningData[]> {
   }));
 }
 
-const page = async ({ params }: Props) => {
-  //   const router = useRouter();
-  const tableData = await getEarningSales();
+const Page = ({ params }: Props) => {
+  const {
+    data: queryData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["get-business", params.id],
+    queryFn: () => fetchBusinessById(params.id),
+  });
 
   return (
     <div>
@@ -136,22 +146,42 @@ const page = async ({ params }: Props) => {
         </div>
 
         <div className="flex flex-wrap sm:flex-nowrap space-x-3 mt-3 sm:mt-0">
-          <TwoStageAlertDialog
-            triggerButton={<Button variant={"outline"}>Archive</Button>}
-            triggerText="Archive"
-            initialTitle="Archive User"
-            nextTitle="Authenticate to Archive"
-            initialDescription="Archiving this vendor will make their data inactive and they will no longer have access."
-            apiUrl="https://example.com/api/archive"
-          />
-          <TwoStageAlertDialog
-            triggerButton={<Button>Verify</Button>}
-            triggerText="Verify"
-            initialTitle="Vendor Verification"
-            nextTitle="Authenticate"
-            initialDescription="This action will verifiy the user, and they will be able to carry out actions on the application"
-            apiUrl={`vendor/approve-business-profession/${params.id}/business`}
-          />
+          {queryData?.data?.businessApproved && (
+            <TwoStageAlertDialog
+              triggerButton={<Button variant={"outline"}>Suspend</Button>}
+              triggerText="Suspend"
+              initialTitle="Suspend User"
+              nextTitle="Reason for Suspension"
+              initialDescription="Suspending this vendor will make their data inactive and they will no longer have access."
+              apiUrl={`vendor/suspend-unsuspend-account/${queryData?.data?.vendor?._id}/suspend`}
+              // apiUrl="vendor/suspend-unsuspend-account/66f7fb0d9a9dfe149fbad1e0/suspend"
+              type="suspend"
+            />
+          )}
+
+          {!queryData?.data?.businessApproved && (
+            <TwoStageAlertDialog
+              triggerButton={<Button className="bg-red-700">Reject</Button>}
+              triggerText="Reject"
+              initialTitle="Reject Verification"
+              nextTitle="Reason for Reject"
+              initialDescription="You are about to reject a vendor, this action will send a rejection mail to the vendor."
+              type="reject"
+              apiUrl={`vendor/approve-business-profession/${params.id}/business/reject`}
+            />
+          )}
+
+          {!queryData?.data?.businessApproved && (
+            <TwoStageAlertDialog
+              triggerButton={<Button>Verify</Button>}
+              triggerText="Verify"
+              initialTitle="Vendor Verification"
+              nextTitle="Confirm Verification"
+              initialDescription="This action will verify the user, and they will be able to carry out actions on the application"
+              // apiUrl={`vendor/approve-business-profession/${params.id}/business`}
+              apiUrl={`vendor/approve-business-profession/${params.id}/business/approve`}
+            />
+          )}
         </div>
       </div>
 
@@ -236,4 +266,4 @@ const page = async ({ params }: Props) => {
   );
 };
 
-export default page;
+export default Page;
