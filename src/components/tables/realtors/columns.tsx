@@ -171,7 +171,7 @@ export const columns: ColumnDef<Business>[] = [
     cell: ({ row }) => (
       <div className="flex items-center">
         <div
-          onClick={() => handleRowClick(row.original._id)}
+          onClick={() => handleRowClick(row.original.vendor?._id as string)}
           className="z-50 flex items-center p-2 bg-[#F2F2F2] mr-2 rounded-full cursor-pointer"
         >
           <EyeIcon color="#22bb36" />
