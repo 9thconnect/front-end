@@ -29,6 +29,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  console.log("ChatWindow", messages);
+
   const handleScroll = () => {
     if (scrollRef.current?.scrollTop === 0) {
       // Fetch more messages when scrolled to the top

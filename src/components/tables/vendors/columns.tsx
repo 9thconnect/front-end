@@ -14,10 +14,11 @@ import { Edit2, EyeIcon, Trash2 } from "lucide-react";
 import { Business } from "@/type/professional";
 import Router from "next/router";
 import { navigate } from "@/app/actions";
+import { IVendor } from "@/type/users";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type VendorData = Business;
+export type VendorData = IVendor;
 
 const handleRowClick = (id: string) => {
   navigate(`vendors/${id}`);
@@ -35,7 +36,7 @@ export const renderStatus = (status: string) => {
     case "approved":
       el = <MainBadge text={status} type="green" />;
       break;
-    case "not approved":
+    case "rejected":
       el = <MainBadge text={status} type="red" />;
       break;
 
@@ -79,18 +80,16 @@ export const columns: ColumnDef<VendorData>[] = [
       return (
         <div className="flex items-center">
           <Avatar>
-            <AvatarImage src={row.original.vendor?.avatar} alt="user pic" />
-            <AvatarFallback>
-              {row.original.vendor?.fullName.charAt(2)}
-            </AvatarFallback>
+            <AvatarImage src={row.original?.avatar} alt="user pic" />
+            <AvatarFallback>{row.original?.fullName.charAt(2)}</AvatarFallback>
           </Avatar>
-          <p className="ml-3">{row.original.vendor?.fullName}</p>
+          <p className="ml-3">{row.original?.fullName}</p>
         </div>
       );
     },
   },
   {
-    accessorKey: "vendor.email",
+    accessorKey: "email",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
@@ -106,14 +105,18 @@ export const columns: ColumnDef<VendorData>[] = [
   },
 
   {
-    accessorKey: "status",
+    accessorKey: "businesses",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="Business Approval" />
     ),
     cell: ({ row }) => {
-      const status = row.original.businessApproved
-        ? "approved"
-        : "not approved";
+      const status =
+        row.original.businesses && row.original?.businesses[0]?.businessApproved
+          ? "approved"
+          : row.original?.businesses &&
+            row.original?.businesses[0]?.businessRejected
+          ? "rejected"
+          : "pending";
 
       return renderStatus(status);
     },

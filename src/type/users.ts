@@ -67,6 +67,7 @@ export interface IVendor {
   __v: number;
   lastSeen: string;
   profileBuild: boolean;
+  accountSuspend: boolean;
 }
 
 interface Wallet {
@@ -90,6 +91,8 @@ interface Business {
   businessRegNo: string;
   businessLogo: string;
   businessApproved: boolean;
+  businessRejected: boolean;
+  businessPending: boolean;
   businessActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -110,6 +113,18 @@ interface Profession {
   professionActive: boolean;
   createdAt: string;
   updatedAt: string;
+  price: number;
+  professionPending: boolean;
+  professionRejected: boolean;
+  rating: number;
+  numReviews: number;
+  portfolio: string[];
+  qualifications: {
+    degree: string;
+    institute: string;
+    year: number;
+    _id: string;
+  }[];
   __v: number;
 }
 

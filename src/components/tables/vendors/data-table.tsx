@@ -14,6 +14,8 @@ import { fetchProfessionals } from "@/lib/requests/admin/professional/admin-prof
 import { fetchBusinesses } from "@/lib/requests/admin/seller/admin-seller-requests";
 import { Business } from "@/type/professional";
 import { Skeleton } from "@/components/ui/skeleton";
+import { fetchVendor } from "@/lib/requests/admin/vendor/admin-vendor-requests";
+import { IVendor } from "@/type/users";
 
 const VendorDataTable = () => {
   const router = useRouter();
@@ -26,10 +28,14 @@ const VendorDataTable = () => {
   const query = useQuery({
     queryKey: ["get-businesses", search, pageIndex, pageSize],
     queryFn: () =>
-      fetchBusinesses({ search: search, pageNumber: pageIndex + 1 }),
+      fetchVendor({
+        search: search,
+        pageNumber: pageIndex + 1,
+        vendorType: "seller",
+      }),
   });
 
-  const businesses = query.data?.data?.data.businesses ?? [];
+  const vendors = query.data?.data?.data.vendors ?? [];
   const totalPages = query.data?.data?.data.pages ?? 0;
 
   return (
@@ -65,7 +71,7 @@ const VendorDataTable = () => {
         ) : (
           <DataTable
             columns={columns}
-            data={businesses as Business[]}
+            data={vendors as IVendor[]}
             pageCount={totalPages}
             pageSize={pageSize}
             pageIndex={pageIndex}

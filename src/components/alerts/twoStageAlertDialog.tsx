@@ -67,8 +67,9 @@ const TwoStageAlertDialog: React.FC<TwoStageAlertDialogProps> = ({
       }
       const res = await requests.patch(apiUrl, body);
 
+      queryClient.invalidateQueries();
       queryClient.invalidateQueries({ queryKey: [`get-businesses`] });
-      queryClient.invalidateQueries({ queryKey: ["get-business", id] });
+      queryClient.invalidateQueries({ queryKey: ["get-business"] });
 
       setMessage(res.message);
 

@@ -5,50 +5,29 @@ import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site.config";
 import { ProfessionalData } from "@/type/professional";
 import { MapPin, ShieldCheck, Star } from "lucide-react";
+import { IVendor } from "@/type/users";
 
-export const Overview = ({ id }: { id: string }) => {
+export const Overview = ({ vendor }: { vendor: IVendor }) => {
   const [professionalData, setProfessionalData] =
     useState<ProfessionalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProfessionalData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${siteConfig.apiURL}/profession/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch professional data");
-        }
-        const data = await response.json();
-        setProfessionalData(data.data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const profession = vendor?.professions ? vendor.professions[0] : null;
 
-    fetchProfessionalData();
-  }, [id]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!professionalData) return <div>No data available</div>;
-
-  const {
-    vendor,
-    professionType,
-    professionName,
-    professionDesc,
-    professionCity,
-    price,
-    portfolio,
-    qualifications,
-    professionApproved,
-    professionID,
-    profession,
-  } = professionalData;
+  // const {
+  //   vendor,
+  //   professionType,
+  //   professionName,
+  //   professionDesc,
+  //   professionCity,
+  //   price,
+  //   portfolio,
+  //   qualifications,
+  //   professionApproved,
+  //   professionID,
+  //   profession,
+  // } = professionalData;
 
   return (
     <div className="block md:grid md:grid-cols-8 md:gap-8">
@@ -61,27 +40,49 @@ export const Overview = ({ id }: { id: string }) => {
         <div>
           <h2 className="my-3">Professional Rate</h2>
           <div className="border rounded-lg px-4 py-4">
-            ₦ {price.toLocaleString()}
+            ₦ {profession?.price.toLocaleString()}
           </div>
         </div>
       </aside>
       <div className="md:col-span-5 mt-10 md:mt-0">
         <div className="justify-between flex">
-          <p>{professionType.title}</p>
-          <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center px-2 py-1">
-            <ShieldCheck size={20} />
-            <p className="text-sm">
-              {professionApproved ? "Verified" : "Unverified"}
-            </p>
-          </div>
+          <p>{profession?.professionName}</p>
+          {vendor.accountSuspend ? (
+            <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">Account Suspended</p>
+            </div>
+          ) : profession?.professionApproved ? (
+            <div className="rounded-2xl bg-purple-700 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">Profession Verified</p>
+            </div>
+          ) : profession?.professionRejected ? (
+            <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">Profession Rejected</p>
+            </div>
+          ) : profession?.professionPending ? (
+            <div className="rounded-2xl bg-gray-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">Profession Pending</p>
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-gray-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCheck size={15} />
+              <p className="text-xs ml-2">unattended</p>
+            </div>
+          )}
         </div>
         <h2 className="text-3xl text-black mt-3">{vendor.fullName}</h2>
         <p className="text-sm text-gray-600">ID: {vendor.vendorID}</p>
-        <p className="text-sm text-gray-600">Profession ID: {professionID}</p>
+        <p className="text-sm text-gray-600">
+          Profession ID: {profession?.professionID}
+        </p>
         <div className="flex space-x-4 flex-wrap mt-3 text-gray-950">
           <div className="flex">
             <MapPin size={20} color="red" />
-            <span className="ml-2">{professionCity}</span>
+            <span className="ml-2">{profession?.professionCity}</span>
           </div>
           <div className="flex">
             <Star size={20} color="red" />
@@ -93,23 +94,23 @@ export const Overview = ({ id }: { id: string }) => {
           </div>
         </div>
         <h2 className="mb-2 mt-6 text-offBlack">Overview</h2>
-        <div className="border rounded-lg px-4 py-4 mb-4">{professionDesc}</div>
+        <div className="border rounded-lg px-4 py-4 mb-4">
+          {profession?.professionDesc}
+        </div>
         <div className="border rounded-lg px-4 py-4">
+          <p>{/* <strong>Profession:</strong> {profession?.profession} */}</p>
           <p>
-            <strong>Profession:</strong> {profession}
+            <strong>Profession Name:</strong> {profession?.professionName}
           </p>
           <p>
-            <strong>Profession Name:</strong> {professionName}
-          </p>
-          <p>
-            <strong>Description:</strong> {professionDesc}
+            <strong>Description:</strong> {profession?.professionDesc}
           </p>
         </div>
         <h2 className="mb-2 mt-6 text-offBlack">Work Portfolio</h2>
         <div className="border rounded-lg px-4 py-4">
-          {portfolio.length > 0 ? (
+          {profession && profession.portfolio.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-              {portfolio.map((image, index) => (
+              {profession?.portfolio.map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -124,8 +125,8 @@ export const Overview = ({ id }: { id: string }) => {
         </div>
         <h2 className="my-3">Qualifications</h2>
         <div className="border rounded-lg px-4 pb-4">
-          {qualifications.length > 0 ? (
-            qualifications.map((qual, index) => (
+          {profession && profession.qualifications.length > 0 ? (
+            profession.qualifications.map((qual, index) => (
               <div key={index} className="flex justify-between [&>*]:mt-5">
                 <div>
                   <h4 className="">{qual.degree}</h4>

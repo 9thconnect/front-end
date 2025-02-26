@@ -40,6 +40,16 @@ export const payForProject = (payload: {
   });
 };
 
+export const withdrawProposal = (payload: {
+  offerId: string;
+  withdrawReason: string;
+}) => {
+  return requests.patch(`/offer/customer-withdraw-offer`, {
+    withdrawReason: payload.withdrawReason,
+    offerId: payload.offerId,
+  });
+};
+
 export const getProjects = (
   pageNumber?: number,
   filterByStatus?: string,

@@ -60,22 +60,6 @@ const ProfessionalDataTable = () => {
               className="md:max-w-60 w-full"
               onChange={(e) => setSearch(e.target.value)}
             />
-            {/* <div className="md:flex md:space-x-2">
-              <div className="md:flex md:space-x-2 items-center">
-                <FilterSelect
-                  label="Category"
-                  options={[]}
-                  placeholder="Category"
-                />
-                <FilterSelect
-                  label="Status"
-                  options={[]}
-                  placeholder="Status"
-                />
-              </div>
-
-              <Button className=" w-full md:w-fit">Add User</Button>
-            </div> */}
           </div>
         </div>
         {query.isLoading ? (

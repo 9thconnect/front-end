@@ -36,7 +36,8 @@ export const renderStatus = (status: string) => {
     case "rejected":
       el = <MainBadge text={status} type="red" />;
       break;
-
+    case "withdraw":
+      el = <MainBadge text={status} type="blue" />;
     default:
       break;
   }

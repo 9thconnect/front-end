@@ -33,6 +33,7 @@ import { Textarea } from "@/components/ui/textarea";
 import FileUpload from "@/components/common/FileUpload";
 import { formatDate } from "@/utils/format-date";
 import { truncateText } from "@/utils/common";
+import { useRouter } from "next/navigation";
 
 const ProjectTable = () => {
   const [rowData, setRowData] = useState<Project | undefined>();
@@ -42,6 +43,7 @@ const ProjectTable = () => {
   const [completionNotes, setCompletionNotes] = useState("");
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(50);
+  const router = useRouter();
 
   const [completedProjectFiles, setCompletedProjectFiles] = useState<
     Array<{
@@ -181,6 +183,12 @@ const ProjectTable = () => {
                   {completeProjectMutation.isPending
                     ? "Completing..."
                     : "Complete Project"}
+                </Button>
+                <Button
+                  onClick={() => router.push(`/hire/projects/${rowData?._id}`)}
+                  className="rounded-xl"
+                >
+                  View
                 </Button>
               </div>
             )}

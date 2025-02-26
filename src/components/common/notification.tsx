@@ -20,6 +20,7 @@ import MainBadge from "../badges/mainBadge";
 import { Separator } from "@radix-ui/react-separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const getNotificationIcon = (notification: Notification) => {
   switch (notification.notificationType) {
@@ -327,14 +328,14 @@ const NotificationDetailDrawer = ({
         <Separator className="my-4" />
 
         <div className="flex justify-end space-x-2">
+          {notification.project && (
+            <Link href={`/hire/projects/${notification.project._id}`}>
+              <Button>View Message</Button>
+            </Link>
+          )}
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>
-          {notification.ownerType == "customer" &&
-            notification.notificationType == "offer" &&
-            notification.message.includes("ACCEPTED") && (
-              <Button>Make Payment</Button>
-            )}
         </div>
       </SheetContent>
     </Sheet>

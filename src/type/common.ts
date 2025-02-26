@@ -2,6 +2,7 @@ import { Category } from "./category";
 import { Logistics } from "./logistics";
 import { Business, Project, Proposal, Vendor } from "./professional";
 import { Property } from "./property";
+import { IVendor } from "./users";
 
 export interface BaseResponse<T> {
   message: string;
@@ -79,6 +80,15 @@ export interface PropertyResponse {
     pages: number;
     count: number;
     properties: Property[];
+  };
+}
+
+export interface VendorResponse {
+  data: {
+    page: number;
+    pages: number;
+    count: number;
+    vendors: IVendor[];
   };
 }
 

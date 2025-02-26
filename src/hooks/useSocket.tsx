@@ -16,7 +16,7 @@ export const useSocket = () => {
     });
 
     newSocket.on("connect", () => {
-      console.log("Socket connected successfully");
+      console.log("Socket connected successfully ---");
       setIsConnected(true);
     });
 

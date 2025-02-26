@@ -5,6 +5,7 @@ import ChatInput from "@/components/chat/chatInput";
 import requests from "@/utils/requests";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { useSocket } from "@/hooks/useSocket";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 export interface Message {
   _id: string;
@@ -87,6 +88,8 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { socket, isConnected } = useSocket();
 
+  const user = useAppSelector((state) => state.auth);
+
   // Fetch conversation list
   const {
     data: conversationData,
@@ -104,7 +107,11 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
     if (!socket || !conversation) return;
 
     const handleNewMessage = (data: { message: Message }) => {
-      if (data.message.conversationId === conversationId) {
+      console.log("receive-message", conversationId, data.message);
+      if (
+        data.message.conversationId === conversationId &&
+        data.message.receiver == user?.type
+      ) {
         const newMessage: Message = {
           ...data.message,
           delivered: true,
@@ -122,7 +129,7 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
     return () => {
       socket.off("receive-message", handleNewMessage);
     };
-  }, [socket, conversationId, conversation]);
+  }, [socket, conversationId, conversation, user]);
 
   useEffect(() => {
     if (
@@ -145,6 +152,8 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
       requests
         .get<MessagesResponse>(`chat/${userType}/messages/${convId}`)
         .then((response) => {
+          console.log("response.data.messages", response.data);
+
           if (response.data) {
             setMessages(
               response.data.data.messages.map((msg) => ({
@@ -208,6 +217,8 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
         conversationId,
         selectedFile: fileInfo,
       });
+
+      console.log("sending message:", messages);
 
       setMessages((prev) =>
         prev.map((msg) =>
