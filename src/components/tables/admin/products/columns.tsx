@@ -13,6 +13,9 @@ import DateCell from "@/components/common/dateCell";
 import { formatCurrency } from "@/utils/format-currency";
 import { Product } from "@/type/common";
 import requests from "@/utils/requests";
+import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -143,25 +146,78 @@ export const columns: ColumnDef<ProductData>[] = [
     },
   },
 
+  // {
+  //   accessorKey: "action",
+  //   header: ({ column }) => "",
+  //   cell: ({ row }) => {
+  //     const productId = row.original._id;
+
+  //     const handleToggleStatus = async () => {
+  //       const action = row.getValue("disabled") ? "disable" : "enable";
+  //       await toggleProductStatus(productId, action);
+  //       // Here, refresh data or update the row's status based on API response
+  //     };
+
+  //     return row.getValue("disabled") ? (
+  //       <Button className="rounded-3xl">
+  //         Enable <CircleCheckBig className="ml-2" />
+  //       </Button>
+  //     ) : (
+  //       <Button className="rounded-3xl">
+  //         Disable <CircleOff className="ml-2" />
+  //       </Button>
+  //     );
+  //   },
+  // },
+
   {
     accessorKey: "action",
-    header: ({ column }) => "",
+    header: () => "",
     cell: ({ row }) => {
       const productId = row.original._id;
+      const disabled = row.original.disabled;
 
-      const handleToggleStatus = async () => {
-        const action = row.getValue("disabled") ? "disable" : "enable";
-        await toggleProductStatus(productId, action);
-        // Here, refresh data or update the row's status based on API response
+      console.log("disabled", row.original.disabled);
+
+      const queryClient = useQueryClient();
+
+      const toggleStatusMutation = useMutation({
+        mutationFn: () =>
+          toggleProductStatus(productId, !disabled ? "disable" : "enable"),
+        onSuccess: () => {
+          toast.success(
+            `Product ${!disabled ? "disabled" : "enabled"} successfully`
+          );
+          // Invalidate the products query to refresh the table
+          queryClient.invalidateQueries({ queryKey: ["get-products-admin"] });
+        },
+        onError: (error: AxiosError<{ message: string }>) => {
+          toast.error(
+            error.response?.data.message || "Failed to toggle product status"
+          );
+        },
+      });
+
+      const handleToggleStatus = () => {
+        toggleStatusMutation.mutate();
       };
 
-      return row.getValue("disabled") ? (
-        <Button className="rounded-3xl">
-          Enable <CircleCheckBig className="ml-2" />
-        </Button>
-      ) : (
-        <Button className="rounded-3xl">
-          Disable <CircleOff className="ml-2" />
+      return (
+        <Button
+          className="rounded-3xl"
+          onClick={handleToggleStatus}
+          disabled={toggleStatusMutation.isPending}
+        >
+          {!disabled ? (
+            <>
+              Disable <CircleOff className="ml-2" />
+            </>
+          ) : (
+            <>
+              Enable <CircleCheckBig className="ml-2" />
+            </>
+          )}
+          {toggleStatusMutation.isPending && " Processing..."}
         </Button>
       );
     },
