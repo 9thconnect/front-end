@@ -16,6 +16,7 @@ import requests from "@/utils/requests";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { ProductActionButton } from "./actionCell";
 
 export type ProductData = Product;
 
@@ -147,53 +148,11 @@ export const columns: ColumnDef<ProductData>[] = [
   {
     accessorKey: "action",
     header: () => "",
-    cell: ({ row }) => {
-      const productId = row.original._id;
-      const disabled = row.original.disabled;
-
-      console.log("disabled", row.original.disabled);
-
-      const queryClient = useQueryClient();
-
-      const toggleStatusMutation = useMutation({
-        mutationFn: () =>
-          toggleProductStatus(productId, !disabled ? "disable" : "enable"),
-        onSuccess: () => {
-          toast.success(
-            `Product ${!disabled ? "disabled" : "enabled"} successfully`
-          );
-          // Invalidate the products query to refresh the table
-          queryClient.invalidateQueries({ queryKey: ["get-products-admin"] });
-        },
-        onError: (error: AxiosError<{ message: string }>) => {
-          toast.error(
-            error.response?.data.message || "Failed to toggle product status"
-          );
-        },
-      });
-
-      const handleToggleStatus = () => {
-        toggleStatusMutation.mutate();
-      };
-
-      return (
-        <Button
-          className="rounded-3xl"
-          onClick={handleToggleStatus}
-          disabled={toggleStatusMutation.isPending}
-        >
-          {!disabled ? (
-            <>
-              Disable <CircleOff className="ml-2" />
-            </>
-          ) : (
-            <>
-              Enable <CircleCheckBig className="ml-2" />
-            </>
-          )}
-          {toggleStatusMutation.isPending && " Processing..."}
-        </Button>
-      );
-    },
+    cell: ({ row }) => (
+      <ProductActionButton
+        productId={row.original._id}
+        disabled={row.original.disabled}
+      />
+    ),
   },
 ];
