@@ -21,6 +21,7 @@ import {
   Wallet,
   CreditCard,
   UserCheck,
+  MessageSquareIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useAppSelector } from "@/lib/redux/hooks";
@@ -35,6 +36,7 @@ const notificationIcons = {
   wallet: Wallet,
   transaction: CreditCard,
   default: UserCheck,
+  chat: MessageSquareIcon,
 };
 
 interface NotificationData {
@@ -47,7 +49,8 @@ interface NotificationData {
     | "profession"
     | "business"
     | "wallet"
-    | "transaction";
+    | "transaction"
+    | "chat";
   ownerType: "vendor" | "customer";
   vendorTo: string;
   customerTo: string;
@@ -59,10 +62,8 @@ const SocketNotificationListener: React.FC = () => {
   const [currentNotification, setCurrentNotification] =
     useState<NotificationData | null>(null);
 
-  // Get the logged-in user's ID
   const user = useAppSelector((state) => state.auth.data);
 
-  // Create socket connection
   useEffect(() => {
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
       reconnection: true,
@@ -73,7 +74,6 @@ const SocketNotificationListener: React.FC = () => {
       timeout: 5000,
     });
 
-    // Connection event handlers
     newSocket.on("connect", () => {
       console.log("Socket connected successfully");
     });
@@ -82,21 +82,17 @@ const SocketNotificationListener: React.FC = () => {
       console.error("Socket connection error:", error);
     });
 
-    // Listen for notifications
     newSocket.on("in-app-notification", (data: NotificationData) => {
       console.log("Received in-app notification:", data);
 
-      // Filter notifications based on user type and ID
       const shouldShowNotification =
         (user && data.ownerType === "vendor" && data.vendorTo === user._id) ||
         (user && data.ownerType === "customer" && data.customerTo === user._id);
 
       if (shouldShowNotification) {
-        // If no current notification, show immediately
         if (!currentNotification) {
           setCurrentNotification(data);
         } else {
-          // Otherwise, add to queue
           setNotifications((prev) => [
             ...prev,
             {
@@ -110,35 +106,30 @@ const SocketNotificationListener: React.FC = () => {
 
     setSocket(newSocket);
 
-    // Cleanup on unmount
     return () => {
       newSocket.disconnect();
     };
   }, [user, currentNotification]);
 
-  // Dismiss current notification and show next in queue
   const handleDismissNotification = useCallback(() => {
-    // If there are more notifications in the queue, show the next one
     if (notifications.length > 0) {
       const [nextNotification, ...remainingNotifications] = notifications;
       setCurrentNotification(nextNotification);
       setNotifications(remainingNotifications);
     } else {
-      // If no more notifications, clear current
       setCurrentNotification(null);
     }
   }, [notifications]);
 
-  // If no current notification, render nothing
   if (!currentNotification) return null;
 
-  // Dynamically select icon based on notification type
-  const NotificationIcon =
-    notificationIcons[currentNotification.notificationType || "default"];
+  // Safely resolve the icon, defaulting to UserCheck if invalid
+  const notificationType = currentNotification.notificationType || "default";
+  const NotificationIcon = notificationIcons[notificationType] || UserCheck;
 
   return (
     <Dialog
-      open={!!currentNotification}
+      open={!!currentNotification && notificationType !== "chat"}
       onOpenChange={() => handleDismissNotification()}
     >
       <DialogContent className="sm:max-w-[425px]">
@@ -148,12 +139,11 @@ const SocketNotificationListener: React.FC = () => {
               <NotificationIcon
                 size={24}
                 className={`mr-2 ${
-                  currentNotification.notificationType === "transaction"
+                  notificationType === "transaction"
                     ? "text-green-500"
                     : "text-blue-500"
                 }`}
               />
-              {currentNotification.notificationType ?? "Notification"}
             </DialogTitle>
             <DialogClose asChild>
               <Button

@@ -23,8 +23,6 @@ const VendorDataTable = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
-  // const data = getDataVendors();
-
   const query = useQuery({
     queryKey: ["get-businesses", search, pageIndex, pageSize],
     queryFn: () =>

@@ -17,8 +17,6 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type ProductData = Product;
 
 const toggleProductStatus = async (
@@ -145,30 +143,6 @@ export const columns: ColumnDef<ProductData>[] = [
       return renderStatus(status);
     },
   },
-
-  // {
-  //   accessorKey: "action",
-  //   header: ({ column }) => "",
-  //   cell: ({ row }) => {
-  //     const productId = row.original._id;
-
-  //     const handleToggleStatus = async () => {
-  //       const action = row.getValue("disabled") ? "disable" : "enable";
-  //       await toggleProductStatus(productId, action);
-  //       // Here, refresh data or update the row's status based on API response
-  //     };
-
-  //     return row.getValue("disabled") ? (
-  //       <Button className="rounded-3xl">
-  //         Enable <CircleCheckBig className="ml-2" />
-  //       </Button>
-  //     ) : (
-  //       <Button className="rounded-3xl">
-  //         Disable <CircleOff className="ml-2" />
-  //       </Button>
-  //     );
-  //   },
-  // },
 
   {
     accessorKey: "action",

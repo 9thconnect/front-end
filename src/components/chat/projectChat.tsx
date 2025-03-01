@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ChatWindow from "@/components/chat/chatWindow";
@@ -86,9 +88,20 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
   const [conversationId, setConversationId] = useState<string>("");
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const { socket, isConnected } = useSocket();
 
   const user = useAppSelector((state) => state.auth);
+
+  const isOwnerOfMessage = () => {
+    if (userType == UserType.VENDOR) {
+      return "professional";
+    } else {
+      return "customer";
+    }
+  };
 
   // Fetch conversation list
   const {
@@ -107,10 +120,9 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
     if (!socket || !conversation) return;
 
     const handleNewMessage = (data: { message: Message }) => {
-      console.log("receive-message", conversationId, data.message);
       if (
         data.message.conversationId === conversationId &&
-        data.message.receiver == user?.type
+        data.message.receiver == isOwnerOfMessage()
       ) {
         const newMessage: Message = {
           ...data.message,
@@ -118,6 +130,8 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
           status: "delivered",
           professional: conversation.professionalId,
           customer: conversation.customerId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         };
 
         setMessages((prev) => [...prev, newMessage]);
@@ -130,6 +144,46 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
       socket.off("receive-message", handleNewMessage);
     };
   }, [socket, conversationId, conversation, user]);
+
+  const fetchMessages = async (convId: string, page: number = 1) => {
+    // Don't fetch if we're already loading or if we're trying to load a page beyond the total
+    if (isLoadingMore || (page > totalPages && totalPages > 0)) return;
+
+    setIsLoadingMore(true);
+    try {
+      const response = await requests.get<MessagesResponse>(
+        `chat/${userType}/messages/${convId}?pageNumber=${page}`
+      );
+
+      if (response.data) {
+        const formattedMessages = response.data.data.messages.map((msg) => ({
+          ...msg,
+          delivered: true,
+          status: "delivered" as any,
+        }));
+
+        if (page === 1) {
+          setMessages(formattedMessages);
+        } else {
+          // Add older messages to the beginning
+          setMessages((prev) => [...formattedMessages, ...prev]);
+        }
+
+        setTotalPages(response.data.data.pages);
+        setCurrentPage(response.data.data.page);
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  const handleLoadMoreMessages = () => {
+    if (currentPage < totalPages && !isLoadingMore && conversationId) {
+      fetchMessages(conversationId, currentPage + 1);
+    }
+  };
 
   useEffect(() => {
     if (
@@ -149,24 +203,13 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
       setConversationId(convId);
       setConversation(selectedConversation);
 
-      requests
-        .get<MessagesResponse>(`chat/${userType}/messages/${convId}`)
-        .then((response) => {
-          console.log("response.data.messages", response.data);
+      // Reset pagination state when conversation changes
+      setCurrentPage(1);
+      setTotalPages(1);
+      setMessages([]);
 
-          if (response.data) {
-            setMessages(
-              response.data.data.messages.map((msg) => ({
-                ...msg,
-                delivered: true,
-                status: "delivered",
-              }))
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching messages:", error);
-        });
+      // Initial fetch of messages
+      fetchMessages(convId, 1);
     }
   }, [conversationData, isError, isLoading, userType, projectId]);
 
@@ -217,8 +260,6 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
         conversationId,
         selectedFile: fileInfo,
       });
-
-      console.log("sending message:", messages);
 
       setMessages((prev) =>
         prev.map((msg) =>
@@ -287,7 +328,7 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
               text: msg.body,
               time: new Date(msg.createdAt).toLocaleTimeString(),
               date: new Date(msg.createdAt).toLocaleDateString(),
-              isOwnMessage: msg.sender === userType,
+              isOwnMessage: msg.sender === isOwnerOfMessage(),
               userType: userType,
               owner: {
                 name:
@@ -306,6 +347,9 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
             }))}
             handleRemoveMessage={handleRemoveMessage}
             handleRetryMessage={handleRetryMessage}
+            onLoadMore={handleLoadMoreMessages}
+            hasMore={currentPage < totalPages}
+            isLoading={isLoadingMore}
           />
         </div>
       </div>
