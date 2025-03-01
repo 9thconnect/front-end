@@ -50,9 +50,6 @@ const RateProForm = ({
           name="rate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="mb-8">
-                How satisfied are you with this product
-              </FormLabel>
               <FormControl className="w-full">
                 <>
                   <Rating

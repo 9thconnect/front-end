@@ -17,36 +17,14 @@ import { useRouter } from "next/navigation";
 import RateProForm, { RateProSchema } from "../forms/hire/rateExp";
 import requests from "@/utils/requests";
 
-const CompleteProjectModal = ({
-  professionId,
-  projectId,
-}: {
-  professionId: string;
-  projectId: string;
-}) => {
+const RateProjectModal = ({ professionId }: { professionId: string }) => {
   const [loading, setLoading] = useState<
     "idle" | "success" | "error" | "loading"
   >("idle");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [rateExp, setRateExp] = useState(false);
   const router = useRouter();
-
-  const onSubmit = useCallback(async () => {
-    setLoading("loading");
-    try {
-      await axios.post("/api/rate");
-      setLoading("success");
-    } catch (error) {
-      setLoading("error");
-      if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data.message || "An error occurred, try again"
-        );
-      } else {
-        toast.error("An error occurred, try again");
-      }
-    }
-  }, []);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmitRating = useCallback(
     async (data: z.infer<typeof RateProSchema>) => {
@@ -65,6 +43,7 @@ const CompleteProjectModal = ({
           toast.error(
             error.response?.data.message || "An error occurred, try again"
           );
+          setErrorMessage(error.response?.data.message);
         } else {
           toast.error("An error occurred, try again");
         }
@@ -73,33 +52,20 @@ const CompleteProjectModal = ({
     []
   );
 
-  const handleOpenChange = useCallback(
-    async (open: boolean) => {
-      if (open && loading === "idle") {
-        await onSubmit();
-      } else if (!open) {
-        setLoading("idle");
-      }
-
-      setIsOpen(open);
-    },
-    [loading, onSubmit]
-  );
-
   const handleSuccessButtonClick = useCallback(() => {
     setRateExp(true);
     setLoading("idle");
   }, []);
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-    router.push("/marketplace");
-  }, [router]);
+    setRateExp(true);
+    setLoading("idle");
+  }, []);
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="w-full">Complete Project</Button>
+        <Button className="w-full">Rate Vendor</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
         <div className="relative h-full w-full">
@@ -107,24 +73,25 @@ const CompleteProjectModal = ({
             <AlertDialogCancel className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3">
               <X size={15} />
             </AlertDialogCancel>
-            <AlertDialogTitle>Project Completion</AlertDialogTitle>
+            <AlertDialogTitle>Rate Vendor</AlertDialogTitle>
           </AlertDialogHeader>
         </div>
         <HOCLoading
           status={loading}
-          successMessage="Proposal Completed"
-          successDescription="Your proposal has been submitted, we will send a copy to the professional and they will get back to you"
+          successMessage="Rating submitted"
+          successDescription="Your rating has been submitted for the vendor"
           onSuccessButtonClick={handleSuccessButtonClick}
-          successButtonText="Rate Experience"
-          cancelButtonText="Continue Shopping"
+          successButtonText="Go to project"
+          cancelButtonText="Continue"
+          errorMessage={errorMessage}
           onClose={handleClose}
-          onErrorButtonClick={onSubmit}
+          onErrorButtonClick={() => {}}
         >
-          {rateExp && <RateProForm onSubmit={onSubmitRating} />}
+          <RateProForm onSubmit={onSubmitRating} />
         </HOCLoading>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
 
-export default CompleteProjectModal;
+export default RateProjectModal;

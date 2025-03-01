@@ -27,6 +27,7 @@ import requests from "@/utils/requests";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import ProjectChat from "@/components/chat/projectChat";
+import RateProjectModal from "@/components/modals/rateProfession";
 
 interface Project {
   requestExtension: {
@@ -120,7 +121,9 @@ const SingleProjectPage = ({ id }: { id: string }) => {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex space-x-3 items-center">
-          <CompleteProjectModal />
+          {projectData.data?.profession._id && (
+            <RateProjectModal professionId={projectData.data?.profession._id} />
+          )}
           <Button variant={"outline"}>Terminate Project</Button>
         </div>
       </div>

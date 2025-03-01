@@ -65,47 +65,47 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     }
   }, [messages, initialLoad]);
 
-  useEffect(() => {
-    // Handle new message added (when messages length increases)
-    if (messages.length > prevMessagesLength && !initialLoad) {
-      // Check the last message - if it's our own, always scroll to bottom
-      const lastMessage = messages[messages.length - 1];
+  // useEffect(() => {
+  //   // Handle new message added (when messages length increases)
+  //   if (messages.length > prevMessagesLength && !initialLoad) {
+  //     // Check the last message - if it's our own, always scroll to bottom
+  //     const lastMessage = messages[messages.length - 1];
 
-      console.log(
-        "lastMessage?.isOwnMessage",
-        lastMessage?.isOwnMessage,
-        isNearBottom()
-      );
+  //     console.log(
+  //       "lastMessage?.isOwnMessage",
+  //       lastMessage?.isOwnMessage,
+  //       isNearBottom()
+  //     );
 
-      // Scroll to bottom if the last message is our own or if we were already near bottom
-      if (lastMessage?.isOwnMessage || isNearBottom()) {
-        setShouldScrollToBottom(true);
-      }
-    }
+  //     // Scroll to bottom if the last message is our own or if we were already near bottom
+  //     if (lastMessage?.isOwnMessage || isNearBottom()) {
+  //       setShouldScrollToBottom(true);
+  //     }
+  //   }
 
-    // Save current messages length for next comparison
-    setPrevMessagesLength(messages.length);
-  }, [messages, prevMessagesLength, initialLoad]);
+  //   // Save current messages length for next comparison
+  //   setPrevMessagesLength(messages.length);
+  // }, [messages, prevMessagesLength, initialLoad]);
 
-  useEffect(() => {
-    // When loading more messages, maintain scroll position
-    if (scrollRef.current && !initialLoad && prevScrollHeight > 0) {
-      const newScrollHeight = scrollRef.current.scrollHeight;
-      const scrollDiff = newScrollHeight - prevScrollHeight;
-      scrollRef.current.scrollTop = scrollDiff;
-    }
-  }, [messages.length, prevScrollHeight, initialLoad]);
+  // useEffect(() => {
+  //   // When loading more messages, maintain scroll position
+  //   if (scrollRef.current && !initialLoad && prevScrollHeight > 0) {
+  //     const newScrollHeight = scrollRef.current.scrollHeight;
+  //     const scrollDiff = newScrollHeight - prevScrollHeight;
+  //     scrollRef.current.scrollTop = scrollDiff;
+  //   }
+  // }, [messages.length, prevScrollHeight, initialLoad]);
 
-  useEffect(() => {
-    // Handle smooth scrolling to bottom when needed
-    if (shouldScrollToBottom && scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-      setShouldScrollToBottom(false);
-    }
-  }, [shouldScrollToBottom]);
+  // useEffect(() => {
+  //   // Handle smooth scrolling to bottom when needed
+  //   if (shouldScrollToBottom && scrollRef.current) {
+  //     scrollRef.current.scrollTo({
+  //       top: scrollRef.current.scrollHeight,
+  //       behavior: "smooth",
+  //     });
+  //     setShouldScrollToBottom(false);
+  //   }
+  // }, [shouldScrollToBottom]);
 
   const handleScroll = () => {
     if (scrollRef.current) {
