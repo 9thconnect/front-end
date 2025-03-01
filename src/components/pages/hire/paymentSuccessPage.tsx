@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { LottieComponentProps } from "lottie-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -63,6 +63,8 @@ const PaymentStatusPage: React.FC = () => {
   const status = searchParams.get("status");
   const code = searchParams.get("code");
   const ref = searchParams.get("reference");
+
+  const router = useRouter();
 
   const handleDownload = async () => {
     if (!receiptRef.current || !paymentData) return;
@@ -320,7 +322,13 @@ const PaymentStatusPage: React.FC = () => {
           ) : (
             paymentData && (
               <div className="w-full max-w-2xl">
-                <Button>View Project</Button>
+                <Button
+                  onClick={() =>
+                    router.push(`/hire/projects/${paymentData.project._id}`)
+                  }
+                >
+                  View Project
+                </Button>
                 <div className="flex gap-4 justify-end mb-4">
                   <Button
                     variant="outline"
