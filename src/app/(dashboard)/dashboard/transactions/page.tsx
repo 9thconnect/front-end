@@ -1,49 +1,61 @@
-import AnalyticCard from "@/components/cards/common/analyticCard";
-import { DatePickerWithRange } from "@/components/common/datePickerRange";
-import SalesDataTable from "@/components/tables/recent-sales/data-table";
-import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/utils/format-currency";
-import { HandshakeIcon, ReceiptText, Wallet } from "lucide-react";
-import React, { Suspense } from "react";
-import { getDataSales } from "../home/page";
-import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
+"use client";
 
-const page = async () => {
-  const tableData = await getDataSales();
+import AnalyticCard from "@/components/cards/common/analyticCard";
+import { ReceiptText, HandshakeIcon, Wallet, XCircle } from "lucide-react";
+import React, { Suspense } from "react";
+import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
+import { useQuery } from "@tanstack/react-query";
+import requests from "@/utils/requests";
+import { AdminStats } from "@/type/users";
+import { formatCurrency } from "@/utils/format-currency";
+
+const Page = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin-stats"],
+    queryFn: () =>
+      requests.get<{
+        data: AdminStats;
+      }>("/admin/dashboard-summary"),
+  });
+
+  const transactionStats = data?.data?.data?.transactionStats || {
+    pendingPayments: 0,
+    approvedPayments: 0,
+    failedPayments: 0,
+    totalPayments: 0,
+  };
+
   return (
     <div>
       <div className="sm:flex justify-between items-center flex-wrap">
         <p className="text-2xl text-offBlack">Transactions</p>
-        {/* <div className="sm:flex flex-wrap sm:flex-nowrap">
-          <DatePickerWithRange className="sm:mr-2 w-full" />
-          <Button className="w-full sm:w-fit mt-2 sm:mt-0 font-normal">
-            Download
-          </Button>
-        </div> */}
       </div>
       <Suspense fallback={<p>Loading...</p>}>
-        <div className="grid md:grid-cols-3 gap-5 mt-6">
-          <div className="md">
-            <AnalyticCard
-              title={formatCurrency(4000000)}
-              subTitle="TOTAL REVENUE"
-              Icon={ReceiptText}
-            />
-          </div>
-          <div className="">
-            <AnalyticCard
-              title="30"
-              subTitle="ALL TRANSACTION"
-              Icon={HandshakeIcon}
-            />
-          </div>
-          <div className="">
-            <AnalyticCard
-              title="₦ 7,000,000.00"
-              subTitle="PENDING PAYMENT"
-              Icon={Wallet}
-            />
-          </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 mt-6">
+          <AnalyticCard
+            title={formatCurrency(transactionStats.totalPayments)}
+            subTitle="TOTAL REVENUE"
+            Icon={ReceiptText}
+            colorClass="bg-purple-50 text-purple-600"
+          />
+          <AnalyticCard
+            title={transactionStats.approvedPayments}
+            subTitle="APPROVED PAYMENTS"
+            Icon={HandshakeIcon}
+            colorClass="bg-blue-50 text-blue-600"
+          />
+          <AnalyticCard
+            title={transactionStats.pendingPayments}
+            subTitle="PENDING PAYMENTS"
+            Icon={Wallet}
+            colorClass="bg-yellow-50 text-yellow-600"
+          />
+          <AnalyticCard
+            title={transactionStats.failedPayments}
+            subTitle="FAILED PAYMENTS"
+            Icon={XCircle}
+            colorClass="bg-red-50 text-red-600"
+          />
         </div>
       </Suspense>
       <Suspense>
@@ -53,4 +65,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;

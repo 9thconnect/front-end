@@ -227,3 +227,57 @@ export interface StatsSeller {
   orderStats: OrderStats;
   shopStats: ShopStats;
 }
+
+export interface AdminStats {
+  walletStats: {
+    totalAmountOwedToSellers: number;
+    totalAmountReceivedBySellers: number;
+    totalAmountOwedToProfessionals: number;
+    totalAmountReceivedByProfessionals: number;
+    totalAmountWithdrawByVendors: number;
+  };
+  orderStats: {
+    pendingOrders: number;
+    receivedOrders: number;
+    processingOrders: number;
+    shippedOrders: number;
+    deliveredOrders: number;
+    cancelledOrders: number;
+    totalOrderedAmount: number;
+  };
+  productStats: {
+    totalProducts: number;
+    totalProductValue: number;
+  };
+  offerStats: {
+    pendingOffers: number;
+    acceptedOffers: number;
+    rejectedOffers: number;
+    totalProposedPrice: number;
+  };
+  projectStats: {
+    startedProjects: number;
+    completedProjects: number;
+    cancelledProjects: number;
+    totalApprovedPrice: number;
+  };
+  professionStats: {
+    totalProfessions: number;
+    professionTotalValue: number;
+  };
+  artisanStats: {
+    totalArtisans: number;
+  };
+  propertyStats: {
+    totalProperties: number;
+  };
+  logisticStats: {
+    totalFleets: number;
+  };
+  transactionStats: {
+    pendingPayments: number;
+    approvedPayments: number;
+    failedPayments: number;
+    totalPayments: number;
+  };
+}
