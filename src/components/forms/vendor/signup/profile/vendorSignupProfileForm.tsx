@@ -8,6 +8,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type VendorSignupProfileFormProps = {
   onSubmit: (data: z.infer<typeof vendorSignupProfileValidationSchema>) => void;
@@ -138,6 +140,30 @@ const VendorSignupProfileForm = ({
             )}
           />
         </div> */}
+        <div className="col-span-2">
+          <FormField
+            control={form.control}
+            name="agreement"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0  p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    Agree to our{" "}
+                    <Link className="underline" href="/legal">
+                      Terms and Conditions
+                    </Link>
+                  </FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="w-full col-span-2">
           <Button className="w-full" type="submit">
             Submit

@@ -94,6 +94,7 @@ export interface VendorSignUpRequest {
     year: string;
   }>;
   portfolio?: string[];
+  agreement?: boolean;
 }
 
 const VendorSignUpPage = ({ type }: { type: UserType }) => {
@@ -143,20 +144,26 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
     professionDesc: "",
     qualifications: [],
     portfolio: [],
+    agreement: false,
   });
 
   const handleSubmitStageOne = (
     formData: z.infer<typeof vendorSignupProfileValidationSchema>
   ) => {
+    if (!formData.agreement) {
+      toast.error("Please agree to our Terms and Conditions");
+      return;
+    }
     setData((prevData) => ({
       ...prevData,
       fullName: formData.fullName,
       email: formData.email,
       phoneNumber: formData.phone,
       gender: formData.gender,
+      agreement: formData.agreement,
     }));
 
-    console.log(data);
+    console.log(formData);
 
     if (type == UserType.CUSTOMER) {
       updateStage(7);
@@ -464,12 +471,12 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       const res = await signUp(finalData, type);
       toast.success(res.message);
 
-      if (type == UserType.VENDOR) {
-        router.push(`/${type}/verify?email=${data.email}`);
-        return;
-      }
+      // if (type == UserType.VENDOR) {
+      router.push(`/${type}/verify?email=${data.email}`);
+      // return;
+      // }
 
-      router.push(`/${type}/login`);
+      // router.push(`/${type}/login`);
 
       console.log(res);
     } catch (error) {

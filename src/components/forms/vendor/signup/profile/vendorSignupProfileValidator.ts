@@ -25,4 +25,5 @@ export const vendorSignupProfileValidationSchema = z.object({
       required_error: "Please select a gender",
     })
     .optional(),
+  agreement: z.boolean(),
 });
