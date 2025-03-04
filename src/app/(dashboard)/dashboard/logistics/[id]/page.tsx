@@ -37,6 +37,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { fetchVendorById } from "@/lib/requests/admin/vendor/admin-vendor-requests";
 import { Skeleton } from "@/components/ui/skeleton";
+import LogisticsTable from "@/components/tables/admin/logistics/data-table";
 
 type Props = {
   params: { id: string };
@@ -196,35 +197,11 @@ const Page = ({ params }: Props) => {
         </TabsContent>
         <TabsContent className="w-full border-t" value="Products">
           <div className="mt-3">
-            {/* <ProductDataTable id={params.id} /> */}
+            <LogisticsTable />
           </div>
         </TabsContent>
         <TabsContent className="w-full border-t" value="Earning">
           <div className="mt-3 mb-3">
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-              <AnalyticCard
-                title={formatCurrency(3000000)}
-                subTitle="total EARNINGS"
-                Icon={Landmark}
-              />
-              <AnalyticCard
-                title={formatCurrency(5000000)}
-                subTitle="total SALES"
-                Icon={Banknote}
-              />
-              <AnalyticCard
-                title={formatCurrency(5000000)}
-                subTitle="In-escrow"
-                Icon={HandCoins}
-              />
-              <AnalyticCard
-                title={formatCurrency(4450000)}
-                subTitle="Paid"
-                Icon={Handshake}
-              />
-            </div>
-            {/* <EarningDataTable data={tableData} /> */}
-
             <Suspense>
               <TransactionDataTableAdmin
                 vendor={params.id}

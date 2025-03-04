@@ -75,6 +75,11 @@ const routes = [
     icon: CartCheckIcon,
   },
   {
+    name: "Properties",
+    route: "/dashboard/properties",
+    icon: TransferIcon,
+  },
+  {
     name: "Products",
     route: "/dashboard/products",
     icon: TransferIcon,
@@ -143,7 +148,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">Marketplace Management</h3>
             <div>
-              {routes.slice(3, 10).map((route) => (
+              {routes.slice(3, 11).map((route) => (
                 <DashboardSideBarItem
                   IconComponent={route.icon}
                   label={route.name}
@@ -155,7 +160,7 @@ const DashboardSideBar = () => {
 
             <h3 className="mb-7">General Settings</h3>
 
-            {routes.slice(10, 12).map((route) => (
+            {routes.slice(11, 13).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}
@@ -167,7 +172,7 @@ const DashboardSideBar = () => {
           </div>
 
           <div className="pl-2 mt-auto">
-            {routes.slice(12, 16).map((route) => (
+            {routes.slice(13, 17).map((route) => (
               <DashboardSideBarItem
                 IconComponent={route.icon}
                 label={route.name}

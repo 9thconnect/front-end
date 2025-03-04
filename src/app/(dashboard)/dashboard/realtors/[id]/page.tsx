@@ -37,6 +37,8 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { fetchVendorById } from "@/lib/requests/admin/vendor/admin-vendor-requests";
 import { Skeleton } from "@/components/ui/skeleton";
+import LogisticsTable from "@/components/tables/admin/logistics/data-table";
+import PropertyTable from "@/components/tables/admin/properties/data-table";
 
 type Props = {
   params: { id: string };
@@ -197,7 +199,7 @@ const Page = ({ params }: Props) => {
         </TabsContent>
         <TabsContent className="w-full border-t" value="Products">
           <div className="mt-3">
-            {/* <ProductDataTable id={params.id} /> */}
+            <PropertyTable vendor={params.id} />
           </div>
         </TabsContent>
         <TabsContent className="w-full border-t" value="Earning">
