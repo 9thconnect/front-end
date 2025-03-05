@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import DateCell from "@/components/common/dateCell";
-import ActionCell from "@/components/common/actionCell";
+import { CustomerAccountActionButton } from "./actionCell";
 
 // Define the shape of our customer data
 export type CustomerData = {
@@ -18,6 +18,9 @@ export type CustomerData = {
   cart: any[];
   createdAt: string;
   lastSeen: string;
+  isActivate: boolean;
+  accountConfirm: boolean;
+  accountSuspend: boolean;
 };
 
 export const columns: ColumnDef<CustomerData>[] = [
@@ -117,5 +120,15 @@ export const columns: ColumnDef<CustomerData>[] = [
     cell: ({ row }) => {
       return <DateCell date={row.getValue("createdAt")} />;
     },
+  },
+  {
+    accessorKey: "action",
+    header: ({ column }) => "",
+    cell: ({ row }) => (
+      <CustomerAccountActionButton
+        customerId={row.original._id}
+        isSuspended={row.original.accountSuspend}
+      />
+    ),
   },
 ];
