@@ -280,4 +280,18 @@ export interface AdminStats {
     failedPayments: number;
     totalPayments: number;
   };
+  vendor: {
+    totalVendors: number;
+    totalSuspectedVendors: number;
+    totalActiveVendors: number;
+    totalVendorSellers: number;
+    totalVendorProfessionals: number;
+    totalVendorRealEstate: number;
+    totalVendorLogistics: number;
+  };
+  customer: {
+    totalCustomers: number;
+    totalSuspectedCustomers: number;
+    totalActiveCustomers: number;
+  };
 }
