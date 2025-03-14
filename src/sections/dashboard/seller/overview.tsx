@@ -9,7 +9,7 @@ import {
 import { IVendor } from "@/type/users";
 import requests from "@/utils/requests";
 import { useQuery } from "@tanstack/react-query";
-import { MapPin, ShieldCheck, Star } from "lucide-react";
+import { MapPin, ShieldCheck, ShieldCloseIcon, Star } from "lucide-react";
 
 const SellerOverview = ({ vendor }: { vendor: IVendor }) => {
   const business = vendor?.businesses ? vendor?.businesses[0] : null;
@@ -50,6 +50,16 @@ const SellerOverview = ({ vendor }: { vendor: IVendor }) => {
               <ShieldCheck size={15} />
               <p className="text-xs ml-2">Business Pending</p>
             </div>
+          ) : !vendor.profileBuild ? (
+            <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCloseIcon size={15} />
+              <p className="text-xs ml-2">Profile not built</p>
+            </div>
+          ) : vendor.businesses?.length == 0 ? (
+            <div className="rounded-2xl bg-red-500 text-white inline-flex items-center self-start px-2 py-1">
+              <ShieldCloseIcon size={15} />
+              <p className="text-xs ml-2">No business information</p>
+            </div>
           ) : (
             <div className="rounded-2xl bg-gray-500 text-white inline-flex items-center self-start px-2 py-1">
               <ShieldCheck size={15} />
@@ -77,6 +87,18 @@ const SellerOverview = ({ vendor }: { vendor: IVendor }) => {
               <p className="text-offBlack">{vendor?.fullName}</p>
             </div>
             <div className="flex items-center mb-4">
+              <p className="mr-7">Email:</p>
+              <p className="text-offBlack">{vendor?.email}</p>
+            </div>
+            <div className="flex items-center mb-4">
+              <p className="mr-7">Phone:</p>
+              <p className="text-offBlack">{vendor?.phoneNumber}</p>
+            </div>
+            <div className="flex items-center mb-4">
+              <p className="mr-7">Gender:</p>
+              <p className="text-offBlack">{vendor?.gender}</p>
+            </div>
+            <div className="flex items-center mb-4">
               <p className="mr-7">Location:</p>
               <p className="text-offBlack">{business?.shopAddress}</p>
             </div>
@@ -86,7 +108,7 @@ const SellerOverview = ({ vendor }: { vendor: IVendor }) => {
             </div>
             <div className="flex items-center mb-4">
               <p className="mr-7">Rating:</p>
-              <p className="text-offBlack">4.5 Stars</p>
+              <p className="text-offBlack">{vendor?.rating} Stars</p>
             </div>
           </div>
         </div>

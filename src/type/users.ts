@@ -64,6 +64,7 @@ export interface IVendor {
   professions?: Profession[];
   createdAt: string;
   updatedAt: string;
+  rating: number;
   __v: number;
   lastSeen: string;
   profileBuild: boolean;

@@ -124,7 +124,6 @@ const SingleProjectPage = ({ id }: { id: string }) => {
           {projectData.data?.profession._id && (
             <RateProjectModal professionId={projectData.data?.profession._id} />
           )}
-          <Button variant={"outline"}>Terminate Project</Button>
         </div>
       </div>
 

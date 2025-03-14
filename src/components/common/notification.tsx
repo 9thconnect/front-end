@@ -133,6 +133,10 @@ export const NotificationsList = ({
   const [selectedNotification, setSelectedNotification] =
     useState<Notification | null>(null);
 
+  const sortedNotifications = [...notifications].sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
   const handleNotificationClick = (notification: Notification) => {
     setSelectedNotification(notification);
   };
@@ -146,7 +150,7 @@ export const NotificationsList = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {notifications.map((notification) => (
+          {sortedNotifications.map((notification) => (
             <NotificationItem
               key={notification._id}
               notification={notification}
