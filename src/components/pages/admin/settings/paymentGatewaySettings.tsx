@@ -48,7 +48,9 @@ const PaymentGatewaySettings: React.FC = () => {
 
   const fetchGateways = async (): Promise<void> => {
     try {
-      const response = await requests.get<Gateway[]>(`payment/gateways`);
+      const response = await requests.get<Gateway[]>(
+        `payment-gateway/gateways`
+      );
 
       console.log();
 
