@@ -125,7 +125,7 @@ const MainHeader = () => {
           >
             Track Order
           </div>
-          <div className="ml-10">Call Us: +2342014642998</div>
+          <div className="ml-10">Call Us: 07009THMARKET, 07000444999</div>
         </div>
 
         {auth && auth.type !== UserType.VENDOR && (
