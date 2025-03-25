@@ -119,12 +119,12 @@ export const columns: ColumnDef<Profession>[] = [
       <DataTableColumnHeader column={column} title="Profession Name" />
     ),
   },
-  {
-    accessorKey: "professionDesc",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Profession Description" />
-    ),
-  },
+  // {
+  //   accessorKey: "professionDesc",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Profession Description" />
+  //   ),
+  // },
   {
     accessorKey: "professionCity",
     header: ({ column }) => (

@@ -17,6 +17,7 @@ import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-ca
 import { Product } from "@/type/common";
 import { getProducts } from "@/lib/requests/vendor/product";
 import { getProductsAdmin } from "@/lib/requests/admin/products";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const AdminProductTable = () => {
   const router = useRouter();
@@ -70,7 +71,21 @@ const AdminProductTable = () => {
           </div>
         </div>
         {query.isLoading ? (
-          <>Loading</>
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-4 py-2 px-4"
+              >
+                {/* Table columns loader */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+                <Skeleton className="h-6 w-full" /> {/* First Column */}
+              </div>
+            ))}
+          </div>
         ) : (
           <DataTable
             columns={columns}

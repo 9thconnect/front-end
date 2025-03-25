@@ -36,6 +36,8 @@ const VendorDataTable = () => {
   const vendors = query.data?.data?.data.vendors ?? [];
   const totalPages = query.data?.data?.data.pages ?? 0;
 
+  console.log("totalPages", totalPages);
+
   return (
     <div>
       <div className="mt-5">
