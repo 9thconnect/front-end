@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { AxiosError } from "axios";
+import { log } from "console";
 
 const ProposalTable = () => {
   const [rowData, setRowData] = useState<Proposal | undefined>();
@@ -50,6 +51,7 @@ const ProposalTable = () => {
   const [pageSize, setPageSize] = useState(50);
 
   const handleRowClick = (e: Proposal) => {
+    console.log("Row clicked:", e);
     setRowData(e);
     setOpen(true);
   };
@@ -108,7 +110,7 @@ const ProposalTable = () => {
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
-      setRowData(undefined);
+      // setRowData(undefined);
       setOpen(false);
     }
   };
@@ -136,6 +138,12 @@ const ProposalTable = () => {
   };
 
   const handleAcceptOffer = () => {
+    console.log(
+      "Accepting offer with custom delivery days:",
+      customDeliveryDays,
+      rowData
+    );
+
     if (!rowData) return;
 
     const payload = customDeliveryDays
