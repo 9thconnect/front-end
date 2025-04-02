@@ -95,6 +95,8 @@ const CategoryItem = ({
     setOpenAddSub(false);
   }
 
+  console.log("category.title", category.categoryType);
+
   const mutation = useDeleteCategory(type, category._id, setOpenEdit);
   return (
     <div
@@ -224,12 +226,15 @@ const CategoryItem = ({
                 <Trash2 size={13} />
               </DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setOpenAddSub(true)}>
-              Add Sub
-              <DropdownMenuShortcut>
-                <Plus size={13} />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
+            {category.categoryType == "product-category" && (
+              <DropdownMenuItem onClick={() => setOpenAddSub(true)}>
+                Add Sub
+                <DropdownMenuShortcut>
+                  <Plus size={13} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            )}
+
             <DropdownMenuItem
               onClick={() =>
                 setView({

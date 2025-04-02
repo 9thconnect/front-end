@@ -100,6 +100,8 @@ const SingleProjectPage = ({ id }: { id: string }) => {
 
   if (!projectData) return <div>Error Loading Project</div>;
 
+  console.log("projectData", projectData);
+
   return (
     <div>
       <div className="flex justify-between items-center my-5">
@@ -121,9 +123,12 @@ const SingleProjectPage = ({ id }: { id: string }) => {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex space-x-3 items-center">
-          {projectData.data?.profession._id && (
-            <RateProjectModal professionId={projectData.data?.profession._id} />
-          )}
+          {projectData.data?.profession._id &&
+            userType == UserType.CUSTOMER && (
+              <RateProjectModal
+                professionId={projectData.data?.profession._id}
+              />
+            )}
         </div>
       </div>
 
@@ -206,14 +211,6 @@ const SingleProjectPage = ({ id }: { id: string }) => {
             <ProjectChat projectId={id} userType={userType} />
           </div>
         </div>
-      </SectionContainer>
-
-      <SectionContainer>
-        <SectionCardHeader
-          title={"Similar Professionals"}
-          linkUrl={"/hire/home"}
-          linkText="See more"
-        />
       </SectionContainer>
     </div>
   );

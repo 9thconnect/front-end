@@ -164,34 +164,22 @@ const ProjectTable = () => {
       >
         <DrawerContent className="max-w-[425px] h-full ml-auto border flex flex-col">
           <DrawerHeader className="sticky top-0 bg-white z-10 pb-2">
-            <div className="flex items-center">
-              <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
-                <X size={20} />
-              </DrawerClose>
-              <DrawerTitle className="font-thin text-offBlack">
-                Project Details
-              </DrawerTitle>
-            </div>
-
-            {rowData?.status === "started" && (
-              <div className="flex w-full space-x-4 mt-3">
-                <Button
-                  className="w-full"
-                  onClick={openCompleteProjectDialog}
-                  disabled={completeProjectMutation.isPending}
-                >
-                  {completeProjectMutation.isPending
-                    ? "Completing..."
-                    : "Complete Project"}
-                </Button>
-                <Button
-                  onClick={() => router.push(`/hire/projects/${rowData?._id}`)}
-                  className="rounded-xl"
-                >
-                  View
-                </Button>
+            <div className="flex w-full space-x-4 mt-3 justify-between">
+              <div className="flex items-center ">
+                <DrawerClose className="flex justify-center items-center p-2 bg-gray-100 rounded-full mr-3">
+                  <X size={20} />
+                </DrawerClose>
+                <DrawerTitle className="font-thin text-offBlack">
+                  Project Details
+                </DrawerTitle>
               </div>
-            )}
+              <Button
+                onClick={() => router.push(`projects/${rowData?._id}`)}
+                className="rounded-xl"
+              >
+                View
+              </Button>
+            </div>
           </DrawerHeader>
 
           {rowData && (

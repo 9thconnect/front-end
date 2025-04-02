@@ -21,10 +21,18 @@ import { z } from "zod";
 import { VendorSignUpRequest } from "./signUpPage";
 import requests from "@/utils/requests";
 import { toast } from "sonner";
+import BusinessUpdateForm, {
+  businessDetailsValidationSchemaUpdate,
+} from "@/components/forms/vendor/signup/business/businessUpdateForm";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { IVendor } from "@/type/users";
+import axios from "axios";
 
 const MyBusinessPage = () => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<VendorSignUpRequest | null>(null);
+
+  const vendor = useAppSelector((state) => state.auth.data as IVendor);
 
   const { isLoading, isError, data, error, isFetching } = useQuery({
     queryKey: ["get-businesses"],
@@ -38,7 +46,7 @@ const MyBusinessPage = () => {
     if (!isLoading && !isError && data && data.data) {
       const businessData = data.data[0];
       setFormData({
-        vendorType: "seller",
+        vendorType: vendor.vendorType,
         businessType: businessData?.businessType?._id,
         businessDesc: businessData?.businessDesc,
         shopName: businessData?.shopName,
@@ -70,8 +78,14 @@ const MyBusinessPage = () => {
   const businessData = data?.data?.[0] ?? null;
 
   const handleSubmit = async (
-    formData: z.infer<typeof businessDetailsValidationSchema>
+    formData: z.infer<typeof businessDetailsValidationSchemaUpdate>
   ) => {
+    if (vendor.sellerType == "retail" || vendor.vendorType !== "seller") {
+      delete formData.shopCountry;
+      delete formData.shopState;
+      delete formData.shopCity;
+    }
+
     try {
       let res = await requests.patch(
         `vendor/update-my-business/${businessData?._id}`,
@@ -84,7 +98,11 @@ const MyBusinessPage = () => {
 
       toast.success(res.message);
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred try again");
+      }
     }
   };
 
@@ -96,16 +114,13 @@ const MyBusinessPage = () => {
         </DialogTrigger>
         <DialogContent className="h-[95%] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              Edit {businessData?.shopName} ({businessData?.businessType?.title}
-              )
-            </DialogTitle>
+            <DialogTitle>Edit {businessData?.shopName}</DialogTitle>
             <DialogDescription>
               Make changes to your business here. Click save when you are done.
             </DialogDescription>
           </DialogHeader>
           {formData && (
-            <BusinessDetailsForm
+            <BusinessUpdateForm
               formStateData={formData}
               onSubmit={handleSubmit}
             />
@@ -116,7 +131,7 @@ const MyBusinessPage = () => {
       {/* Business Details */}
       <div className="flex justify-between items-center border-b pb-2">
         <h3 className="hidden sm:block text-xl text-offBlack">
-          {businessData?.shopName} ({businessData?.businessType?.title})
+          {businessData?.shopName}
         </h3>
         <div className="flex space-x-2 items-center">
           <p>Status</p>
@@ -207,7 +222,7 @@ const MyBusinessPage = () => {
       </div>
 
       <Button onClick={() => setOpen(true)} className="mt-4 w-full">
-        Update {businessData?.shopName} ({businessData?.businessType?.title})
+        Update {businessData?.shopName}
       </Button>
     </div>
   );
