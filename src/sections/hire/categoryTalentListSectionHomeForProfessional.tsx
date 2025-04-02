@@ -84,7 +84,7 @@ const CategoryTalentListHomeForPro = () => {
       <SectionContainer>
         <SectionCardHeader
           title="Top Rated"
-          linkUrl={"/hire/home"}
+          linkUrl={"/hire/home?type=professional"}
           linkText="See more"
         />
         {renderContent()}

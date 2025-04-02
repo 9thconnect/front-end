@@ -30,7 +30,10 @@ const page = async () => {
       <div className="bg-[url('https://res.cloudinary.com/dougwnqok/image/upload/v1727944375/95b7bc7460e22dd9948714052bae5d29_m5yfbt.png')] bg-cover h-80 bg-no-repeat bg-center rounded-2xl mt-5 "></div>
 
       <div className="mt-4 w-full text-center">
-        <Link className="flex items-center" href={"/hire/home"}>
+        <Link
+          className="flex items-center"
+          href={"/hire/home?type=professional"}
+        >
           <p className="text-primary text-4xl text-center">
             {" "}
             View all professionals
