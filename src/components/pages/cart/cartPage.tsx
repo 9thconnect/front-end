@@ -135,13 +135,16 @@ const CartPage = () => {
                 (cartItems.length === 0 ? (
                   <Empty size={150} text="Cart Empty" />
                 ) : (
-                  cartItems.map((item, index) => (
-                    <CartCard
-                      key={`${item.product._id}-${index}`}
-                      product={item.product}
-                      quantity={item.quantity}
-                    />
-                  ))
+                  cartItems.map((item, index) => {
+                    if (item.product)
+                      return (
+                        <CartCard
+                          key={`${item.product._id}-${index}`}
+                          product={item.product}
+                          quantity={item.quantity}
+                        />
+                      );
+                  })
                 ))}
             </div>
           </div>
