@@ -46,14 +46,12 @@ export function MainDrawer() {
     { label: "Hire a Professional", path: "/hire" },
     { label: "Real Estate", path: "/real-estate" },
     { label: "Logistics", path: "/logistics" },
-    // { label: "Cart", path: "/marketplace/cart" },
   ];
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <button className="bg-gray-200 p-2 rounded-full flex items-center justify-center w-10 h-10 border ml-3">
-          {/* <StretchHorizontalIcon size={30} /> */}
           <LogsIcon size={30} />
         </button>
       </SheetTrigger>

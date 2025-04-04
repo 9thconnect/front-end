@@ -140,7 +140,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             alt={product.name}
             className="w-full h-48 object-cover rounded-t-lg unselectable"
           />
-          <button
+          {/* <button
             onClick={(e) => {
               e.preventDefault();
 
@@ -158,7 +158,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             ) : (
               <HeartIcon className="w-4 h-4 " />
             )}
-          </button>
+          </button> */}
         </CardHeader>
         <CardContent className="px-2">
           <div className="flex justify-between">
@@ -192,6 +192,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           loadingAddToCart?.product?._id == product._id ? (
             <Button className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
               <LoaderCircleIcon className="w-4 h-4 animate-spin " />
+              <span className="text-sm text-[#7C7C7C] ml-1">Add To Cart</span>
             </Button>
           ) : (
             <Button
@@ -204,9 +205,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }
                 handleAddToCart(e, product);
               }}
-              className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
+              className=" p-2  h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
             >
               <ShippingBoxIcon />
+              <span className="text-sm text-[#7C7C7C] ml-1">Add To Cart</span>
             </Button>
           )}
         </CardFooter>
