@@ -4,10 +4,7 @@ import React from "react";
 import CategoryProductListSection from "../common/categoryProductListSection";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-category-request";
-
-const shuffleArray = (array: any[]) => {
-  return array.sort(() => Math.random() - 0.5);
-};
+import { shuffleArray } from "@/utils/common";
 
 const CategoryProductListHomeSection = ({
   channel,

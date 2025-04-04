@@ -8,6 +8,8 @@ import {
   fetchProfessionalsCategories,
 } from "@/lib/requests/admin/categories/admin-category-request";
 import CategoryTalentListSection from "../common/categoryTalentListSection";
+import { Category } from "@/type/category";
+import { shuffleArray } from "@/utils/common";
 
 const CategoryTalentListHomeForArtisan = () => {
   const { data, isLoading, isError } = useQuery({
@@ -15,31 +17,22 @@ const CategoryTalentListHomeForArtisan = () => {
     queryFn: () => fetchProfessionalsCategories(),
   });
 
+  const categories = data?.data?.data?.categories || [];
+  const shuffledCategories: Category[] = shuffleArray([...categories]);
+
   return (
     <div>
       {!isLoading && !isError && (
         <div>
-          <CategoryTalentListSection
-            title={data?.data?.data?.categories[0]?.title as string}
-            api="/api/home/electrical"
-            pageUrl={`/hire/home?category=${data?.data?.data?.categories[0]?._id}&type=artisan`}
-            professionType={data?.data?.data?.categories[0]?._id as string}
-            type="artisan"
-          />
-          <CategoryTalentListSection
-            title={data?.data?.data?.categories[1]?.title as string}
-            api="/api/home/plumbing"
-            pageUrl={`/hire/home?category=${data?.data?.data?.categories[1]?._id}&type=artisan`}
-            professionType={data?.data?.data?.categories[1]?._id as string}
-            type="artisan"
-          />
-          <CategoryTalentListSection
-            title={data?.data?.data?.categories[2]?.title as string}
-            api="/api/home/roofing"
-            pageUrl={`/hire/home?category=${data?.data?.data?.categories[2]?._id}&type=artisan`}
-            professionType={data?.data?.data?.categories[2]?._id as string}
-            type="artisan"
-          />
+          {shuffledCategories.slice(0, 20).map((category, i) => (
+            <CategoryTalentListSection
+              title={category?.title as string}
+              api="/api/professional/electrical"
+              pageUrl={`/hire/home?category=${category?._id}&type=artisan`}
+              professionType={category?._id as string}
+              type="artisan"
+            />
+          ))}
         </div>
       )}
     </div>

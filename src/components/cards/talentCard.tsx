@@ -54,7 +54,10 @@ const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
       <Card className="relative h-full w-full border border-white hover:shadow-2xl hover:shadow-primary/30 hover:border-primary group duration-300">
         <CardHeader className="p-0 relative">
           <img
-            src={talent.imageUrl}
+            src={
+              talent.imageUrl ||
+              `https://fakeimg.pl/600x192?text=${talent.name}`
+            }
             alt={talent.name}
             className="w-full h-48 object-cover rounded-t-lg unselectable"
           />

@@ -130,7 +130,7 @@ const CategoryTalentListSection = ({
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-5 gap-4">
         {professionalList.data.data.professions
-          .slice(0, 4)
+          .slice(0, 50)
           .map((professional) => (
             <div className="flex-none" key={professional._id}>
               <TalentCard
@@ -156,7 +156,12 @@ const CategoryTalentListSection = ({
       </div>
     );
   };
-
+  if (
+    !professionalList?.data?.data?.professions ||
+    professionalList.data.data.professions.length === 0
+  ) {
+    return null;
+  }
   return (
     <SectionContainer>
       <SectionCardHeader title={title} linkUrl={pageUrl} linkText="See more" />
