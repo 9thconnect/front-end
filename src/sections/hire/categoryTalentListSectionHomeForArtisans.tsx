@@ -31,6 +31,7 @@ const CategoryTalentListHomeForArtisan = () => {
               pageUrl={`/hire/home?category=${category?._id}&type=artisan`}
               professionType={category?._id as string}
               type="artisan"
+              key={category?._id as string}
             />
           ))}
         </div>
