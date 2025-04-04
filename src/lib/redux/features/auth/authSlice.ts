@@ -93,6 +93,44 @@ const authSlice = createSlice({
         userData.gender = action.payload.gender;
       }
     },
+    updateSavedProducts: (
+      state,
+      action: PayloadAction<{ savedProduct: string; type: "add" | "remove" }>
+    ) => {
+      console.log("userData.savedProducts", action.payload.type);
+      if (state.data) {
+        const userData = state.data as IUser;
+
+        console.log(
+          "userData.savedProducts",
+          userData.savedProducts.length,
+          action.payload.type,
+          action.payload.savedProduct
+        );
+
+        if (action.payload.type === "remove") {
+          console.log("item removed");
+
+          userData.savedProducts = userData.savedProducts.filter(
+            (product) => product !== action.payload.savedProduct
+          );
+
+          console.log("userData.savedProducts", userData.savedProducts);
+
+          return;
+        }
+
+        if (userData.savedProducts.includes(action.payload.savedProduct)) {
+          return;
+        }
+
+        console.log("item added");
+
+        userData.savedProducts.push(action.payload.savedProduct);
+
+        console.log("userData.savedProducts", userData.savedProducts);
+      }
+    },
   },
 });
 
@@ -104,6 +142,7 @@ export const {
   updateUserProfile,
   updateVendorProfile,
   updateBuildStatus,
+  updateSavedProducts,
 } = authSlice.actions;
 
 export default authSlice.reducer;

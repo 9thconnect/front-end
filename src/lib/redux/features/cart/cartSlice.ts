@@ -43,24 +43,6 @@ const initialState: CartState = {
   clearingCart: false,
 };
 
-// export const syncCartWithServer = createAsyncThunk(
-//   "cart/syncCartWithServer",
-//   async (items: { product: Product; quantity: number }[], { getState }) => {
-//     const state = getState() as RootState;
-//     if (state.auth.data && state.auth.type == UserType.CUSTOMER) {
-//       // Replace with your API call
-
-//       state.cart.items.forEach(element => {
-//         addToCart(element.product._id, element.quantity)
-//       });
-
-//       // if (!response.ok) {
-//       //   throw new Error("Failed to sync cart with server");
-//       // }
-//     }
-//   }
-// );
-
 export const syncCartWithServer = createAsyncThunk(
   "cart/syncCartWithServer",
   async (_, { getState }) => {
@@ -73,16 +55,6 @@ export const syncCartWithServer = createAsyncThunk(
 
       // Wait for all promises to resolve
       const resp = await Promise.all(cartPromises);
-
-      console.log(resp);
-
-      // You can handle the results or catch errors if needed
-      // Example: handling results if `addToCart` returns something
-      // const results = await Promise.all(cartPromises);
-      // Handle the `results` if necessary
-
-      // If any of the promises fail, an error will be thrown
-      // Catch block can be used at the calling function level if needed
     }
   }
 );

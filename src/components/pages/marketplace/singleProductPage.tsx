@@ -48,8 +48,12 @@ import { formatCurrency } from "@/utils/format-currency";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import SingleProductSkeleton from "@/components/cards/skeletons/productPageSkeleton";
-import { UserType } from "@/lib/redux/features/auth/authSlice";
+import {
+  updateSavedProducts,
+  UserType,
+} from "@/lib/redux/features/auth/authSlice";
 import { toggleNotCustomerModal } from "@/lib/redux/features/layout/layoutSlice";
+import { IUser } from "@/type/users";
 
 interface RatingBarProps {
   rating: number;
@@ -132,6 +136,7 @@ const SingleProductPage = ({
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const dispatch = useAppDispatch();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["addRemoveWishlist"],
@@ -139,6 +144,16 @@ const SingleProductPage = ({
       return addToWishList(product?._id as string);
     },
     onSuccess: (data) => {
+      console.log(data.message);
+
+      dispatch(
+        updateSavedProducts({
+          savedProduct: product?._id as string,
+          type:
+            data.message == "Product removed from wishlist" ? "remove" : "add",
+        })
+      );
+
       toast(data.message, {
         description: `${product?.name ?? "product name"}`,
         action: {
@@ -175,7 +190,7 @@ const SingleProductPage = ({
   });
 
   const cart = useAppSelector((state) => state.cart);
-  const isLoggedIn = useAppSelector((state) => state.auth.data);
+  const isLoggedIn = useAppSelector((state) => state.auth.data) as IUser;
   const loadingAddToCart = useAppSelector((state) => state.cart.addingToCart);
   const type = useAppSelector((state) => state.auth.type);
 
@@ -184,16 +199,16 @@ const SingleProductPage = ({
     product &&
     cart.addingToCart?.product?._id == product._id;
 
-  const dispatch = useAppDispatch();
-
   const itemInCart = cart.items.find(
     (item) => item.product._id == product?._id
   );
 
-  console.log("itemInCart", itemInCart);
-  useEffect(() => {
-    console.log("itemInCart", itemInCart);
+  console.log(isLoggedIn && isLoggedIn.savedProducts);
 
+  const isSaved =
+    isLoggedIn && isLoggedIn.savedProducts.find((item) => item == product?._id);
+
+  useEffect(() => {
     if (itemInCart) setCount(itemInCart.quantity);
 
     console.log(itemInCart);
@@ -443,8 +458,10 @@ const SingleProductPage = ({
                 >
                   {isPending ? (
                     <LoaderCircleIcon className="w-6 h-6 animate-spin " />
+                  ) : isSaved ? (
+                    <Heart className="w-6 h-6 text-red-500 fill-red-500" />
                   ) : (
-                    <Heart />
+                    <Heart className="w-6 h-6 text-gray-300 fill-gray-300" />
                   )}
                 </Button>
               </div>
