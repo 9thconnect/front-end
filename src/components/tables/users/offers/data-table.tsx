@@ -27,6 +27,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { X as CloseIcon } from "lucide-react";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 const CustomerProposalTable = () => {
   const [rowData, setRowData] = useState<Proposal | undefined>();
@@ -41,8 +42,10 @@ const CustomerProposalTable = () => {
     setOpen(true);
   };
 
+  const customer = useAppSelector((state) => state.auth.data);
+
   const { isLoading, data } = useQuery({
-    queryKey: ["proposals", pageIndex, pageSize],
+    queryKey: ["proposals", pageIndex, pageSize, customer?._id],
     queryFn: () => getProposals(pageIndex + 1),
   });
 
