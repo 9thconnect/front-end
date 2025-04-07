@@ -206,7 +206,9 @@ const SingleProductPage = ({
   console.log(isLoggedIn && isLoggedIn.savedProducts);
 
   const isSaved =
-    isLoggedIn && isLoggedIn.savedProducts.find((item) => item == product?._id);
+    isLoggedIn &&
+    isLoggedIn?.savedProducts &&
+    isLoggedIn?.savedProducts?.find((item) => item == product?._id);
 
   useEffect(() => {
     if (itemInCart) setCount(itemInCart.quantity);
