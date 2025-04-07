@@ -66,7 +66,7 @@ const EnhancedSearch = () => {
   const showDropdown = isDropdownVisible && debouncedSearchTerm.length > 0;
 
   return (
-    <div className="relative w-full md:w-2/5 ml-2 grow sm:ml-10">
+    <div className=" w-full md:w-2/5 ml-2 grow sm:ml-10">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3">
           {isLoading ? (
@@ -87,7 +87,7 @@ const EnhancedSearch = () => {
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+          className="absolute z-10 w-44 h-56 overflow-scroll mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
         >
           {isError ? (
             <div className="px-4 py-2 text-red-500">
