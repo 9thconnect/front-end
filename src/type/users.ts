@@ -72,9 +72,10 @@ export interface IVendor {
 }
 
 interface Wallet {
-  totalAmountOwed: number;
-  totalAmountReceived: number;
-  totalWithdraw: number;
+  escrowBalance: number;
+  availableBalance: number;
+  totalInflow: number;
+  totalOutflow: number;
 }
 
 interface Business {

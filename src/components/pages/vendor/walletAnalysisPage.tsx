@@ -3,7 +3,7 @@
 import React from "react";
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import { formatCurrency } from "@/utils/format-currency";
-import { AlertCircle, UsersRound } from "lucide-react";
+import { AlertCircle, BanknoteIcon, UsersRound } from "lucide-react";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { IUser, IVendor } from "@/type/users";
 import { useQuery } from "@tanstack/react-query";
@@ -26,8 +26,9 @@ const AnalyticCardSkeleton = () => {
 };
 
 const VendorWalletAnalytics = () => {
+  const { data: vendor } = useAppSelector((state) => state.auth);
   const { isLoading, isError, data } = useQuery({
-    queryKey: ["vendor-profile"],
+    queryKey: ["vendor-profile", vendor?._id],
     queryFn: () => requests.get<{ profile: IVendor }>("vendor/my-profile"),
   });
 
@@ -51,27 +52,36 @@ const VendorWalletAnalytics = () => {
     );
   }
 
-  const totalAmountOwed = data?.data?.profile?.wallet?.totalAmountOwed ?? 0;
-  const totalAmountReceived =
-    data?.data?.profile?.wallet?.totalAmountReceived ?? 0;
-  const totalWithdraw = data?.data?.profile?.wallet?.totalWithdraw ?? 0;
+  const escrowBalance = data?.data?.profile?.wallet?.escrowBalance ?? 0;
+  const availableBalance = data?.data?.profile?.wallet?.availableBalance ?? 0;
+  const totalInflow = data?.data?.profile?.wallet?.totalInflow ?? 0;
+  const totalOutflow = data?.data?.profile?.wallet?.totalOutflow ?? 0;
 
   return (
-    <div className="flex space-x-3 items-center mt-4">
+    <div className="grid md:grid-cols-2 gap-4 items-center mt-4">
       <AnalyticCard
-        title={formatCurrency(totalAmountOwed)}
-        subTitle="Total Amount Owed"
-        Icon={UsersRound}
+        title={formatCurrency(escrowBalance)}
+        subTitle="Escrow Balance"
+        Icon={BanknoteIcon}
+        colorClass="bg-green-100"
       />
       <AnalyticCard
-        title={formatCurrency(totalAmountReceived)}
-        subTitle="Total Amount Received"
-        Icon={UsersRound}
+        title={formatCurrency(availableBalance)}
+        subTitle="Available Balance"
+        Icon={BanknoteIcon}
+        colorClass="bg-blue-100"
       />
       <AnalyticCard
-        title={formatCurrency(totalWithdraw)}
-        subTitle="Total Withdraw"
-        Icon={UsersRound}
+        title={formatCurrency(totalInflow)}
+        subTitle="Total Inflow"
+        Icon={BanknoteIcon}
+        colorClass="bg-yellow-100"
+      />
+      <AnalyticCard
+        title={formatCurrency(totalOutflow)}
+        subTitle="Total Outflow"
+        Icon={BanknoteIcon}
+        colorClass="bg-red-100"
       />
     </div>
   );
