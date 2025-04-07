@@ -190,7 +190,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {loadingAddToCart?.state &&
           loadingAddToCart?.product?._id == product._id ? (
-            <Button className="p-2 h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
+            <Button className="py-1 px-2 md:p-2 md:h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
               <LoaderCircleIcon className="w-5 h-5 animate-spin" />
               <span className="text-sm  ml-1 ">Add To Cart</span>
             </Button>
@@ -205,10 +205,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }
                 handleAddToCart(e, product);
               }}
-              className=" p-2  h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500"
+              className="py-1 px-2 md:p-2 w-10 sm:w-fit  md:h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500"
             >
               <ShippingBoxIcon className="text-inherit" />
-              <span className="text-sm  ml-1 ">Add To Cart</span>
+              <span className="text-xs md:text-sm hidden sm:block  ml-1 ">
+                Add To Cart
+              </span>
             </Button>
           )}
         </CardFooter>

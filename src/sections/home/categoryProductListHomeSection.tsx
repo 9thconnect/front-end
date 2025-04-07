@@ -23,18 +23,6 @@ const CategoryProductListHomeSection = ({
     <div>
       {!isLoading && !isError && (
         <div>
-          {/* {Array.from({ length: 20 }, (_, i) => (
-            <CategoryProductListSection
-              key={i}
-              title={data?.data?.data?.categories[i]?.title as string}
-              api="/api/products/roofing"
-              pageUrl={`/${
-                channel && channel == "wholeSale" ? "wholesale" : "marketplace"
-              }/home?category=${data?.data?.data?.categories[i]?._id}`}
-              category={data?.data?.data?.categories[i]?._id as string}
-              channel={channel}
-            />
-          ))} */}
           {shuffledCategories.slice(0, 20).map((category, i) => (
             <CategoryProductListSection
               key={i}
