@@ -166,7 +166,12 @@ export interface OrderItem {
   quantity: number;
   image: string;
   price: number;
-  productId: string;
+  productId: {
+    _id: string;
+    name: string;
+    price: number;
+    images: Array<string>;
+  };
   seller: string;
   MCDFee: number;
   sellerPay: number;

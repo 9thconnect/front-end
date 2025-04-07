@@ -190,9 +190,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {loadingAddToCart?.state &&
           loadingAddToCart?.product?._id == product._id ? (
-            <Button className=" p-2 w-10 h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
-              <LoaderCircleIcon className="w-4 h-4 animate-spin " />
-              <span className="text-sm text-[#7C7C7C] ml-1">Add To Cart</span>
+            <Button className="p-2 h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 transition-opacity duration-500">
+              <LoaderCircleIcon className="w-5 h-5 animate-spin" />
+              <span className="text-sm  ml-1 ">Add To Cart</span>
             </Button>
           ) : (
             <Button
@@ -205,10 +205,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }
                 handleAddToCart(e, product);
               }}
-              className=" p-2  h-10 rounded-full hover:bg-primary/50 bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
+              className=" p-2  h-10 rounded-full hover:bg-primary text-[#7C7C7C] hover:text-white bg-gray-200 z-10 absolute right-0 bottom-0 mb-3 mr-3 md:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500"
             >
-              <ShippingBoxIcon />
-              <span className="text-sm text-[#7C7C7C] ml-1">Add To Cart</span>
+              <ShippingBoxIcon className="text-inherit" />
+              <span className="text-sm  ml-1 ">Add To Cart</span>
             </Button>
           )}
         </CardFooter>

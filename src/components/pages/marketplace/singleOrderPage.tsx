@@ -44,6 +44,7 @@ import RateProductForm, {
 import { z } from "zod";
 import { toast } from "sonner";
 import axios from "axios";
+import { UserType } from "@/lib/redux/features/auth/authSlice";
 
 const SingleOrderPage = ({ id }: { id: string }) => {
   const userType = useAppSelector((state) => state.auth.type);
@@ -53,7 +54,7 @@ const SingleOrderPage = ({ id }: { id: string }) => {
   >("idle");
 
   const [actionType, setActionType] = useState<
-    "complete" | "report" | "cancel" | "track" | null
+    "complete" | "report" | "cancel" | "track" | "rate" | null
   >(null);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -177,8 +178,19 @@ const SingleOrderPage = ({ id }: { id: string }) => {
     trackOrderMutation.mutate();
   };
 
-  const handleAction = (action: "complete" | "report" | "cancel" | "track") => {
+  const handleAction = (
+    action: "complete" | "report" | "cancel" | "track" | "rate"
+  ) => {
     setActionType(action);
+
+    if (action == "rate") {
+      setActionType("complete");
+
+      setRate(true);
+      setLoading("idle");
+      setIsDialogOpen(true);
+      return;
+    }
     setIsDialogOpen(true);
 
     if (action === "track") {
@@ -206,14 +218,18 @@ const SingleOrderPage = ({ id }: { id: string }) => {
           await Promise.all(
             data.data.orderItems.map((item) =>
               requests.patch(
-                `product/customer/rate-product/${item.productId}`,
+                `product/customer/rate-product/${item.productId._id}`,
                 ratingData
               )
             )
           );
         }
         setLoading("success");
+
         toast.success("Rating submitted successfully");
+
+        setIsDialogOpen(false);
+        setRate(false);
       } catch (error) {
         setLoading("error");
         if (axios.isAxiosError(error)) {
@@ -254,127 +270,140 @@ const SingleOrderPage = ({ id }: { id: string }) => {
       <div className="flex justify-between items-center border-b pb-2">
         <h3 className="hidden sm:block text-xl text-offBlack">Order Detail</h3>
         <div className="flex space-x-2 items-center">
-          <div className="flex space-x-2 items-center">
-            <Button onClick={() => handleAction("complete")}>
-              Complete Order
-            </Button>
+          {userType == UserType.CUSTOMER && (
+            <>
+              <div className="flex space-x-2 items-center">
+                <Button onClick={() => handleAction("complete")}>
+                  Complete Order
+                </Button>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button variant={"outline"}>More</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Order Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleAction("report")}>
-                  Report Order
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleAction("cancel")}>
-                  Cancel Order
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleAction("track")}>
-                  Track Order
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
-              <AlertDialogHeader className="flex flex-row items-center">
-                <AlertDialogCancel
-                  className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3"
-                  onClick={resetState}
-                >
-                  <X size={15} />
-                </AlertDialogCancel>
-                <AlertDialogTitle>
-                  {actionType === "report"
-                    ? "Report Order"
-                    : `Confirm ${actionType} Order`}
-                </AlertDialogTitle>
-              </AlertDialogHeader>
-              <HOCLoading
-                status={loading}
-                successMessage={serverMessage.success}
-                successDescription="Your request has been processed successfully."
-                onSuccessButtonClick={
-                  actionType === "complete" ? handleShowRateForm : resetState
-                }
-                successButtonText={
-                  actionType === "complete" ? "Rate Experience" : "Okay"
-                }
-                // hideCancelButton={loading === "success" || actionType === "complete" && rate}
-                onClose={resetState}
-                cancelButtonText={
-                  actionType === "complete" ? "Continue Shopping" : "Cancel"
-                }
-                errorMessage={serverMessage.error}
-                onErrorButtonClick={() => {
-                  if (actionType) {
-                    console.log("retry", actionType);
-                    setLoading("loading"); // Set loading state
-                    confirmAction(); // Call confirmAction directly
-                  }
-                }}
-              >
-                {actionType === "report" ? (
-                  <div>
-                    <Textarea
-                      className="w-full p-2 border rounded"
-                      placeholder="Enter reason for reporting"
-                      rows={4}
-                      value={reportReason}
-                      onChange={(e) => setReportReason(e.target.value)}
-                    />
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant={"outline"}>More</Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Order Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => handleAction("report")}>
+                      Report Order
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleAction("cancel")}>
+                      Cancel Order
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleAction("track")}>
+                      Track Order
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleAction("rate")}>
+                      Rate Order
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
+                  <AlertDialogHeader className="flex flex-row items-center">
+                    <AlertDialogCancel
+                      className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3"
+                      onClick={resetState}
+                    >
+                      <X size={15} />
+                    </AlertDialogCancel>
+                    <AlertDialogTitle>
+                      {actionType === "report"
+                        ? "Report Order"
+                        : actionType === "complete" && rate
+                        ? "Rate Order"
+                        : `Confirm ${actionType} Order`}
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <HOCLoading
+                    status={loading}
+                    successMessage={serverMessage.success}
+                    successDescription="Your request has been processed successfully."
+                    onSuccessButtonClick={
+                      actionType === "complete"
+                        ? handleShowRateForm
+                        : resetState
+                    }
+                    successButtonText={
+                      actionType === "complete" ? "Rate Experience" : "Okay"
+                    }
+                    // hideCancelButton={loading === "success" || actionType === "complete" && rate}
+                    onClose={resetState}
+                    cancelButtonText={
+                      actionType === "complete" ? "Continue Shopping" : "Cancel"
+                    }
+                    errorMessage={serverMessage.error}
+                    onErrorButtonClick={() => {
+                      if (actionType) {
+                        console.log("retry", actionType);
+                        setLoading("loading"); // Set loading state
+                        confirmAction(); // Call confirmAction directly
+                      }
+                    }}
+                  >
+                    {actionType === "report" ? (
+                      <div>
+                        <Textarea
+                          className="w-full p-2 border rounded"
+                          placeholder="Enter reason for reporting"
+                          rows={4}
+                          value={reportReason}
+                          onChange={(e) => setReportReason(e.target.value)}
+                        />
 
-                    <div className="flex mt-12 w-full justify-center space-x-3">
-                      <Button
-                        onClick={confirmAction}
-                        disabled={!reportReason.trim()}
-                      >
-                        Submit Report
-                      </Button>
-                      <Button variant={"outline"} onClick={resetState}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </div>
-                ) : actionType === "track" ? (
-                  trackingData ? (
-                    <OrderTrackingInfo trackingData={trackingData} />
-                  ) : (
-                    <p>Fetching tracking information...</p>
-                  )
-                ) : actionType === "complete" ? (
-                  rate ? (
-                    <RateProductForm onSubmit={onSubmitRating} />
-                  ) : (
-                    <div className="text-center">
-                      <p>Are you sure you want to {actionType} this order?</p>
-
-                      <div className="flex mt-12 w-full justify-center space-x-3">
-                        <Button onClick={confirmAction}>Confirm</Button>
-                        <Button variant={"outline"} onClick={resetState}>
-                          Cancel
-                        </Button>
+                        <div className="flex mt-12 w-full justify-center space-x-3">
+                          <Button
+                            onClick={confirmAction}
+                            disabled={!reportReason.trim()}
+                          >
+                            Submit Report
+                          </Button>
+                          <Button variant={"outline"} onClick={resetState}>
+                            Cancel
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  )
-                ) : (
-                  <div className="text-center">
-                    <p>Are you sure you want to {actionType} this order?</p>
+                    ) : actionType === "track" ? (
+                      trackingData ? (
+                        <OrderTrackingInfo trackingData={trackingData} />
+                      ) : (
+                        <p>Fetching tracking information...</p>
+                      )
+                    ) : actionType === "complete" ? (
+                      rate ? (
+                        <RateProductForm onSubmit={onSubmitRating} />
+                      ) : (
+                        <div className="text-center">
+                          <p>
+                            Are you sure you want to {actionType} this order?
+                          </p>
 
-                    <div className="flex mt-12 w-full justify-center space-x-3">
-                      <Button onClick={confirmAction}>Confirm</Button>
-                      <Button variant={"outline"} onClick={resetState}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </HOCLoading>
-            </AlertDialogContent>
-          </AlertDialog>
+                          <div className="flex mt-12 w-full justify-center space-x-3">
+                            <Button onClick={confirmAction}>Confirm</Button>
+                            <Button variant={"outline"} onClick={resetState}>
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      <div className="text-center">
+                        <p>Are you sure you want to {actionType} this order?</p>
+
+                        <div className="flex mt-12 w-full justify-center space-x-3">
+                          <Button onClick={confirmAction}>Confirm</Button>
+                          <Button variant={"outline"} onClick={resetState}>
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </HOCLoading>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
         </div>
       </div>
       <div className="mt-3">
@@ -389,7 +418,7 @@ const SingleOrderPage = ({ id }: { id: string }) => {
         <div className="px-0.5 py-2 border mt-2 rounded-lg">
           {data?.data?.orderItems.map((item) => (
             <a
-              href={`/marketplace/${item.productId}`}
+              href={`/marketplace/${item.productId._id}`}
               target="_blank"
               key={`item-in-order-${item}`}
               className="flex p-2 py-4"

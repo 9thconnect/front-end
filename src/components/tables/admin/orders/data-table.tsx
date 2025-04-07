@@ -282,7 +282,6 @@ const OrderTableAdmin = ({ vendor }: { vendor?: string }) => {
                   <div className="px-0.5 py-2 border mt-2 rounded-lg">
                     {singleOrder?.data?.orderItems.map((item) => (
                       <div
-                        // href={`/marketplace/${item.productId}`}
                         key={`item-in-order-${item}`}
                         className="flex p-2 py-4"
                       >
