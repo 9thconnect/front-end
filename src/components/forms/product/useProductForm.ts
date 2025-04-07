@@ -20,8 +20,8 @@ export function useProductFormContext(product?: Product) {
       stockQuantity: product?.stockQuantity || undefined,
       minimumOrder: product?.minimumOrder || undefined,
       weight: product?.weight || undefined,
-      subCategory: product?.subCategory._id || "",
-      brand: product?.brand._id || "",
+      subCategory: product?.subCategory._id || undefined,
+      brand: product?.brand._id || undefined,
     },
   });
 }

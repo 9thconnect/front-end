@@ -53,12 +53,16 @@ import { BaseResponse, Product } from "@/type/common";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { IVendor } from "@/type/users";
 
-const ProductForm = ({ product }: { product?: Product }) => {
+const ProductForm = ({
+  product,
+  setOpen,
+}: {
+  product?: Product;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const queryClient = useQueryClient();
   const { sellerType } = useAppSelector((state) => state.auth.data) as IVendor;
   const form = useProductFormContext(product);
-
-  //   addProduct
 
   const mutation = useMutation({
     mutationKey: ["addProduct"],
@@ -76,7 +80,11 @@ const ProductForm = ({ product }: { product?: Product }) => {
     onSuccess: (data) => {
       toast.success(data.message);
 
+      form.reset();
+
       queryClient.invalidateQueries({ queryKey: [`get-products`] });
+
+      if (setOpen) setOpen(false);
     },
 
     onError: (error: AxiosError<BaseResponse<any>>) => {
@@ -101,6 +109,8 @@ const ProductForm = ({ product }: { product?: Product }) => {
       toast.success(data.message);
 
       queryClient.invalidateQueries({ queryKey: [`get-products`] });
+
+      if (setOpen) setOpen(false);
     },
 
     onError: (error: AxiosError<BaseResponse<any>>) => {

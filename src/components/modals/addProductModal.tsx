@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -74,37 +74,41 @@ const BusinessAwaitingApproval = () => {
 const AddProductModal = () => {
   const vendor = useAppSelector((state) => state.auth.data as IVendor);
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <Button>Add Product</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-3xl h-[90%] overflow-y-auto">
-        <div className="relative h-full w-full">
-          <AlertDialogHeader className="flex  flex-row items-center">
-            <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
-              <X />
-            </AlertDialogCancel>
+    <div>
+      <Button className="" onClick={() => setOpen(true)}>
+        Add Product
+      </Button>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent className="max-w-3xl h-[90%] overflow-y-auto">
+          <div className="relative h-full w-full">
+            <AlertDialogHeader className="flex  flex-row items-center">
+              <AlertDialogCancel className="bg-gray-100 rounded-full p-2 mr-3">
+                <X />
+              </AlertDialogCancel>
 
-            <AlertDialogTitle>
-              {vendor &&
-              vendor.businesses &&
-              vendor.businesses[0].businessApproved
-                ? "Add Product"
-                : "Business Not Yet Approved"}
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-        </div>
+              <AlertDialogTitle>
+                {vendor &&
+                vendor.businesses &&
+                vendor.businesses[0].businessApproved
+                  ? "Add Product"
+                  : "Business Not Yet Approved"}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+          </div>
 
-        {vendor &&
-        vendor.businesses &&
-        vendor.businesses[0].businessApproved ? (
-          <ProductForm />
-        ) : (
-          <BusinessAwaitingApproval />
-        )}
-      </AlertDialogContent>
-    </AlertDialog>
+          {vendor &&
+          vendor.businesses &&
+          vendor.businesses[0].businessApproved ? (
+            <ProductForm setOpen={setOpen} />
+          ) : (
+            <BusinessAwaitingApproval />
+          )}
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 };
 
