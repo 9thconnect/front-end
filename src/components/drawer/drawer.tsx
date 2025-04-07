@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { LogOutIcon, LogsIcon, StretchHorizontalIcon } from "lucide-react";
+import { LogOutIcon, LogsIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
@@ -22,21 +22,24 @@ export function MainDrawer() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Add state to control Sheet
 
   const handleLogout = async () => {
     setLoading(true);
     try {
       await requests.post(`${auth.type}/auth/logout`, {});
       dispatch(logoutUser());
-
       toast.success("logout successful");
-
       router.push(`/${auth.type}/login`);
     } catch (error) {
       toast.success("logout error, try again");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLinkClick = () => {
+    setIsOpen(false); // Close the drawer when a link is clicked
   };
 
   const menuItems = [
@@ -49,9 +52,12 @@ export function MainDrawer() {
   ];
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <button className="bg-gray-200 p-2 rounded-full flex items-center justify-center w-10 h-10 border ml-3">
+        <button
+          className="bg-gray-200 p-2 rounded-full flex items-center justify-center w-10 h-10 border ml-3"
+          onClick={() => setIsOpen(true)} // Open the drawer
+        >
           <LogsIcon size={30} />
         </button>
       </SheetTrigger>
@@ -99,6 +105,7 @@ export function MainDrawer() {
             <Link
               key={index}
               href={item.path}
+              onClick={handleLinkClick} // Close drawer on click
               className="block px-4 py-2 text-sm hover:bg-gray-100 rounded-lg transition-colors"
             >
               {item.label}
@@ -109,6 +116,7 @@ export function MainDrawer() {
           {auth && auth.type !== UserType.VENDOR && (
             <Link
               href="/vendor/register"
+              onClick={handleLinkClick} // Close drawer on click
               className="block px-4 py-2 text-sm hover:bg-gray-100 rounded-lg transition-colors text-primary"
             >
               Become A Vendor
@@ -119,6 +127,7 @@ export function MainDrawer() {
           {!auth.data && (
             <Link
               href="/customer/login"
+              onClick={handleLinkClick} // Close drawer on click
               className="block px-4 py-2 text-sm hover:bg-gray-100 rounded-lg transition-colors"
             >
               Login/SignUp
