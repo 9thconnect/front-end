@@ -297,7 +297,10 @@ const MainHeader = () => {
         </ul>
 
         <div className="flex items-center md:hidden">
-          <button className="bg-gray-200 p-2 rounded-full w-10 h-10 flex items-center justify-center">
+          <button
+            onClick={() => router.push("/account/notifications")}
+            className="bg-gray-200 p-2 rounded-full w-10 h-10 flex items-center justify-center"
+          >
             <BellIcon />
           </button>
 
