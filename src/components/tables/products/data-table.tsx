@@ -17,14 +17,17 @@ import { fetchProductCategories } from "@/lib/requests/admin/categories/admin-ca
 import { Product } from "@/type/common";
 import { getProducts } from "@/lib/requests/vendor/product";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 const VendorProductTable = () => {
+  const vendor = useAppSelector((state) => state.auth.data);
+
   const router = useRouter();
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
   const query = useQuery({
-    queryKey: ["get-products", pageIndex, pageSize],
+    queryKey: ["get-products", pageIndex, pageSize, vendor?._id],
     queryFn: () => getProducts("", pageIndex + 1),
   });
 
