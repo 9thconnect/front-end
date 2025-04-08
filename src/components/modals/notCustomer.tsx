@@ -31,7 +31,7 @@ const NotCustomerModal = () => {
   return (
     <div>
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogContent className="max-w-xl overflow-y-auto text-offBlack">
+        <AlertDialogContent className="max-w-xl max-h-screen overflow-y-auto text-offBlack">
           <AlertDialogHeader className="flex flex-row items-center">
             <AlertDialogCancel
               className="bg-gray-100 rounded-full p-1 h-10 w-10 mr-3"
