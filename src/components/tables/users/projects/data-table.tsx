@@ -73,7 +73,7 @@ const ProjectTable = () => {
                 </DrawerTitle>
               </div>
               <Button
-                onClick={() => router.push(`/hire/projects/${rowData?._id}`)}
+                onClick={() => router.push(`/account/projects/${rowData?._id}`)}
                 className="rounded-xl"
               >
                 View

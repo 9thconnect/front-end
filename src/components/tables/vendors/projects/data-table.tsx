@@ -34,6 +34,7 @@ import FileUpload from "@/components/common/FileUpload";
 import { formatDate } from "@/utils/format-date";
 import { truncateText } from "@/utils/common";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 const ProjectTable = () => {
   const [rowData, setRowData] = useState<Project | undefined>();
@@ -56,13 +57,15 @@ const ProjectTable = () => {
     }>
   >([]);
 
+  const user = useAppSelector((state) => state.auth.data);
+
   const handleRowClick = (e: Project) => {
     setRowData(e);
     setOpen(true);
   };
 
   const { isLoading, data } = useQuery({
-    queryKey: ["projects", pageIndex, pageSize],
+    queryKey: ["projects", pageIndex, pageSize, user?._id],
     queryFn: () => getProjects(pageIndex + 1),
   });
 
@@ -108,22 +111,9 @@ const ProjectTable = () => {
     setOpen(false);
   }
 
-  const openCompleteProjectDialog = () => {
-    setIsCompleteProjectDialogOpen(true);
-  };
-
   const closeCompleteProjectDialog = () => {
     setIsCompleteProjectDialogOpen(false);
     setCompletionNotes("");
-  };
-
-  const handleCompleteProject = () => {
-    if (!rowData) return;
-
-    // completeProjectMutation.mutate({
-    //   projectId: rowData._id,
-    //   completionNotes: completionNotes,
-    // });
   };
 
   const resetCompletionForm = () => {

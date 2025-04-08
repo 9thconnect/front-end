@@ -269,7 +269,15 @@ const ProjectPage = ({ params }: Props) => {
         <Button
           className="rounded-full w-10 h-10 p-2 bg-white shadow hover:bg-gray-100"
           variant="ghost"
-          onClick={() => router.push("/account/projects")}
+          onClick={() =>
+            router.push(
+              `${
+                userType == UserType.VENDOR
+                  ? "/account/projects"
+                  : "/account/customer-projects"
+              }`
+            )
+          }
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
