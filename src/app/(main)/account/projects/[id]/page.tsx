@@ -59,7 +59,7 @@ interface Project {
   professionalPay: number;
   isPaid: boolean;
   datePaid: string;
-  payment: {
+  payment?: {
     _id: string;
     invoiceRef: string;
     payerName: string;
@@ -512,18 +512,22 @@ const ProjectPage = ({ params }: Props) => {
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Invoice Ref:</span>
-                  <span className="text-gray-800">
-                    {projectData.payment.invoiceRef}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Gateway:</span>
-                  <span className="text-gray-800">
-                    {projectData.payment.gateway}
-                  </span>
-                </div>
+                {projectData.payment && (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Payer Name:</span>
+                      <span className="text-gray-800">
+                        {projectData.payment.payerName}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Payment Status:</span>
+                      <span className="text-gray-800">
+                        {projectData.payment.status}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
