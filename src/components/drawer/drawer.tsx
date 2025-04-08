@@ -70,9 +70,15 @@ export function MainDrawer() {
         {auth.data && (
           <div className="rounded-lg p-4 mb-4 flex-shrink-0">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xl text-gray-800">
-                Profile {auth.type === UserType.VENDOR && "- Vendor"}
-              </h3>
+              <Button
+                onClick={() => {
+                  router.push(`/account/profile`);
+                  handleLinkClick();
+                }}
+                className="text-sm"
+              >
+                Dashboard
+              </Button>
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 {loading ? "Loading.." : "Logout"}
                 <LogOutIcon className="ml-2" size={15} />
