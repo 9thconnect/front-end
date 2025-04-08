@@ -19,7 +19,7 @@ function ProjectsPage() {
 
   return (
     <div>
-      <div className="flex space-x-3 items-center mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center mt-4">
         <AnalyticCard
           title={data?.data?.data.projectStats.startedProjects || 0}
           className="bg-gray-100"
