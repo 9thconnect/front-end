@@ -140,25 +140,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             alt={product.name}
             className="w-full h-48 object-cover rounded-t-lg unselectable"
           />
-          {/* <button
-            onClick={(e) => {
-              e.preventDefault();
-
-              if (isLoggedIn && type !== UserType.CUSTOMER) {
-                handleNoCustomer();
-                return;
-              }
-
-              mutate(product);
-            }}
-            className="absolute top-2 right-2 p-2 bg-white bg-opacity-75 rounded-full hover:bg-gray-100 z-10"
-          >
-            {isPending ? (
-              <LoaderCircleIcon className="w-4 h-4 animate-spin " />
-            ) : (
-              <HeartIcon className="w-4 h-4 " />
-            )}
-          </button> */}
         </CardHeader>
         <CardContent className="px-2">
           <div className="flex justify-between">
