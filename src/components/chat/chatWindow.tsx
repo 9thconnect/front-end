@@ -2,10 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import MessageGroup from "./messageGroup";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-
-dayjs.extend(customParseFormat);
 
 interface Message {
   text: string;
@@ -144,8 +140,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   // };
 
   const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
-    // Parse DD/MM/YYYY and HH:mm:ss in local timezone
-    return dayjs(`${dateStr} ${timeStr}`, "DD/MM/YYYY HH:mm:ss");
+    const [day, month, year] = dateStr.split("/").map(Number);
+    const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+
+    // Create date using UTC to avoid timezone issues
+    return new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
   };
 
   // Group messages by date
@@ -162,12 +161,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   );
 
   // Sort dates in ascending order (oldest to newest)
-  // const sortedDates = Object.keys(groupedMessages).sort(
-  //   (a, b) => parseDate(a).getTime() - parseDate(b).getTime()
-  // );
-
-  const sortedDates = Object.keys(groupedMessages).sort((a, b) =>
-    parseDate(a).isBefore(parseDate(b)) ? -1 : 1
+  const sortedDates = Object.keys(groupedMessages).sort(
+    (a, b) => parseDate(a).getTime() - parseDate(b).getTime()
   );
 
   console.log("sortedDates", sortedDates);
@@ -175,22 +170,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   console.log("messages", messages);
 
   // Sort messages within each date group by time
-  // const sortedGroupedMessages = sortedDates.map((date) => ({
-  //   date,
-  //   messages: groupedMessages[date].sort((a, b) => {
-  //     // Sort in ascending order (oldest first)
-  //     return (
-  //       parseDate(a.date, a.time).getTime() -
-  //       parseDate(b.date, b.time).getTime()
-  //     );
-  //   }),
-  // }));
-
   const sortedGroupedMessages = sortedDates.map((date) => ({
     date,
-    messages: groupedMessages[date].sort((a, b) =>
-      parseDate(a.date, a.time).isBefore(parseDate(b.date, b.time)) ? -1 : 1
-    ),
+    messages: groupedMessages[date].sort((a, b) => {
+      // Sort in ascending order (oldest first)
+      return (
+        parseDate(a.date, a.time).getTime() -
+        parseDate(b.date, b.time).getTime()
+      );
+    }),
   }));
 
   return (
