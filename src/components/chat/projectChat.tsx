@@ -323,7 +323,7 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
       <h4>Message history</h4>
       <div className="border h-[600px] rounded-lg">
         <div className="flex flex-col h-full w-full">
-          <ChatWindow
+          {/* <ChatWindow
             messages={messages.map((msg: Message) => ({
               text: msg.body,
               time: new Date(msg.createdAt).toLocaleTimeString(),
@@ -345,6 +345,46 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
               status: msg.status,
               tempId: msg.tempId,
             }))}
+            handleRemoveMessage={handleRemoveMessage}
+            handleRetryMessage={handleRetryMessage}
+            onLoadMore={handleLoadMoreMessages}
+            hasMore={currentPage < totalPages}
+            isLoading={isLoadingMore}
+          /> */}
+          <ChatWindow
+            messages={messages.map((msg: Message) => {
+              const createdAt = new Date(msg.createdAt); // Assuming createdAt is a valid date string or timestamp
+              return {
+                text: msg.body,
+                time: createdAt.toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: false, // 24-hour format like HH:mm:ss
+                }), // e.g., "14:23:45"
+                date: createdAt.toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }), // e.g., "09/04/2025"
+                isOwnMessage: msg.sender === isOwnerOfMessage(),
+                userType: userType,
+                owner: {
+                  name:
+                    msg.sender === "professional"
+                      ? msg.professional.fullName
+                      : msg.customer.fullName,
+                  avatar:
+                    msg.sender === "professional"
+                      ? msg.professional.avatar
+                      : msg.customer.avatar,
+                },
+                file: msg.selectedFile,
+                delivered: msg.delivered,
+                status: msg.status,
+                tempId: msg.tempId,
+              };
+            })}
             handleRemoveMessage={handleRemoveMessage}
             handleRetryMessage={handleRetryMessage}
             onLoadMore={handleLoadMoreMessages}
