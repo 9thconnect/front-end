@@ -8,6 +8,9 @@ import requests from "@/utils/requests";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 import { useSocket } from "@/hooks/useSocket";
 import { useAppSelector } from "@/lib/redux/hooks";
+import { ArrowBigLeftIcon, ArrowLeftIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export interface Message {
   _id: string;
@@ -94,6 +97,8 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
   const { socket, isConnected } = useSocket();
 
   const user = useAppSelector((state) => state.auth);
+
+  const router = useRouter();
 
   const isOwnerOfMessage = () => {
     if (userType == UserType.VENDOR) {
@@ -319,38 +324,35 @@ const ProjectChat: React.FC<ProjectChatProps> = ({ projectId, userType }) => {
   };
 
   return (
-    <div>
-      <h4>Message history</h4>
-      <div className="border h-[600px] rounded-lg">
+    <div className="h-full">
+      <div className="flex items-center justify-between p-4 bg-gray-100 border-b">
+        <div className="flex items-center ml-2">
+          <img
+            src={
+              userType === UserType.CUSTOMER
+                ? conversation?.professionalId.avatar ||
+                  `https://fakeimg.pl/600x192?text=loading`
+                : conversation?.customerId.avatar ||
+                  `https://fakeimg.pl/600x192?text=loading`
+            }
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+          <span className="ml-2 text-sm text-gray-500">
+            {userType === UserType.CUSTOMER
+              ? conversation?.professionalId.fullName || "Loading..."
+              : conversation?.customerId.fullName || "Loading..."}
+          </span>
+        </div>
+
+        <Button onClick={() => router.back()} size="sm">
+          <ArrowLeftIcon size={16} />
+          Back
+        </Button>
+      </div>
+
+      <div className="border h-[calc(100vh-150px)] rounded-lg">
         <div className="flex flex-col h-full w-full">
-          {/* <ChatWindow
-            messages={messages.map((msg: Message) => ({
-              text: msg.body,
-              time: new Date(msg.createdAt).toLocaleTimeString(),
-              date: new Date(msg.createdAt).toLocaleDateString(),
-              isOwnMessage: msg.sender === isOwnerOfMessage(),
-              userType: userType,
-              owner: {
-                name:
-                  msg.sender === "professional"
-                    ? msg.professional.fullName
-                    : msg.customer.fullName,
-                avatar:
-                  msg.sender === "professional"
-                    ? msg.professional.avatar
-                    : msg.customer.avatar,
-              },
-              file: msg.selectedFile,
-              delivered: msg.delivered,
-              status: msg.status,
-              tempId: msg.tempId,
-            }))}
-            handleRemoveMessage={handleRemoveMessage}
-            handleRetryMessage={handleRetryMessage}
-            onLoadMore={handleLoadMoreMessages}
-            hasMore={currentPage < totalPages}
-            isLoading={isLoadingMore}
-          /> */}
           <ChatWindow
             messages={messages.map((msg: Message) => {
               const createdAt = new Date(msg.createdAt); // Assuming createdAt is a valid date string or timestamp

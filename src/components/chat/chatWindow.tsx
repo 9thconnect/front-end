@@ -65,48 +65,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     }
   }, [messages, initialLoad]);
 
-  // useEffect(() => {
-  //   // Handle new message added (when messages length increases)
-  //   if (messages.length > prevMessagesLength && !initialLoad) {
-  //     // Check the last message - if it's our own, always scroll to bottom
-  //     const lastMessage = messages[messages.length - 1];
-
-  //     console.log(
-  //       "lastMessage?.isOwnMessage",
-  //       lastMessage?.isOwnMessage,
-  //       isNearBottom()
-  //     );
-
-  //     // Scroll to bottom if the last message is our own or if we were already near bottom
-  //     if (lastMessage?.isOwnMessage || isNearBottom()) {
-  //       setShouldScrollToBottom(true);
-  //     }
-  //   }
-
-  //   // Save current messages length for next comparison
-  //   setPrevMessagesLength(messages.length);
-  // }, [messages, prevMessagesLength, initialLoad]);
-
-  // useEffect(() => {
-  //   // When loading more messages, maintain scroll position
-  //   if (scrollRef.current && !initialLoad && prevScrollHeight > 0) {
-  //     const newScrollHeight = scrollRef.current.scrollHeight;
-  //     const scrollDiff = newScrollHeight - prevScrollHeight;
-  //     scrollRef.current.scrollTop = scrollDiff;
-  //   }
-  // }, [messages.length, prevScrollHeight, initialLoad]);
-
-  // useEffect(() => {
-  //   // Handle smooth scrolling to bottom when needed
-  //   if (shouldScrollToBottom && scrollRef.current) {
-  //     scrollRef.current.scrollTo({
-  //       top: scrollRef.current.scrollHeight,
-  //       behavior: "smooth",
-  //     });
-  //     setShouldScrollToBottom(false);
-  //   }
-  // }, [shouldScrollToBottom]);
-
   const handleScroll = () => {
     if (scrollRef.current) {
       // If scrolled to near the top and more messages are available, load more
@@ -120,24 +78,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
       }
     }
   };
-
-  // Helper function to convert DD/MM/YYYY to a Date object
-  // const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
-  //   const [day, month, year] = dateStr.split("/");
-  //   return new Date(`${year}-${month}-${day}T${timeStr}`);
-  // };
-
-  // const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
-  //   const [day, month, year] = dateStr.split("/").map(Number); // Convert to numbers
-  //   // Construct date in local timezone, like Mac does
-  //   const date = new Date(
-  //     year,
-  //     month - 1,
-  //     day,
-  //     ...timeStr.split(":").map(Number)
-  //   );
-  //   return date;
-  // };
 
   const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
     const [day, month, year] = dateStr.split("/").map(Number);

@@ -333,7 +333,7 @@ const NotificationDetailDrawer = ({
 
         <div className="flex justify-end space-x-2">
           {notification.project && (
-            <Link href={`/hire/projects/${notification.project._id}`}>
+            <Link href={`/project-chat/${notification.project._id}`}>
               <Button>View Message</Button>
             </Link>
           )}

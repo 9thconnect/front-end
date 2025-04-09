@@ -102,7 +102,7 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4">
+    <form onSubmit={handleSubmit} className="mt-4 px-4">
       {selectedFile && (
         <div className="mb-2 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
           <div className="flex items-center space-x-2">

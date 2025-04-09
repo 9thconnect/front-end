@@ -136,7 +136,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
         <CardHeader className="p-0 relative">
           <img
-            src={product.images[0]}
+            src={
+              product.images[0] ||
+              `https://fakeimg.pl/600x192?text=${product.name}`
+            }
             alt={product.name}
             className="w-full h-48 object-cover rounded-t-lg unselectable"
           />

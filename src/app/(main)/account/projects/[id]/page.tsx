@@ -350,7 +350,7 @@ const ProjectPage = ({ params }: Props) => {
                 <Button
                   className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800"
                   onClick={() =>
-                    router.push(`/hire/projects/${projectData._id}`)
+                    router.push(`/project-chat/${projectData._id}`)
                   }
                 >
                   View Messages
