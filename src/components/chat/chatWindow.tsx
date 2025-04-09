@@ -122,9 +122,21 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   };
 
   // Helper function to convert DD/MM/YYYY to a Date object
+  // const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
+  //   const [day, month, year] = dateStr.split("/");
+  //   return new Date(`${year}-${month}-${day}T${timeStr}`);
+  // };
+
   const parseDate = (dateStr: string, timeStr: string = "00:00:00") => {
-    const [day, month, year] = dateStr.split("/");
-    return new Date(`${year}-${month}-${day}T${timeStr}`);
+    const [day, month, year] = dateStr.split("/").map(Number); // Convert to numbers
+    // Construct date in local timezone, like Mac does
+    const date = new Date(
+      year,
+      month - 1,
+      day,
+      ...timeStr.split(":").map(Number)
+    );
+    return date;
   };
 
   // Group messages by date
@@ -144,6 +156,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   const sortedDates = Object.keys(groupedMessages).sort(
     (a, b) => parseDate(a).getTime() - parseDate(b).getTime()
   );
+
+  console.log("sortedDates", sortedDates);
+  console.log("groupedMessages", groupedMessages);
+  console.log("messages", messages);
 
   // Sort messages within each date group by time
   const sortedGroupedMessages = sortedDates.map((date) => ({

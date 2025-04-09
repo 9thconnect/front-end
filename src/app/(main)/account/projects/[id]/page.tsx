@@ -403,7 +403,7 @@ const ProjectPage = ({ params }: Props) => {
 
         {/* Right Column */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="grid  grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <AnalyticCard
               title={formatCurrency(projectData.approvedPrice)}
               subTitle="Approved Price"
