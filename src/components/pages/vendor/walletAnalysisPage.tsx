@@ -56,6 +56,7 @@ const VendorWalletAnalytics = () => {
   const availableBalance = data?.data?.profile?.wallet?.availableBalance ?? 0;
   const totalInflow = data?.data?.profile?.wallet?.totalInflow ?? 0;
   const totalOutflow = data?.data?.profile?.wallet?.totalOutflow ?? 0;
+  const bookedBalance = data?.data?.profile?.wallet?.bookedBalance ?? 0;
 
   return (
     <div className="grid md:grid-cols-2 gap-4 items-center mt-4">
@@ -63,25 +64,31 @@ const VendorWalletAnalytics = () => {
         title={formatCurrency(escrowBalance)}
         subTitle="Escrow Balance"
         Icon={BanknoteIcon}
-        colorClass="bg-green-100"
+        colorClass="bg-green-300/20"
       />
       <AnalyticCard
         title={formatCurrency(availableBalance)}
         subTitle="Available Balance"
         Icon={BanknoteIcon}
-        colorClass="bg-blue-100"
+        colorClass="bg-blue-300/20"
       />
       <AnalyticCard
         title={formatCurrency(totalInflow)}
         subTitle="Total Inflow"
         Icon={BanknoteIcon}
-        colorClass="bg-yellow-100"
+        colorClass="bg-yellow-300/20"
       />
       <AnalyticCard
         title={formatCurrency(totalOutflow)}
         subTitle="Total Outflow"
         Icon={BanknoteIcon}
-        colorClass="bg-red-100"
+        colorClass="bg-red-300/20"
+      />
+      <AnalyticCard
+        title={formatCurrency(bookedBalance)}
+        subTitle="Booked Balance"
+        Icon={BanknoteIcon}
+        colorClass="bg-sky-500/20"
       />
     </div>
   );

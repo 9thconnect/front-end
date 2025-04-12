@@ -131,6 +131,12 @@ const authSlice = createSlice({
         console.log("userData.savedProducts", userData.savedProducts);
       }
     },
+
+    updateVendor: (state, action: PayloadAction<IVendor>) => {
+      if (state.type === UserType.VENDOR) {
+        state.data = action.payload;
+      }
+    },
   },
 });
 
@@ -143,6 +149,7 @@ export const {
   updateVendorProfile,
   updateBuildStatus,
   updateSavedProducts,
+  updateVendor,
 } = authSlice.actions;
 
 export default authSlice.reducer;

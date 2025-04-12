@@ -76,6 +76,7 @@ interface Wallet {
   availableBalance: number;
   totalInflow: number;
   totalOutflow: number;
+  bookedBalance: number;
 }
 
 interface Business {
