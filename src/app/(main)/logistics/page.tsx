@@ -1,19 +1,11 @@
-import SectionCardHeader from "@/components/cards/common/sectionCardHeader";
-import SectionContainer from "@/components/cards/common/sectionContainer";
 import { metaObject, siteConfig } from "@/config/site.config";
 import MainHeroSection from "@/sections/hero/mainHeroSection";
-import PropertyCard from "@/components/cards/propertyCard";
-import { Property } from "@/type/property";
-import { Logistics } from "@/type/logistics";
-import LogisticsCard from "@/components/cards/logistiCard";
-import Empty from "@/components/common/empty";
 
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import LogisticsHomePage from "@/components/pages/logistics/logisticsHome";
@@ -61,33 +53,6 @@ const Page = async () => {
   ];
 
   return (
-    // <div>
-    //   <div className="h-60 md:h-[300px] mt-5">
-    //     <MainHeroSection images={heroImages} />
-    //   </div>
-
-    //   <SectionContainer>
-    //     <div className="mt-5">
-    //       <SectionCardHeader
-    //         title="New Arrival"
-    //         linkUrl="/logistics/home"
-    //         linkText="See all"
-    //       />
-
-    //       {!fleet || fleet.length === 0 ? (
-    //         <div className="text-center py-10 text-gray-500">
-    //           <Empty size={200} text="No new arrival" />
-    //         </div>
-    //       ) : (
-    //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-    //           {fleet.map((fleet: Logistics) => (
-    //             <LogisticsCard key={fleet._id} logistics={fleet} />
-    //           ))}
-    //         </div>
-    //       )}
-    //     </div>
-    //   </SectionContainer>
-    // </div>
     <div>
       <Breadcrumb className="my-4">
         <BreadcrumbList>

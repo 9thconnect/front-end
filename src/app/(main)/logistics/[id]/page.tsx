@@ -16,8 +16,6 @@ export async function generateMetadata(
   // read route params
   const id = params.id;
 
-  // fetch data
-
   const product = await fetch(
     `${siteConfig.apiURL}/logistic/logistic-single/${params.id}`
   )

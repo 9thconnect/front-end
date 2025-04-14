@@ -1,8 +1,6 @@
 "use client";
 
-import DashboardNavBar from "@/components/header/dashboardHeader";
 import DashboardSideBar from "@/components/sidebar/dasboard/dashboardSideBar";
-import { Separator } from "@/components/ui/separator";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { toggleAdminSideBar } from "@/lib/redux/features/layout/layoutSlice";
 import { useRouter } from "next/navigation";
@@ -18,7 +16,6 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IAdmin } from "@/type/users";
-import requests from "@/utils/requests";
 import { logoutUser } from "@/lib/redux/features/auth/authSlice";
 import { toast } from "sonner";
 
@@ -32,7 +29,6 @@ export default function DashboardLayout({
 
   const handleLogout = async () => {
     try {
-      // await requests.post(`admin/auth/logout`, {});
       dispatch(logoutUser());
 
       toast.success("logout successful");

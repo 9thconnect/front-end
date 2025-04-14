@@ -44,12 +44,6 @@ axiosInstance.interceptors.response.use(
 
       toast.error(error.response.data.message || "Unauthorized");
 
-      // const { store } = makeStore();
-
-      // store.dispatch(logoutUser());
-
-      // store.dispatch({ type: REHYDRATE });
-
       const local = JSON.parse(localStorage.getItem("persist:root") as string);
 
       const auth = JSON.parse(local.auth) as AuthState;
@@ -66,12 +60,6 @@ axiosInstance.interceptors.response.use(
       }/login?redirectTo=${redirectTo}`;
 
       localStorage.clear();
-
-      // You might want to redirect to login page or clear the auth state here
-      // For example:
-      // window.location.href = '/login';
-      // or
-      // store.dispatch(logoutUser());
     }
     return Promise.reject(error);
   }

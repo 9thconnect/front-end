@@ -15,20 +15,6 @@ export const Overview = ({ vendor }: { vendor: IVendor }) => {
 
   const profession = vendor?.professions ? vendor.professions[0] : null;
 
-  // const {
-  //   vendor,
-  //   professionType,
-  //   professionName,
-  //   professionDesc,
-  //   professionCity,
-  //   price,
-  //   portfolio,
-  //   qualifications,
-  //   professionApproved,
-  //   professionID,
-  //   profession,
-  // } = professionalData;
-
   return (
     <div className="block md:grid md:grid-cols-8 md:gap-8">
       <aside className="md:self-start md:sticky md:col-span-3 md:top-56 text-[#05141B]">

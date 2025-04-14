@@ -1,17 +1,3 @@
-// import AdminSettingsPage from "@/components/pages/admin/settings/adminSettingsPage";
-// import React from "react";
-
-// const page = () => {
-//   return (
-//     <div className="h-screen">
-
-//       {/* <AdminSettingsPage /> */}
-//     </div>
-//   );
-// };
-
-// export default page;
-
 import React from "react";
 import { Truck, User, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";

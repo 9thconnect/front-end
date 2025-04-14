@@ -70,14 +70,6 @@ const routes = [
     vendorType: [],
     professionalType: [],
   },
-  // {
-  //   name: "My Profession Company",
-  //   route: "/account/company/profession",
-  //   icon: CertIcon,
-  //   access: ["vendor"],
-  //   vendorType: ["professional"],
-  //   professionalType: ["company"],
-  // },
 
   {
     name: "Wallet",

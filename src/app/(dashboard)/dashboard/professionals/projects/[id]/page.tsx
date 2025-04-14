@@ -17,7 +17,6 @@ const page = ({ params }: Props) => {
         <Button
           className="rounded-full w-9 h-9 p-1 bg-gray-100"
           variant={"ghost"}
-          // onClick={() => router.push(`professionals`)}
         >
           <ArrowLeft />
         </Button>

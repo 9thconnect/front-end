@@ -26,7 +26,6 @@ import FileUpload from "@/components/common/FileUpload";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { UserType } from "@/lib/redux/features/auth/authSlice";
 
-// Project interface
 interface Project {
   requestExtension: {
     originalDate: string | null;
@@ -231,7 +230,6 @@ const ProjectPage = ({ params }: Props) => {
                   <span>{file.fileName}</span>
                   <button
                     onClick={() => {
-                      // Remove file from the array
                       setCompletedProjectFiles((prevFiles) =>
                         prevFiles.filter((_, i) => i !== index)
                       );

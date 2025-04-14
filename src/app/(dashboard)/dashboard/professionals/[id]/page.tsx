@@ -14,7 +14,6 @@ import {
   MapPin,
   Star,
 } from "lucide-react";
-// import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AnalyticCard from "@/components/cards/common/analyticCard";
 import EarningDataTable from "@/components/tables/professionals/earnings/data-table";

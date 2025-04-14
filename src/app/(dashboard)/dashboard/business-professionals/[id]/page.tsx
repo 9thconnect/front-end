@@ -1,36 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  ArrowLeft,
-  BadgeCheck,
-  Banknote,
-  BoxIcon,
-  BriefcaseBusiness,
-  Calendar,
-  HandCoins,
-  Handshake,
-  Landmark,
-  LayoutList,
-  ListChecks,
-  ListTodo,
-  MapPin,
-  ShieldCheck,
-  Star,
-  X,
-} from "lucide-react";
-// import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import AnalyticCard from "@/components/cards/common/analyticCard";
-import EarningDataTable from "@/components/tables/vendors/earnings/data-table";
-import { EarningData } from "@/components/tables/professionals/earnings/columns";
-import { formatCurrency } from "@/utils/format-currency";
 import TwoStageAlertDialog from "@/components/alerts/twoStageAlertDialog";
-import ProductDataTable from "@/components/tables/vendors/products/data-table";
-import { siteConfig } from "@/config/site.config";
 import SellerOverview from "@/sections/dashboard/seller/overview";
-import OrderTableAdmin from "@/components/tables/admin/orders/data-table";
 import { Suspense } from "react";
 import TransactionDataTableAdmin from "@/components/tables/admin/transaction/data-table";
 import Link from "next/link";

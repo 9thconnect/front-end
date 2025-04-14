@@ -69,16 +69,6 @@ const CategoryItem = ({
 
   const [page, setPage] = useState(1);
 
-  // const {
-  //   data,
-  //   refetch,
-  //   isFetching,
-  // } = useQuery({
-  //   queryKey: ["product-sub-category", { category: view.category, page: page }],
-  //   queryFn: () => fetchSubCategories,
-  //   enabled: false,
-  // });
-
   const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: ["product-sub-category", { category: view.category, page: page }],
     queryFn: fetchSubCategories,

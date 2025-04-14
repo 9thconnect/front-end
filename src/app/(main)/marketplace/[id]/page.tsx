@@ -36,10 +36,6 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: Props) {
-  // const product = await fetch(
-  //   `${siteConfig.apiURL}/product/customer/single-product/${params.id}`
-  // ).then((res) => res.json());
-
   return (
     <div>
       <Suspense fallback={<p>Loading...</p>}>

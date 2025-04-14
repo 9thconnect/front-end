@@ -2,9 +2,7 @@
 
 import AuthContainerCard from "@/components/cards/common/authContainerCard";
 import { DialogLoading } from "@/components/common/dialogLoading";
-import AccountDetailsForm, {
-  accountDetailsValidationSchema,
-} from "@/components/forms/vendor/signup/account/accountDetailsForm";
+import { accountDetailsValidationSchema } from "@/components/forms/vendor/signup/account/accountDetailsForm";
 import ProfessionalDetailsForm, {
   professionalDetailsValidationSchema,
 } from "@/components/forms/vendor/signup/account/professional/professionalDetailsForm";
@@ -37,7 +35,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { X } from "lucide-react";
@@ -471,17 +468,10 @@ const VendorSignUpPage = ({ type }: { type: UserType }) => {
       const res = await signUp(finalData, type);
       toast.success(res.message);
 
-      // if (type == UserType.VENDOR) {
       router.push(`/${type}/verify?email=${data.email}`);
-      // return;
-      // }
-
-      // router.push(`/${type}/login`);
 
       console.log(res);
     } catch (error) {
-      // router.push(`verify?email=${data.email}`);
-
       if (axios.isAxiosError(error)) {
         setDialogMessage(error.response?.data.message);
         toast.error(error.response?.data.message);

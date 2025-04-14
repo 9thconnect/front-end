@@ -110,11 +110,6 @@ export const columns: ColumnDef<SalesData>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ORDER ID" />
     ),
-    // meta: {
-    //   style: {
-    //     textAlign: "center",
-    //   },
-    // },
   },
 
   {

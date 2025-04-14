@@ -1,10 +1,7 @@
 "use client";
 
 import AnalyticCard from "@/components/cards/common/analyticCard";
-import RevenueChart from "@/components/charts/revenueChart";
 import { DatePickerWithRange } from "@/components/common/datePickerRange";
-import { SalesData } from "@/components/tables/recent-sales/columns";
-import SalesDataTable from "@/components/tables/recent-sales/data-table";
 import VendorDataTable from "@/components/tables/vendors/data-table";
 import { Button } from "@/components/ui/button";
 import { AdminStats } from "@/type/users";
@@ -24,9 +21,6 @@ import {
   Home,
   Truck,
   CreditCard,
-  Clock,
-  CheckCircle,
-  XCircle,
 } from "lucide-react";
 import React, { Suspense, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,7 +31,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AdminProductTable from "@/components/tables/admin/products/data-table";
 import OrderTableAdmin from "@/components/tables/admin/orders/data-table";
 
 const Page = () => {
